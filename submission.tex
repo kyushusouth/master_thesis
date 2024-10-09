@@ -141,9 +141,9 @@ Multi-input Vocoderの学習に利用する音声データセットには、Hi-F
                 \hline
                               & \multicolumn{1}{c|}{学習} & \multicolumn{1}{c|}{検証} & \multicolumn{1}{c|}{テスト} \\
                 \hline
-                動画音声データセット    & 1600                    & 200                     & 212                      \\
-                Hi-Fi-Captain &                         &                         &                          \\
-                JVS           &                         &                         &                          \\
+                動画音声データセット    & 1598                    & 200                     & 212                      \\
+                Hi-Fi-Captain & 37714                   & 200                     & 200                      \\
+                JVS           & 10398                   & 1299                    & 1300                     \\
                 \hline
             \end{tabular}
         }
@@ -193,16 +193,31 @@ GPUはNVIDIA RTX A4000を利用し、計算の高速化のためAutomatic Mixed 
 
 \subsection{結果}
 \subsubsection{客観評価}
-まず、損失関数~\eqref{sec4:eq:loss}の重み係数$\lambda_{ssl^{d}}$を変化させた時の客観評価指標の結果を表~\ref{sec4:tab:obj_weights}に示す。各手法ごとに0.0001から1.0まで10倍刻みで5段階検討し、各手法の客観指標ごとに最も優れた値を下線で示している。また、これ以降の比較のために、最適なチューニングだと考えられる$\lambda_{ssl^{d}}$の値を選択しており、それを選択フラグの列で示している。Trueが入っている行が、最適値として選択されたことを意味する。
+まず、損失関数~\eqref{sec4:eq:loss}の重み係数$\lambda_{ssl^{d}}$を変化させた時の客観評価指標の全テストデータに渡る平均値を表~\ref{sec4:tab:obj_weights}に示す。各手法ごとに0.0001から1.0まで10倍刻みで5段階検討し、各手法の客観指標ごとに最も優れた値を下線で示している。また、これ以降の比較のために、最適なチューニングだと考えられる$\lambda_{ssl^{d}}$の値を選択しており、それを選択フラグの列で示している。Trueが入っている行が、最適値として選択されたことを意味する。
 
 手法1では、$\lambda_{ssl^{d}}$の値が0.001および0.01の場合が最もWERが低く、さらに0.01の場合に話者類似度が最も高いため、0.01が最適であると判断した。また、0.01よりも重み係数の値を大きくすると、WERと話者類似度がともに悪化する傾向が見られた。
-手法1における検証データに対する損失曲線を図~\ref{sec4:fig:method_1_val_losses}に示す。横軸がエポック数、縦軸が損失の値を表す。損失の値は各エポックにおける平均値である。判例は$\lambda_{ssl^{d}}$の値であり、これに応じて線の色を分けている。また、丸いマーカーはテストデータの合成に利用したチェックポイントのエポック数に対応させてプロットしている（チェックポイントの選択においてはエポックごとの平均値ではなく、イテレーションごとの損失を用いているため正確な損失の値は異なる）。図~\ref{sec4:fig:method_1_val_ssl_feature_cluster_loss}を見ると、$\lambda_{ssl^{d}}$の値を大きくするに従って、学習初期における$L_{ssl^{d}}$の下がり方が急峻になり、その後増加傾向に転じていることが分かる。これに対応して、$\lambda_{ssl^{d}}$が大きい場合は$L$において$L_{ssl^{d}}$が支配的となるため、結果として検証データに対する$L$の値も早いうちから増加傾向に転じ、$L_{mel}$の値が低下しきらないまま学習が中断されていることが分かる（$\lambda_{ssl^d}$が小さい場合、その後$L_{mel}$がさらに小さくなる傾向にあるため）。客観評価指標をもとに選択した最適な$\lambda_{ssl^{d}}$の値は0.01であるが、この場合は$L_{ssl^{d}}$の値が安定して減少傾向にあり、結果として$L_{mel}$および$L_{ssl^{d}}$の両方がバランスよく下がるような損失曲線となっていることが分かる。しかし、$L_{ssl^{d}}$の値について、$\lambda_{ssl^{d}}$が1.0の場合に得られる最小値までは下がり切っていないことから、改善の余地が示唆された。
+手法1における検証データに対する学習曲線を図~\ref{sec4:fig:learning_curve_method_1_val_losses}に示す。横軸がエポック数、縦軸が損失の値を表す。損失の値は各エポックにおける平均値である。判例は$\lambda_{ssl^{d}}$の値であり、これに応じて線の色を分けている。また、丸いマーカーはテストデータの合成に利用したチェックポイントのエポック数に対応する。図~\ref{sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}を見ると、$\lambda_{ssl^{d}}$の値を大きくするに従って、学習初期における$L_{ssl^{d}}$の下がり方が急峻になり、その後増加傾向に転じていることが分かる。これに対応して、$\lambda_{ssl^{d}}$が大きい場合は$L$において$L_{ssl^{d}}$が支配的となるため、結果として検証データに対する$L$の値も早いうちから増加傾向に転じ、$L_{mel}$の値が低下しきらないまま学習が中断されていることが分かる（$\lambda_{ssl^d}$が小さい場合、その後$L_{mel}$がさらに小さくなる傾向にあるため）。客観評価指標をもとに選択した最適な$\lambda_{ssl^{d}}$の値は0.01であるが、この場合は$L_{ssl^{d}}$の値が安定して減少傾向にあり、結果として$L_{mel}$および$L_{ssl^{d}}$の両方がバランスよく下がるような学習曲線となっていることが分かる。しかし、$L_{ssl^{d}}$の値について、$\lambda_{ssl^{d}}$が1.0の場合に得られる最小値までは下がり切っていないことから、改善の余地が示唆された。
 
 手法2では、$\lambda_{ssl^{d}}$の値が0.1の場合に最もWERが低く、0.01の場合に最も話者類似度が高くなった。今回は特に、$\lambda_{ssl^{d}}$の値が0.1の場合にベースラインで選択された最適なケースと比較してWERが9.7\%低下しており、話者類似度についても等しく0.845となっていることから、0.1が最適だと判断した。また、$\lambda_{ssl^{d}}$の値を大きくするに従ってWERが下がっていき、1.0まで上げると話者類似度が顕著に低下する傾向が確認された。手法3から手法5について、最適値の選択理由は手法2と同様である。また、$\lambda_{ssl^{d}}$と評価指標の関係についても、同様の傾向が得られた。
-手法2から手法5について、検証データに対する損失曲線を図~\ref{sec4:fig:method_2_val_losses}から図~\ref{sec4:fig:method_5_val_losses}にそれぞれ示す。これらを見ると、手法1と同様に$\lambda_{ssl^{d}}$の値を大きくするに従って、学習初期における$L_{ssl^{d}}$の下がり方が急峻になり、その後増加傾向に転じていることが分かる。また、最適とした$\lambda_{ssl^{d}}$が0.1のケースでは、マーカーで示すテストデータの合成に使用したチェックポイントの存在するエポック以降、$L_{mel}$が横ばいになっていることが分かる。これより、手法1と同様に$L_{mel}$および$L_{ssl^{d}}$の両方がバランスよく下がるような$\lambda_{ssl^{d}}$であるとき、客観評価指標において最良の値が得られると考えられる。加えて、$L_{ssl^{d}}$の値について、$\lambda_{ssl^{d}}$が1.0の場合に得られる最小値までは下がり切っていないことから、手法1と同様に改善の余地が示唆された。
+手法2から手法5について、検証データに対する学習曲線を図~\ref{sec4:fig:learning_curve_method_2_val_losses}から図~\ref{sec4:fig:learning_curve_method_5_val_losses}にそれぞれ示す。図~\ref{sec4:fig:learning_curve_method_3_val_losses}および図~\ref{sec4:fig:learning_curve_method_5_val_losses}では一時的に損失が大きくなっているエポックが存在するが、学習を継続することによって損失の値は収束していることから、問題ないと判断した。これらを見ると、手法1と同様に$\lambda_{ssl^{d}}$の値を大きくするに従って、学習初期における$L_{ssl^{d}}$の下がり方が急峻になり、その後増加傾向に転じていることが分かる。また、最適とした$\lambda_{ssl^{d}}$が0.1のケースでは、マーカーで示すテストデータの合成に使用したチェックポイントの存在するエポック以降、$L_{mel}$が横ばいになっていることが分かる。これより、手法1と同様に$L_{mel}$および$L_{ssl^{d}}$の両方がバランスよく下がるような$\lambda_{ssl^{d}}$であるとき、客観評価指標において最良の値が得られると考えられる。よって、$\lambda_{ssl^{d}}$の値によってモデルの性能は顕著に変化するが、学習曲線の挙動を確認しながら実験を行えば、良い値を選択可能であることが示唆される。加えて、$L_{ssl^{d}}$の値について、$\lambda_{ssl^{d}}$が1.0の場合に得られる最小値までは下がり切っていないことから、手法1と同様に改善の余地が示唆された。
 
-次に、最適なチューニングをした場合における手法ごとの比較を行った結果を表~\ref{sec4:tab:obj_method_comp}に示す。分析合成は、原音声から計算した特徴量を入力として、Multi-input Vocoderで逆変換した合成音声である。手法1から手法5については、表~\ref{sec4:tab:obj_weights}において選択フラグをTrueとしたものを掲載している。また、分析合成、原音声を除いた合成音声の中で、最も優れた値を下線で示している。これより、WER、話者類似度ともに手法3が最も優れていることが分かる。特に、今回のベースラインである手法1と比較すると、同程度の話者類似度を達成しつつWERが9.7\%低下していることから、話者性を同程度の品質で反映しつつ、より聞き取りやすい音声が合成できたと考えられる。
+次に、最適なチューニングをした場合における、手法ごとの客観評価指標の全テストデータに渡る平均値を表~\ref{sec4:tab:obj_method_comp}に示す。分析合成は、原音声から計算した特徴量を入力として、Multi-input Vocoderで逆変換した合成音声である。手法1から手法5については、表~\ref{sec4:tab:obj_weights}において選択フラグをTrueとしたものを掲載している。また、分析合成、原音声を除いた合成音声の中で、最も優れた値を下線で示している。これより、WER、話者類似度ともに手法3が最も優れていることが分かる。特に、今回のベースラインである手法1と比較すると、同程度の話者類似度を達成しつつWERが9.7\%低下していることから、話者性を同程度の品質で反映しつつ、より聞き取りやすい音声が合成できたと考えられる。
 また、手法2と手法3を比較すると、AVHuBERTの最終出力特徴量と、HuBERT Transformer層から得られる最終出力特徴量の両方を利用したアンサンブル手法により、WERが0.4\%低下し、話者類似度が0.003増加していることから、わずかに改善していることが分かる。一方、事前学習済み重みを用いることの効果について、手法2と手法4を比較すると、手法2の方がWERが0.9\%、話者類似度が0.12高いことが分かる。これより、本研究ではHuBERTの事前学習済み重みを初期値とした転移学習が有効である可能性を期待したが、この仮説は外れていたと言える。事前学習重みを初期値とした場合の方が、そうでない場合と比較して悪い局所解に収束したのだと考えられる。また、手法4と手法5を比較すると、手法4の方がWERが0.2\%、話者類似度が0.11高いことから、アンサンブル手法が改善につながっていないことが分かる。これより、提案したアンサンブル手法は必ずしも改善につながるわけではないと言える。
+
+次に、最適なチューニングをした場合における手法ごとに、発話文章ごとのWERの比較を行った結果を図~\ref{sec4:fig:wer_sample_wise_comparison}に示す。ここで、縦軸は発話文章を表す。横軸は、文章全体の集合を$X$、話者全体の集合を$S$、手法全体の集合を各手法のインデックスを元として$M = \{1, 2, 3, 4, 5\}$とし、ある文章$x \in X$、ある話者$s \in S$、ある手法$m \in M$に対するWERを$WER_{x, s, m}$、ある文章$x$、ある手法$m$に対するWERを$WER_{x, m}$としたときの$WER_{x, m}$をプロットしている。ここで、$WER_{x, m}$は
+\begin{align}
+    WER_{x, m} = \frac{\sum_{s \in S} (WER_{x, s, m} - WER_{x, s, 1})}{|S|} \qquad (m \in M \setminus \{1\})
+\end{align}
+で得られる。すなわち、提案手法（手法2から手法5）と、ベースラインである手法1のWERの差を、話者に渡って平均した値である。この図を見ると、全テストデータの平均値では手法2から手法5がベースラインよりも低いWERを達成していたが、
+ATR\_j02やATR\_j03など、ベースラインの方がWERが低いサンプルも存在することがわかる。これより、提案手法がベースラインに対して絶対的な優位性を持つわけではなく、それぞれに得意なサンプルと苦手なサンプルがあることが示唆される。また、提案した手法2から手法5について、その挙動は同一ではない。例えば、ATR503\_j05では手法2と手法3がベースラインよりも低いWERを達成した一方で、手法4と手法5はベースラインよりもWERが高くなっていることがわかる。他方、これとは逆にATR503\_j27では手法4と手法5がベースラインよりも低いWERを達成した一方で、手法2と手法3はベースラインよりもWERが高くなっていることがわかる。手法2、3と手法4、5が逆の傾向をとっている例は他にも見受けられ、これら手法の間で異なるのは、事前学習済み重みを初期値としたか否かである。よって、全テストデータにおける平均的な結果を見れば、事前学習済み重みを読み込むことが悪影響を与えていると思われたが、中にはそれが良い影響を与えるサンプルもあったと言える。
+
+次に、話者ごとのWERの比較を行った結果を図~\ref{sec4:fig:wer_speaker_wise_comparison}に示す。ここで縦軸は話者を表す。横軸は上で定義した変数を用いて、ある話者$s$、ある手法$m$に対するWERを$WER_{s, m}$としたときの$WER_{s, m}$をプロットしている。ここで、$WER_{s, m}$は
+\begin{align}
+    WER_{s, m} = \frac{\sum_{x \in X} (WER_{x, s, m} - WER_{x, s, 1})}{|X|} \qquad (m \in M \setminus \{1\})
+\end{align}
+で表される。すなわち、提案手法（手法2から手法5）と、ベースラインである手法1のWERの差を、文章に渡って平均した値である。この図を見ると、提案手法は全話者に対してベースラインよりも低いWERを達成していることがわかる。一方、手法2から手法5における改善の度合いは話者に依存して異なることもわかる。具体的には、F02\_kablab以外の三名は手法2および手法3が手法4および手法5よりも低いWERとなっているのに対して、F02\_kablabでは手法4および手法5が手法2および手法3よりも低いWERとなっていることがわかる。これより、事前学習済み重みの有効性が話者に依存していた可能性が示唆された。
+
+次に、話者ごとの話者類似度の比較を行った結果を図~\ref{sec4:fig:spk_sim_speaker_wise_comparison}に示す。ここで縦軸は話者を表す。横軸は上で定義した変数における$WER_{s, m}$について、計算する指標がWERから話者類似度に変わったものである。すなわち、提案手法（手法2から手法5）と、ベースラインである手法1の話者類似度の差を、文章に渡って平均した値である。この図を見ると、F02\_kablabのみ提案手法がベースラインに対して話者類似度を改善できなかったことがわかり、図~\ref{sec4:fig:wer_speaker_wise_comparison}で得られた傾向と同様に四名の中でF02\_kablabが例外となっている。提案手法における有効性が話者に依存する可能性がここでも示唆された。
 
 \begin{table*}[bt]
     \centering
@@ -255,120 +270,120 @@ GPUはNVIDIA RTX A4000を利用し、計算の高速化のためAutomatic Mixed 
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/0/mel_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png}
         \caption{メルスペクトログラムのMAE Loss（式~\eqref{sec4:eq:loss}の$L_{mel}$）}
-        \label{sec4:fig:method_1_val_mel_loss}
+        \label{sec4:fig:learning_curve_method_1_val_mel_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/0/ssl_feature_cluster_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png}
         \caption{HuBERT離散特徴量のCross Entropy Loss（式~\eqref{sec4:eq:loss}の$L_{ssl^{d}}$）}
-        \label{sec4:fig:method_1_val_ssl_feature_cluster_loss}
+        \label{sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/0/total_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png}
         \caption{損失の合計値（式~\eqref{sec4:eq:loss}の$L$）}
-        \label{sec4:fig:method_1_val_total_loss}
+        \label{sec4:fig:learning_curve_method_1_val_total_loss}
     \end{subfigure}
-    \caption{手法1における検証データに対する損失曲線}
-    \label{sec4:fig:method_1_val_losses}
+    \caption{手法1における検証データに対する学習曲線}
+    \label{sec4:fig:learning_curve_method_1_val_losses}
 \end{figure}
 
 \begin{figure}[bt]
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/2/mel_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png}
         \caption{メルスペクトログラムのMAE Loss（式~\eqref{sec4:eq:loss}の$L_{mel}$）}
-        \label{sec4:fig:method_2_val_mel_loss}
+        \label{sec4:fig:learning_curve_method_2_val_mel_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/2/ssl_feature_cluster_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png}
         \caption{HuBERT離散特徴量のCross Entropy Loss（式~\eqref{sec4:eq:loss}の$L_{ssl^{d}}$）}
-        \label{sec4:fig:method_2_val_ssl_feature_cluster_loss}
+        \label{sec4:fig:learning_curve_method_2_val_ssl_feature_cluster_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/2/total_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png}
         \caption{損失の合計値（式~\eqref{sec4:eq:loss}の$L$）}
-        \label{sec4:fig:method_2_val_total_loss}
+        \label{sec4:fig:learning_curve_method_2_val_total_loss}
     \end{subfigure}
-    \caption{手法2における検証データに対する損失曲線}
-    \label{sec4:fig:method_2_val_losses}
+    \caption{手法2における検証データに対する学習曲線}
+    \label{sec4:fig:learning_curve_method_2_val_losses}
 \end{figure}
 
 \begin{figure}[bt]
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/3/mel_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png}
         \caption{メルスペクトログラムのMAE Loss（式~\eqref{sec4:eq:loss}の$L_{mel}$）}
-        \label{sec4:fig:method_3_val_mel_loss}
+        \label{sec4:fig:learning_curve_method_3_val_mel_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/3/ssl_feature_cluster_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png}
         \caption{HuBERT離散特徴量のCross Entropy Loss（式~\eqref{sec4:eq:loss}の$L_{ssl^{d}}$）}
-        \label{sec4:fig:method_3_val_ssl_feature_cluster_loss}
+        \label{sec4:fig:learning_curve_method_3_val_ssl_feature_cluster_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/3/total_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png}
         \caption{損失の合計値（式~\eqref{sec4:eq:loss}の$L$）}
-        \label{sec4:fig:method_3_val_total_loss}
+        \label{sec4:fig:learning_curve_method_3_val_total_loss}
     \end{subfigure}
-    \caption{手法3における検証データに対する損失曲線}
-    \label{sec4:fig:method_3_val_losses}
+    \caption{手法3における検証データに対する学習曲線}
+    \label{sec4:fig:learning_curve_method_3_val_losses}
 \end{figure}
 
 \begin{figure}[bt]
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/4/mel_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png}
         \caption{メルスペクトログラムのMAE Loss（式~\eqref{sec4:eq:loss}の$L_{mel}$）}
-        \label{sec4:fig:method_4_val_mel_loss}
+        \label{sec4:fig:learning_curve_method_4_val_mel_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/4/ssl_feature_cluster_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png}
         \caption{HuBERT離散特徴量のCross Entropy Loss（式~\eqref{sec4:eq:loss}の$L_{ssl^{d}}$）}
-        \label{sec4:fig:method_4_val_ssl_feature_cluster_loss}
+        \label{sec4:fig:learning_curve_method_4_val_ssl_feature_cluster_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/4/total_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png}
         \caption{損失の合計値（式~\eqref{sec4:eq:loss}の$L$）}
-        \label{sec4:fig:method_4_val_total_loss}
+        \label{sec4:fig:learning_curve_method_4_val_total_loss}
     \end{subfigure}
-    \caption{手法4における検証データに対する損失曲線}
-    \label{sec4:fig:method_4_val_losses}
+    \caption{手法4における検証データに対する学習曲線}
+    \label{sec4:fig:learning_curve_method_4_val_losses}
 \end{figure}
 
 \begin{figure}[bt]
     \centering
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/5/mel_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png}
         \caption{メルスペクトログラムのMAE Loss（式~\eqref{sec4:eq:loss}の$L_{mel}$）}
-        \label{sec4:fig:method_5_val_mel_loss}
+        \label{sec4:fig:learning_curve_method_5_val_mel_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/5/ssl_feature_cluster_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png}
         \caption{HuBERT離散特徴量のCross Entropy Loss（式~\eqref{sec4:eq:loss}の$L_{ssl^{d}}$）}
-        \label{sec4:fig:method_5_val_ssl_feature_cluster_loss}
+        \label{sec4:fig:learning_curve_method_5_val_ssl_feature_cluster_loss}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
-        \includegraphics[height=55mm]{./figure/sec4/loss_curve/5/total_loss.png}
+        \includegraphics[height=55mm]{./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png}
         \caption{損失の合計値（式~\eqref{sec4:eq:loss}の$L$）}
-        \label{sec4:fig:method_5_val_total_loss}
+        \label{sec4:fig:learning_curve_method_5_val_total_loss}
     \end{subfigure}
-    \caption{手法5における検証データに対する損失曲線}
-    \label{sec4:fig:method_5_val_losses}
+    \caption{手法5における検証データに対する学習曲線}
+    \label{sec4:fig:learning_curve_method_5_val_losses}
 \end{figure}
 
 \begin{table*}[bt]
@@ -397,9 +412,172 @@ GPUはNVIDIA RTX A4000を利用し、計算の高速化のためAutomatic Mixed 
     \end{center}
 \end{table*}
 
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=190mm]{./figure/sec4/obj_metrics/wer_sample_wise_comparison.png}
+    \caption{テストデータにおける発話文章ごとのWERの比較}
+    \label{sec4:fig:wer_sample_wise_comparison}
+\end{figure}
+
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=40mm]{./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png}
+    \caption{テストデータにおける話者ごとのWERの比較}
+    \label{sec4:fig:wer_speaker_wise_comparison}
+\end{figure}
+
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=40mm]{./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png}
+    \caption{テストデータにおける話者ごとの話者類似度の比較}
+    \label{sec4:fig:spk_sim_speaker_wise_comparison}
+\end{figure}
+
+% \begin{figure}[bt]
+%     \centering
+%     \includegraphics[height=190mm]{./figure/sec4/obj_metrics/spk_sim_sample_wise_comparison.png}
+%     \caption{テストデータにおける発話文章ごとの話者類似度の比較}
+%     \label{sec4:fig:spk_sim_sample_wise_comparison}
+% \end{figure}
+
+% \begin{figure}[bt]
+%     \centering
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.0001/mel_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.0001$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_mel_0.0001}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.001/mel_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.001$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_mel_0.001}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.01/mel_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.01$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_mel_0.01}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.1/mel_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.1$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_mel_0.1}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/1.0/mel_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 1.0$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_mel_1.0}
+%     \end{subfigure}
+%     \caption{$L_{mel}$における$\lambda_{ssl^{d}}$ごとの手法間での学習曲線の比較}
+%     \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_mel}
+% \end{figure}
+
+% \begin{figure}[bt]
+%     \centering
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.0001/ssl_feature_cluster_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.0001$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_cluster_0.0001}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.001/ssl_feature_cluster_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.001$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_cluster_0.001}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.01/ssl_feature_cluster_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.01$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_cluster_0.01}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.1/ssl_feature_cluster_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.1$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_cluster_0.1}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/1.0/ssl_feature_cluster_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 1.0$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_cluster_1.0}
+%     \end{subfigure}
+%     \caption{$L_{ssl^{d}}$における$\lambda_{ssl^{d}}$ごとの手法間での学習曲線の比較}
+%     \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_cluster}
+% \end{figure}
+
+% \begin{figure}[bt]
+%     \centering
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.0001/total_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.0001$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_total_0.0001}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.001/total_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.001$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_total_0.001}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.01/total_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.01$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_total_0.01}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/0.1/total_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 0.1$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_total_0.1}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=35mm]{./figure/sec4/learning_curve/method_comparison_at_a_specific_weight/1.0/total_loss.png}
+%         \caption{$\lambda_{ssl^{d}} = 1.0$の場合}
+%         \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_total_1.0}
+%     \end{subfigure}
+%     \caption{$L$における$\lambda_{ssl^{d}}$ごとの手法間での学習曲線の比較}
+%     \label{sec4:fig:learning_curve_method_comparison_at_a_specific_weight_total}
+% \end{figure}
+
+% \begin{figure}[bt]
+%     \centering
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=55mm]{./figure/sec4/learning_curve/method_comparison_best_quality/mel_loss.png}
+%         \caption{メルスペクトログラムのMAE Loss（式~\eqref{sec4:eq:loss}の$L_{mel}$）}
+%         \label{sec4:fig:learning_curve_method_comparison_best_quality_mel}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=55mm]{./figure/sec4/learning_curve/method_comparison_best_quality/ssl_feature_cluster_loss.png}
+%         \caption{HuBERT離散特徴量のCross Entropy Loss（式~\eqref{sec4:eq:loss}の$L_{ssl^{d}}$）}
+%         \label{sec4:fig:learning_curve_method_comparison_best_quality_cluster}
+%     \end{subfigure}
+%     \begin{subfigure}{\linewidth}
+%         \centering
+%         \includegraphics[height=55mm]{./figure/sec4/learning_curve/method_comparison_best_quality/total_loss.png}
+%         \caption{損失の合計値（式~\eqref{sec4:eq:loss}の$L$）}
+%         \label{sec4:fig:learning_curve_method_comparison_best_quality_total}
+%     \end{subfigure}
+%     \caption{各手法の最適な$\lambda_{ssl^{d}}$における学習曲線の比較}
+%     \label{sec4:fig:learning_curve_method_comparison_best_quality}
+% \end{figure}
+
 \subsubsection{主観評価}
 
+\clearpage
+
 \subsection{まとめ}
+
 \clearpage
 
 % \section{音声SSLモデルを活用した動画音声合成の検討}

@@ -562,10 +562,10 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT ./figure/sec4/loss_curve/0/mel_loss.png
-INPUT ./figure/sec4/loss_curve/0/mel_loss.png
-INPUT ./figure/sec4/loss_curve/0/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/0/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
@@ -578,62 +578,74 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
-INPUT ./figure/sec4/loss_curve/0/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/0/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/0/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/0/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/0/total_loss.png
-INPUT ./figure/sec4/loss_curve/0/total_loss.png
-INPUT ./figure/sec4/loss_curve/0/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/0/total_loss.png
-INPUT ./figure/sec4/loss_curve/2/mel_loss.png
-INPUT ./figure/sec4/loss_curve/2/mel_loss.png
-INPUT ./figure/sec4/loss_curve/2/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/2/mel_loss.png
-INPUT ./figure/sec4/loss_curve/2/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/2/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/2/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/2/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/2/total_loss.png
-INPUT ./figure/sec4/loss_curve/2/total_loss.png
-INPUT ./figure/sec4/loss_curve/2/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/2/total_loss.png
-INPUT ./figure/sec4/loss_curve/3/mel_loss.png
-INPUT ./figure/sec4/loss_curve/3/mel_loss.png
-INPUT ./figure/sec4/loss_curve/3/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/3/mel_loss.png
-INPUT ./figure/sec4/loss_curve/3/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/3/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/3/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/3/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/3/total_loss.png
-INPUT ./figure/sec4/loss_curve/3/total_loss.png
-INPUT ./figure/sec4/loss_curve/3/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/3/total_loss.png
-INPUT ./figure/sec4/loss_curve/4/mel_loss.png
-INPUT ./figure/sec4/loss_curve/4/mel_loss.png
-INPUT ./figure/sec4/loss_curve/4/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/4/mel_loss.png
-INPUT ./figure/sec4/loss_curve/4/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/4/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/4/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/4/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/4/total_loss.png
-INPUT ./figure/sec4/loss_curve/4/total_loss.png
-INPUT ./figure/sec4/loss_curve/4/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/4/total_loss.png
-INPUT ./figure/sec4/loss_curve/5/mel_loss.png
-INPUT ./figure/sec4/loss_curve/5/mel_loss.png
-INPUT ./figure/sec4/loss_curve/5/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/5/mel_loss.png
-INPUT ./figure/sec4/loss_curve/5/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/5/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/5/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/5/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/loss_curve/5/total_loss.png
-INPUT ./figure/sec4/loss_curve/5/total_loss.png
-INPUT ./figure/sec4/loss_curve/5/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/loss_curve/5/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
+INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
+INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
+INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
+INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
+INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
+INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
 INPUT latex-output/submission.bbl
 INPUT latex-output/submission.bbl
 INPUT latex-output/submission.bbl
