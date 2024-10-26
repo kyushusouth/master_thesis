@@ -494,6 +494,19 @@ INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/enumitem/enumitem.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/enumitem/enumitem.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/enumitem/enumitem.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/enumitem/enumitem.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/tools/array.sty
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/tools/array.sty
 INPUT latex-output/submission.aux
 INPUT latex-output/submission.aux
 INPUT latex-output/submission.aux
@@ -562,6 +575,14 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT ./figure/sec4/model/network.png
+INPUT ./figure/sec4/model/network.png
+INPUT ./figure/sec4/model/network.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/network.png
+INPUT ./figure/sec4/model/hubert.png
+INPUT ./figure/sec4/model/hubert.png
+INPUT ./figure/sec4/model/hubert.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/hubert.png
 INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
 INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
 INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
