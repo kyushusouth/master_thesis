@@ -4,47 +4,46 @@ The top-level auxiliary file: submission.aux
 The style file: junsrt.bst
 Database file #1: library.bib
 Warning--can't use both volume and number fields in kim2024let
-Warning--empty journal in king2008blizzard
 You've used 41 entries,
             2270 wiz_defined-function locations,
-            730 strings with 13081 characters,
-and the built_in function-call counts, 15125 in all, are:
-= -- 1171
-> -- 608
-< -- 25
-+ -- 230
-- -- 189
-* -- 727
-:= -- 1891
-add.period$ -- 133
+            729 strings with 12785 characters,
+and the built_in function-call counts, 14648 in all, are:
+= -- 1132
+> -- 578
+< -- 24
++ -- 220
+- -- 179
+* -- 691
+:= -- 1840
+add.period$ -- 132
 call.type$ -- 41
 change.case$ -- 41
 chr.to.int$ -- 0
-cite$ -- 43
-duplicate$ -- 900
-empty$ -- 1391
-format.name$ -- 378
-if$ -- 3724
+cite$ -- 42
+duplicate$ -- 880
+empty$ -- 1353
+format.name$ -- 358
+if$ -- 3601
 int.to.chr$ -- 0
 int.to.str$ -- 41
 missing$ -- 39
 newline$ -- 207
 num.names$ -- 41
-pop$ -- 302
+pop$ -- 290
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 752
+skip$ -- 739
 stack$ -- 0
-substring$ -- 808
-swap$ -- 287
-text.length$ -- 25
+substring$ -- 768
+swap$ -- 275
+text.length$ -- 24
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 2
-while$ -- 107
+warning$ -- 1
+while$ -- 104
 width$ -- 43
-write$ -- 442
-is.kanji.str$ -- 536
-(There were 2 warnings)
+write$ -- 441
+is.kanji.str$ -- 522
+(There was 1 warning)

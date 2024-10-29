@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  23 OCT 2024 16:27
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  29 OCT 2024 12:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -453,18 +453,61 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 89.
 [1
 
-] [2] [3] [4] [5
+] [2] [3] [4]
+File: ./figure/sec2/spectrogram_1.png Graphic file (type bmp)
+<./figure/sec2/spectrogram_1.png>
+File: ./figure/sec2/spectrogram_2.png Graphic file (type bmp)
+<./figure/sec2/spectrogram_2.png>
+File: ./figure/sec2/spectrogram_4.png Graphic file (type bmp)
+<./figure/sec2/spectrogram_4.png>
+File: ./figure/sec2/spectrogram_8.png Graphic file (type bmp)
+<./figure/sec2/spectrogram_8.png>
+[5
 
-] [6
+] [6]
+File: ./figure/sec2/melspectrogram.png Graphic file (type bmp)
+<./figure/sec2/melspectrogram.png>
+[7] [8
 
 ]
+File: ./figure/sec3/conv1.drawio.png Graphic file (type bmp)
+<./figure/sec3/conv1.drawio.png>
+File: ./figure/sec3/conv2.drawio.png Graphic file (type bmp)
+<./figure/sec3/conv2.drawio.png>
+File: ./figure/sec3/conv3.drawio.png Graphic file (type bmp)
+<./figure/sec3/conv3.drawio.png>
+File: ./figure/sec3/conv4.drawio.png Graphic file (type bmp)
+<./figure/sec3/conv4.drawio.png>
+[9]
+File: ./figure/sec3/tconv1.drawio.png Graphic file (type bmp)
+<./figure/sec3/tconv1.drawio.png>
+File: ./figure/sec3/tconv2.drawio.png Graphic file (type bmp)
+<./figure/sec3/tconv2.drawio.png>
+[10] [11]
+File: ./figure/sec3/activations.png Graphic file (type bmp)
+<./figure/sec3/activations.png>
+File: ./figure/sec3/activations_prime.png Graphic file (type bmp)
+<./figure/sec3/activations_prime.png>
+[12] [13]
+File: ./figure/sec3/transformer.drawio.png Graphic file (type bmp)
+<./figure/sec3/transformer.drawio.png>
+[14] [15] [16] [17]
 File: ./figure/sec4/model/network.png Graphic file (type bmp)
 <./figure/sec4/model/network.png>
+[18
+
+]
 File: ./figure/sec4/model/hubert.png Graphic file (type bmp)
 <./figure/sec4/model/hubert.png>
-[7
-
-] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19]
+[19]
+File: ./figure/sec4/model/multi-input_vocoder.png Graphic file (type bmp)
+<./figure/sec4/model/multi-input_vocoder.png>
+[20]
+File: ./figure/sec4/model/mpd.png Graphic file (type bmp)
+<./figure/sec4/model/mpd.png>
+File: ./figure/sec4/model/msd.png Graphic file (type bmp)
+<./figure/sec4/model/msd.png>
+[21] [22] [23] [24] [25] [26] [27] [28] [29]
 File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png>
 File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
@@ -501,13 +544,13 @@ File: ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png Graphic file (ty
 <./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png>
 File: ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png Graphic file (type bmp)
 <./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png>
-[20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30
+[30] [31] [32] [33] [34] [35] [36] [37] [38] [39] [40
 
-] [31
+] [41
 
-] [32
+] [42
 
-] [33
+] [43
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -532,7 +575,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 64.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 71.
-[34
+[44
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -551,7 +594,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 121.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 128.
-[35]
+[45]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 136.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -567,34 +610,36 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 184.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 191.
+(Font)              No change on input line 190.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 198.
-[36]
+(Font)              No change on input line 195.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 209.
+(Font)              No change on input line 200.
+[46]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 215.
+(Font)              No change on input line 207.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 226.
+(Font)              No change on input line 214.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 234.
+(Font)              No change on input line 225.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 240.
+(Font)              No change on input line 231.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 246.
+(Font)              No change on input line 242.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 259.
+(Font)              No change on input line 250.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 265.
-) [37] (latex-output/submission.aux) ) 
+(Font)              No change on input line 256.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 262.
+) [47] (latex-output/submission.aux) ) 
 Here is how much of TeX's memory you used:
- 10404 strings out of 478692
- 227847 string characters out of 5855915
- 521549 words of memory out of 5000000
- 28735 multiletter control sequences out of 15000+600000
- 489018 words of font info for 104 fonts, out of 8000000 for 9000
+ 10543 strings out of 478692
+ 231864 string characters out of 5855915
+ 521916 words of memory out of 5000000
+ 28846 multiletter control sequences out of 15000+600000
+ 490957 words of font info for 112 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,12n,79p,2801b,721s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,12n,79p,2801b,719s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (40 pages, 138544 bytes).
+Output written on latex-output/submission.dvi (50 pages, 185744 bytes).

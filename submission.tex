@@ -108,42 +108,428 @@
 \clearpage
 
 \section{音声信号処理}
+音声にはフォルマントや基本周波数（ピッチ）など、様々な周波数的な特徴が存在している。フォルマントは母音や子音を知覚するため、ピッチはアクセントやイントネーションを表現するために重要なものである。このような音声信号の持つ複雑さから、時間波形のままその特徴を分析することは困難である。これに対し、本節では音声の特徴を捉えやすくするための信号処理について説明する。
+
+\subsection{音声のフーリエ変換}
+音声の時間波形に対して、周波数領域での情報を得るためにはフーリエ変換（Fourier Transform）を使用する。特に、音声はマイクロフォンで収録され、コンピュータ内で処理されることが多い。この時、音声はアナログ信号ではなく、サンプリング周波数と量子化ビット数に従って離散化されたデジタル信号として扱われる。このような場合、離散信号に対してのフーリエ変換である離散フーリエ変換（discrete Fourier transform; DFT）が用いられる。また、信号の系列長をゼロパディングして2の冪乗の長さに調整することで、計算量を抑えた高速フーリエ変換（fast Fourier transform; FFT）を用いることができる。
+
+離散信号を$x[n]$、それに対するフーリエ変換を$X[k]$とする。ここで、nはサンプルのインデックス、kは周波数インデックスである。$X[k]$は複素数であり、以下のように極座標表示することができる。
+\begin{align}
+    X[k] & = \mathrm{Re}(X[k]) + j\mathrm{Im}(X[k]) \\
+         & = |X[k]|e^{j\angle\mathrm{X[k]}}
+\end{align}
+ここで、$|X[k]|$は振幅特性（振幅スペクトル）、$\angle\mathrm{X[k]}$は位相特性（位相スペクトル）であり、以下の式で表される。
+\begin{gather}
+    |X[k]| = \sqrt{\mathrm{Re}(X[k])^{2} + \mathrm{Im}(X[k])^{2}} \\
+    \angle\mathrm{X[k]} = \tan^{-1} \frac{\mathrm{Im}(X[k])}{\mathrm{Re}(X[k])}
+\end{gather}
+また、$|X[k]|^2$はパワースペクトルと呼ばれる。これにより、信号中にどのような周波数成分がどれくらい含まれているかを調べることができる。しかし、音声はフォルマントやピッチが時々刻々と変化するため、信号全体に対して直接フーリエ変換を適用したとしても有用な結果が得られない。このような音声の持つ非定常性の問題に対して、十分短い時間幅においては信号の定常性が成り立つという仮定のもと、短時間フーリエ変換（short-time Fourier transform; STFT）が用いられる。STFTでは、音声信号に対して窓関数による窓処理を適用し、短時間に区切られた信号それぞれに対してDFTを適用する。ここで、窓処理とはある特定の窓関数と音声信号を時間領域でかけ合わせることであり、窓関数の時間幅を窓長という。また、窓関数を時間方向にシフトするときの時間幅をシフト幅という。STFTには時間分解能と周波数分解能の間に不確定性が存在し、両者の間にトレード・オフの関係がある。窓長が長い場合には周波数分解能が向上する一方、時間分解能が低下する。窓長が短い場合にはその逆となる。音声信号$x[n]$のSTFTを時刻$j$、周波数インデックスを$k$として$X(j, k)$と表すと、$X(j, k)$は時間周波数領域における複素数となる。これを複素スペクトログラムと呼ぶ。また、$|X(j, k)|$を振幅スペクトログラム、$\angle\mathrm{X(j, k)}$を位相スペクトログラム、
+$|X(j, k)|^{2}$をパワースペクトログラムと呼ぶ。「小さな鰻屋に、熱気のようなものがみなぎる」と発話した音声に対し、窓関数としてハニング窓を用いた上で、複数の窓長・シフト幅によって計算した対数パワースペクトログラムを、図~\ref{sec2:fig:log_power_spectrograms}に示す。窓長が100msと長い場合には周波数分解能が高いが、時間分解能が低下することでスペクトルの時間変化が滑らかでないことがわかる。一方、窓長が12.5msと短い場合には時間分解能が高いが、周波数分解能が低下することでスペクトルがぼやけていることがわかる。これが窓長に対する時間分解能と周波数分解能とトレード・オフであり、窓長25msや50msが程よいパラメータであることがわかる。
+\begin{figure}[tb]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./figure/sec2/spectrogram_1.png}
+        \caption{窓長12.5ms、シフト幅5ms}
+        \label{sec2:fig:spectrogram1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./figure/sec2/spectrogram_2.png}
+        \caption{窓長25ms、シフト幅10ms}
+        \label{sec2:fig:spectrogram2}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./figure/sec2/spectrogram_4.png}
+        \caption{窓長50ms、シフト幅20ms}
+        \label{sec2:fig:spectrogram3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./figure/sec2/spectrogram_8.png}
+        \caption{窓長100ms、シフト幅40ms}
+        \label{sec2:fig:spectrogram4}
+    \end{subfigure}
+    \caption{「小さな鰻屋に、熱気のようなものがみなぎる」と発話した音声から計算された対数パワースペクトログラム}
+    \label{sec2:fig:log_power_spectrograms}
+\end{figure}
+
+\subsection{メルスペクトログラム}
+メルスペクトログラムは、振幅スペクトログラムを人間の聴感特性を考慮したメル尺度に変換することによって得られる。周波数軸をメル尺度に変換する際、以下の式を用いる。
+\begin{equation}
+    Mel(f) = 2595\log_{10} \left(1 + \frac{f}{700}\right)
+\end{equation}
+メル尺度は、$\SI[]{1000}{Hz}$、$\SI[]{40}{dB}$の純音を$\SI[]{1000}{mel}$とする比率尺度である。メル尺度を用いることにより、低い周波数ほど細かく、高い周波数ほど荒い特徴量になる。メルスペクトログラムは、振幅スペクトログラムに対してメルフィルタバンクを適用することによって得られる。メルフィルタバンクの数は任意に決定できるパラメータであり、メルスペクトログラムの周波数方向の次元はこれに一致する。音声合成においては、音声のサンプリング周波数を$\SI[]{16}{kHz}$とするとき、メルフィルタバンクの数を80とし、$\SI[]{8000}{Hz}$までの帯域に対して適用することが多い。「小さな鰻屋に、熱気のようなものがみなぎる」と発話した音声に対し、窓関数にハニング窓を用い、窓長25ms、シフト幅10msとしてパワースペクトログラムを計算した上で、80次元のメルフィルタバンクを適用して得られた対数メルスペクトログラムを、図~\ref{sec2:fig:melspectrogram}に示す。
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=90mm]{./figure/sec2/melspectrogram.png}
+    \caption{「小さな鰻屋に、熱気のようなものがみなぎる」と発話した音声に対する対数メルスペクトログラム}
+    \label{sec2:fig:melspectrogram}
+\end{figure}
+
 \clearpage
 
 \section{深層学習}
+深層学習とは、人間の神経細胞の仕組みを模擬したニューラルネットワークを用いる機械学習手法のことである。特に近年ではその層を深くしたディープニューラルネットワーク（Deep Neural Network; DNN）が用いられ、大量のパラメータを最適化することによって得られる表現力により、自然言語処理や画像処理、音声認識や音声合成など様々な分野で成果を上げている。本章では、本研究で使用するニューラルネットワーク及び、構築したDNNの学習方法について説明する。
+
+\subsection{ニューラルネットワーク}
+\subsubsection{全結合層}
+全結合層は、すべての入力ノードがすべての出力ノードに接続される層である。全結合層の出力は、入力に対して学習可能な重みによる線形変換を適用することで得られる。入力$\bm{x} \in \mathbb{R}^{n}$に対し、出力$\bm{y} \in \mathbb{R}^{m}$は、
+\begin{align}
+    \bm{y} = \bm{W}\bm{x} + \bm{b}
+\end{align}
+で計算される。ここで、$\bm{W} \in \mathbb{R}^{m \times n}$は重み行列で、各要素$w_{ij}$は入力の$j$番目の成分と、出力の$i$番目の成分の間の重みである。$\bm{b} \in \mathbb{R}^{m}$はバイアスベクトルで、各要素$b_{i}$は出力の$i$番目の成分のバイアス項である。全結合層は特徴量の次元の変換に用いられ、特に最終層において、ネットワークの特徴量を所望の特徴量の次元に変換する場合に便利である。
+
+\subsubsection{畳み込み層}
+畳み込み層は、入力に対して畳み込み演算を行う層である。一次元畳み込み層について、入力$\bm{x} \in \mathbb{R}^{C_{in} \times T_{in}}$に対し、出力$\bm{y} \in \mathbb{R}^{C_{out} \times T_{out}}$は、$y_{k}[i]$を出力テンソルの$k$番目のチャネルの$i$番目の成分とすると、
+\begin{align}
+    y_{k}[i] = b_{k} + \sum_{c=0}^{C_{in} - 1} \sum_{m = 0}^{M - 1} x_{c}\left[i - \left\lfloor \frac{M}{2} \right\rfloor + m\right] w_{k, c}[m]
+\end{align}
+で計算される。ここで、$x_{c}\left[i - \left\lfloor \frac{M}{2} \right\rfloor + m\right]$が入力テンソルの$c$番目のチャネルの$\left[i - \left\lfloor \frac{M}{2} \right\rfloor + m\right]$番目の成分、$w_{k, c}[m]$が出力チャネル$k$と入力チャネル$c$に対応するカーネルの$m$番目の成分、$M$がカーネルサイズである。上式より、一次元畳み込み層の$i$番目の出力は、$i$番目の入力を中心とし、カーネルサイズの範囲分が考慮されて得られる値だと解釈できる。一次元畳み込みは、自然言語や音声といった一次元系列に対する特徴抽出のために用いられることが多い。
+
+これに加えて、カーネルを二次元配列とすれば二次元畳み込み層、三次元配列とすれば三次元畳み込み層となる。二次元畳み込み層は主に画像に用いられることが多く、三次元畳み込みは動画に用いられることが多い。
+
+畳み込み層における主要なパラメータは三つある。一つ目は、カーネルサイズである。この値が、畳み込み演算におけるフィルタのサイズを決定しており、考慮できる入力特徴量の範囲が定まる。二つ目は、ストライドである。この値はフィルタのシフト幅にあたり、2以上の値を設定すると、出力特徴量のサイズは入力特徴量のサイズよりも小さくなる。実際、特徴量をダウンサンプリングしたい場合には、2以上の値が用いられる。三つ目は、ダイレーションである。これはフィルタ内の要素間の距離を表し、その値を2以上とすれば、入力特徴量の飛び飛びの値を考慮した畳み込み演算が行われる。ダイレーションを大きくすることによって、カーネルサイズが同じでも考慮できる範囲が広がることが特徴であり、系列長の長大な音声波形を扱う場合などに用いられる。また、出力の系列長を入力に対して整数倍に保つためには、上記のパラメータに対して適切なパディング長を指定する必要がある。例えば、カーネルサイズを3、ストライドとダイレーションを1とした場合には、入力の両端に1ずつゼロパディングすることで入出力の系列長が保たれる。図~\ref{sec3:fig:conv_variations}に、ある入出力チャネル間における一次元畳み込み層の様子を示す。
+
+\begin{figure}[tb]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=4cm]{./figure/sec3/conv1.drawio.png}
+        \caption{(k, s, d) = (3, 1, 1)}
+        \label{sec3:fig:conv1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=4cm]{./figure/sec3/conv2.drawio.png}
+        \caption{(k, s, d) = (5, 1, 1)}
+        \label{sec3:fig:conv2}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=4cm]{./figure/sec3/conv3.drawio.png}
+        \caption{(k, s, d) = (3, 2, 1)}
+        \label{sec3:fig:conv3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=4cm]{./figure/sec3/conv4.drawio.png}
+        \caption{(k, s, d) = (3, 1, 2)}
+        \label{sec3:fig:conv4}
+    \end{subfigure}
+    \caption{ある入出力チャネル間における一次元畳み込み層の様子。kはカーネルサイズ、sはストライド、dはダイレーションを表し、図中の0はパディング部。}
+    \label{sec3:fig:conv_variations}
+\end{figure}
+
+\subsubsection{転置畳み込み層}
+転置畳み込み層は、畳み込み層の逆の演算を行うような層である。図~\ref{sec3:fig:tconv_variations}に、ある入出力チャネル間における一次元畳み込み層の様子を示す。転置畳み込み層では、$i$番目の入力とカーネルの積を計算し、その結果を$i$番目から$i + M - 1$番目までの出力とする。ここで$M$はカーネルサイズを表す。また、$i$番目の入力から計算された出力が、$i - 1$番目までの入力によってすでに得られている出力とオーバーラップする場合、これらは加算される。図~\ref{sec3:fig:tconv1}は、カーネルサイズを4、ストライドを1とした場合の様子である。
+転置畳み込み層は特に、入力をアップサンプリングしたい場合に用いられることが多い。その例を図~\ref{sec3:fig:tconv2}に示す。ここでは、カーネルサイズを4、ストライドを2としており、入力系列長が4であるのに対して、出力系列長が10まで拡大されていることがわかる。ここで、出力系列長を入力系列長の整数倍にするためには、パディングの値を適切に設定する必要がある。転置畳み込み層におけるパディングは、出力の両端を何個落とすかを指定するパラメータである。上述の例においては、パディングを1とすることで、出力系列長を入力系列長の2倍である8に調整することができる。
+
+\begin{figure}[tb]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=4cm]{./figure/sec3/tconv1.drawio.png}
+        \caption{(k, s) = (4, 1)}
+        \label{sec3:fig:tconv1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=4cm]{./figure/sec3/tconv2.drawio.png}
+        \caption{(k, s) = (4, 2)}
+        \label{sec3:fig:tconv2}
+    \end{subfigure}
+    \caption{ある入出力チャネル間における一次元転置畳み込み層の様子。kはカーネルサイズ、sはストライド。}
+    \label{sec3:fig:tconv_variations}
+\end{figure}
+\subsubsection{活性化関数}
+% 各関数について、具体的な用途が挙げられると良い。また、論文を読んで引用できるとさらに良い。
+活性化関数は、ニューラルネットワークの各層の出力に非線形性を導入するために用いられる関数である。これにより、ネットワークは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる。以下、代表的な活性化関数を述べる。また、活性化関数とその一階導関数のグラフを図~\ref{sec3:fig:activations_and_their_prime}に示す。
+
+一つ目は、シグモイド関数である。シグモイド関数は
+\begin{equation}
+    \sigma(x) = \frac{1}{1 + \exp(-x)}
+\end{equation}
+で与えられ、その一階導関数は
+\begin{equation}
+    \frac{d}{dx}\sigma(x) = \frac{\exp(-x)}{(1 + \exp(-x))^{2}}
+\end{equation}
+となる。図~\ref{sec3:fig:activations_prime}より、シグモイド関数の一階導関数の最大値は$x=0$における0.25であり、入力が0から離れるほど微分係数が小さくなることが分かる。DNNの学習では、損失関数の重みに対するの勾配を逆伝播する必要があり、これは合成関数の微分における連鎖律に従って行われる。シグモイド関数は取り得る微分係数の値が小さく、特に層数が深いDNNにおいては勾配が小さくスケーリングされていくことで、浅い層の重みに対する勾配のノルムが小さくなりすぎる可能性がある。この問題は、勾配消失と呼ばれる。
+
+二つ目は、tanh関数である。tanh関数は
+\begin{equation}
+    \tanh(x) = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}
+\end{equation}
+で与えられ、その一階導関数は
+\begin{align}
+    \frac{d}{dx}\tanh(x) & = \frac{4}{(\exp(x) + \exp(-x))^{2}} \\
+                         & = \frac{1}{\cosh(x)^{2}}
+\end{align}
+となる。シグモイド関数と比較すると、シグモイド関数の値域が$[0, 1]$であったのに対し、tanh関数の値域は$[-1, 1]$となっている。シグモイド関数やtanh関数を実際に活性化関数として利用するニューラルネットワークとして、後述するLSTMやGRUが挙げられる。
+
+三つ目は、ReLUである。ReLUは
+\begin{equation}
+    \text{ReLU}(x) = \max (0, x)
+\end{equation}
+で与えられ、その一階導関数は
+\begin{equation}
+    \frac{d}{dx}\text{ReLU}(x) =
+    \begin{cases}
+        1 & \text{if $x > 0$}  \\
+        0 & \text{if $x <= 0$}
+    \end{cases}
+\end{equation}
+となる。ReLUは入力が0以上であれば恒等写像となり、0未満であれば0に写す。一階導関数は0あるいは1のみを取り、特に入力が正の値であれば常に微分係数は1となることから、シグモイド関数よりも勾配消失問題が起こりづらくなっている。一方、ReLUは0以下の入力に対して微分係数が0となるため、勾配も0となる。従って、入力が負の値に偏った場合には勾配が0になり続け、重みの更新が進まなくなる可能性がある。この問題を、Dying ReLU問題と呼ぶ。
+
+四つ目は、LeakyReLUである。LeakyReLUは
+\begin{equation}
+    \text{LeakyReLU}(x) =
+    \begin{cases}
+        x  & \text{if $x > 0$}  \\
+        ax & \text{if $x <= 0$}
+    \end{cases}
+\end{equation}
+で与えられ、その一階導関数は
+\begin{equation}
+    \frac{d}{dx}\text{LeakyReLU}(x) =
+    \begin{cases}
+        1 & \text{if $x > 0$}  \\
+        a & \text{if $x <= 0$}
+    \end{cases}
+\end{equation}
+となる。ここで、aはnegative slopeと呼ばれるパラメータである。ReLUと比較すると、0以下の入力に対しても0でない値を取り、また微分係数も0にならない点が異なっている。この工夫により、勾配が0になり続ける恐れがなくなるため、前述したDying ReLU問題に対処することが可能である。具体的な利用ケースとしては、敵対的生成ネットワーク（Generative adversarial network; GAN）におけるGeneratorやDiscriminatorが挙げられる。
+
+五つ目は、PReLUである。これは四つ目に述べたLeakyReLUと非常に似た活性化関数であるが、LeakyReLUのnegative slopeを学習可能なパラメータに変更したという点で異なっている。
+
+六つ目は、GELUである。GELUは
+\begin{equation}
+    \text{GELU}(x) = x \Phi(x)
+\end{equation}
+で与えられる。ここで、$\Phi(x)$は標準正規分布の累積分布関数である。GELUの一階導関数は、
+\begin{equation}
+    \frac{d}{dx}\text{GELU}(x) = \Phi(x) + \frac{x}{\sqrt{2\pi}}\exp(-\frac{x^{2}}{2})
+\end{equation}
+となる。GELUは入力に対して標準正規分布に基づく確率値を利用したスケーリングを行う活性化関数であり、後述するTransformerなど大規模なモデルにおいて採用される場合がある。
+
+\begin{figure}[tb]
+    \centering
+    \begin{subfigure}[b]{1.0\textwidth}
+        \centering
+        \includegraphics[height=7cm]{./figure/sec3/activations.png}
+        \caption{活性化関数}
+        \label{sec3:fig:activations}
+    \end{subfigure}
+    \begin{subfigure}[b]{1.0\textwidth}
+        \centering
+        \includegraphics[height=7cm]{./figure/sec3/activations_prime.png}
+        \caption{活性化関数の一階導関数}
+        \label{sec3:fig:activations_prime}
+    \end{subfigure}
+    \caption{活性化関数の例}
+    \label{sec3:fig:activations_and_their_prime}
+\end{figure}
+
+\subsubsection{再帰型ニューラルネットワーク}
+再帰型ニューラルネットワーク（Recurrent Neural Network; RNN）は、自身の過去の出力を保持し、それをループさせる再帰的な構造を持ったネットワークである。
+
+近年よく用いられるRNNとして、長・短期記憶（Long Short-Time Memory; LSTM）~\cite{hochreiter1997long}がある。LSTMでは入力ゲート、忘却ゲート、出力ゲートの3つを持ち、これらゲートによってネットワーク内部の情報の取捨選択を行うことで、長い系列データからの学習を可能にした。LSTMのネットワーク内部で行われる計算を以下に示す。
+\begin{gather}
+    \bm{f}_{t} = \sigma(\bm{W}_{f}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{b}_{f}) \\
+    \bm{i}_{t} = \sigma(\bm{W}_{i}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{b}_{i}) \\
+    \tilde{\bm{c}_{t}} = \tanh (\bm{W}_{h}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{b}_{h}) \\
+    \bm{c}_{t} = \bm{f}_{t} \odot \bm{c}_{t-1} + \bm{i}_{t} \odot \tilde{\bm{c}_{t}} \\
+    \bm{o}_{t} = \sigma(\bm{W}_{o}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{b}_{o}) \\
+    \bm{h}_{t} = \bm{o}_{t} \odot \tanh(\bm{c}_{t})
+\end{gather}
+ここで、$\bm{x}_{t}$は時刻$t$の入力、$\bm{f}_{t}$は忘却ゲートの出力、$\bm{i}_{t}$は入力ゲートの出力、$\bm{c}_{t}$が時刻$t$におけるセルの状態、$\bm{o}_{t}$が出力ゲートの出力、$\bm{h}_{t}$が時刻$t$における隠れ状態を表し、それぞれベクトルである。また、$\bm{W}$、$\bm{b}$はそれぞれ学習可能な重み行列、バイアスベクトルである。忘却ゲートの出力$\bm{f}_{t}$は、前時刻のセル状態$\bm{c}_{t-1}$との要素積に用いられ、これによってネットワーク内に保持されていた長期記憶に対して忘却するべき情報を与え、取捨選択を行う。入力ゲートの出力$\bm{i}_{t}$は時刻$t$のセル状態の候補となる$\tilde{\bm{c}_{t}}$との要素積に用いられ、これによって新たにネットワークが長期記憶するべき情報が選択され、セル状態$\bm{c}_{t}$として保持される。出力ゲートの出力$\bm{o}_{t}$は時刻$t$のセル状態$\bm{c}_{t}$に$\tanh$を適用した値との要素積に用いられ、これによって時刻$t$において出力するべき情報を選択する。最後に、隠れ状態$\bm{h}_{t}$は、時刻$t$の出力と$\tanh$を適用したセル状態$\bm{c}_{t}$から決定される。このように、$\bm{h}_{t}$及び$\bm{c}_{t}$を入力に対して適応的に変化させながら情報を取捨選択することで、長い系列長のデータに対しての学習を可能にした。
+
+また、LSTMでは3つのゲートを必要とするが、ゲートを2つに減らすことでネットワークの軽量化を図ったネットワークとして、ゲート付き回帰型ユニット（Gated Recurrent Unit; GRU）\cite{cho2014learning}がある。GRUではリセットゲートと更新ゲートの2つのゲートを用いて隠れ状態$\bm{h}_{t}$を再帰的に更新する。また、LSTMと違ってセル状態$\bm{c}_{t}$を省いており、よりシンプルな構造となっている。GRUのネットワーク内部で行われる計算を以下に示す。
+\begin{gather}
+    \bm{z}_{t} = \sigma(\bm{W}_{z}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{b}_{z}) \\
+    \bm{r}_{t} = \sigma(\bm{W}_{r}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{b}_{r}) \\
+    \tilde{\bm{h}_{t}} = \tanh(\bm{W}_{h}[\bm{x}_{t}, \bm{r}_{t} \odot \bm{h}_{t-1}] + \bm{b}_{h}) \\
+    \bm{h}_{t} = (1 - \bm{z}_{t}) \odot \bm{h}_{t-1} + \bm{z}_{t} \odot \tilde{\bm{h}_{t}}
+\end{gather}
+ここで、$\bm{x}_{t}$が時刻$t$における入力、$\bm{z}_{t}$が更新ゲートの出力、$\bm{r}_{t}$がリセットゲートの出力、$\bm{h}_{t}$が時刻$t$における隠れ状態を表し、それぞれベクトルである。また、$\bm{W}$は学習可能な重み行列、$\bm{b}$はバイアスベクトルである。更新ゲートの出力$\bm{z}_{t}$はネットワーク内で新たに記憶するべき情報の割合を決定する役割を果たす。一方、リセットゲートの出力$\bm{r}_{t}$は前時刻の隠れ状態$\bm{h}_{t-1}$との要素積に用いられ、これによって忘却するべき情報が選択される。リセットゲートの出力によって処理された内部表現から、時刻$t$の隠れ状態の候補となる$\tilde{\bm{h}_{t}}$が計算される。最後に、前時刻の隠れ状態$\bm{h}_{t-1}$と隠れ状態の候補$\tilde{\bm{h}_{t}}$に対して更新ゲートの出力$\bm{z}_{t}$を用いた重み付け和を計算することで、隠れ状態$\bm{h}_{t}$を決定する。
+
+\subsubsection{Transformer}
+Transformer~\cite{vaswani2017attention}は、自己注意機構（Self-Attention）を用いて、入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである。特に、再帰的な計算を必要とするRNNと比較して、Transformerは並列計算のみ行うため、GPUによる計算の高速化が可能である。Transformerの内部構造について説明するため、入力系列$\bm{X} \in \mathbb{R}^{T \times d_{model}}$をとる。ここで、$T$は入力系列の系列長、$d_{model}$は入力系列の次元である。また、Transformer層の構造を図~\ref{sec3:fig:transformer_layer}に示す。
+
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=140mm]{./figure/sec3/transformer.drawio.png}
+    \caption{Transformer層の構造}
+    \label{sec3:fig:transformer_layer}
+\end{figure}
+
+まず、Self-Attetionについて、これは以下の二つの要素からなる。
+\begin{enumerate}
+    \item クエリ、キー、バリューの計算
+    \item Attentionスコアの計算
+\end{enumerate}
+まず、クエリ、キー、バリューの計算は、それぞれを$\bm{Q} \in \mathbb{R}^{T \times d_{k}}$、$\bm{K} \in \mathbb{R}^{T \times d_{k}}$、$\bm{V} \in \mathbb{R}^{T \times d_{v}}$とおくと、
+\begin{align}
+    \bm{Q} & = \bm{X}\bm{W}_{Q} \\
+    \bm{K} & = \bm{X}\bm{W}_{K} \\
+    \bm{V} & = \bm{X}\bm{W}_{V}
+\end{align}
+で与えられる。ここで、$d_{k}$はキーとクエリの次元、$d_{v}$はバリューの次元、$\bm{W_{Q}} \in \mathbb{R}^{d_{model} \times d_{k}}$はクエリに対する重み行列、$\bm{W_{K}} \in \mathbb{R}^{d_{model} \times d_{k}}$はキーに対する重み行列、$\bm{W_{V}} \in \mathbb{R}^{d_{model} \times d_{v}}$はバリューに対する重み行列である。次に、ここで得られたクエリ、キー、バリューを利用したAttentionスコアの計算は、
+\begin{equation}
+    \text{Attention}(\bm{Q}, \bm{K}, \bm{V}) = \text{softmax}\left(\frac{\bm{Q}\bm{K}^\top}{\sqrt{d_{k}}}\right) \bm{V}
+\end{equation}
+で与えられる。式中の$\bm{Q}\bm{K}^\top \in \mathbb{R}^{T \times T}$について、この行列の$(i, j)$成分$(\bm{Q}\bm{K}^\top)_{i, j}$は、クエリベクトル$Q_{i} \in \mathbb{R}^{d_{k}}$と、キーベクトル$K_{j} \in \mathbb{R}^{d_{k}}$の内積であり、$Q_{i}$と$K_{i}$の関連度を表していると解釈できる。また、softmax関数は列方向に適用されるため、アテンション重み$\text{softmax}\left(\frac{\bm{Q}\bm{K}^\top}{\sqrt{d_{k}}}\right)$の$(i, j)$成分$\left(\text{softmax}\left(\frac{\bm{Q}\bm{K}^\top}{\sqrt{d_{k}}}\right)\right)_{i, j}$は、
+\begin{equation}
+    \left(\text{softmax}\left(\frac{\bm{Q}\bm{K}^\top}{\sqrt{d_{k}}}\right)\right)_{i, j} = \frac{\exp\left(\frac{(\bm{Q}\bm{K}^\top)_{i, j}}{\sqrt{d_{k}}}\right)}{\sum_{j = 1}^{T} \exp\left(\frac{(\bm{Q}\bm{K}^\top)_{i, j}}{\sqrt{d_{k}}}\right)}
+\end{equation}
+となる。softmax関数を適用することでアテンション重みの行ベクトルは確率値として扱うことができるようになり、これは$i$番目のクエリからのキーの全要素に対する注意度が、確率分布として表されていると解釈できる。最後にアテンション重みをバリュー$\bm{V}$にかけることにより、各クエリからの注意度をもとにバリューベクトル$\bm{V}_{j}$の重み付け和が計算され、出力が得られる。
+
+Transformerでは、Self-Attentionをただ行うだけではなく、これを複数のヘッドで並列に計算し、各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが行われる。ヘッド数を$h$とすると、各ヘッドにおけるクエリ、キー、バリューの計算は、
+\begin{align}
+    \bm{Q}^{i} & = \bm{X}\bm{W}_{Q}^{i} \\
+    \bm{K}^{i} & = \bm{X}\bm{W}_{K}^{i} \\
+    \bm{V}^{i} & = \bm{X}\bm{W}_{V}^{i}
+\end{align}
+で与えられる。ここで、$\bm{W_{Q}}^{i} \in \mathbb{R}^{d_{model} \times \frac{d_{k}}{h}}$は$i$番目のヘッドのクエリに対する重み行列、$\bm{W_{K}}^{i} \in \mathbb{R}^{d_{model} \times \frac{d_{k}}{h}}$は$i$番目のヘッドのキーに対する重み行列、$\bm{W_{V}}^{i} \in \mathbb{R}^{d_{model} \times \frac{d_{v}}{h}}$は$i$番目のヘッドのバリューに対する重み行列である。よって、$i$番目のヘッドのクエリ、キー、バリューの形状はそれぞれ、$\bm{Q}^{i} \in \mathbb{R}^{T \times \frac{d_{k}}{h}}$、$\bm{K}^{i} \in \mathbb{R}^{T \times \frac{d_{k}}{h}}$、$\bm{V}^{i} \in \mathbb{R}^{T \times \frac{d_{v}}{h}}$となる。$i$番目のヘッドにおけるAttentionスコアの計算は
+\begin{equation}
+    \text{Attention}(\bm{Q}^{i}, \bm{K}^{i}, \bm{V}^{i}) = \text{softmax}\left(\frac{\bm{Q}^{i}(\bm{K}^{i})^\top}{\sqrt{d_{k}} / h}\right) \bm{V}^{i}
+\end{equation}
+で行われる。その後、すべてのヘッドからのAttentionスコアを結合し、さらに線形変換を適用することでMulti-Head Attetionの出力が得られる。これは、
+\begin{equation}
+    \text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) = \text{Concat}(\text{head}^{1}, \ldots, \text{head}^{h})\bm{W}_{o}
+\end{equation}
+と表される。ここで、$\text{head}^{i} \in \mathbb{R}^{T \times \frac{d_{v}}{h}}$が各ヘッドから出力されたAttentionスコア、$\text{Concat}(\text{head}^{1}, \\ \ldots, \text{head}^{h}) \in \mathbb{R}^{T \times d_{v}}$が全ヘッドのAttentionスコアを結合した特徴量、$\bm{W}_{o} \in \mathbb{R}^{d_{v} \times d_{model}}$が最終的な線形変換に用いられる重み行列である。ヘッドを分割することで複数パターンのアテンションが可能になり、これが入出力間の複雑な関係性を考慮するのに役立っていると考えられる。Multi-Head Attention後には、残差結合と後述するレイヤー正規化を適用する。
+これは、出力系列を$\bm{Y} \in \mathbb{R}^{T \times d_{model}}$とすると、
+\begin{equation}
+    \bm{Y} = \text{LayerNorm}\left(\text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) + \bm{X}\right)
+\end{equation}
+で与えられる。
+
+Multi-Head Attentionによって系列全体の依存関係を考慮した後は、各フレームごとに独立して全結合層を適用する。これは、
+\begin{equation}
+    \text{FFN}(\bm{Y}) = \text{ReLU}(\bm{Y}\bm{W}_{1} + \bm{b}_{1})\bm{W}_{2} + \bm{b}_{2}
+\end{equation}
+で与えられる。
+ここで、$\bm{W}_{1} \in \mathbb{R}^{d_{model} \times d_{ff}}$、$\bm{W}_{2} \in \mathbb{R}^{d_{1} \times d_{model}}$は学習可能な重み行列、$\bm{b}_{1} \in \mathbb{R}^{d_{ff}}$、$\bm{b}_{2} \in \mathbb{R}^{d_{model}}$はバイアスベクトルである。$d_{ff}$は$d_{model}$の4倍とされることが多い。全結合層適用後は、Multi-Head Attention後と同様に、残差結合とレイヤー正規化を適用する。
+
+上述したMulti-Head Attentionとフレームごとに適用される全結合層を合わせて、Transformer層と呼ぶ。実際には、Transformer層を多層積み重ねて用いることが多い。
+
+最後に、TransformerではRNNと違い、並列計算によって系列全体を一度に処理することが可能であるが、それと引き換えに入力の順序情報を考慮することができなくなる。この問題に対し、入力系列に対して位置情報を与えるために行われるのが、Positional Encodingである。Positional Encodingは$\sin$関数と$\cos$関数に基づいて計算される値であり、
+\begin{align}
+    \text{PE}_{pos, 2i}     & = \sin \left(\frac{pos}{10000^{2i / d_{model}}}\right) \\
+    \text{PE}_{pos, 2i + 1} & = \cos \left(\frac{pos}{10000^{2i / d_{model}}}\right)
+\end{align}
+で与えられる。ここで、$pos$は入力系列の位置を表し、$i$は入力系列の次元を表す。
+
+\subsection{学習方法}
+\subsubsection{損失関数}
+
+\subsubsection{確率的勾配降下法}
+\subsubsection{誤差逆伝播法}
+\subsubsection{最適化手法}
+% adam, adamw
+\subsubsection{学習率のスケジューリング}
+% exp, cosine annealing with warmup
+\subsubsection{特徴量の正規化}
+DNNの学習過程では学習の進行に伴って重みが変化するため、その度に各層への入力の分布が変わってしまう。これは内部共変量シフト（Internal Covariate Shift）と呼ばれ、ネットワークの学習を不安定にする原因となる。これに対し、バッチ正規化（Batch Normalization）が有効である。バッチ正規化は、ミニバッチ学習を行う際にそのミニバッチ内における平均と標準偏差を計算し、特徴量を標準化する。
+\subsubsection{正則化}
+% dropout, weight decay, early stopping
+\subsubsection{学習の安定化}
+% gradient clipping, gradient accumulation
+\subsubsection{自己教師あり学習}
+% hubert, avhubert
+
 \clearpage
 
 \section{動画音声合成モデルの検討}
 \subsection{音声合成法}
-提案手法の構築手順は3段階に分かれる。ネットワークの概要を図~\ref{sec4:fig:network}に示す。一段階目では、動画を入力として、メルスペクトログラムとHuBERT離散特徴量、HuBERT中間特徴量を推定するネットワークAを学習する（図~\ref{sec4:fig:network}のA）。ここで、HuBERT離散特徴量はHuBERT Transformer層から得られる特徴量を k-means法によってクラスタリングすることで離散化した結果、HuBERT中間特徴量はHuBERTにおける畳み込み層出力のことを指す。図~\ref{sec4:fig:hubert}にこれらの取得位置を示す。第一段階では、AVHuBERTを動画からの特徴抽出に利用した。これにより、動画の空間情報は完全に圧縮され、768次元の一次元系列となる。その後、事前学習済みの話者識別モデル~\cite{wan2018generalized}によって音声波形から得られる256次元の話者Embeddingを、各フレームでチャンネル方向に結合する。これによって特徴量は1024次元に拡張され、全結合層によって再度768次元に圧縮する。その後、畳み込み層と全結合層からなるConvDecoder（図~\ref{sec4:fig:network}のConvDecoder）を通すことによって、話者Embeddingを結合した特徴量に対する変換を施した。これにより、特にメルスペクトログラムにおいて話者性が正しく反映されることを狙った。動画の見た目から話者性を判断できる可能性も考えられたが、本研究では念の為入力することとした。ConvDecocerは残差結合を利用したブロック単位で構成され、各ブロックに2層の畳み込み層を設けた。各畳み込み層のチャンネル数は768、カーネルサイズは3であり、3ブロック積み重ねた。最後に全結合層を通し、所望の次元に変換することで予測対象を得た。ネットワークAの役割は、続くネットワークBの入力であるHuBERT中間特徴量を提供することである。これに対し、メルスペクトログラムとHuBERT離散特徴量の推定を同時に行った理由は、先行研究においてマルチタスク学習の有効性が確認されていることを考慮し、ネットワークAでもマルチタスク学習を採用しておこうと考えたからである。また、こうすることで後に述べるネットワークCに向けた拡張性も得られたため、これを一貫して用いることとした。
+提案手法の構築手順は3段階に分かれる。ネットワークの構造を図~\ref{sec4:fig:network}に示す。
+一段階目では、動画を入力として、メルスペクトログラムとHuBERT離散特徴量、HuBERT中間特徴量を推定するネットワークAを学習する（図~\ref{sec4:fig:network}のA）。ここで、HuBERT離散特徴量はHuBERT Transformer層から得られる特徴量を k-means法によってクラスタリングすることで離散化した値、HuBERT中間特徴量はHuBERTにおける畳み込み層出力で、HuBERTの事前学習時にマスク対象となる値のことを指す。図~\ref{sec4:fig:hubert}にこれらの取得位置を示す。第一段階では、AVHuBERTを動画からの特徴抽出に利用した。これにより、動画の空間情報は完全に圧縮され、768次元の一次元系列となる。その後、事前学習済みの話者識別モデル~\cite{wan2018generalized}によって音声波形から得られる256次元の話者Embeddingを、各フレームでチャンネル方向に結合する。これによって特徴量は1024次元に拡張され、全結合層によって再度768次元に圧縮する。その後、畳み込み層と全結合層からなるConvDecoder（図~\ref{sec4:fig:network}のConvDecoder）を通すことによって、話者Embeddingを結合した特徴量に対する変換を施した。これにより、特にメルスペクトログラムにおいて話者性が正しく反映されることを狙った。複数話者モデルであっても、入力である動画の見た目から話者性を判別できる可能性があったが、将来的な未知話者対応への拡張性も考慮して、本研究では補助特徴量として入力することとした。ConvDecocerは残差結合を利用したブロック単位で構成され、各ブロックに2層の畳み込み層を設けた。各畳み込み層のチャンネル数は768、カーネルサイズは3であり、3ブロック積み重ねた。最後に全結合層を通し、所望の次元に変換することで予測対象を得た。ネットワークAの役割は、続くネットワークBの入力であるHuBERT中間特徴量を提供することである。これに対し、メルスペクトログラムとHuBERT離散特徴量の推定を同時に行った理由は、先行研究においてマルチタスク学習の有効性が確認されていることを考慮し、ネットワークAでもマルチタスク学習を採用しておこうと考えたからである。
 
 二段階目では、一段階目に学習されたネットワークAの重みを固定した状態でHuBERT中間特徴量を推定し、それを入力としてメルスペクトログラムとHuBERT離散特徴量を推定する、HuBERT Transformer層を中心としたネットワークBの学習を行う（図~\ref{sec4:fig:network}のB）。HuBERT Transformer層出力はAVHuBERT出力と同じ768次元の特徴量となるため、これに対してネットワークAと同様に話者Embeddingを結合し、ConvDecoderを通すことで予測値を得た。ネットワークBの役割は、音声波形への変換に必要となるメルスペクトログラムとHuBERT離散特徴量の予測である。HuBERT Transformer層の転移学習を検討した狙いについて、HuBERTは自己教師あり学習時、畳み込み層出力にマスクを適用し、Transformer層を通すことによってマスクされた部分を推定しようとする。これにより、音声の文脈を考慮するのに長けた学習済み重みが、特にTransformer層で獲得されると仮定した。これに基づき、本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより、動画を入力としたAVHuBERTを中心とするネットワークAにおける推定残差を、音声自体の文脈を考慮することによって軽減し、動画から直接推定しきれなかった部分を補うことでの精度改善を狙った。
 
 \begin{figure}[bt]
     \centering
     \includegraphics[height=90mm]{./figure/sec4/model/network.png}
-    \caption{ネットワークの概略図}
+    \caption{提案するネットワークの構造}
     \label{sec4:fig:network}
 \end{figure}
 
 \begin{figure}[bt]
     \centering
     \includegraphics[height=90mm]{./figure/sec4/model/hubert.png}
-    \caption{HuBERT中間特徴量とHuBERT離散特徴量の概略}
+    \caption{HuBERT中間特徴量とHuBERT離散特徴量の取得位置}
     \label{sec4:fig:hubert}
 \end{figure}
 
 三段階目では、二段階目までに学習されたネットワークAとネットワークBの重みを固定した状態で、AVHuBERTから得られる特徴量と、HuBERT Transformer層から得られる特徴量の二つを結合し、それらを入力として再びメルスペクトログラムとHuBERT離散特徴量の予測を行うネットワークCを学習した（図~\ref{sec4:fig:network}のC）。ネットワークCでは、はじめに前述した二つの特徴量をチャンネル方向に結合することで、1536次元の入力特徴量を得る。これに対して全結合層を施すことで再度768次元に圧縮し、4層のTransformer層を通すことで系列全体を考慮した特徴抽出を改めて行った。その後、ネットワークA,Bと同様に話者Embeddingを結合し、ConvDecoderを通すことによって予測値を得た。ここで、ネットワークCのTransformer層におけるパラメータについては、AVHuBERTやHuBERTと同様にチャンネル数を768、ヘッド数は12とした。ネットワークCの役割は、ネットワークBと同様に音声波形への変換に必要な特徴量の予測である。ここでの狙いについて、まず、AVHuBERTから得られる特徴量とHuBERT Transformer層から得られる特徴量は、どちらもConvDecoderへの入力となる点で同じである。一方、AVHuBERTは動画を入力、HuBERT Transformer層はHuBERT中間特徴量を入力とするため、これら特徴量の元となる入力は異なっている。ここでは、概ね同じ予測対象のために利用される二つの特徴量（ネットワークAではHuBERT中間特徴量の予測も行っているため、全く同じではない）が、入力の違いに依存して内部のSelf Attentionにより注意される部分が変化し、何らかの異なった情報を持っている可能性があると仮定した。この仮定に基づき、両方の特徴量を考慮して単一特徴量への依存を解消することで、汎化性能向上による予測精度の改善を狙った。
 
-以上が提案手法の全体像であるが、今回ベースラインとする先行研究\cite{choi2023intelligible}に基づいたマルチタスク学習手法は、本研究におけるネットワークAで、HuBERT中間特徴量を推定しないものに当たる。AVHuBERT以降のConvDecoderについて、これは先行研究と異なる構成であるが、これは実験の過程でより良いものを選択した結果である。本実験においてはこれを比較手法全てで一貫して用いることで、比較したい部分には影響が出ないようにしつつ、全体的な性能の底上げを狙った。
+以上が提案手法の全体像であるが、今回ベースラインとする先行研究\cite{choi2023intelligible}に基づいたマルチタスク学習手法は、本研究におけるネットワークAで、HuBERT中間特徴量を推定しないものに当たる。AVHuBERT以降のConvDecoderについて、これは先行研究と異なる構成である。先行研究では、メルスペクトログラムに対して畳み込みをベースとしたデコーダ、HuBERT離散特徴量に対して全結合層を利用したデコーダを別々に設けており、話者Embeddingはメルスペクトログラムの推定のみに用いていた。この構成についても検討したが、ConvDecoderの方がベースライン、提案手法問わず全体的に性能が改善したため、本研究ではこちらを採用した。
 
-以上のモデルにより、動画からメルスペクトログラムとHuBERT離散特徴量が推定可能となる。その後、先行研究~\cite{choi2023intelligible}に基づくMulti-input Vocoderを用い、メルスペクトログラムとHuBERT離散特徴量を入力として音声波形に変換することで、最終的な合成音声を得た。Multi-input VocoderはHiFi-GAN~\cite{kong2020hifi}をベースとしたモデルであり、音声波形を生成するGeneratorと、Multi Scale DiscriminatorおよびMulti Period Discriminatorという二つのDiscriminatorによって構成される。Generatorへの入力特徴量について、メルスペクトログラムは100Hz、HuBERT離散特徴量は50Hzとなっているが、メルスペクトログラムは隣接したフレームを次元方向に縦積みすることで、100Hz・80次元の特徴量から50Hz・160次元の特徴量に変換して用いた。入力時は全結合層によって128次元の特徴量に変換した。一方、HuBERT離散特徴量はインデックス系列であるが、入力時はインデックスから128次元のベクトルに変換した。その後、これらをチャンネル方向に結合することで256次元の特徴量を構成し、これをGeneratorへの最終的な入力とした。その後は、HiFi-GANの公式実装と同様である。
+以上のモデルにより、動画からメルスペクトログラムとHuBERT離散特徴量が推定可能となる。その後、先行研究~\cite{choi2023intelligible}に基づくMulti-input Vocoderを用い、メルスペクトログラムとHuBERT離散特徴量を入力として音声波形に変換することで、最終的な合成音声を得た。Multi-input VocoderはHiFi-GAN~\cite{kong2020hifi}をベースとしたモデルであり、音声波形を生成するGeneratorと、Multi-Period Discriminator（MPD）およびMulti-Scale Discriminator（MSD）という二つのDiscriminatorによって構成される。
+
+Generatorの構造を図~\ref{sec4:fig:multi-input_vocoder}に示す。左の特徴量予測モデルは、動画からメルスペクトログラムとHuBERT離散特徴量を予測する、本研究において主な検討対象となる部分を表す。Generatorの内部構造について、まず、前処理層はメルスペクトログラムとHuBERT離散特徴量を入力として受け取り、その後のレイヤーに入力するための形状に変換する役割を持つ。メルスペクトログラムに対しては、時間方向に隣接したフレームを次元方向に縦積みすることによって、100 Hz・80次元の特徴量から50 Hz・160次元の特徴量に変換した後、全結合層によって128次元の特徴量に変換する。一方、HuBERT離散特徴量は50 Hzのインデックス系列であり、インデックスから128次元のベクトルへと変換する。その後、これらをチャンネル方向に結合することで256次元の特徴量を構成し、これをその後のレイヤーへの入力とする。この特徴量は、転置畳み込み層と複数種類の畳み込み層から構成されるブロックを通過していく。各ブロックについて、まず、転置畳み込み層は特徴量を時間方向にアップサンプリングする役割を果たす。実際、本研究では50 Hzの入力特徴量から16 kHzの音声波形まで、時間方向に320倍のアップサンプリングを行う必要がある。Generatorでは、これを複数のブロックを通して段階的に行っている。また、各ブロックの転置畳み込み層に積まれた複数種類の畳み込み層は、そのカーネルサイズとダイレーションが全て異なっている。複数の時間的な受容野を持つ畳み込み層からの出力をすべて加算することで、アップサンプリング後の特徴量からの特徴抽出を行う仕組みとなっている。表~\ref{sec4:tab:multi-input_vocoder_parameter}に、Generatorの各ブロックにおけるパラメータとブロックごとの出力特徴量の形状を示す。カラム名の右にある括弧がきが数値の意味を表しており、Kはカーネルサイズ、Sはストライド、Dはダイレーション、Cは次元（チャンネル数）、Tは系列長である。畳み込み層についてはカーネルサイズとダイレーションを集合として表記しているが、実際はこれらの直積の元、すなわち(3, 1)や(3, 3)、(3, 5)をパラメータとする畳み込み層が存在することを表す。
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=120mm]{./figure/sec4/model/multi-input_vocoder.png}
+    \caption{Multi-input Vocoderの構造}
+    \label{sec4:fig:multi-input_vocoder}
+\end{figure}
+\begin{table*}[bt]
+    \centering
+    \caption{Generatorの各ブロックにおけるパラメータ}
+    \label{sec4:tab:multi-input_vocoder_parameter}
+    \begin{center}
+        \renewcommand{\arraystretch}{0.9} % 行の高さ調整
+        \setlength{\tabcolsep}{8pt}      % 列の幅調整
+        \scalebox{1.0}{
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                  & \multicolumn{1}{c|}{転置畳み込み層 (K, S)} & \multicolumn{1}{c|}{畳み込み層 (K, D)}     & \multicolumn{1}{c|}{出力特徴量の形状 (C, T)} \\
+                \hline
+                1 & (11, 5)                             & ($\{3, 5, 7, 9, 11\}$, $\{1, 3, 5\}$) & (1024, 250)                          \\
+                2 & (8, 4)                              & ($\{3, 5, 7, 9, 11\}$, $\{1, 3, 5\}$) & (512, 1000)                          \\
+                3 & (4, 2)                              & ($\{3, 5, 7, 9, 11\}$, $\{1, 3, 5\}$) & (256, 2000)                          \\
+                4 & (4, 2)                              & ($\{3, 5, 7, 9, 11\}$, $\{1, 3, 5\}$) & (128, 4000)                          \\
+                5 & (4, 2)                              & ($\{3, 5, 7, 9, 11\}$, $\{1, 3, 5\}$) & (64, 8000)                           \\
+                6 & (4, 2)                              & ($\{3, 5, 7, 9, 11\}$, $\{1, 3, 5\}$) & (32, 16000)                          \\
+                \hline
+            \end{tabular}
+        }
+    \end{center}
+\end{table*}
+
+Generatorの学習時に用いられるのが、MPDおよびMSDという二つのDiscriminatorである。これらの概要を図~\ref{sec4:fig:multi-input_vocoder_mpd_msd}に示す。MPDでは、一次元の音声波形を指定した周期をもとにReshapeすることで二次元に変換し、これに対して二次元畳み込みを適用することで、入力された音声波形の原音声らしさを判定するDiscriminatorである。異なる周期を設定したDiscriminatorを複数利用することで、時間的な特徴を考慮できるように構成されている。一方、MSDでは、音声波形に対してAverage Poolingを適用することでダウンサンプリングし、これに一次元畳み込みを適用することで入力された音声波形の原音声らしさを判定するDiscriminatorである。MSDはAverage Poolingによって系列長を抑えつつ、時間方向の連続的な特徴を考慮する狙いがある。これら二つのDiscriminatorについては、HiFi-GANと同様のパラメータで用いた。
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figure/sec4/model/mpd.png}
+        \caption{Multi-Period Discriminator（MPD）}
+        \label{sec4:fig:multi-input_vocoder_mpd}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./figure/sec4/model/msd.png}
+        \caption{Multi-Scale Discriminator（MSD）}
+        \label{sec4:fig:multi-input_vocoder_msd}
+    \end{subfigure}
+    \caption{Multi-Period Discriminator（MPD）とMulti-Scale Discriminator（MSD）の概要}
+    \label{sec4:fig:multi-input_vocoder_mpd_msd}
+\end{figure}
 
 \subsection{実験方法}
 \subsubsection{利用したデータセット}
 動画音声データセットには、男女二人ずつから収録した合計4人分のデータセット~\cite{taguchi,esaki}を用いた。これはATR音素バランス文~\cite{atr}から構成され、全話者共通でAからHセットを学習データ、Iセットを検証データ、Jセットをテストデータとして利用した。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。
 
-Multi-input Vocoderの学習に利用する音声データセットには、Hi-Fi-Captain（日本語話者二名分）~\cite{okamoto2023hi}とJVS（parallel100とnonpara30）~\cite{takamichi2019jvs}を利用した。ボコーダの学習時にはサンプル全体から1秒分をランダムにサンプリングして用いるが、元データには話し声のない無音区間が一定存在しており、これはボコーダの学習に望ましくない。これに対して、無音区間のトリミング（-40 dBFS未満かつ500 ms継続する区間を100 msまでカット）を適用した。Hi-Fi-Captainはtrain-parallelおよびtrain-non-parallelを学習データ、valを検証データ、evalをテストデータとして分割した。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。JVSには話者に対して1から100まで番号が割り振られており、本実験では1から80番の話者を学習データ、81番から90番の話者を検証データ、91番から100番までの話者をテストデータとした。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。
+Multi-input Vocoderの学習に利用する音声データセットには、Hi-Fi-Captain（日本語話者二名分）~\cite{okamoto2023hi}とJVS（parallel100とnonpara30）~\cite{takamichi2019jvs}を利用した。Hi-Fi-Captainはtrain-parallelおよびtrain-non-parallelを学習データ、valを検証データ、evalをテストデータとして分割した。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。JVSには話者に対して1から100まで番号が割り振られており、本実験では1から80番の話者を学習データ、81番から90番の話者を検証データ、91番から100番までの話者をテストデータとした。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。また、JVSには読み上げ音声のparallel100およびnonpara30と、裏声のfalset10、囁き声のwhisper10が含まれる。本研究では、parallel100とnonpara30のみを利用した。
 
 \begin{table*}[bt]
     \centering
@@ -167,11 +553,13 @@ Multi-input Vocoderの学習に利用する音声データセットには、Hi-F
 \end{table*}
 
 \subsubsection{データの前処理}
-動画データは60 FPSで収録されたものをffmpegにより25 FPSに変換して用いた。その後、手法~\cite{bulat2017far}により動画に対してランドマーク検出を適用した。このランドマークを利用することで口元のみを切り取り、画像サイズを（96, 96）にリサイズした上で、グレースケールに変換した。加えて、画像に対する正規化および標準化を適用した。全体として、今回は事前学習済みのAVHuBERTの転移学習を行うため、そこでの前処理に合わせている。学習時は、ランダムクロップ、左右反転、Time Masking（一時停止）をデータ拡張として適用した。ランダムクロップは、（96, 96）で与えられる画像から（88, 88）をランダムに切り取る処理である。検証およびテスト時は、必ず画像中央を切り取るよう実装した。左右反転はランダムクロップ後に適用しており、50\%の確率で左右が反転されるよう実装した。Time Maskingは、連続する画像の時間平均値を利用することによって、一時停止させるような効果を与えるデータ拡張手法である。動画1秒あたり0から0.5秒の間でランダムに停止区間を定め、その区間における動画の時間方向平均値を計算し、区間内のすべてのフレームをこの平均値で置換した。
+動画データは60 FPSで収録されたものをffmpegにより25 FPSに変換して用いた。その後、手法~\cite{bulat2017far}により動画に対してランドマーク検出を適用した。このランドマークを利用することで口元のみを切り取り、画像サイズを（96, 96）にリサイズした。モデル入力時は動画をグレースケールに変換し、各フレームに対する正規化および標準化を適用した。正規化では、グレースケールが0から255までの値を取るため、最大値の255で割り、標準化では、AVHuBERTのプログラムで利用されていた平均値0.421と、標準偏差0.165をそのまま利用して、平均値を引いた後に標準偏差で割った。全体として、今回は事前学習済みのAVHuBERTの転移学習を行うため、そこでの前処理に合わせている。学習時は、ランダムクロップ、左右反転、Time Masking（一時停止）をデータ拡張として適用した。ランダムクロップは、（96, 96）で与えられる画像から（88, 88）をランダムに切り取る処理である。検証およびテスト時は、必ず画像中央を切り取るよう実装した。左右反転は、50\%の確率で左右が反転されるよう実装した。Time Maskingは、連続する画像の時間平均値を利用することによって、一時停止させるような効果を与えるデータ拡張手法である。動画1秒あたり0から0.5秒の間でランダムに停止区間を定め、その区間における動画の時間方向平均値を計算し、区間内のすべてのフレームをこの平均値で置換した。
 
-音声データは48 kHzで収録されたものを16 kHzにダウンサンプリングして用いた。それから、窓長25 msのハニング窓を用いて、シフト幅10 msでSTFTを適用することでフレームレート100 Hzのスペクトログラムに変換した。さらに、振幅スペクトログラムに対して80次のメルフィルタバンクを適用し、メルスペクトログラムを得た上で対数スケールに変換した。話者Embeddingの取得には事前学習済みの話者識別モデル~\cite{wan2018generalized}を利用し、学習データから100個ランダムサンプリングして計算した平均値を利用した。
+音声データは16 kHzにダウンサンプリングして用いた。それから、窓長25 msのハニング窓を用いて、シフト幅10 msでSTFTを適用することでフレームレート100 Hzのスペクトログラムに変換した。さらに、振幅スペクトログラムに対して80次のメルフィルタバンクを適用し、メルスペクトログラムを得た上で対数スケールに変換した。
+また、Multi-input Vocoderの学習に利用したHi-Fi-CaptainとJVSについては、無音区間のトリミング（-40 dBFS未満かつ500 ms継続する区間を100 msまでカット）を適用した。なぜなら、Multi-input Vocoderの学習時は、全体から1秒分をランダムサンプリングするように実装しており、元データに存在する無音区間を除去することによって、学習の安定化および得られる音声の品質改善に繋がったからである。
+また、話者Embeddingの取得には事前学習済みの話者識別モデル~\cite{wan2018generalized}を利用した。動画音声データセット、Hi-Fi-Captain、JVSともに、各話者学習データの中から100文章をランダムサンプリングし、各発話に対して得られたベクトルの平均値を用いた。この値を学習・検証・テストで一貫して用いるため、学習外の検証データやテストデータには非依存な値となっている。モデルに入力する際には、ベクトルの大きさで割って正規化した。
 
-HuBERTは、HuggingFaceに公開されているReazonSpeechというデータセットによって学習されたモデル~\cite{rinna-japanese-hubert-base,sawada2024release}を利用した。ReazonSpeechは約19000時間の日本語音声からなるデータセットであり、日本語音声のコンテキストを大量のデータから学習したモデルである。今回用いるデータセットが日本語であることから、本研究の検討対象としては日本語音声に関する事前知識を豊富に有するモデルが適していると考え、このモデルを選択した。動画からの予測対象となるHuBERT離散特徴量は、k-means法によるクラスタリング（クラスタ数100）をHuBERT Transformer層の8層目出力に適用することで得た。8層目を選択した理由は、HuBERTのレイヤーごとの特徴量について、音素のOne-hotベクトルおよび単語のOne-hotベクトルとの相関を、Canonical Correlation Analysis（CCA）によって調べた先行研究\cite{pasad2023comparative}より、8層目出力がそのどちらとも相関が高く言語的な情報に近いと判断したからである。k-means法の学習には動画音声データセットにおける学習用データを利用し、これによって動画音声データおよび、Multi-input Vocoderの学習に用いる外部の音声データについてクラスタリングを適用した。
+HuBERTは、HuggingFaceに公開されているReazonSpeechというデータセットによって学習されたモデル~\cite{rinna-japanese-hubert-base,sawada2024release}を利用した。ReazonSpeechは約19000時間の日本語音声からなるデータセットであり、日本語音声のコンテキストを大量のデータから学習したモデルである。今回用いるデータセットが日本語であることから、本研究の検討対象としては日本語音声に関する事前知識を豊富に有するモデルが適していると考え、このモデルを選択した。本研究で用いるHuBERT中間特徴量およびHuBERT離散特徴量について、HuBERT中間特徴量は、音声波形に対して畳み込み層を適用した出力で、HuBERTの事前学習時にはマスクの対象となる特徴量を利用した。一方、HuBERT離散特徴量は、HuBERT Transformer層の8層目出力に、k-means法によるクラスタリングを適用することで得た。あえて8層目出力を選択した理由は、HuBERTのレイヤーごとの特徴量について、音素のOne-hotベクトルおよび単語のOne-hotベクトルとの相関を、Canonical Correlation Analysis（CCA）によって調べた先行研究\cite{pasad2023comparative}より、8層目出力がそのどちらとも相関が高く言語的な情報に近いと判断したからである。クラスタ数については決め打ちとなるが、今回は離散化した結果が言語的な情報を持つことを狙い、比較的少ない100とした。k-means法の学習には動画音声データセットにおける学習用データ全てを利用し、これを用いて動画音声データ、Hi-Fi-Captain、JVSに対するクラスタリングを実施した。
 
 \subsubsection{学習方法}
 一段階目について、損失関数はメルスペクトログラムのMAE Loss $L_{mel}$ とHuBERT離散特徴量のCross Entropy Loss $L_{ssl^{d}}$ 、HuBERT中間特徴量のMAE Loss $L_{ssl^{i}}$ の重み付け和とした。それぞれの重み係数を$\lambda_{mel}, \lambda_{ssl^{d}}, \lambda_{ssl^{i}}$とすると、
@@ -179,13 +567,13 @@ HuBERTは、HuggingFaceに公開されているReazonSpeechというデータセ
     \label{sec4:eq:loss}
     L = \lambda_{mel} * L_{mel} + \lambda_{ssl^{d}} * L_{ssl^{d}} + \lambda_{ssl^{i}} * L_{ssl^{i}}
 \end{equation}
-となる。第一段階では$\lambda_{mel} = 1.0, \lambda_{ssl^{i}} = 1.0$と固定し、$\lambda_{ssl^{d}}$のみ0.0001から1.0まで10倍刻みで5段階試してチューニングを行った。最適化手法にはAdamW~\cite{loshchilov2017decoupled}を利用し、$\beta_{1} = 0.9$、$\beta_{2} = 0.98$、$\lambda = 0.01$とした。学習率は\num{1.0e-3}から開始し、Warmup Schedulerによってその値を変化させた。バッチサイズはメモリの都合上4としたが、学習の安定のためGradient Accumulationによって各イテレーションにおける勾配を累積させ、8イテレーションに一回重みを更新するようにした。そのため、実質的にはバッチサイズ32となる。モデルに入力する動画の秒数は10秒を上限とし、それを超える場合はランダムにトリミング、それに満たない場合はゼロパディングした。勾配のノルムは3.0を上限としてクリッピングすることで、過度に大きくなることを防止した。最大エポック数は50とし、10エポック連続して検証データに対する損失が小さくならない場合には、学習を中断するようにした（Early Stopping）。また、学習終了時には検証データに対する損失が最も小さかったエポックにおけるチェックポイントを保存し、これをテストデータに対する評価に用いた。
+となる。最適化手法にはAdamW~\cite{loshchilov2017decoupled}を利用し、$\beta_{1} = 0.9$、$\beta_{2} = 0.98$、$\lambda = 0.01$とした。学習率に対するスケジューラには、Cosine Annealing with Warmupを利用した。開始時の学習率は\num{1.0e-6}として、最大エポック数の10\%に至るまでは学習率を\num{1.0e-3}まで線形に増加させ、その後のエポックではcosine関数に基づいて\num{10.e-6}まで減少させた。バッチサイズはメモリの都合上4としたが、学習の安定化のため、Gradient Accumulationによって各イテレーションにおける勾配を累積させ、8イテレーションに一回重みを更新するようにした。モデルに入力する動画の秒数は10秒を上限とし、それを超える場合はランダムにトリミング、それに満たない場合はゼロパディングした。ゼロパディングした部分は損失の計算からは除外した。勾配のノルムは3.0を上限としてクリッピングすることで、過度に大きくなることを防止した。最大エポック数は50とし、10エポック連続して検証データに対する損失が小さくならない場合には、学習を中断するようにした（Early Stopping）。また、学習終了時には検証データに対する損失が最も小さかったエポックにおけるチェックポイントを保存し、これをテストデータに対する評価に用いた。
 
-第二段階について、損失関数はメルスペクトログラムのMAE LossとHuBERT離散特徴量のCross Entropy Lossの重み付け和とした。これは式~\eqref{sec4:eq:loss}において、$\lambda_{mel} = 1.0, \lambda_{ssl^{i}} = 0.0$と固定した場合に相当する。第一段階と同様に、$\lambda_{ssl^{d}}$のみ0.0001から1.0まで10倍刻みで5段階試してチューニングを行った。最適化手法にはAdamWを利用し、$\beta_{1} = 0.9$、$\beta_{2} = 0.98$、$\lambda = 0.01$とした。学習率は\num{5.0e-4}から開始し、Warmup Schedulerによってその値を変化させた。学習率について第一段階と異なるが、これは値を半減させることによって学習を安定させることができたためである。その他のパラメータは、第一段階における値と同じである。
+第二段階について、損失関数はメルスペクトログラムのMAE LossとHuBERT離散特徴量のCross Entropy Lossの重み付け和とした。これは式~\eqref{sec4:eq:loss}において、$\lambda_{mel} = 1.0, \lambda_{ssl^{i}} = 0.0$と固定した場合に相当する。最適化手法にはAdamWを利用し、$\beta_{1} = 0.9$、$\beta_{2} = 0.98$、$\lambda = 0.01$とした。学習率に対するスケジューラには、Cosine Annealing with Warmupを利用した。開始時の学習率は\num{1.0e-6}として、最大エポック数の10\%に至るまでは学習率を\num{5.0e-4}まで線形に増加させ、その後のエポックではcosine関数に基づいて\num{10.e-6}まで減少させた。学習率の最大値は第一段階の$1/2$となっているが、これは値を半減させることによって学習を安定させることができたためである。その他のパラメータは、第一段階における値と同じである。
 
-第三段階について、学習率のみ第一段階と同様に\num{1.0e-3}としたが、それ以外は第二段階と全く同じである。
+第三段階について、学習率のみ第一段階と同様に\num{1.0e-3}としたが、それ以外は第二段階と同様である。
 
-Multi-input Vocoderの学習について、学習は動画音声データセットではなく、外部データであるHi-Fi-CaptainとJVSを用いた。はじめにHi-Fi-Captainのみを用いて学習させ、その後学習済みモデルをJVSによって再学習した。Hi-Fi-Captainは男女一人ずつの文章数が豊富なデータセットであるため、高品質なモデルを構築可能であった。しかし、学習できる話者数が少ない分、学習外話者に対する合成音声の品質が低かった。そのため、一人当たりの文章数は100文章程度と少ないながらも、100人分の話者からなるJVSを利用して再学習することによって、学習外話者に対する合成音声の品質を向上させた。最適化手法にはAdamWを利用し、$\beta_{1} = 0.8$、$\beta_{2} = 0.99$、$\lambda = 0.01$とした。学習率は\num{2.0e-4}から開始し、指数関数的にその値を変化させた。バッチサイズは16とし、ここではGradient Accumulationは利用しなかった。モデルへの入力は1秒を上限とし、それを超える場合はランダムにトリミング、それに満たない場合はゼロパディングした。勾配のノルムは3.0を上限としてクリッピングすることで、過度に大きくなることを防止した。最大エポック数は30とし、ここではEarly Stoppingは適用しなかった。また、学習終了時には検証データに対する損失（メルスペクトログラムに対するL1 Loss）が最も小さかったエポックにおけるチェックポイントを保存し、これをテストデータに対する評価に用いた。また、Multi-input Vocoderの提案された先行研究~\cite{choi2023intelligible}においては、学習時にあえてメルスペクトログラムにノイズをかけることによって、合成音声に対する汎化性能を向上させる学習方法が提案されている。本研究では、動画から推定されるメルスペクトログラムとHuBERT離散特徴量の推定精度向上に焦点を当てたため、Multi-input Vocoderの学習は原音声から計算される特徴量そのもので行い、ボコーダ自体の汎化性能向上による精度改善は追求しなかった。
+Multi-input Vocoderの学習では、Hi-Fi-CaptainとJVSを用いた。はじめにHi-Fi-Captainのみを用いて学習させ、その後学習済みモデルをJVSによって再学習した。損失関数はHiFi-GANと同様である。Hi-Fi-Captainは男女一人ずつの文章数が豊富なデータセットであるため、高品質なモデルを構築可能であった。しかし、学習できる話者数が少ない分、学習外話者に対する合成音声の品質が低かった。そのため、一人当たりの文章数は100文章程度と少ないながらも、100人分の話者からなるJVSを利用して再学習することによって、学習外話者に対する合成音声の品質を向上させた。最適化手法にはAdamWを利用し、$\beta_{1} = 0.8$、$\beta_{2} = 0.99$、$\lambda = \num{1.0e-5}$とした。学習率は\num{2.0e-4}から開始し、1エポック経過するごとに0.99かけて徐々に減衰させた。バッチサイズは16とし、ここではGradient Accumulationは利用しなかった。モデルへの入力は1秒を上限とし、それを超える場合はランダムにトリミング、それに満たない場合はゼロパディングした。勾配のノルムは3.0を上限としてクリッピングすることで、過度に大きくなることを防止した。最大エポック数は30とし、ここではEarly Stoppingは適用しなかった。また、学習終了時には検証データに対する損失（メルスペクトログラムに対するL1 Loss）が最も小さかったエポックにおけるチェックポイントを保存し、これをテストデータに対する評価に用いた。また、Multi-input Vocoderの提案された先行研究~\cite{choi2023intelligible}においては、学習時にあえてメルスペクトログラムにノイズをかけることによって、合成音声に対する汎化性能を向上させる学習方法が提案されている。本研究では、動画から推定されるメルスペクトログラムとHuBERT離散特徴量の推定精度向上に焦点を当てたため、Multi-input Vocoderの学習は原音声から計算される特徴量そのもので行い、ボコーダ自体の汎化性能向上による精度改善は追求しなかった。
 
 実装に用いた深層学習ライブラリはPyTorchおよびPyTorch Lightningである。GPUにはNVIDIA RTX A4000を利用し、計算の高速化のためAutomatic Mixed Precisionを適用した。
 
@@ -194,102 +582,102 @@ Multi-input Vocoderの学習について、学習は動画音声データセッ�
 比較手法は、以下の五つである。
 \begin{enumerate}
     \item メルスペクトログラムとHuBERT離散特徴量のマルチタスク学習手法（ベースライン）
-    \item 提案手法のネットワークBで、ランダム初期化したHuBERT Transformer層を用いる手法
-    \item 提案手法のネットワークCで、ランダム初期化したHuBERT Transformer層を用いる手法
-    \item 提案手法のネットワークBで、事前学習済みのHuBERT Transformer層を用いる手法
-    \item 提案手法のネットワークCで、事前学習済みのHuBERT Transformer層を用いる手法
+    \item 提案手法のネットワークBで、事前学習済み重みを読み込まずにHuBERT Transformer層を用いる手法
+    \item 提案手法のネットワークCで、事前学習済み重みを読み込まずにHuBERT Transformer層を用いる手法
+    \item 提案手法のネットワークBで、事前学習済み重みを読み込んでHuBERT Transformer層を用いる手法
+    \item 提案手法のネットワークCで、事前学習済み重みを読み込んでHuBERT Transformer層を用いる手法
 \end{enumerate}
-手法1が先行研究において有効性が確認された手法であり、今回の実験においてベースラインとなる。これに対する改善案として、手法2から手法5が提案手法である。手法2および手法3は、今回期待するHuBERTの事前学習済み重みを初期値とした転移学習が本当に有効であるか検証する目的で、あえてランダム初期化したHuBERT Transformerを用いる場合である。
+手法1が先行研究において有効性が確認された手法であり、今回の実験においてベースラインとなる。これに対する改善案として、手法2から手法5が提案手法である。手法2と手法3及び手法4と手法5の違いは事前学習済み重みを読み込むか否かであり、これらを比較することで初期値を事前学習済み重みとして転移学習することの有効性を調べた。
 
 \subsubsection{客観評価}
 合成音声の客観評価では、二種類の指標を用いた。
-一つ目は、音声認識の結果から算出したWord Error Rate（WER）である。Whisper~\cite{radford2023robust}を用いて音声認識を行い、出力される漢字仮名交じり文に対してMeCabを用いて分かち書きを行った上で、jiwerというライブラリを用いて算出した。WhisperはLargeモデルを利用し、MeCabの辞書にはunidicを利用した。WERの値は0\%から100\%であり、この値が低いほど音声認識の誤りが少ないため、より聞き取りやすい音声であると判断した。
+一つ目は、音声認識の結果から算出したWord Error Rate（WER）である。音声認識にはWhisper~\cite{radford2023robust}を利用し、出力される漢字仮名交じり文に対してMeCabを用いて分かち書きを行った上で、jiwerというライブラリを用いて算出した。WhisperはLargeモデルを利用し、MeCabの辞書にはunidicを利用した。WERの値は0\%から100\%であり、この値が低いほど音声認識の誤りが少ないため、より聞き取りやすい音声であると判断した。
 二つ目は、話者Embeddingから計算したコサイン類似度である。話者Embeddingの計算は、モデルへの入力値を計算したものと同様の話者識別モデルを利用し、対象音声と原音声のペアでコサイン類似度を計算した。今回構築するモデルは4人の話者に対応するモデルとなるため、原音声に似た声質の合成音声が得られているかをこの指標で評価した。値は0から1であり、高いほど原音声と類似した合成音声だと判断できる。
 
-\subsubsection{主観評価}
-合成音声の主観評価では、音声の明瞭性と類似性の二点を評価した。今回はクラウドワークスというクラウドソーシングサービスおよび、自作の実験用Webサイトを利用してオンラインで実験を実施した。被験者の条件は、日本語母語話者であること、聴覚に異常がないこと、イヤホンあるいはヘッドホンを用いて静かな環境で実験を実施可能であることとした。被験者の方に行っていただいた項目は、以下の五つである。
-\begin{enumerate}
-    \item アンケート
-    \item 練習試行（明瞭性）
-    \item 本番試行（明瞭性）
-    \item 練習試行（類似性）
-    \item 本番試行（類似性）
-\end{enumerate}
+% \subsubsection{主観評価}
+% 合成音声の主観評価では、音声の明瞭性と類似性の二点を評価した。今回はクラウドワークスというクラウドソーシングサービスおよび、自作の実験用Webサイトを利用してオンラインで実験を実施した。被験者の条件は、日本語母語話者であること、聴覚に異常がないこと、イヤホンあるいはヘッドホンを用いて静かな環境で実験を実施可能であることとした。被験者の方に行っていただいた項目は、以下の五つである。
+% \begin{enumerate}
+%     \item アンケート
+%     \item 練習試行（明瞭性）
+%     \item 本番試行（明瞭性）
+%     \item 練習試行（類似性）
+%     \item 本番試行（類似性）
+% \end{enumerate}
 
-一つ目のアンケートでは、被験者についての基本的な統計を取ることを目的として、性別・年齢・実験に利用した音響機器について回答してもらった。性別は、男性、女性、無回答の三つからの選択式とした。年齢は被験者の方に直接数値を入力してもらう形式とした。実験に使用した音響機器は、イヤホン、ヘッドホンの二つからの選択式とした。
+% 一つ目のアンケートでは、被験者についての基本的な統計を取ることを目的として、性別・年齢・実験に利用した音響機器について回答してもらった。性別は、男性、女性、無回答の三つからの選択式とした。年齢は被験者の方に直接数値を入力してもらう形式とした。実験に使用した音響機器は、イヤホン、ヘッドホンの二つからの選択式とした。
 
-二つ目の練習試行（明瞭性）および三つ目の本番試行（明瞭性）では、音声の明瞭性の評価を実施した。初めに練習試行を行っていただくことで実験内容を把握してもらい、その後本番施行を行っていただく流れとした。ここで、練習施行は何度でも実施可能とし、本番試行は一回のみ実施可能とした。
-評価項目について、明瞭性は「話者の意図した発話内容をその通り聞き取ることができるか」を評価するものとした。実際の評価プロセスは以下の三段階で構成した。
-\begin{enumerate}
-    \item 音声サンプルのみを聞いてもらい、その音声の発話内容を聞き取ってもらう。
-    \item 発話内容を聞き取ることができた、あるいはこれ以上聞き取ることはできないと判断したら、本来の発話内容を確認してもらう。
-    \item 聴取者が想定していた発話内容と本来の発話内容を照らし合わせ、音声の聞き取りやすさを5段階評価してもらう。
-\end{enumerate}
-5段階評価の回答項目は以下のようにした。
-\begin{enumerate}
-    \item 全く聞き取れなかった
-    \item ほとんど聞き取れなかった
-    \item ある程度聞き取れた
-    \item ほとんど聞き取れた
-    \item 完全に聞き取れた
-\end{enumerate}
+% 二つ目の練習試行（明瞭性）および三つ目の本番試行（明瞭性）では、音声の明瞭性の評価を実施した。初めに練習試行を行っていただくことで実験内容を把握してもらい、その後本番施行を行っていただく流れとした。ここで、練習施行は何度でも実施可能とし、本番試行は一回のみ実施可能とした。
+% 評価項目について、明瞭性は「話者の意図した発話内容をその通り聞き取ることができるか」を評価するものとした。実際の評価プロセスは以下の三段階で構成した。
+% \begin{enumerate}
+%     \item 音声サンプルのみを聞いてもらい、その音声の発話内容を聞き取ってもらう。
+%     \item 発話内容を聞き取ることができた、あるいはこれ以上聞き取ることはできないと判断したら、本来の発話内容を確認してもらう。
+%     \item 聴取者が想定していた発話内容と本来の発話内容を照らし合わせ、音声の聞き取りやすさを5段階評価してもらう。
+% \end{enumerate}
+% 5段階評価の回答項目は以下のようにした。
+% \begin{enumerate}
+%     \item 全く聞き取れなかった
+%     \item ほとんど聞き取れなかった
+%     \item ある程度聞き取れた
+%     \item ほとんど聞き取れた
+%     \item 完全に聞き取れた
+% \end{enumerate}
 
-実験に利用した音声サンプルについて、練習試行では検証データ、本番試行ではテストデータを用いた。評価対象とした音声の種類は、\ref{sec4:subsubsection:methods}節における五つの手法と、原音声、分析合成を加えた7種類である。被験者ごとの評価サンプルの割り当て方法について、初めに評価に用いる文章を比較手法の総数である7つのグループにランダムに分割した。具体的には、練習試行では検証データであるATR音素バランス文のIセットから7種類、本番試行ではテストデータであるATR音素バランス文のJセットのすべて、すなわち53種類の文章を7つの文章グループにランダムに分割した。次に、各文章グループに対して7種類の手法から一つを割り当てることで、文章一つ一つに対する手法の割り当てを行った。残る話者の決定については、ランダムに割り当てるようにした。文章グループに対して割り当てる手法は、被験者ごとにずらすよう実装した。この過程を表~\ref{sec4:tab:sbj_selection_relation}に示す。これは、7つの文章グループに対し、割り当てる手法が一つずつずれていく過程を表している。これにより、文章と手法の組み合わせを効率よく網羅できる\cite{king2008blizzard}。またこの選択方法により、各話者はすべての文章を一回ずつ評価する機会が与えられ、その中で各手法がなるべく均等な回数含まれることとなる。同じ発話内容の音声を二回以上提示しないことで、聴取者の集中力を保つことを狙った。また、各手法をなるべく均等な回数提示するようにした理由は、手法の比較が主観評価の最終的な目的であったため、各被験者がすべての手法を評価する機会を与えたかったからである。
-加えて、サンプル選択の過程では、以前に選択された回数をカウントしておくことで、サンプルの選択にランダム性を持たせつつ、すべてのサンプルが等しい回数評価されるようにした。例えば、一回選択されたサンプルと未選択のサンプルが存在する場合、一回選択されたサンプルは選択の候補から除外する。これにより、未選択のサンプルのみを対象としたランダムサンプリングを行うことで、最終的な評価回数が等しくなるよう実装した。本実験では手法が七種類、話者が四人存在するため、28回の実験によって、手法・話者・文章のすべての組み合わせが一回ずつ評価される、すなわち全サンプルが一回ずつ評価されることになる。
+% 実験に利用した音声サンプルについて、練習試行では検証データ、本番試行ではテストデータを用いた。評価対象とした音声の種類は、\ref{sec4:subsubsection:methods}節における五つの手法と、原音声、分析合成を加えた7種類である。被験者ごとの評価サンプルの割り当て方法について、初めに評価に用いる文章を比較手法の総数である7つのグループにランダムに分割した。具体的には、練習試行では検証データであるATR音素バランス文のIセットから7種類、本番試行ではテストデータであるATR音素バランス文のJセットのすべて、すなわち53種類の文章を7つの文章グループにランダムに分割した。次に、各文章グループに対して7種類の手法から一つを割り当てることで、文章一つ一つに対する手法の割り当てを行った。残る話者の決定については、ランダムに割り当てるようにした。文章グループに対して割り当てる手法は、被験者ごとにずらすよう実装した。この過程を表~\ref{sec4:tab:sbj_selection_relation}に示す。これは、7つの文章グループに対し、割り当てる手法が一つずつずれていく過程を表している。これにより、文章と手法の組み合わせを効率よく網羅できる\cite{king2008blizzard}。またこの選択方法により、各話者はすべての文章を一回ずつ評価する機会が与えられ、その中で各手法がなるべく均等な回数含まれることとなる。同じ発話内容の音声を二回以上提示しないことで、聴取者の集中力を保つことを狙った。また、各手法をなるべく均等な回数提示するようにした理由は、手法の比較が主観評価の最終的な目的であったため、各被験者がすべての手法を評価する機会を与えたかったからである。
+% 加えて、サンプル選択の過程では、以前に選択された回数をカウントしておくことで、サンプルの選択にランダム性を持たせつつ、すべてのサンプルが等しい回数評価されるようにした。例えば、一回選択されたサンプルと未選択のサンプルが存在する場合、一回選択されたサンプルは選択の候補から除外する。これにより、未選択のサンプルのみを対象としたランダムサンプリングを行うことで、最終的な評価回数が等しくなるよう実装した。本実験では手法が七種類、話者が四人存在するため、28回の実験によって、手法・話者・文章のすべての組み合わせが一回ずつ評価される、すなわち全サンプルが一回ずつ評価されることになる。
 
-\begin{table*}[bt]
-    \centering
-    \caption{主観評価実験のサンプル選択における文章グループと手法の対応関係}
-    \label{sec4:tab:sbj_selection_relation}
-    \begin{center}
-        \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-        \setlength{\tabcolsep}{8pt}      % 列の幅調整
-        \scalebox{0.9}{
-            \begin{tabular}{|c|ccccccc|}
-                \hline
-                \multirow{2}{*}{}         & \multicolumn{7}{c|}{文章グループインデックス}                         \\
-                                          & 1                                 & 2 & 3 & 4 & 5 & 6 & 7 \\
-                \hline
-                \multirow{7}{*}{手法インデックス} & 1                                 & 2 & 3 & 4 & 5 & 6 & 7 \\
-                                          & 2                                 & 3 & 4 & 5 & 6 & 7 & 1 \\
-                                          & 3                                 & 4 & 5 & 6 & 7 & 1 & 2 \\
-                                          & 4                                 & 5 & 6 & 7 & 1 & 2 & 3 \\
-                                          & 5                                 & 6 & 7 & 1 & 2 & 3 & 4 \\
-                                          & 6                                 & 7 & 1 & 2 & 3 & 4 & 5 \\
-                                          & 7                                 & 1 & 2 & 3 & 4 & 5 & 6 \\
-                \hline
-            \end{tabular}
-        }
-    \end{center}
-\end{table*}
+% \begin{table*}[bt]
+%     \centering
+%     \caption{主観評価実験のサンプル選択における文章グループと手法の対応関係}
+%     \label{sec4:tab:sbj_selection_relation}
+%     \begin{center}
+%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
+%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
+%         \scalebox{0.9}{
+%             \begin{tabular}{|c|ccccccc|}
+%                 \hline
+%                 \multirow{2}{*}{}         & \multicolumn{7}{c|}{文章グループインデックス}                         \\
+%                                           & 1                                 & 2 & 3 & 4 & 5 & 6 & 7 \\
+%                 \hline
+%                 \multirow{7}{*}{手法インデックス} & 1                                 & 2 & 3 & 4 & 5 & 6 & 7 \\
+%                                           & 2                                 & 3 & 4 & 5 & 6 & 7 & 1 \\
+%                                           & 3                                 & 4 & 5 & 6 & 7 & 1 & 2 \\
+%                                           & 4                                 & 5 & 6 & 7 & 1 & 2 & 3 \\
+%                                           & 5                                 & 6 & 7 & 1 & 2 & 3 & 4 \\
+%                                           & 6                                 & 7 & 1 & 2 & 3 & 4 & 5 \\
+%                                           & 7                                 & 1 & 2 & 3 & 4 & 5 & 6 \\
+%                 \hline
+%             \end{tabular}
+%         }
+%     \end{center}
+% \end{table*}
 
-四つ目の練習試行（類似性）および五つ目の本番試行（類似性）では、評価対象の音声と同一話者の原音声の類似性の評価を実施した。ここでも初めに練習試行を行っていただくことで実験内容を把握してもらい、その後本番施行を行っていただく流れとした。ここで、練習施行は何度でも実施可能とし、本番試行は一回のみ実施可能とした。
-評価項目について、類似性は「評価対象の音声が同一話者の原音声とどれくらい似ているか」を評価するものとした。実際の評価プロセスは以下の二段階で構成した。
-\begin{enumerate}
-    \item 評価対象の音声と原音声を聞き比べてもらう。
-    \item 評価対象の音声が原音声にどれくらい似ていたかを五段階評価してもらう。
-\end{enumerate}
-5段階評価の回答項目は以下のようにした。
-\begin{enumerate}
-    \item 全く似ていなかった
-    \item あまり似ていなかった
-    \item やや似ていた
-    \item かなり似ていた
-    \item 同じ話者に聞こえた
-\end{enumerate}
-実験に利用した音声サンプルおよび、被験者ごとの評価サンプルの割り当て方法は明瞭性の評価実験と同様である。ただし、類似性評価においては同一話者の原音声を発話内容についてランダムに選択し、評価対象となるサンプルとペアで提示できるようにした。評価時は、明瞭性評価と同様に音声サンプルを何度でも聞けるようにしたが、発話文章については提示しなかった。なぜなら、類似性評価では評価が発話文章に依存しないからである。実際、評価サンプルのペアとなる原音声サンプルは発話文章をランダムに選択しているため、一致する場合も異なる場合も存在する。
+% 四つ目の練習試行（類似性）および五つ目の本番試行（類似性）では、評価対象の音声と同一話者の原音声の類似性の評価を実施した。ここでも初めに練習試行を行っていただくことで実験内容を把握してもらい、その後本番施行を行っていただく流れとした。ここで、練習施行は何度でも実施可能とし、本番試行は一回のみ実施可能とした。
+% 評価項目について、類似性は「評価対象の音声が同一話者の原音声とどれくらい似ているか」を評価するものとした。実際の評価プロセスは以下の二段階で構成した。
+% \begin{enumerate}
+%     \item 評価対象の音声と原音声を聞き比べてもらう。
+%     \item 評価対象の音声が原音声にどれくらい似ていたかを五段階評価してもらう。
+% \end{enumerate}
+% 5段階評価の回答項目は以下のようにした。
+% \begin{enumerate}
+%     \item 全く似ていなかった
+%     \item あまり似ていなかった
+%     \item やや似ていた
+%     \item かなり似ていた
+%     \item 同じ話者に聞こえた
+% \end{enumerate}
+% 実験に利用した音声サンプルおよび、被験者ごとの評価サンプルの割り当て方法は明瞭性の評価実験と同様である。ただし、類似性評価においては同一話者の原音声を発話内容についてランダムに選択し、評価対象となるサンプルとペアで提示できるようにした。評価時は、明瞭性評価と同様に音声サンプルを何度でも聞けるようにしたが、発話文章については提示しなかった。なぜなら、類似性評価では評価が発話文章に依存しないからである。実際、評価サンプルのペアとなる原音声サンプルは発話文章をランダムに選択しているため、一致する場合も異なる場合も存在する。
 
-また、オンラインでの評価は効率よく数多くの方に評価していただけるという点でメリットがあるが、オフラインでの評価と比較して実験環境を制御することが難しく、評価品質が低下する恐れがある。これに対して、本実験では先行研究\cite{kirkland2023stuck}を参考に、評価サンプル中にダミー音声を混入させることで対策を講じた。ダミー音声は本研究で得られた合成音声とは無関係に、gTTSというライブラリを用いて生成したサンプルである。具体例として、明瞭性評価では
-\begin{quote}
-    これはダミー音声です。明瞭性は「3: ある程度聞き取れた」を選択してください。
-\end{quote}
-のような発話内容の音声を、類似性評価では
-\begin{quote}
-    これはダミー音声です。類似性は「1: 全く同じ話者には聞こえなかった」を選択してください。
-\end{quote}
-のような発話内容の音声を提示した。この時、その音声自体の明瞭性や類似性とは無関係に、必ずこの音声によって指定された評価値を選択するよう説明を与えた。本番試行においてダミー音声で指定された評価値を誤って選んだ場合は、すべての回答を無効にする旨を被験者に伝えた。実際、実験終了後にはそのようにデータを処理した。
+% また、オンラインでの評価は効率よく数多くの方に評価していただけるという点でメリットがあるが、オフラインでの評価と比較して実験環境を制御することが難しく、評価品質が低下する恐れがある。これに対して、本実験では先行研究\cite{kirkland2023stuck}を参考に、評価サンプル中にダミー音声を混入させることで対策を講じた。ダミー音声は本研究で得られた合成音声とは無関係に、gTTSというライブラリを用いて生成したサンプルである。具体例として、明瞭性評価では
+% \begin{quote}
+%     これはダミー音声です。明瞭性は「3: ある程度聞き取れた」を選択してください。
+% \end{quote}
+% のような発話内容の音声を、類似性評価では
+% \begin{quote}
+%     これはダミー音声です。類似性は「1: 全く同じ話者には聞こえなかった」を選択してください。
+% \end{quote}
+% のような発話内容の音声を提示した。この時、その音声自体の明瞭性や類似性とは無関係に、必ずこの音声によって指定された評価値を選択するよう説明を与えた。本番試行においてダミー音声で指定された評価値を誤って選んだ場合は、すべての回答を無効にする旨を被験者に伝えた。実際、実験終了後にはそのようにデータを処理した。
 
-被験者数および各手法の評価回数に関して、先行研究\cite{wester2015we}では主観評価実験の結果に対する統計処理について、そこで用いる被験者数や手法ごとの評価回数を変数とし、実験条件に対してどれほどの被験者数とサンプル数が必要そうであるかを検討している。今回はこの研究を参考にしつつ、オンラインで実験を実施するのであれば総被験者数が100人以上、各手法に対する総評価回数が200回以上となることが望ましいと判断した。前述した各被験者に対するサンプルの選択方法により、28回の実験によって全てのサンプルが一回ずつ評価される。これを1セットとすると、セットあたり被験者数は28人、各手法に対する評価回数は212回となる。従って、今回は4セット行うことで、総被験者数112人、各手法に対しての総評価回数が848回となるようにした。実験は30分程度で終わると見積もって、一人当たりの報酬は500円とした。
+% 被験者数および各手法の評価回数に関して、先行研究\cite{wester2015we}では主観評価実験の結果に対する統計処理について、そこで用いる被験者数や手法ごとの評価回数を変数とし、実験条件に対してどれほどの被験者数とサンプル数が必要そうであるかを検討している。今回はこの研究を参考にしつつ、オンラインで実験を実施するのであれば総被験者数が100人以上、各手法に対する総評価回数が200回以上となることが望ましいと判断した。前述した各被験者に対するサンプルの選択方法により、28回の実験によって全てのサンプルが一回ずつ評価される。これを1セットとすると、セットあたり被験者数は28人、各手法に対する評価回数は212回となる。従って、今回は4セット行うことで、総被験者数112人、各手法に対しての総評価回数が848回となるようにした。実験は30分程度で終わると見積もって、一人当たりの報酬は500円とした。
 
 \subsection{結果}
 \subsubsection{客観評価}
@@ -592,544 +980,6 @@ Multi-input Vocoderの学習について、学習は動画音声データセッ�
 \subsection{まとめ}
 
 \clearpage
-
-% \section{音声SSLモデルを活用した動画音声合成の検討}
-% \label{音声SSLモデルを活用した動画音声合成の検討}
-% 本章では、音声SSLモデルであるHuBERTを利用した動画音声合成モデルを提案する。実験では比較手法として先行研究\cite{choi2023intelligible}のアプローチを含みつつ、モデルの予測対象についても複数検討した。
-
-% \subsection{音声合成法}
-% 提案手法の構築手順は二段階に分かれる。ネットワークの概要を図~\ref{sec4:fig:network}に示す。まず、動画を入力として、メルスペクトログラムとHuBERT中間特徴量を推定するネットワークを学習する（図~\ref{sec4:fig:network}-A）。HuBERT中間特徴量は、HuBERTにおける畳み込み層出力のことを指す。ここでは、AVHuBERTを動画からの特徴抽出に利用した。AVHuBERTにはパラメータ数が1億程度のBaseモデルと、3億程度のLargeモデルが存在するが、本研究では計算機のメモリの都合上、Baseモデルのみを検討した。AVHuBERTへの音声特徴量は、先行研究と同様に0で埋めた特徴量を入力した。これによって動画のみを入力した下流タスクへのFineTuningが可能となる。この出力に対して、手法~\cite{wan2018generalized}によって音声波形から得られる話者Embeddingをチャンネル方向に結合する。その後、畳み込み層からなるデコーダを通すことによって、話者Embeddingを新たに結合した特徴量に対する変換を施した。デコーダは残差結合を利用したブロック単位で構成され、各ブロックに2層の畳み込み層を設けた。畳み込み層のカーネルサイズは3とし、2ブロック積み重ねた。最後に、全結合層に通すことによって所望の出力を得る。一度チャンネルサイズ \texttimes 出力特徴量のフレーム数まで次元を拡張し、その後reshapeすることによって所望の次元、フレーム数となった最終出力を得た。
-
-% 次に、一段階目に学習されたネットワークの重みを固定した状態でHuBERT中間特徴量を推定し、それを入力としてHuBERTのTransformer層の学習を行う（図~\ref{sec4:fig:network}-B）。ここでは、原音声から計算されたHuBERT出力特徴量（音声SSL特徴量）を推定対象とする。HuBERTの自己教師あり学習においてマスクが適用されるのは畳み込み層出力であるため、その後のTransformer層を本研究のタスクにFine Tuningすることにより、推定残差の軽減を狙った。予測対象として以下三種類を検討した。
-% \begin{enumerate}
-%     \item 音声SSL特徴量の連続値自体をそのまま予測対象とする場合（音声SSL連続特徴量）
-%     \item 音声SSL特徴量をk-means法によるクラスタリングで離散化し、そのクラスタを予測対象とする場合（音声SSL離散特徴量）
-%     \item 上記二つのマルチタスク学習の場合
-% \end{enumerate}
-
-% 以上のモデルを組み合わせることで、動画から音響特徴量の推定が可能になる。具体的には、一段階目に得られるモデルに動画を入力することでメルスペクトログラムとHuBERT中間特徴量を推定し、そのうちHuBERT中間特徴量をFineTuningされたHuBERTのTransformer層に入力することで、音声SSL特徴量が得られる。その後、先行研究~\cite{choi2023intelligible}に基づくMulti-input Vocoderを用い、メルスペクトログラムと音声SSL特徴量を入力として音声波形に変換することで、最終的な合成音声を得たMulti-input VocoderはHifi-gan~\cite{kong2020hifi}をベースとしたモデルである。本研究では動画から予測される音響特徴量が複数パターン存在するため、そのパターンごとに別個でボコーダを学習した。
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=90mm]{./figure/sec4/network.png}
-%     \caption{ネットワークの概略図}
-%     \label{sec4:fig:network}
-% \end{figure}
-
-% \subsection{実験方法}
-% \subsubsection{利用したデータセット}
-% 動画音声データセットには、男女二人ずつから収録した合計4人分のデータセット~\cite{taguchi,esaki}を用いた。これはATR音素バランス文~\cite{atr}から構成され、全話者共通でAからHセットを学習データ、Iセットを検証データ、Jセットをテストデータとして利用した。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。
-
-% Multi-input Vocoderの学習に利用する音声データセットには、Hi-Fi-Captain（日本語話者二名分）~\cite{okamoto2023hi}とJVS（parallel100とnonpara30）~\cite{takamichi2019jvs}を利用した。ボコーダの学習時にはサンプル全体から1秒分をランダムにサンプリングして用いるのだが、元データには話し声のない無音区間が一定存在しており、これはボコーダの学習に望ましくない。これに対して、無音区間のトリミング（-40 dBFS未満かつ500 ms継続する区間を100 msまでカット）を適用した。Hi-Fi-Captainはtrain-parallelおよびtrain-non-parallelを学習データ、valを検証データ、evalをテストデータとして分割した。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。JVSには話者に対して1から100まで番号が割り振られており、本実験では1から80番の話者を学習データ、81番から90番の話者を検証データ、91番から100番までの話者をテストデータとした。各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す。
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{利用したデータセットの文章数}
-%     \label{sec4:tab:dataset_info}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{0.9} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{1.0}{
-%             \begin{tabular}{|l|r|r|r|}
-%                 \hline
-%                               & \multicolumn{1}{c|}{学習} & \multicolumn{1}{c|}{検証} & \multicolumn{1}{c|}{テスト} \\
-%                 \hline
-%                 動画音声データセット    & 1600                    & 200                     & 212                      \\
-%                 Hi-Fi-Captain &                         &                         &                          \\
-%                 JVS           &                         &                         &                          \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \subsubsection{データの前処理}
-% 動画データは60 FPSで収録されたものをffmpegにより25 FPSに変換して用いた。その後、手法~\cite{bulat2017far}により動画に対してランドマーク検出を適用した。このランドマークを利用することで口元のみを切り取り、画像サイズを（96, 96）にリサイズした上で、グレースケールに変換した。加えて、画像に対する正規化および標準化を適用した。学習時は、ランダムクロップ、左右反転、Time Masking（一時停止）をデータ拡張として適用した。ランダムクロップは、（96, 96）で与えられる画像から（88, 88）をランダムに切り取る処理である。検証およびテスト時は、必ず画像中央を切り取るよう実装した。左右反転はランダムクロップ後に適用しており、50\%の確率で左右が反転されるよう実装した。Time Maskingは、連続する画像の時間平均値を利用することによって、一時停止させるような効果を与えるデータ拡張手法である。動画1秒あたり0から0.5秒の間でランダムに停止区間を定め、その区間における動画の時間方向平均値を計算し、区間内のすべてのフレームをこの平均値で置換した。
-
-% 音声データは48 kHzで収録されたものを16 kHzにダウンサンプリングして用いた。それから、窓長25 msのハニング窓を用いて、シフト幅10 msでSTFTを適用することでフレームレート100 Hzのスペクトログラムに変換した。さらに、振幅スペクトログラムに対して80次のメルフィルタバンクを適用し、80次のメルスペクトログラムを得た上で対数スケールに変換した。話者Embeddingの取得には事前学習済みモデル~\cite{wan2018generalized}を利用し、学習データから100個ランダムサンプリングして計算した平均値を利用した。
-
-% HuBERTは、HuggingFaceに公開されているReazonSpeechというデータセットによって学習されたモデル~\cite{rinna-japanese-hubert-base,sawada2024release}を利用した。ReazonSpeechは約19000時間の日本語音声からなるデータセットであり、日本語音声のコンテキストを大量のデータから学習したモデルになっていることが予想される。本研究のアプローチでは、日本語音声に関する事前知識を豊富に有するモデルが適していると考え、このモデルを選択した。検討した予測対象の一つである音声SSL離散特徴量は、k-means法によるクラスタリング（クラスタ数200）によって得た。クラスタ数は、今回比較する先行研究~\cite{choi2023intelligible}に基づいている。このモデルの学習にはHi-Fi-Captainを利用しており、男性女性それぞれ学習データ全体から50\%をランダムサンプリングして用いた。
-
-% \subsubsection{学習方法}
-% 第一段階であるAVHuBERTをベースとしたモデルの学習について、損失関数はメルスペクトログラムについてのMAE Lossと、HuBERT中間特徴量のMAE Lossの和とした。最適化手法にはAdamW~\cite{loshchilov2017decoupled}を利用し、$\beta_{1} = 0.9$、$\beta_{2} = 0.98$、$weight\_decay = 0.01$とした。学習率は\num{1.0e-3}から開始し、Warmup Schedulerによってその値を変化させた。バッチサイズはメモリの都合上4としたが、学習の安定のためGradient Accumulationによって各イテレーションにおける勾配を累積させ、8イテレーションに一回重みを更新するようにした。そのため、実質的にはバッチサイズ32となる。モデルに入力する動画の秒数は10秒を上限とし、それを超える場合はランダムにトリミング、それに満たない場合はゼロパディングした。勾配のノルムは3.0を上限としてクリッピングすることで、過度に大きくなることを防止した。最大エポック数は50とし、10エポック連続して検証データに対する損失が小さくならない場合には、学習を中断するようにした。また、学習終了時には検証データに対する損失が最も小さかったエポックにおけるチェックポイントを保存し、これをテストデータに対する評価に用いた。
-
-% 第二段階であるHuBERTをベースとしたモデルの学習について、音声SSL連続特徴量に対する損失関数にはMAE Loss、音声SSL離散特徴量に対する損失関数にはCross Entropy Lossを使用した。マルチタスク学習を行う場合には、Cross Entropy Lossに対して重み係数をかけることでチューニングを行った。従って、マルチタスク学習時の損失関数は以下のように表される。
-% \begin{equation}
-%     L = L_{c} + \lambda * L_{d}
-%     \label{sec4:eq:loss_}
-% \end{equation}
-% $L_{c}$はMAE Loss、$L_{d}$はCross Entropy Lossであり、$\lambda$がCross Entropy Lossにかかる重み係数を表す。本実験では$\lambda = \num{1.0e-4}$から1.0まで、10倍刻みで5段階検討した。
-% 最適化手法にはAdamWを利用し、$\beta_{1} = 0.9$、$\beta_{2} = 0.98$、$weight\_decay = 0.01$とした。学習率は\num{5.0e-4}から開始し、Warmup Schedulerによってその値を変化させた。その他学習に関わるパラメータは、第一段階における値と同じである。
-
-% Multi-input Vocoderの学習について、これは入力される音響特徴量のバリエーションに対してそれぞれ別個にモデルを構築した。全てをまとめると以下の通りである。
-% \begin{enumerate}
-%     \item メルスペクトログラム
-%     \item メルスペクトログラム $+$ 音声SSL連続特徴量
-%     \item メルスペクトログラム $+$ 音声SSL離散特徴量
-%     \item メルスペクトログラム $+$ 音声SSL連続特徴量 $+$ 音声SSL離散特徴量
-% \end{enumerate}
-% 学習は動画音声データセットではなく、外部データであるHi-Fi-CaptainとJVSを用いた。はじめにHi-Fi-Captainのみを用いて学習させ、その後学習済みモデルをJVSによって再学習した。Hi-Fi-Captainは男女一人ずつの文章数が豊富なデータセットであるため、高品質なモデルを構築可能であった。しかし、学習できる話者数が少ない分、学習外話者に対する合成音声の品質が低かった。そのため、一人当たりの文章数は100文章程度と少ないながらも、100人分の話者からなるJVSを利用して再学習することによって、学習外話者に対する合成音声の品質を向上させた。最適化手法にはAdamWを利用し、$\beta_{1} = 0.8$、$\beta_{2} = 0.99$、$weight_decay = 0.01$とした。学習率は\num{2.0e-4}から開始し、指数関数的にその値を変化させた。バッチサイズは16とし、ここではGradient Accumulationは利用しなかった。モデルへの入力は1秒を上限とし、それを超える場合はランダムにトリミング、それに満たない場合はゼロパディングした。勾配のノルムは3.0を上限としてクリッピングすることで、過度に大きくなることを防止した。最大エポック数は30とし、ここではEarly Stoppingは適用しなかった。また、学習終了時には検証データに対する損失（メルスペクトログラムに対するL1 Loss）が最も小さかったエポックにおけるチェックポイントを保存し、これをテストデータに対する評価に用いた。
-
-% GPUはNVIDIA RTX A4000を利用し、計算の高速化のためAutomatic Mixed Precisionを適用した。
-
-% \subsubsection{比較手法}
-% \label{比較手法}
-% 比較手法は、メルスペクトログラムのみを予測対象とするベースライン、HuBERTなしのマルチタスク学習手法~\cite{choi2023intelligible}、HuBERTありのマルチタスク学習手法（提案手法）の三種類である。ただし、マルチタスク学習手法の予測対象には、以下の三種類が存在する。
-% \begin{enumerate}
-%     \item 音声SSL連続特徴量
-%     \item 音声SSL離散特徴量
-%     \item 音声SSL連続特徴量 $+$ 音声SSL離散特徴量
-% \end{enumerate}
-% HuBERTなしのマルチタスク学習手法、HuBERTありのマルチタスク学習手法には上記3パターンを設けたため、比較したのは計7手法となる。
-
-% \subsubsection{客観評価}
-% 合成音声の客観評価には、PESQ~\cite{rix2001perceptual}、STOI~\cite{taal2010short}、ESTOI~\cite{taal2011algorithm}、WERの4種類の客観評価指標を使用した。PESQは音声の自然性を表す指標であり、1から5の値を取る。値が高いほど良い。STOI、ESTOIはどちらも音声の明瞭性を表す指標であり、0から1の値を取る。PESQと同様に、値が高いほど良い。ここまでの三つの指標は、TorchMetricsというライブラリを用いて算出した。WERは、Whisper~\cite{radford2023robust}による音声認識の結果から算出した単語誤り率である。合成音声がより正確に認識されるほど聞き取りやすいと考えられるため、この指標は値が低いほど良い。この計算方法については、まず、Whisperによって出力されるテキストに対して、句読点を削除した上でMeCab （日本語形態素解析エンジン）を用いて分かち書きを行い、単語に分解する。その後、jiwerというライブラリを用いてWERを計算した。
-
-% \subsubsection{主観評価}
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=45mm]{./figure/sec4/sbj_flow.png}
-%     \caption{主観評価実験全体の流れ}
-%     \label{sec4:fig:sbj_flow}
-% \end{figure}
-
-% 主観評価実験では、音声の明瞭性と自然性を実際に人に聞いていただくことで評価した。実験全体の流れを図~\ref{sec4:fig:sbj_flow}に示す。今回はクラウドワークスというクラウドソーシングサービスおよび、自作の実験用 Web サイトを利用して、オンラインで実験を実施した。実験全体の大まかな流れは以下の通りである。
-% \begin{enumerate}
-%     \item 音声ファイルをクラウドストレージにアップロードするとともに、実験データを管理するためのテーブルをリモートサーバーのデータベースに作成する。
-%     \item クラウドワークスにて実験を公開し、被験者を募集する。
-%     \item 被験者と契約後、実験用Webサイトから実験を実施していただく。結果はデータベースに格納する。
-%     \item 実験終了後、データベースから評価データを取得して統計処理を実施する。
-% \end{enumerate}
-% 被験者の方に行っていただいた項目は以下の三つである。
-% \begin{enumerate}
-%     \item アンケート
-%     \item 練習試行
-%     \item 本番試行
-% \end{enumerate}
-% 一つ目のアンケートでは、被験者についての基本的な統計を取ることを目的として、性別・年齢・利用した音響機器について回答していただいた。二つ目の練習試行では、実験本番の前に実験内容を把握していただくことを目的として、練習用の実験を行っていただいた。三つ目の本番試行では、最終的に統計処理に利用する評価データを得るための、本番の実験を実施した。
-
-% 評価項目の一つである明瞭性について、教示は以下のように行った。
-% \begin{quote}
-%     一つ目の評価項目である明瞭性は、\textbf{発話内容自体がどれくらい聞き取りやすかったか}を指します。
-
-%     この評価は自然性とは異なり、発話内容の理解のしやすさに焦点を当てています。
-
-%     各音声ごとに、下記の五段階で評価してください。
-%     \begin{enumerate}
-%         \item 非常に悪い
-%         \item 悪い
-%         \item 普通
-%         \item 良い
-%         \item 非常に良い
-%     \end{enumerate}
-% \end{quote}
-% もう一つの評価項目である自然性について、教示は以下のように行った。
-% \begin{quote}
-%     二つ目の評価項目である自然性は、\textbf{発話内容によらず、その音声がどれくらい人間らしく自然なものに聞こえたか}を指します。
-
-%     例えば、音質自体やイントネーションの自然さなどが評価の観点として挙げられます。
-
-%     イントネーションなど発話内容に関連する要素も含まれますが、ここではどれくらい自然な音声であるかを評価してください。
-
-%     発話内容の聞き取りやすさではなく、音声全体の自然さが評価の対象です。この点が明瞭性の評価と異なる部分です。
-
-%     各音声ごとに、下記の五段階で評価してください。
-%     \begin{enumerate}
-%         \item 非常に悪い
-%         \item 悪い
-%         \item 普通
-%         \item 良い
-%         \item 非常に良い
-%     \end{enumerate}
-% \end{quote}
-% 自然性は明瞭性よりも漠然としており、先行研究でも教示の仕方によって評価の傾向が変化することが報告されている\cite{dall2014rating}。そのため、自然性の教示では音質やイントネーションなど、具体的に評価していただきたい観点を示した。
-
-% 評価対象は、~\ref{比較手法}節に示した7手法に分析合成、原音声を加えた9種類の音声である。分析合成は、原音声から計算した特徴量を入力として、Multi-input Vocoderで逆変換した合成音声である。これは、今回構築したニューラルボコーダ自体の性能を表す値であり、今回の実験における合成音声の品質上限を表すような手法である。評価文章は客観評価と同様に、ATR音素バランス文のJセット53文章を利用し、話者は学習に用いた4人分全てを用いた。すなわち、各手法ごとに212サンプル（$= 53 \text{文章} \times 4 \text{話者}$）を利用した。被験者ごとの評価サンプルの割り当て方法を以下に述べ、図\ref{sec4:fig:sbj_selection}にその概要も示す。
-% \begin{enumerate}
-%     \item 評価に用いる53文章を9つ（評価手法の総数）のグループにランダムに分割する。各グループごとに一文章を練習試行用、それ以外の文章を本番試行用としてランダムに割り振る。
-%     \item 各文章グループに一つ手法を割り当て、文章一つ一つに対して話者を一人ランダムに選択する。これにより、ある被験者一名に対してユニークな53文章からなる評価データが得られる。
-% \end{enumerate}
-% 上記に加えて、被験者ごとに文章グループに割り当てる手法を一つずつずらすよう実装した。この過程を表\ref{sec4:tab:sbj_selection_relation}に示す。被験者ごとに文章グループに対して割り当てる手法を1ずつずらしていくことで、文章と手法の組み合わせを効率よく網羅できるようにした\cite{king2008blizzard}。加えて、サンプル選択の過程では、すべての組み合わせについて以前に評価された回数をカウントしておくことで、サンプルの選択にランダム性を持たせつつ、すべてのサンプルが等しい回数評価されるようにした。例えば、一回選択されたサンプルと未選択のサンプルが存在する場合、一回選択されたサンプルは選択の候補から除外する。これにより、未選択のサンプルのみを対象としたランダムサンプリングを行うことで、最終的な評価回数が等しくなるよう実装した。この選択方法により、36回の実験によって$\text{（手法）} \times \text{（文章）} \times \text{（話者）}$のすべての組み合わせが一回ずつ評価されることになる。
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=45mm]{./figure/sec4/sbj_selection.png}
-%     \caption{主観評価実験における話者ごとのサンプル選択}
-%     \label{sec4:fig:sbj_selection}
-% \end{figure}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{主観評価実験のサンプル選択における文章グループと手法の対応関係}
-%     \label{sec4:tab:sbj_selection_relation}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.9}{
-%             \begin{tabular}{|c|ccccccccc|}
-%                 \hline
-%                 \multirow{2}{*}{}         & \multicolumn{9}{c|}{文章グループインデックス}                                 \\
-%                                           & 1                                 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-%                 \hline
-%                 \multirow{9}{*}{手法インデックス} & 1                                 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
-%                                           & 2                                 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 1 \\
-%                                           & 3                                 & 4 & 5 & 6 & 7 & 8 & 9 & 1 & 2 \\
-%                                           & 4                                 & 5 & 6 & 7 & 8 & 9 & 1 & 2 & 3 \\
-%                                           & 5                                 & 6 & 7 & 8 & 9 & 1 & 2 & 3 & 4 \\
-%                                           & 6                                 & 7 & 8 & 9 & 1 & 2 & 3 & 4 & 5 \\
-%                                           & 7                                 & 8 & 9 & 1 & 2 & 3 & 4 & 5 & 6 \\
-%                                           & 8                                 & 9 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
-%                                           & 9                                 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% 被験者数および各手法の評価回数に関して、先行研究\cite{wester2015we}では統計処理に用いる被験者数や評価回数を変数として、実験条件に対してどれほどの被験者数とサンプル数が必要そうであるかを検討している。今回はこの結果を参考に、オンラインで実験を実施するのであれば総被験者数が100人以上、各手法に対する総評価回数が200回以上となることが望ましいと判断した。前述したサンプル選択アルゴリズムにより、36回の実験によって全てのサンプルが一回ずつ評価される。これを1セットとすると、セットあたり被験者数は36人、各手法に対する評価回数は176回となる。従って、今回は3セット行うことにより、総被験者数108人、各手法に対しての総評価回数が528回となるようにした。実験一回あたり15分程度で終わると見積もって、一人当たりの報酬は250円とした。
-
-% また、オンラインでの評価は効率よく数多くの方に評価していただけるという点でメリットがあるが、オフラインでの評価と比較して実験環境を制御することが難しく、評価の品質に不安が残る。これに対して、本実験では先行研究\cite{kirkland2023stuck}を参考に、評価サンプル中にダミー音声を混入させることで対策を講じた。ダミー音声は本研究で得られた合成音声とは無関係に、Googleのテキスト音声合成システムによって生成したサンプルである。このサンプルでは、
-% \begin{quote}
-%     これはダミー音声です。明瞭性は「2: 悪い」を、自然性は「1: 非常に悪い」を選択してください。
-% \end{quote}
-% のような音声が提示される。この時、その音声自体の明瞭性や自然性に関係なく、必ずこの音声によって指定された評価値を選択するよう教示を与えた。また、本番試行においてダミー音声で指定された評価値を誤って選んだ場合は、すべての回答を無効にし、報酬も支払うことができない旨を被験者に伝えた。実際の教示は以下のようなものである。
-% \begin{quote}
-%     音声サンプル内には、ダミー音声が含まれています。ダミー音声では、以下のような音声が再生されます。
-
-%     「これはダミー音声です。明瞭性は〇〇を、自然性は〇〇を選択してください。」
-
-%     再生した音声がダミー音声であった場合、必ずこの音声で指定された評価値を選択してください。これは、実験において適当な回答を防止するためのものです。
-
-%     例として、下記の音声では、「これはダミー音声です。明瞭性は「2: 悪い」を、自然性は「1: 非常に悪い」を選択してください。」と指定しています。
-
-%     （再生可能な音声サンプル）
-
-%     この場合、明瞭性は「2: 悪い」、自然性は「1:非常に悪い」を選択します。音声自体の明瞭性や自然性を評価するわけではないため、ご注意ください。
-
-%     特に、\textbf{本番試行においてダミー音声で指定された評価値を誤って選んだ場合は、全ての回答が無効となります。また、その場合は報酬もお支払いできません（練習試行の結果は無関係です）。}
-
-%     誠に申し訳ありませんが、ご了承いただきますようよろしくお願い致します。
-% \end{quote}
-
-% \subsection{結果}
-% \subsubsection{客観評価}
-% まず、損失関数~\eqref{sec4:eq:loss}の重み係数$\lambda$を変化させた時の客観評価指標の結果を表~\ref{sec4:tab:obj_weights}に示す。最も左の列は各手法を表すIDであり、結果の説明に用いる。重み係数は離散特徴量のCross Entropy Lossについてのみ調整しているため、その対象となった3つの手法である、(2-b)、(2-c)、(3-c)を載せている。各手法ごとに0.0001から1.0まで10倍刻みで5段階検討し、各手法の客観指標ごとに最も優れた値を下線で示している。また、これ以降の実験のために、この結果から最適と考えられる重み係数の値を選択しており、それを選択フラグの列で示している。Trueが入っている行が、代表値として選択されたことを意味する。
-
-% HuBERTなしでメルスペクトログラムと音声SSL離散特徴量を予測対象とした手法(2-b)では、特に重み係数を0.1以上とした場合に、すべての指標が顕著に悪化した。PESQについては0.0001と0.01で等しく最大値を取っている。STOI、ESTOIについては0.0001が0.01の場合よりもやや高いが、WERにおいては0.01の方が4.2\%低い。STOI、ESTOI、WERはすべて音声の明瞭性に関する指標であるため、これらが一致した傾向を示していないことから判断が難しいところではあるが、今回はWERの差が大きいことと、いずれにせよSTOI、ESTOIは比較的良好な値を示していることに着目し、0.01を代表値として選択した。HuBERTなしでメルスペクトログラムと音声SSL連続特徴量、離散特徴量を予測対象とした手法(2-c)では、重み係数0.0001の場合にPESQ、STOI、ESTOIが最大値を示した。WERについては0.1の場合に最低値である52.6\%が得られているが、その他3つの指標全てで0.0001の場合に劣っている。そのため、ここでは0.0001を代表値として選択した。HuBERTありでメルスペクトログラムと音声SSL連続特徴量、離散特徴量を予測対象とした手法(3-c)では、重み係数0.0001から0.01までの3段階は概ね同様な値を示し、それよりも重みを大きくすることですべての指標が改善する結果となった。0.1と1.0の場合はほとんど同等であるが、0.1の場合の方がPESQがやや優れていることから、こちらを代表値として選択した。
-
-% 次に、今回構築した全手法の客観評価指標を表~\ref{sec:tab:obj_all}に示す。分析合成は、原音声から計算した特徴量を入力として、Multi-input Vocoderで逆変換した合成音声である。表~\ref{sec4:tab:obj_weights}で取り上げた、重み係数$\lambda$をチューニングした手法である(2-b)、(2-c)、(3-c)については、選択フラグがTrueとなったものを掲載している。分析合成、原音声を除いた手法の中で、最も優れた値を下線で示している。PESQは、ベースラインである(1)が1.170、HuBERTなしの最高値が(2-b)と(2-c)で1.171、HuBERTありの最高値が(3-c)で1.183となった。HuBERTを使用することで、PESQが向上することが確認された。STOIは、ベースラインである(1)が0.620、HuBERTなしの最高値が(2-b)で0.622、HuBERTありの最高値が(3-b)と(3-c)で0.624となり、HuBERTの使用によって若干の改善が見られた。ESTOIでも同様に、ベースラインである(1)が0.429、HuBERTなしの最高値が(2-b)と(2-c)で0.431、HuBERTありの最高値が(3-c)で0.437となった。WERは、ベースラインである(1)が54.7\%、HuBERTなしの最低値が(2-b)で52.4\%、HuBERTありの最低値が(3-b)と(3-c)で54.3\%となり、HuBERTの使用による改善は見られなかった。
-
-% また、本研究で提案したHuBERTありの3手法について、すべての客観評価指標で連続値を推定した(3-a)の値がその他の手法に劣る結果となった。連続値のみを推定対象とした場合HuBERT（Transformer層）の学習が難しく、損失がほとんど下がらなかったことが原因だと考えられる（メルスペクトログラムは入力されているため、一定の品質は保持された）。これに対して、離散特徴量を推定対象とした場合は学習が安定しており、二つを組み合わせて離散特徴量の損失を十分な大きさで重み付けすれば、離散値に伴って連続値でも損失を下げることが可能となった。結果として、提案手法の中では離散値と連続値をどちらも推定した(3-c)が良好な結果を示した。
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{損失関数の重み係数による客観評価指標の比較}
-%     \label{sec4:tab:obj_weights}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.8}{
-%             \begin{tabular}{|l|l|l|l|rrrr|c|}
-%                 \hline
-%                 \multicolumn{1}{|c|}{ID} & \multicolumn{1}{c|}{手法} & \multicolumn{1}{c|}{予測対象} & \multicolumn{1}{c|}{重み係数} & \multicolumn{1}{c}{PESQ} & \multicolumn{1}{c}{STOI} & \multicolumn{1}{c}{ESTOI} & \multicolumn{1}{c|}{WER [\%]} & \multicolumn{1}{c|}{選択フラグ} \\
-%                 \hline
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & 0.0001                    & \underline{1.171}        & \underline{0.625}        & \underline{0.437}         & 56.6                          &                            \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & 0.001                     & 1.167                    & 0.620                    & 0.428                     & 55.1                          &                            \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & 0.01                      & \underline{1.171}        & 0.622                    & 0.431                     & \underline{52.4}              & True                       \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & 0.1                       & 1.133                    & 0.590                    & 0.376                     & 59.0                          &                            \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & 1.0                       & 1.125                    & 0.572                    & 0.354                     & 60.1                          &                            \\
-%                 \hline
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & 0.0001                    & \underline{1.171}        & \underline{0.619}        & \underline{0.431}         & 55.1                          & True                       \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & 0.001                     & 1.169                    & 0.616                    & 0.424                     & 56.0                          &                            \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & 0.01                      & \underline{1.171}        & 0.618                    & 0.429                     & 55.8                          &                            \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & 0.1                       & 1.164                    & 0.611                    & 0.418                     & \underline{52.6}              &                            \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & 1.0                       & 1.138                    & 0.573                    & 0.358                     & 57.6                          &                            \\
-%                 \hline
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & 0.0001                    & 1.161                    & 0.614                    & 0.412                     & 56.7                          &                            \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & 0.001                     & 1.157                    & 0.614                    & 0.411                     & 56.6                          &                            \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & 0.01                      & 1.160                    & 0.614                    & 0.412                     & 57.1                          &                            \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & 0.1                       & \underline{1.183}        & 0.624                    & \underline{0.437}         & \underline{54.3}              & True                       \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & 1.0                       & 1.178                    & \underline{0.625}        & \underline{0.437}         & 54.4                          &                            \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{全手法の客観評価指標の比較}
-%     \label{sec:tab:obj_all}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.9}{
-%             \begin{tabular}{|l|l|l|rrrr|}
-%                 \hline
-%                 \multicolumn{1}{|c|}{ID} & \multicolumn{1}{c|}{手法} & \multicolumn{1}{c|}{予測対象} & \multicolumn{1}{c}{PESQ} & \multicolumn{1}{c}{STOI} & \multicolumn{1}{c}{ESTOI} & \multicolumn{1}{c|}{WER [\%]} \\
-%                 \hline
-%                 (1)                      & ベースライン                  & メル                        & 1.170                    & 0.620                    & 0.429                     & 54.7                          \\
-%                 (2-a)                    & HuBERTなし                & メル・連続                     & 1.165                    & 0.615                    & 0.424                     & 55.4                          \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & 1.171                    & 0.622                    & 0.431                     & \underline{52.4}              \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & 1.171                    & 0.619                    & 0.431                     & 55.1                          \\
-%                 (3-a)                    & HuBERTあり                & メル・連続                     & 1.168                    & 0.620                    & 0.423                     & 57.7                          \\
-%                 (3-b)                    & HuBERTあり                & メル・離散                     & 1.175                    & \underline{0.624}        & 0.434                     & 54.3                          \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & \underline{1.183}        & \underline{0.624}        & \underline{0.437}         & 54.3                          \\
-%                 (4)                      & 分析合成                    & \multicolumn{1}{c|}{-}    & 2.442                    & 0.920                    & 0.851                     & 4.8                           \\
-%                 (5)                      & 原音声                     & \multicolumn{1}{c|}{-}    & \multicolumn{1}{c}{-}    & \multicolumn{1}{c}{-}    & \multicolumn{1}{c}{-}     & 4.5                           \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \subsubsection{主観評価}
-% まず、被験者へのアンケート結果について、年齢は19歳から67歳までに渡り、平均年齢は41歳であった。図に年齢のヒストグラムを示す。また、性別については男性45名、女性63名であり、実験に利用した音響機器についてはイヤホンが79名、ヘッドホンが29名であった。加えて、今回は実験結果のフィルタリングの目的でダミー音声を導入したが、その回答を間違えた被験者はいなかった。
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=50mm]{./figure/sec4/respondent_dist.png}
-%     \caption{被験者の年齢分布}
-%     \label{sec4:fig:respondent_dist}
-% \end{figure}
-
-% 次に、手法ごとの明瞭性における評価値分布を図~\ref{sec4:fig:int_score_pct}に示す。この図は横軸をモデルのID、縦軸を評価値の割合としてプロットしたものである。また、図~\ref{sec4:fig:int_summary_stats}に手法ごとの明瞭性における評価値平均と95\%信頼区間をプロットしたグラフ、表\ref{sec4:tab:int_summary_stats}にその具体的な値をそれぞれ示す。この図は横軸をモデルのID、縦軸を評価値としてプロットしたものである。どちらの図についても評価値平均が小さい順に左から並べてプロットしている。これより、左から合成音声が並んでおり、(4)分析合成、(5)原音声が合成音声と比較して高い評価を受けている傾向が見て取れる。自然性についても同様に、評価値分布を図~\ref{sec4:fig:nat_score_pct}、評価値平均と95\%信頼区間を図~\ref{sec4:fig:nat_summary_stats}、表\ref{sec4:tab:nat_summary_stats}にそれぞれ示す。自然性についても明瞭性と同様の傾向が見て取れる。原音声の評価値が最も高く、ついで分析合成、合成音声となることは実験として妥当な結果であり、実験は問題なく行われたと判断した。
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=50mm]{./figure/sec4/int_score_pct.png}
-%     \caption{手法ごとの明瞭性における評価値分布}
-%     \label{sec4:fig:int_score_pct}
-% \end{figure}
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=50mm]{./figure/sec4/int_summary_stats.png}
-%     \caption{手法ごとの明瞭性における評価値平均と95\%信頼区間（グラフ）}
-%     \label{sec4:fig:int_summary_stats}
-% \end{figure}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{手法ごとの明瞭性における評価値平均と95\%信頼区間}
-%     \label{sec4:tab:int_summary_stats}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.9}{
-%             \begin{tabular}{|l|l|l|r|}
-%                 \hline
-%                 \multicolumn{1}{|c|}{ID} & \multicolumn{1}{c|}{手法} & \multicolumn{1}{c|}{予測対象} & \multicolumn{1}{c|}{評価値} \\
-%                 \hline
-%                 (3-a)                    & HuBERTあり                & メル・連続                     & $1.61 \pm 0.03$          \\
-%                 (2-a)                    & HuBERTなし                & メル・連続                     & $1.72 \pm 0.04$          \\
-%                 (1)                      & ベースライン                  & メル                        & $1.85 \pm 0.04$          \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & $1.89 \pm 0.04$          \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & $1.99 \pm 0.04$          \\
-%                 (3-b)                    & HuBERTあり                & メル・離散                     & $2.00 \pm 0.04$          \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & $2.03 \pm 0.04$          \\
-%                 (4)                      & 分析合成                    & \multicolumn{1}{c|}{-}    & $3.87 \pm 0.05$          \\
-%                 (5)                      & 原音声                     & \multicolumn{1}{c|}{-}    & $4.63 \pm 0.03$          \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=50mm]{./figure/sec4/nat_score_pct.png}
-%     \caption{手法ごとの自然性における評価値分布}
-%     \label{sec4:fig:nat_score_pct}
-% \end{figure}
-
-% \begin{figure}[bt]
-%     \centering
-%     \includegraphics[height=50mm]{./figure/sec4/nat_summary_stats.png}
-%     \caption{手法ごとの自然性における評価値平均と95\%信頼区間（グラフ）}
-%     \label{sec4:fig:nat_summary_stats}
-% \end{figure}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{手法ごとの自然性における評価値平均と95\%信頼区間}
-%     \label{sec4:tab:nat_summary_stats}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.9}{
-%             \begin{tabular}{|l|l|l|r|}
-%                 \hline
-%                 \multicolumn{1}{|c|}{ID} & \multicolumn{1}{c|}{手法} & \multicolumn{1}{c|}{予測対象} & \multicolumn{1}{c|}{評価値} \\
-%                 \hline
-%                 (3-a)                    & HuBERTあり                & メル・連続                     & $2.04 \pm 0.04$          \\
-%                 (2-a)                    & HuBERTなし                & メル・連続                     & $2.05 \pm 0.04$          \\
-%                 (2-c)                    & HuBERTなし                & メル・連続・離散                  & $2.18 \pm 0.04$          \\
-%                 (1)                      & ベースライン                  & メル                        & $2.22 \pm 0.04$          \\
-%                 (3-b)                    & HuBERTあり                & メル・離散                     & $2.24 \pm 0.04$          \\
-%                 (3-c)                    & HuBERTあり                & メル・連続・離散                  & $2.24 \pm 0.04$          \\
-%                 (2-b)                    & HuBERTなし                & メル・離散                     & $2.36 \pm 0.04$          \\
-%                 (4)                      & 分析合成                    & \multicolumn{1}{c|}{-}    & $3.86 \pm 0.05$          \\
-%                 (5)                      & 原音声                     & \multicolumn{1}{c|}{-}    & $4.35 \pm 0.04$          \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% この評価データを用いて評価値平均に対するt検定を実施することで、手法間の有意差の有無を評価した。手法間で回答者は同じではないため、二群間が等分散であることを仮定しないウェルチのt検定を実施した。また、平均値が大きい手法について、それが統計的に有意な差であるかに興味があるため、有意水準5\%で片側検定を実施した。加えて、手法の組み合わせが多数存在することから、Benjamini-Hochberg法によってp値を補正した。得られたp値をまとめた結果が、表~\ref{sec4:tab:int_ttest}, ~\ref{sec4:tab:nat_ttest}である。この表のi行j列に示す値は、手法i、jの評価平均をそれぞれ$\mu_{i}$、$\mu_{j}$とすると、帰無仮説を「$\mu_{i} = \mu_{j}$」、対立仮説を「$\mu_{i} > \mu_{j}$」とした時のp値である。有意水準5\%で有意差が認められた組み合わせは、下線を引いて示している。
-
-% この結果に対して、以下の三つの観点で考える。
-% \begin{enumerate}
-%     \item 最も評価の高かった手法は何だったか
-%     \item HuBERT導入による効果はあったか
-%     \item 予測対象の違いは合成音声の品質に影響を与えたか
-% \end{enumerate}
-
-% まず、最も評価の高かった手法は何だったかについて、表~\ref{sec4:tab:int_ttest}を見ると、手法(2-b)、(3-b)、(3-c)がその他の4つの手法に対して有意に評価が高いことが分かる。これより、これら三つの手法はその他の4つの合成音声と比較して、明瞭性が高かったと考えられる。さらに、表~\ref{sec4:tab:nat_ttest}を見ると、手法(2-b)がその他の6つの手法に対して有意に評価が高いことが分かる。これより、評価対象とした合成音声の中で、(2-b)は最も自然性が高かったと考えられる。以上の結果から、今回比較した手法の中で最も評価が高かったのは(2-b)だと考えられ、これはHuBERTなしで音声SSL離散特徴量を予測対象とした先行研究~\cite{choi2023intelligible}の手法である。これは先行研究~\cite{choi2023intelligible}の有効性の指示する結果となり、本研究で新たに提案したHuBERTを導入するアプローチは、この手法を超えることができなかったと言える。
-
-% 次に、HuBERT導入による効果について調べるため、同じ予測対象でHuBERTの有無のみに違いがある、(2-a)と(3-a)、(2-b)と(3-b)、(2-c)と(3-c)の間における有意差の有無に着目する。これら3つのペアのみにおける有意差の有無をまとめた結果を表~\ref{sec4:tab:ttest_hubert}に示す。ここでは有意差のある場合を不等号、ない場合を等号で示している。まず、(2-a)と(3-a)の結果を見ると、明瞭性では(2-a)が有意に高く、自然性では有意差がないことが分かる。次に、(2-b)と(3-b)の結果を見ると、明瞭性では有意差がなく、自然性では(2-b)が有意に高いことが分かる。これらより、HuBERTの導入によって明瞭性あるいは自然性が悪化していると考えられる。しかし、(2-c)と(3-c)の結果を見ると、明瞭性では(3-c)が有意に高く、自然性では有意差がないことが分かる。これは前述した傾向と異なり、HuBERT導入が明瞭性の向上に寄与したと考えられる。従って、本研究で提案したHuBERT導入の有効性は、モデルの予測対象によって異なると考えられる。
-
-% 最後に、予測対象の違いによる変化について調べるため、HuBERTの有無で共通していて予測対象のみに違いがある、(2-a)と(2-b)と(2-c)、(3-a)と(3-b)と(3-c)の間における有意差の有無に着目した。この結果を表~\ref{sec4:tab:ttest_pred}に示す。ここでも有意差のある場合を不等号、ない場合を等号で示している。まず、(2-a)と(2-b)と(2-c)の結果を見ると、明瞭性・自然性どちらにおいても共通して、(2-b)が最も有意に高く、ついで(2-c)、(2-a)が続いて有意に低くなっていることが分かる。これより、HuBERTなしの条件下では予測対象の違いによって明瞭性・自然性ともに有意差が出ており、今回の条件下ではメルスペクトログラムと音声SSL離散特徴量を予測対象とした場合が最も良い評価を得たと言える。次に、(3-a)と(3-b)と(3-c)の結果を見ると、明瞭性・自然性ともに(3-b)と(3-c)の有意差がなくなっていることが分かる。この点がHuBERTなしの場合との違いであり、音声SSL離散特徴量のみを予測対象とする場合と、離散特徴量と連続特徴量の両方を使うアプローチにおける差が小さくなったと考えられる。最後に、メルスペクトログラムと音声SSL連続特徴量を予測対象とした(2-a)、(3-a)はHuBERTの有無によらず有意に評価が低くなっていることが分かる。これより、音声SSLモデルから得られる特徴量を連続値のまま予測対象とするアプローチは、離散化させるアプローチと比較して有効でないと考えられる。連続特徴量はそれを離散化させた特徴量と比較して、より複雑であることが予想される。これを正確に推定しようとするよりも、離散化させてある程度冗長性を省いたものを予測対象とした方が、結果的に合成音声の品質改善につながるのだと考えられる。
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{明瞭性の評価値平均に対するt検定の結果}
-%     \label{sec4:tab:int_ttest}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.65}{
-%             \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
-%                 \hline
-%                       & \multicolumn{1}{c|}{(4)}    & \multicolumn{1}{c|}{(2-b)}  & \multicolumn{1}{c|}{(3-b)}  & \multicolumn{1}{c|}{(3-c)}  & \multicolumn{1}{c|}{(2-c)}  & \multicolumn{1}{c|}{(1)}    & \multicolumn{1}{c|}{(2-a)}  & \multicolumn{1}{c|}{(3-a)}  \\
-%                 \hline
-%                 (5)   & \underline{\num{4.52e-40 }} & \underline{\num{9.47e-303}} & \underline{\num{4.67e-280}} & \underline{\num{2.23e-298}} & \underline{\num{1.41e-320}} & \underline{0.00           } & \underline{0.00           } & \underline{0.00           } \\
-%                 (4)   & \multicolumn{1}{c|}{-}      & \underline{\num{2.12e-147}} & \underline{\num{4.99e-143}} & \underline{\num{1.22e-149}} & \underline{\num{1.50e-163}} & \underline{\num{3.73e-172}} & \underline{\num{3.92e-188}} & \underline{\num{8.84e-205}} \\
-%                 (2-b) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.34                        & 0.24                        & \underline{\num{6.06e-03 }} & \underline{\num{5.27e-04 }} & \underline{\num{1.63e-09 }} & \underline{\num{1.32e-16 }} \\
-%                 (3-b) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.38                        & \underline{0.02           } & \underline{\num{3.92e-03 }} & \underline{\num{1.14e-07 }} & \underline{\num{1.63e-13 }} \\
-%                 (3-c) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \underline{0.04           } & \underline{\num{7.19e-03 }} & \underline{\num{2.32e-07 }} & \underline{\num{2.34e-13 }} \\
-%                 (2-c) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.26                        & \underline{\num{5.27e-04 }} & \underline{\num{2.07e-08 }} \\
-%                 (1)   & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \underline{\num{3.71e-03 }} & \underline{\num{3.29e-07 }} \\
-%                 (2-a) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \underline{0.02           } \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{自然性の評価値平均に対するt検定の結果}
-%     \label{sec4:tab:nat_ttest}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{0.65}{
-%             \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
-%                 \hline
-%                       & \multicolumn{1}{c|}{(4)}    & \multicolumn{1}{c|}{(2-b)}  & \multicolumn{1}{c|}{(3-c)}  & \multicolumn{1}{c|}{(3-b)}  & \multicolumn{1}{c|}{(1)}    & \multicolumn{1}{c|}{(2-c)}  & \multicolumn{1}{c|}{(2-a)}  & \multicolumn{1}{c|}{(3-a)}  \\
-%                 \hline
-%                 (5)   & \underline{\num{7.94e-16 }} & \underline{\num{1.21e-168}} & \underline{\num{1.24e-193}} & \underline{\num{2.03e-191}} & \underline{\num{5.14e-194}} & \underline{\num{2.23e-200}} & \underline{\num{3.49e-219}} & \underline{\num{1.02e-221}} \\
-%                 (4)   & \multicolumn{1}{c|}{-}      & \underline{\num{6.24e-101}} & \underline{\num{3.64e-120}} & \underline{\num{4.86e-119}} & \underline{\num{3.23e-121}} & \underline{\num{8.06e-127}} & \underline{\num{1.18e-143}} & \underline{\num{1.03e-145}} \\
-%                 (2-b) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \underline{0.03           } & \underline{0.03           } & \underline{0.01           } & \underline{\num{1.71e-03 }} & \underline{\num{1.41e-07 }} & \underline{\num{5.32e-08 }} \\
-%                 (3-c) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.47                        & 0.40                        & 0.16                        & \underline{\num{5.79e-04 }} & \underline{\num{3.18e-04 }} \\
-%                 (3-b) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.42                        & 0.18                        & \underline{\num{7.96e-04 }} & \underline{\num{4.47e-04 }} \\
-%                 (1)   & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.25                        & \underline{\num{1.71e-03 }} & \underline{\num{9.69e-04 }} \\
-%                 (2-c) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \underline{0.01           } & \underline{\num{9.27e-03 }} \\
-%                 (2-a) & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}      & 0.44                        \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{HuBERTの有無に対する比較}
-%     \label{sec4:tab:ttest_hubert}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{0.9} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{1.0}{
-%             \begin{tabular}{|l|c|c|}
-%                 \hline
-%                             & \multicolumn{1}{c|}{明瞭性} & \multicolumn{1}{c|}{自然性} \\
-%                 \hline
-%                 (2-a)、(3-a) & (2-a) $>$ (3-a)          & (2-a) = (3-a)            \\
-%                 (2-b)、(3-b) & (2-b) = (3-b)            & (2-b) $>$ (3-b)          \\
-%                 (2-c)、(3-c) & (2-c) $<$ (3-c)          & (2-c) = (3-c)            \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \begin{table*}[bt]
-%     \centering
-%     \caption{予測対象による比較}
-%     \label{sec4:tab:ttest_pred}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{0.9} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{1.0}{
-%             \begin{tabular}{|l|c|c|}
-%                 \hline
-%                                   & \multicolumn{1}{c|}{明瞭性}  & \multicolumn{1}{c|}{自然性}  \\
-%                 \hline
-%                 (2-a)、(2-b)、(2-c) & (2-b) $>$ (2-c) $>$ (2-a) & (2-b) $>$ (2-c) $>$ (2-a) \\
-%                 (3-a)、(3-b)、(3-c) & (3-b) = (3-c) $>$ (3-a)   & (3-b) = (3-c) $>$ (3-a)   \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \clearpage
-
-% \subsection{まとめ}
-% 本章では、音声SSLモデルであるHuBERTを利用した動画音声合成モデルを提案し、既存手法との比較を行った。
-
-% 客観評価では、HuBERTを利用してメルスペクトログラムと音声SSL連続特徴量、離散特徴量を予測対象とした手法が、PESQ、STOI、ESTOIにおいて最も高い評価を得た。しかし、WERにおいてはHuBERTなしでメルスペクトログラムと音声SSL離散特徴量を予測対象とした手法が最も低く、提案手法に課題が残った。主観評価では、客観評価においてWERが最も低かった、HuBERTなしでメルスペクトログラムと音声SSL離散特徴量を予測対象とした手法が最も高い評価を得た。本研究で提案した手法もそれに次ぐような評価ではあったが、特に自然性については有意に低く、既存手法に対する提案手法の有効性は示されなかった。また、HuBERTの導入による効果の良し悪しはモデルの予測対象によって異なること、予測対象として音声SSL連続特徴量を直接推定するアプローチでは有効ではなさそうだということがわかった。
-
-% 今後の研究では、提案手法の更なる改善に取り組む必要があると考える。本章では、改めて既存手法の有効性が示されたものの、得られる合成音声の品質は未だ低い。実際、主観評価実験の結果から、分析合成や原音声と合成音声の間の差は顕著であることが分かる。代用音声として利用する上ではより自然な音声であることが望ましく、既存手法を超える品質を達成する、新たな手法の検討が今後も必要だと考える。また、提案手法について課題が残る結果となったが、学習方法や予測方法に改善の余地があるのではないかと考えている。例えば、今回のHuBERTの学習ではすべての重みを更新するようFineTuningしたが、少量の音声データでチューニングした結果として、事前学習によって得た知識を忘却してしまう破滅的忘却に陥っていた可能性があり、これを防止するような学習を施すことが有効な可能性がある。また、HuBERTの事前学習ではマスク部分を推定するが、この際には正しいフレームを参照可能である。しかし、今回のFineTuningでは初めから推定結果のみを入力としていたため正しいフレームが存在せず、この条件のギャップが転移学習を困難にしていた可能性がある。これに対して、初めは合成音声にあえて原音声を混入させたものを入力として学習し、それを徐々に完全な合成音声に近づけるような方法ならば、転移学習をより効果的に行える可能性がある。最後に、今回はHuBERTのみから音声SSL特徴量を推定するような形でネットワークを提案したが、AVHuBERTから同時に予測するような枠組みとしても良いと考えている。先行研究が有効であったことも考慮すると、AVHuBERTから予測した結果とHuBERTから予測した結果を両方利用するようなアプローチも、改善の可能性があると考える。
-
-% \clearpage
-
-% \section{音声SSLモデルを活用した動画音声合成の再検討}
-% \subsection{客観評価指標の見直し}
-% これまでに用いてきた四つの客観評価指標は、動画音声合成において一般的に用いられていることから採用していた。しかし、音声合成において本質的に重要なのは、人が実際に聞いた上で良いと思うか、すなわち主観評価の良し悪しであると考える。そこで、主観評価実験における評価平均値と、客観評価指標の間で計算した相関係数を表に示す。
-% これより、明瞭性においてはESTOIおよびWERの相関係数の絶対値が0.9と同程度に高く、PESQやSTOIはこれらと比較して相関係数の絶対値が小さい。
-% また、自然性においてはWERの相関係数の絶対値が0.911と再び高いが、PESQ、STOI、ESTOIはこれと比較して相関係数の絶対値が小さい。
-% 以上の結果から、従来一般的に用いられてきた客観評価指標の中でPESQ、STOI、ESTOIは主観評価との相関が比較的弱く、主観評価実験に向けたモデルのチューニングを行っていく上では、WERが最も信頼できる指標であると判断する。
-% 加えて、表では近年提案されたMOS値の自動評価モデルである、UTMOSによって得られた評価値についての相関係数も掲載している。これを見ると、特に明瞭性においてその相関係数は0.986と高く、自然性との相関係数も0.882となっており、WERと同程度の高い値を示している。
-% これより、本セクション以降ではこれまで用いてきた客観評価指標を改め、主観評価との相関が高いWERとUTMOSによって合成音声の客観評価を行うこととする。
-
-% \begin{table*}[b]
-%     \centering
-%     \caption{予測対象による比較}
-%     \label{sec5:tab:obj_comp}
-%     \begin{center}
-%         \renewcommand{\arraystretch}{0.9} % 行の高さ調整
-%         \setlength{\tabcolsep}{8pt}      % 列の幅調整
-%         \scalebox{1.0}{
-%             \begin{tabular}{|l|c|c|}
-%                 \hline
-%                       & \multicolumn{1}{c|}{明瞭性} & \multicolumn{1}{c|}{自然性} \\
-%                 \hline
-%                 PESQ  & 0.671                    & 0.523                    \\
-%                 STOI  & 0.690                    & 0.676                    \\
-%                 ESTOI & 0.900                    & 0.749                    \\
-%                 WER   & -0.900                   & -0.911                   \\
-%                 UTMOS & 0.986                    & 0.882                    \\
-%                 \hline
-%             \end{tabular}
-%         }
-%     \end{center}
-% \end{table*}
-
-% \clearpage
 
 \section{結論}
 

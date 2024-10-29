@@ -178,6 +178,22 @@ Ji-Hoon Kim, Jaehun Kim, and Joon~Son Chung.
 \newblock In {\em Proceedings of the AAAI Conference on Artificial
   Intelligence}, Vol.~38, pp. 2759--2767, 2024.
 
+\bibitem{hochreiter1997long}
+S~Hochreiter.
+\newblock Long short-term memory.
+\newblock {\em Neural Computation MIT-Press}, 1997.
+
+\bibitem{cho2014learning}
+Kyunghyun Cho.
+\newblock Learning phrase representations using rnn encoder-decoder for
+  statistical machine translation.
+\newblock {\em arXiv preprint arXiv:1406.1078}, 2014.
+
+\bibitem{vaswani2017attention}
+A~Vaswani.
+\newblock Attention is all you need.
+\newblock {\em Advances in Neural Information Processing Systems}, 2017.
+
 \bibitem{wan2018generalized}
 Li~Wan, Quan Wang, Alan Papir, and Ignacio~Lopez Moreno.
 \newblock Generalized end-to-end loss for speaker verification.
@@ -245,24 +261,5 @@ Alec Radford, Jong~Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and
 \newblock Robust speech recognition via large-scale weak supervision.
 \newblock In {\em International conference on machine learning}, pp.
   28492--28518. PMLR, 2023.
-
-\bibitem{king2008blizzard}
-Simon King, Robert~AJ Clark, Catherine Mayo, and Vasilis Karaiskos.
-\newblock The blizzard challenge 2008.
-\newblock 2008.
-
-\bibitem{kirkland2023stuck}
-Ambika Kirkland, Shivam Mehta, Harm Lameris, Gustav~Eje Henter, Eva
-  Sz{\'e}kely, and Joakim Gustafson.
-\newblock Stuck in the mos pit: A critical analysis of mos test methodology in
-  tts evaluation.
-\newblock In {\em 12th Speech Synthesis Workshop (SSW) 2023}, 2023.
-
-\bibitem{wester2015we}
-Mirjam Wester, Cassia Valentini-Botinhao, and Gustav~Eje Henter.
-\newblock Are we using enough listeners? no! an empirically-supported critique
-  of interspeech 2014 tts evaluations.
-\newblock In {\em Interspeech 2015}, pp. 3476--3480. International Speech
-  Communication Association, 2015.
 
 \end{thebibliography}

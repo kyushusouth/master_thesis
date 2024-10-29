@@ -575,6 +575,73 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT ./figure/sec2/spectrogram_1.png
+INPUT ./figure/sec2/spectrogram_1.png
+INPUT ./figure/sec2/spectrogram_1.png
+INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_1.png
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
+INPUT ./figure/sec2/spectrogram_2.png
+INPUT ./figure/sec2/spectrogram_2.png
+INPUT ./figure/sec2/spectrogram_2.png
+INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_2.png
+INPUT ./figure/sec2/spectrogram_4.png
+INPUT ./figure/sec2/spectrogram_4.png
+INPUT ./figure/sec2/spectrogram_4.png
+INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_4.png
+INPUT ./figure/sec2/spectrogram_8.png
+INPUT ./figure/sec2/spectrogram_8.png
+INPUT ./figure/sec2/spectrogram_8.png
+INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_8.png
+INPUT ./figure/sec2/melspectrogram.png
+INPUT ./figure/sec2/melspectrogram.png
+INPUT ./figure/sec2/melspectrogram.png
+INPUT extractbb -B cropbox -O ./figure/sec2/melspectrogram.png
+INPUT ./figure/sec3/conv1.drawio.png
+INPUT ./figure/sec3/conv1.drawio.png
+INPUT ./figure/sec3/conv1.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/conv1.drawio.png
+INPUT ./figure/sec3/conv2.drawio.png
+INPUT ./figure/sec3/conv2.drawio.png
+INPUT ./figure/sec3/conv2.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/conv2.drawio.png
+INPUT ./figure/sec3/conv3.drawio.png
+INPUT ./figure/sec3/conv3.drawio.png
+INPUT ./figure/sec3/conv3.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/conv3.drawio.png
+INPUT ./figure/sec3/conv4.drawio.png
+INPUT ./figure/sec3/conv4.drawio.png
+INPUT ./figure/sec3/conv4.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/conv4.drawio.png
+INPUT ./figure/sec3/tconv1.drawio.png
+INPUT ./figure/sec3/tconv1.drawio.png
+INPUT ./figure/sec3/tconv1.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/tconv1.drawio.png
+INPUT ./figure/sec3/tconv2.drawio.png
+INPUT ./figure/sec3/tconv2.drawio.png
+INPUT ./figure/sec3/tconv2.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/tconv2.drawio.png
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib5.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
+INPUT ./figure/sec3/activations.png
+INPUT ./figure/sec3/activations.png
+INPUT ./figure/sec3/activations.png
+INPUT extractbb -B cropbox -O ./figure/sec3/activations.png
+INPUT ./figure/sec3/activations_prime.png
+INPUT ./figure/sec3/activations_prime.png
+INPUT ./figure/sec3/activations_prime.png
+INPUT extractbb -B cropbox -O ./figure/sec3/activations_prime.png
+INPUT ./figure/sec3/transformer.drawio.png
+INPUT ./figure/sec3/transformer.drawio.png
+INPUT ./figure/sec3/transformer.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec3/transformer.drawio.png
 INPUT ./figure/sec4/model/network.png
 INPUT ./figure/sec4/model/network.png
 INPUT ./figure/sec4/model/network.png
@@ -583,13 +650,22 @@ INPUT ./figure/sec4/model/hubert.png
 INPUT ./figure/sec4/model/hubert.png
 INPUT ./figure/sec4/model/hubert.png
 INPUT extractbb -B cropbox -O ./figure/sec4/model/hubert.png
+INPUT ./figure/sec4/model/multi-input_vocoder.png
+INPUT ./figure/sec4/model/multi-input_vocoder.png
+INPUT ./figure/sec4/model/multi-input_vocoder.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/multi-input_vocoder.png
+INPUT ./figure/sec4/model/mpd.png
+INPUT ./figure/sec4/model/mpd.png
+INPUT ./figure/sec4/model/mpd.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/mpd.png
+INPUT ./figure/sec4/model/msd.png
+INPUT ./figure/sec4/model/msd.png
+INPUT ./figure/sec4/model/msd.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/msd.png
 INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
 INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
 INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
 INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
