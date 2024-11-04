@@ -4,8 +4,8 @@ INPUT /usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf-var/web2c/eptex/platex.fmt
-INPUT /Users/minami/class/research/master_thesis/submission.tex
-OUTPUT latex-output/submission.log
+INPUT /Users/minami/class/research/master_thesis/test.tex
+OUTPUT latex-output/test.log
 INPUT /usr/local/texlive/2022/texmf-dist/tex/platex/base/jarticle.cls
 INPUT /usr/local/texlive/2022/texmf-dist/tex/platex/base/jarticle.cls
 INPUT /usr/local/texlive/2022/texmf-dist/tex/platex/base/jarticle.cls
@@ -564,30 +564,16 @@ INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/ifthen.sty
-INPUT latex-output/submission.aux
-INPUT latex-output/submission.aux
-INPUT latex-output/submission.aux
-OUTPUT latex-output/submission.aux
+INPUT latex-output/test.aux
+INPUT latex-output/test.aux
+INPUT latex-output/test.aux
+OUTPUT latex-output/test.aux
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/graphics/color.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
-OUTPUT latex-output/submission.dvi
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT latex-output/submission.toc
-INPUT latex-output/submission.toc
-INPUT latex-output/submission.toc
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
@@ -615,6 +601,7 @@ INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
@@ -625,189 +612,5 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm
-OUTPUT latex-output/submission.toc
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT ./figure/sec2/spectrogram_1.png
-INPUT ./figure/sec2/spectrogram_1.png
-INPUT ./figure/sec2/spectrogram_1.png
-INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_1.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
-INPUT ./figure/sec2/spectrogram_2.png
-INPUT ./figure/sec2/spectrogram_2.png
-INPUT ./figure/sec2/spectrogram_2.png
-INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_2.png
-INPUT ./figure/sec2/spectrogram_4.png
-INPUT ./figure/sec2/spectrogram_4.png
-INPUT ./figure/sec2/spectrogram_4.png
-INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_4.png
-INPUT ./figure/sec2/spectrogram_8.png
-INPUT ./figure/sec2/spectrogram_8.png
-INPUT ./figure/sec2/spectrogram_8.png
-INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_8.png
-INPUT ./figure/sec2/melspectrogram.png
-INPUT ./figure/sec2/melspectrogram.png
-INPUT ./figure/sec2/melspectrogram.png
-INPUT extractbb -B cropbox -O ./figure/sec2/melspectrogram.png
-INPUT ./figure/sec3/conv1.drawio.png
-INPUT ./figure/sec3/conv1.drawio.png
-INPUT ./figure/sec3/conv1.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/conv1.drawio.png
-INPUT ./figure/sec3/conv2.drawio.png
-INPUT ./figure/sec3/conv2.drawio.png
-INPUT ./figure/sec3/conv2.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/conv2.drawio.png
-INPUT ./figure/sec3/conv3.drawio.png
-INPUT ./figure/sec3/conv3.drawio.png
-INPUT ./figure/sec3/conv3.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/conv3.drawio.png
-INPUT ./figure/sec3/conv4.drawio.png
-INPUT ./figure/sec3/conv4.drawio.png
-INPUT ./figure/sec3/conv4.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/conv4.drawio.png
-INPUT ./figure/sec3/tconv1.drawio.png
-INPUT ./figure/sec3/tconv1.drawio.png
-INPUT ./figure/sec3/tconv1.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/tconv1.drawio.png
-INPUT ./figure/sec3/tconv2.drawio.png
-INPUT ./figure/sec3/tconv2.drawio.png
-INPUT ./figure/sec3/tconv2.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/tconv2.drawio.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib5.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
-INPUT ./figure/sec3/activations.png
-INPUT ./figure/sec3/activations.png
-INPUT ./figure/sec3/activations.png
-INPUT extractbb -B cropbox -O ./figure/sec3/activations.png
-INPUT ./figure/sec3/activations_prime.png
-INPUT ./figure/sec3/activations_prime.png
-INPUT ./figure/sec3/activations_prime.png
-INPUT extractbb -B cropbox -O ./figure/sec3/activations_prime.png
-INPUT ./figure/sec3/transformer.drawio.png
-INPUT ./figure/sec3/transformer.drawio.png
-INPUT ./figure/sec3/transformer.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec3/transformer.drawio.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
-INPUT ./figure/sec3/lr_scheduler.png
-INPUT ./figure/sec3/lr_scheduler.png
-INPUT ./figure/sec3/lr_scheduler.png
-INPUT extractbb -B cropbox -O ./figure/sec3/lr_scheduler.png
-INPUT ./figure/sec4/model/network.drawio.png
-INPUT ./figure/sec4/model/network.drawio.png
-INPUT ./figure/sec4/model/network.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/network.drawio.png
-INPUT ./figure/sec4/model/hubert.png
-INPUT ./figure/sec4/model/hubert.png
-INPUT ./figure/sec4/model/hubert.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/hubert.png
-INPUT ./figure/sec4/model/multi-input_vocoder.png
-INPUT ./figure/sec4/model/multi-input_vocoder.png
-INPUT ./figure/sec4/model/multi-input_vocoder.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/multi-input_vocoder.png
-INPUT ./figure/sec4/model/mpd.png
-INPUT ./figure/sec4/model/mpd.png
-INPUT ./figure/sec4/model/mpd.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/mpd.png
-INPUT ./figure/sec4/model/msd.png
-INPUT ./figure/sec4/model/msd.png
-INPUT ./figure/sec4/model/msd.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/msd.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
-INPUT ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
-INPUT extractbb -B cropbox -O ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png
-INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT latex-output/submission.bbl
-INPUT latex-output/submission.bbl
-INPUT latex-output/submission.bbl
-INPUT latex-output/submission.bbl
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmti12.tfm
-INPUT latex-output/submission.aux
+OUTPUT latex-output/test.dvi
+INPUT latex-output/test.aux

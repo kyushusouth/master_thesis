@@ -1,0 +1,56 @@
+\documentclass[12pt]{jarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[top=30truemm, bottom=30truemm, left=20truemm, right=20truemm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{tocloft}
+\usepackage{enumerate}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\numberwithin{equation}{section}    % 数式番号にセクション番号をつける
+\numberwithin{figure}{section}      % 図番号にセクション
+\numberwithin{table}{section}      % 図番号にセクション
+
+% \renewcommand{\figurename}{Fig.}    % 図 -> Fig.
+% \renewcommand{\tablename}{Table }   % 表 -> Table
+
+\renewcommand{\baselinestretch}{1.1}
+\newcommand{\ie}{\textit{i}.\textit{e}.}
+
+\newlength{\figcaptionskip}
+\setlength{\figcaptionskip}{5pt} % 図のキャプション間隔
+\newlength{\tabcaptionskip}
+\setlength{\tabcaptionskip}{-5pt} % 表のキャプション間隔
+\captionsetup[figure]{skip=\figcaptionskip}
+\captionsetup[table]{skip=\tabcaptionskip}
+
+\setlist[enumerate]{topsep=5pt, partopsep=5pt, itemsep=0pt, parsep=0pt}
+\setlength{\topsep}{5pt}
+\setlength{\partopsep}{5pt}
+
+\begin{document}
+空でない集合$A$に対し、$a$が$A$の最大元であるとは、
+\begin{equation}
+    a \in A \land \forall x \in A, ~ x \le a
+\end{equation}
+また、$a'$が$A$の極大元であるとは、
+\begin{equation}
+    a' \in A \land \nexists x \in A ~ s.t. ~ a' < x
+\end{equation}
+
+\end{document}

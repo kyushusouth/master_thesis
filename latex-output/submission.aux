@@ -94,113 +94,135 @@
 \newlabel{sec3:fig:transformer_layer}{{3.4}{15}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}学習方法}{17}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}損失関数}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}確率的勾配降下法}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}誤差逆伝播法}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}最適化手法}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}学習率のスケジューリング}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6}特徴量の正規化}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.7}正則化}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.8}学習の安定化}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.9}自己教師あり学習}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}勾配降下法}{18}{}\protected@file@percent }
+\newlabel{sec3:sec:gradient_descent}{{3.2.2}{18}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}誤差逆伝播法}{18}{}\protected@file@percent }
+\newlabel{sec3:sec:backpropagation}{{3.2.3}{18}}
+\newlabel{sec3:eq:output_before_act}{{3.43}{19}}
+\newlabel{sec3:eq:output_before_act_2}{{3.45}{19}}
+\newlabel{sec3:eq:loss_sample_wise_grad_sum}{{3.48}{19}}
+\newlabel{sec3:eq:loss_sample_wise_grad}{{3.49}{19}}
+\citation{kingma2014adam}
+\citation{loshchilov2017decoupled}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}最適化手法}{21}{}\protected@file@percent }
+\newlabel{sec3:sec:optimizer}{{3.2.4}{21}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Adam\relax }}{21}{}\protected@file@percent }
+\newlabel{sec3:algo:adam}{{1}{21}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces AdamW\relax }}{22}{}\protected@file@percent }
+\newlabel{sec3:algo:adamw}{{2}{22}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}学習率のスケジューリング}{22}{}\protected@file@percent }
+\citation{ioffe2015batch}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces スケジューラによる学習率の変化\relax }}{23}{}\protected@file@percent }
+\newlabel{sec3:fig:lr_scheduler}{{3.5}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6}正規化}{23}{}\protected@file@percent }
+\citation{ba2016layer}
+\citation{salimans2016weight}
+\citation{srivastava2014dropout}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.7}正則化}{25}{}\protected@file@percent }
+\newlabel{sec3:eq:regularization_dropout_training_output}{{3.79}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.8}学習の安定化}{26}{}\protected@file@percent }
+\citation{hsu2021hubert}
+\citation{shi2022learning}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.9}自己教師あり学習}{27}{}\protected@file@percent }
 \citation{wan2018generalized}
-\@writefile{toc}{\contentsline {section}{\numberline {4}動画音声合成モデルの検討}{18}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}音声合成法}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}動画音声合成モデルの検討}{29}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}音声合成法}{29}{}\protected@file@percent }
 \citation{choi2023intelligible}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces 提案するネットワークの構造\relax }}{19}{}\protected@file@percent }
-\newlabel{sec4:fig:network}{{4.1}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces 提案するネットワークの構造\relax }}{30}{}\protected@file@percent }
+\newlabel{sec4:fig:network}{{4.1}{30}}
 \citation{choi2023intelligible}
 \citation{kong2020hifi}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces HuBERT中間特徴量とHuBERT離散特徴量の取得位置\relax }}{20}{}\protected@file@percent }
-\newlabel{sec4:fig:hubert}{{4.2}{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Multi-input Vocoderの構造\relax }}{21}{}\protected@file@percent }
-\newlabel{sec4:fig:multi-input_vocoder}{{4.3}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces HuBERT中間特徴量とHuBERT離散特徴量の取得位置\relax }}{31}{}\protected@file@percent }
+\newlabel{sec4:fig:hubert}{{4.2}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Multi-input Vocoderの構造\relax }}{32}{}\protected@file@percent }
+\newlabel{sec4:fig:multi-input_vocoder}{{4.3}{32}}
 \citation{taguchi}
 \citation{esaki}
 \citation{atr}
 \citation{okamoto2023hi}
 \citation{takamichi2019jvs}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Generatorの各ブロックにおけるパラメータ\relax }}{22}{}\protected@file@percent }
-\newlabel{sec4:tab:multi-input_vocoder_parameter}{{4.1}{22}}
-\newlabel{sec4:fig:multi-input_vocoder_mpd}{{4.4a}{22}}
-\newlabel{sub@sec4:fig:multi-input_vocoder_mpd}{{a}{22}}
-\newlabel{sec4:fig:multi-input_vocoder_msd}{{4.4b}{22}}
-\newlabel{sub@sec4:fig:multi-input_vocoder_msd}{{b}{22}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Multi-Period Discriminator（MPD）とMulti-Scale Discriminator（MSD）の概要\relax }}{22}{}\protected@file@percent }
-\newlabel{sec4:fig:multi-input_vocoder_mpd_msd}{{4.4}{22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}実験方法}{22}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}利用したデータセット}{22}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Generatorの各ブロックにおけるパラメータ\relax }}{33}{}\protected@file@percent }
+\newlabel{sec4:tab:multi-input_vocoder_parameter}{{4.1}{33}}
+\newlabel{sec4:fig:multi-input_vocoder_mpd}{{4.4a}{33}}
+\newlabel{sub@sec4:fig:multi-input_vocoder_mpd}{{a}{33}}
+\newlabel{sec4:fig:multi-input_vocoder_msd}{{4.4b}{33}}
+\newlabel{sub@sec4:fig:multi-input_vocoder_msd}{{b}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Multi-Period Discriminator（MPD）とMulti-Scale Discriminator（MSD）の概要\relax }}{33}{}\protected@file@percent }
+\newlabel{sec4:fig:multi-input_vocoder_mpd_msd}{{4.4}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}実験方法}{33}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}利用したデータセット}{33}{}\protected@file@percent }
 \citation{bulat2017far}
 \citation{wan2018generalized}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces 利用したデータセットの文章数\relax }}{23}{}\protected@file@percent }
-\newlabel{sec4:tab:dataset_info}{{4.2}{23}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}データの前処理}{23}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces 利用したデータセットの文章数\relax }}{34}{}\protected@file@percent }
+\newlabel{sec4:tab:dataset_info}{{4.2}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}データの前処理}{34}{}\protected@file@percent }
 \citation{rinna-japanese-hubert-base}
 \citation{sawada2024release}
 \citation{pasad2023comparative}
 \citation{loshchilov2017decoupled}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}学習方法}{24}{}\protected@file@percent }
-\newlabel{sec4:eq:loss}{{4.1}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}学習方法}{35}{}\protected@file@percent }
+\newlabel{sec4:eq:loss}{{4.1}{35}}
 \citation{choi2023intelligible}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}比較手法}{36}{}\protected@file@percent }
+\newlabel{sec4:subsubsection:methods}{{4.2.4}{36}}
 \citation{radford2023robust}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}比較手法}{26}{}\protected@file@percent }
-\newlabel{sec4:subsubsection:methods}{{4.2.4}{26}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.5}客観評価}{26}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}結果}{27}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}客観評価}{27}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces 損失関数の重み係数$\lambda _{ssl^{d}}$による客観評価指標の比較\relax }}{31}{}\protected@file@percent }
-\newlabel{sec4:tab:obj_weights}{{4.3}{31}}
-\newlabel{sec4:fig:learning_curve_method_1_val_mel_loss}{{4.5a}{32}}
-\newlabel{sub@sec4:fig:learning_curve_method_1_val_mel_loss}{{a}{32}}
-\newlabel{sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}{{4.5b}{32}}
-\newlabel{sub@sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}{{b}{32}}
-\newlabel{sec4:fig:learning_curve_method_1_val_total_loss}{{4.5c}{32}}
-\newlabel{sub@sec4:fig:learning_curve_method_1_val_total_loss}{{c}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces 手法1における学習曲線\relax }}{32}{}\protected@file@percent }
-\newlabel{sec4:fig:learning_curve_method_1_val_losses}{{4.5}{32}}
-\newlabel{sec4:fig:learning_curve_method_2_val_mel_loss}{{4.6a}{33}}
-\newlabel{sub@sec4:fig:learning_curve_method_2_val_mel_loss}{{a}{33}}
-\newlabel{sec4:fig:learning_curve_method_2_val_ssl_feature_cluster_loss}{{4.6b}{33}}
-\newlabel{sub@sec4:fig:learning_curve_method_2_val_ssl_feature_cluster_loss}{{b}{33}}
-\newlabel{sec4:fig:learning_curve_method_2_val_total_loss}{{4.6c}{33}}
-\newlabel{sub@sec4:fig:learning_curve_method_2_val_total_loss}{{c}{33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces 手法2における学習曲線\relax }}{33}{}\protected@file@percent }
-\newlabel{sec4:fig:learning_curve_method_2_val_losses}{{4.6}{33}}
-\newlabel{sec4:fig:learning_curve_method_3_val_mel_loss}{{4.7a}{34}}
-\newlabel{sub@sec4:fig:learning_curve_method_3_val_mel_loss}{{a}{34}}
-\newlabel{sec4:fig:learning_curve_method_3_val_ssl_feature_cluster_loss}{{4.7b}{34}}
-\newlabel{sub@sec4:fig:learning_curve_method_3_val_ssl_feature_cluster_loss}{{b}{34}}
-\newlabel{sec4:fig:learning_curve_method_3_val_total_loss}{{4.7c}{34}}
-\newlabel{sub@sec4:fig:learning_curve_method_3_val_total_loss}{{c}{34}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces 手法3における学習曲線\relax }}{34}{}\protected@file@percent }
-\newlabel{sec4:fig:learning_curve_method_3_val_losses}{{4.7}{34}}
-\newlabel{sec4:fig:learning_curve_method_4_val_mel_loss}{{4.8a}{35}}
-\newlabel{sub@sec4:fig:learning_curve_method_4_val_mel_loss}{{a}{35}}
-\newlabel{sec4:fig:learning_curve_method_4_val_ssl_feature_cluster_loss}{{4.8b}{35}}
-\newlabel{sub@sec4:fig:learning_curve_method_4_val_ssl_feature_cluster_loss}{{b}{35}}
-\newlabel{sec4:fig:learning_curve_method_4_val_total_loss}{{4.8c}{35}}
-\newlabel{sub@sec4:fig:learning_curve_method_4_val_total_loss}{{c}{35}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces 手法4における学習曲線\relax }}{35}{}\protected@file@percent }
-\newlabel{sec4:fig:learning_curve_method_4_val_losses}{{4.8}{35}}
-\newlabel{sec4:fig:learning_curve_method_5_val_mel_loss}{{4.9a}{36}}
-\newlabel{sub@sec4:fig:learning_curve_method_5_val_mel_loss}{{a}{36}}
-\newlabel{sec4:fig:learning_curve_method_5_val_ssl_feature_cluster_loss}{{4.9b}{36}}
-\newlabel{sub@sec4:fig:learning_curve_method_5_val_ssl_feature_cluster_loss}{{b}{36}}
-\newlabel{sec4:fig:learning_curve_method_5_val_total_loss}{{4.9c}{36}}
-\newlabel{sub@sec4:fig:learning_curve_method_5_val_total_loss}{{c}{36}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces 手法5における学習曲線\relax }}{36}{}\protected@file@percent }
-\newlabel{sec4:fig:learning_curve_method_5_val_losses}{{4.9}{36}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces 最適なチューニングをした場合における手法ごとの比較\relax }}{37}{}\protected@file@percent }
-\newlabel{sec4:tab:obj_method_comp}{{4.4}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces テストデータにおける発話文章ごとのWERの比較\relax }}{38}{}\protected@file@percent }
-\newlabel{sec4:fig:wer_sample_wise_comparison}{{4.10}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces テストデータにおける話者ごとのWERの比較\relax }}{39}{}\protected@file@percent }
-\newlabel{sec4:fig:wer_speaker_wise_comparison}{{4.11}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces テストデータにおける話者ごとの話者類似度の比較\relax }}{39}{}\protected@file@percent }
-\newlabel{sec4:fig:spk_sim_speaker_wise_comparison}{{4.12}{39}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}主観評価}{40}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}まとめ}{41}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}結論}{42}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{謝辞}{43}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.5}客観評価}{37}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}結果}{38}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}客観評価}{38}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces 損失関数の重み係数$\lambda _{ssl^{d}}$による客観評価指標の比較\relax }}{42}{}\protected@file@percent }
+\newlabel{sec4:tab:obj_weights}{{4.3}{42}}
+\newlabel{sec4:fig:learning_curve_method_1_val_mel_loss}{{4.5a}{43}}
+\newlabel{sub@sec4:fig:learning_curve_method_1_val_mel_loss}{{a}{43}}
+\newlabel{sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}{{4.5b}{43}}
+\newlabel{sub@sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}{{b}{43}}
+\newlabel{sec4:fig:learning_curve_method_1_val_total_loss}{{4.5c}{43}}
+\newlabel{sub@sec4:fig:learning_curve_method_1_val_total_loss}{{c}{43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces 手法1における学習曲線\relax }}{43}{}\protected@file@percent }
+\newlabel{sec4:fig:learning_curve_method_1_val_losses}{{4.5}{43}}
+\newlabel{sec4:fig:learning_curve_method_2_val_mel_loss}{{4.6a}{44}}
+\newlabel{sub@sec4:fig:learning_curve_method_2_val_mel_loss}{{a}{44}}
+\newlabel{sec4:fig:learning_curve_method_2_val_ssl_feature_cluster_loss}{{4.6b}{44}}
+\newlabel{sub@sec4:fig:learning_curve_method_2_val_ssl_feature_cluster_loss}{{b}{44}}
+\newlabel{sec4:fig:learning_curve_method_2_val_total_loss}{{4.6c}{44}}
+\newlabel{sub@sec4:fig:learning_curve_method_2_val_total_loss}{{c}{44}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces 手法2における学習曲線\relax }}{44}{}\protected@file@percent }
+\newlabel{sec4:fig:learning_curve_method_2_val_losses}{{4.6}{44}}
+\newlabel{sec4:fig:learning_curve_method_3_val_mel_loss}{{4.7a}{45}}
+\newlabel{sub@sec4:fig:learning_curve_method_3_val_mel_loss}{{a}{45}}
+\newlabel{sec4:fig:learning_curve_method_3_val_ssl_feature_cluster_loss}{{4.7b}{45}}
+\newlabel{sub@sec4:fig:learning_curve_method_3_val_ssl_feature_cluster_loss}{{b}{45}}
+\newlabel{sec4:fig:learning_curve_method_3_val_total_loss}{{4.7c}{45}}
+\newlabel{sub@sec4:fig:learning_curve_method_3_val_total_loss}{{c}{45}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces 手法3における学習曲線\relax }}{45}{}\protected@file@percent }
+\newlabel{sec4:fig:learning_curve_method_3_val_losses}{{4.7}{45}}
+\newlabel{sec4:fig:learning_curve_method_4_val_mel_loss}{{4.8a}{46}}
+\newlabel{sub@sec4:fig:learning_curve_method_4_val_mel_loss}{{a}{46}}
+\newlabel{sec4:fig:learning_curve_method_4_val_ssl_feature_cluster_loss}{{4.8b}{46}}
+\newlabel{sub@sec4:fig:learning_curve_method_4_val_ssl_feature_cluster_loss}{{b}{46}}
+\newlabel{sec4:fig:learning_curve_method_4_val_total_loss}{{4.8c}{46}}
+\newlabel{sub@sec4:fig:learning_curve_method_4_val_total_loss}{{c}{46}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces 手法4における学習曲線\relax }}{46}{}\protected@file@percent }
+\newlabel{sec4:fig:learning_curve_method_4_val_losses}{{4.8}{46}}
+\newlabel{sec4:fig:learning_curve_method_5_val_mel_loss}{{4.9a}{47}}
+\newlabel{sub@sec4:fig:learning_curve_method_5_val_mel_loss}{{a}{47}}
+\newlabel{sec4:fig:learning_curve_method_5_val_ssl_feature_cluster_loss}{{4.9b}{47}}
+\newlabel{sub@sec4:fig:learning_curve_method_5_val_ssl_feature_cluster_loss}{{b}{47}}
+\newlabel{sec4:fig:learning_curve_method_5_val_total_loss}{{4.9c}{47}}
+\newlabel{sub@sec4:fig:learning_curve_method_5_val_total_loss}{{c}{47}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces 手法5における学習曲線\relax }}{47}{}\protected@file@percent }
+\newlabel{sec4:fig:learning_curve_method_5_val_losses}{{4.9}{47}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces 最適なチューニングをした場合における手法ごとの比較\relax }}{48}{}\protected@file@percent }
+\newlabel{sec4:tab:obj_method_comp}{{4.4}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces テストデータにおける発話文章ごとのWERの比較\relax }}{49}{}\protected@file@percent }
+\newlabel{sec4:fig:wer_sample_wise_comparison}{{4.10}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces テストデータにおける話者ごとのWERの比較\relax }}{50}{}\protected@file@percent }
+\newlabel{sec4:fig:wer_speaker_wise_comparison}{{4.11}{50}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces テストデータにおける話者ごとの話者類似度の比較\relax }}{50}{}\protected@file@percent }
+\newlabel{sec4:fig:spk_sim_speaker_wise_comparison}{{4.12}{50}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}主観評価}{51}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}まとめ}{52}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}結論}{53}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{謝辞}{54}{}\protected@file@percent }
 \bibstyle{junsrt}
 \bibdata{library}
 \bibcite{afouras2018lrs3}{1}
@@ -214,7 +236,7 @@
 \bibcite{choi2023intelligible}{9}
 \bibcite{hsu2021hubert}{10}
 \bibcite{hsu2023revise}{11}
-\@writefile{toc}{\contentsline {section}{参考文献}{44}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{参考文献}{55}{}\protected@file@percent }
 \bibcite{sahipjohn2023robustl2s}{12}
 \bibcite{yeo2024akvsr}{13}
 \bibcite{cheng2023opensr}{14}
@@ -234,15 +256,20 @@
 \bibcite{hochreiter1997long}{28}
 \bibcite{cho2014learning}{29}
 \bibcite{vaswani2017attention}{30}
-\bibcite{wan2018generalized}{31}
-\bibcite{kong2020hifi}{32}
-\bibcite{atr}{33}
-\bibcite{okamoto2023hi}{34}
-\bibcite{takamichi2019jvs}{35}
-\bibcite{bulat2017far}{36}
-\bibcite{rinna-japanese-hubert-base}{37}
-\bibcite{sawada2024release}{38}
-\bibcite{pasad2023comparative}{39}
-\bibcite{loshchilov2017decoupled}{40}
-\bibcite{radford2023robust}{41}
-\gdef \@abspage@last{50}
+\bibcite{kingma2014adam}{31}
+\bibcite{loshchilov2017decoupled}{32}
+\bibcite{ioffe2015batch}{33}
+\bibcite{ba2016layer}{34}
+\bibcite{salimans2016weight}{35}
+\bibcite{srivastava2014dropout}{36}
+\bibcite{wan2018generalized}{37}
+\bibcite{kong2020hifi}{38}
+\bibcite{atr}{39}
+\bibcite{okamoto2023hi}{40}
+\bibcite{takamichi2019jvs}{41}
+\bibcite{bulat2017far}{42}
+\bibcite{rinna-japanese-hubert-base}{43}
+\bibcite{sawada2024release}{44}
+\bibcite{pasad2023comparative}{45}
+\bibcite{radford2023robust}{46}
+\gdef \@abspage@last{62}
