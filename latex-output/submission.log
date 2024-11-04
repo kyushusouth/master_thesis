@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  4 NOV 2024 15:53
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  4 NOV 2024 18:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -542,49 +542,57 @@ File: ./figure/sec4/model/mpd.png Graphic file (type bmp)
 File: ./figure/sec4/model/msd.png Graphic file (type bmp)
 <./figure/sec4/model/msd.png>
 [32] [33] [34] [35] [36] [37] [38] [39] [40]
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/mel_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/0/total_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/mel_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/2/total_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/mel_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/3/total_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/mel_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/4/total_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/mel_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curve/impact_of_loss_weights_across_methods/5/total_loss.png>
+File: ./figure/sec4/learning_curves/0/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/0/mel_loss.png>
+File: ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/0/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/0/total_loss.png>
+File: ./figure/sec4/learning_curves/1/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/mel_loss.png>
+File: ./figure/sec4/learning_curves/1/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/1/ssl_conv_feature_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/ssl_conv_feature_loss.png>
+File: ./figure/sec4/learning_curves/1/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/total_loss.png>
+File: ./figure/sec4/learning_curves/2/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/2/mel_loss.png>
+File: ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/2/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/2/total_loss.png>
+File: ./figure/sec4/learning_curves/3/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/3/mel_loss.png>
+File: ./figure/sec4/learning_curves/3/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/3/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/3/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/3/total_loss.png>
+File: ./figure/sec4/learning_curves/4/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/4/mel_loss.png>
+File: ./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/4/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/4/total_loss.png>
+File: ./figure/sec4/learning_curves/5/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/5/mel_loss.png>
+File: ./figure/sec4/learning_curves/5/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/5/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/5/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/5/total_loss.png>
 File: ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png Graphic file (type bmp)
 <./figure/sec4/obj_metrics/wer_sample_wise_comparison.png>
 File: ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png Graphic file (type bmp)
 <./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png>
 File: ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png Graphic file (type bmp)
 <./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png>
-[41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51
-
-] [52
+[41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52
 
 ] [53
 
 ] [54
+
+] [55
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -609,7 +617,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 64.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 71.
-[55
+[56
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -628,7 +636,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 121.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 128.
-[56]
+[57]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 136.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -649,7 +657,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 195.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 200.
-[57]
+[58]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 205.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -672,19 +680,19 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 266.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 277.
-[58]
+[59]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 285.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 292.
-) [59] (latex-output/submission.aux) ) 
+) [60] (latex-output/submission.aux) ) 
 Here is how much of TeX's memory you used:
- 11248 strings out of 478692
- 243723 string characters out of 5855915
- 534989 words of memory out of 5000000
- 29531 multiletter control sequences out of 15000+600000
+ 11276 strings out of 478692
+ 242769 string characters out of 5855915
+ 537088 words of memory out of 5000000
+ 29556 multiletter control sequences out of 15000+600000
  491126 words of font info for 113 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  74i,17n,79p,2801b,721s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (62 pages, 239824 bytes).
+Output written on latex-output/submission.dvi (63 pages, 241152 bytes).
