@@ -809,18 +809,6 @@ INPUT ./figure/sec4/learning_curves/5/total_loss.png
 INPUT ./figure/sec4/learning_curves/5/total_loss.png
 INPUT ./figure/sec4/learning_curves/5/total_loss.png
 INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/5/total_loss.png
-INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/wer_sample_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/wer_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
-INPUT extractbb -B cropbox -O ./figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png
 INPUT latex-output/submission.bbl
 INPUT latex-output/submission.bbl
 INPUT latex-output/submission.bbl

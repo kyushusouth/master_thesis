@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex latex-output/submission"] 1730713487 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1730713495
+["bibtex latex-output/submission"] 1730886836 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1730886843
   "junsrt.bst" 0 -1 0 ""
-  "latex-output/submission.aux" 1730713492 18514 4c1859849974587220fce6d273b969b6 "latex"
+  "latex-output/submission.aux" 1730886840 18341 fe70fb7e4fd2812541cf3c64d3715eb1 "latex"
   "library.bib" 1730343809 17683 6cae22477dca0716ea6e3b84d0e47843 ""
   (generated)
   "latex-output/submission.bbl"
   "latex-output/submission.blg"
-["dvipdf"] 1730713492 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1730713495
-  "latex-output/submission.dvi" 1730713492 241152 2e8dbf37e386b9e9cc7274750fca0309 "latex"
+["dvipdf"] 1730886840 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1730886843
+  "latex-output/submission.dvi" 1730886840 246212 fc3a52438b599d42b4f737b5667924af "latex"
   (generated)
   "latex-output/submission.pdf"
-["latex"] 1730713487 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1730713495
-  "/Users/minami/class/research/master_thesis/submission.tex" 1730713482 168655 0ef5c00b5a7973cbace25c1ad433718f ""
+["latex"] 1730886836 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1730886843
+  "/Users/minami/class/research/master_thesis/submission.tex" 1730886825 159016 ae88e0cc4b4880725e2d3cb205e06015 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1463434352 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm" 1463434352 1196 977af188465e721f1f65facb66282510 ""
@@ -156,13 +156,10 @@
   "figure/sec4/model/msd.png" 1729937444 23392 2d9c44f3c2875313bb01382fefc9e43f ""
   "figure/sec4/model/multi-input_vocoder.png" 1729933131 81058 96b77948a8646eb2908662e006dabd25 ""
   "figure/sec4/model/network.drawio.png" 1730703174 84201 679b64190dfe615d4b0e834210818941 ""
-  "figure/sec4/obj_metrics/spk_sim_speaker_wise_comparison.png" 1729010948 37908 f9667c542a77d983eca2df728f7f8061 ""
-  "figure/sec4/obj_metrics/wer_sample_wise_comparison.png" 1729010948 223376 4ce40baf06112f5c95bacd983163b140 ""
-  "figure/sec4/obj_metrics/wer_speaker_wise_comparison.png" 1729010948 35345 aa497b67ede46b290efc2d8360a0d6af ""
-  "latex-output/submission.aux" 1730713492 18514 4c1859849974587220fce6d273b969b6 "latex"
-  "latex-output/submission.bbl" 1730713487 12368 4793bdd502b258c7fb5ca308728fb0be "bibtex latex-output/submission"
-  "latex-output/submission.toc" 1730713492 2882 bae5fd73b9ea105b2506892541136442 "latex"
-  "submission.tex" 1730713482 168655 0ef5c00b5a7973cbace25c1ad433718f ""
+  "latex-output/submission.aux" 1730886840 18341 fe70fb7e4fd2812541cf3c64d3715eb1 "latex"
+  "latex-output/submission.bbl" 1730886836 13134 823ebf4223145da05f6f53db68bb59ea "bibtex latex-output/submission"
+  "latex-output/submission.toc" 1730886840 2952 ff4abc462b545323163beefe2fdc9e3d "latex"
+  "submission.tex" 1730886825 159016 ae88e0cc4b4880725e2d3cb205e06015 ""
   (generated)
   "latex-output/submission.aux"
   "latex-output/submission.dvi"

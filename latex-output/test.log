@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  4 NOV 2024 12:15
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  6 NOV 2024 12:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -453,14 +453,6 @@ Package translations Info: loading dictionary `translations-basic-dictionary' fo
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 47.
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 47.
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
 
 Package caption Warning: Unused \captionsetup[figure] on input line 39.
 See the caption package documentation for explanation.
@@ -469,16 +461,14 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[table] on input line 40.
 See the caption package documentation for explanation.
 
-[1
-
-] (latex-output/test.aux) ) 
+(latex-output/test.aux) ) 
 Here is how much of TeX's memory you used:
- 10811 strings out of 478692
- 226899 string characters out of 5855915
- 499813 words of memory out of 5000000
- 29157 multiletter control sequences out of 15000+600000
- 481640 words of font info for 76 fonts, out of 8000000 for 9000
+ 10738 strings out of 478692
+ 225946 string characters out of 5855915
+ 497822 words of memory out of 5000000
+ 29117 multiletter control sequences out of 15000+600000
+ 473428 words of font info for 46 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,5n,79p,343b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,1n,79p,343b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/test.dvi (1 page, 952 bytes).
+No pages of output.
