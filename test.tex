@@ -21,6 +21,7 @@
 \usepackage{array}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{amsthm}
 
 \numberwithin{equation}{section}    % 数式番号にセクション番号をつける
 \numberwithin{figure}{section}      % 図番号にセクション
@@ -43,6 +44,17 @@
 \setlength{\topsep}{5pt}
 \setlength{\partopsep}{5pt}
 
-\begin{document}
 
+\begin{document}
+今、以下を示しました。
+\begin{align}
+    f\text{が実連続関数である} & \iff \text{条件1が成り立つ} \\
+    f\text{が実連続関数である} & \iff \text{条件2が成り立つ} \\
+    f\text{が実連続関数である} & \iff \text{条件3が成り立つ} \\
+\end{align}
+この時、
+\begin{equation}
+    f\text{が実連続関数である} \iff \text{条件1, 2, 3のいずれかが成り立つ}
+\end{equation}
+は成り立つと言っていいですかね？論理式でちゃんと示せるといいのですが。
 \end{document}

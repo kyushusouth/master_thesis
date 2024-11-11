@@ -30,13 +30,13 @@
 \contentsline {subsubsection}{\numberline {4.2.1}利用したデータセット}{33}{}%
 \contentsline {subsubsection}{\numberline {4.2.2}データの前処理}{34}{}%
 \contentsline {subsubsection}{\numberline {4.2.3}学習方法}{35}{}%
-\contentsline {subsubsection}{\numberline {4.2.4}比較手法}{37}{}%
-\contentsline {subsubsection}{\numberline {4.2.5}客観評価}{37}{}%
-\contentsline {subsubsection}{\numberline {4.2.6}主観評価}{38}{}%
+\contentsline {subsubsection}{\numberline {4.2.4}客観評価}{37}{}%
+\contentsline {subsubsection}{\numberline {4.2.5}主観評価}{37}{}%
 \contentsline {subsection}{\numberline {4.3}結果}{41}{}%
-\contentsline {subsubsection}{\numberline {4.3.1}客観評価}{41}{}%
-\contentsline {subsubsection}{\numberline {4.3.2}主観評価}{52}{}%
-\contentsline {subsection}{\numberline {4.4}まとめ}{53}{}%
-\contentsline {section}{\numberline {5}結論}{54}{}%
-\contentsline {section}{謝辞}{55}{}%
-\contentsline {section}{参考文献}{56}{}%
+\contentsline {subsubsection}{\numberline {4.3.1}客観評価1: ベースラインと提案手法の比較}{41}{}%
+\contentsline {subsubsection}{\numberline {4.3.2}客観評価2: 提案手法のさらなる検討}{52}{}%
+\contentsline {subsubsection}{\numberline {4.3.3}主観評価}{54}{}%
+\contentsline {subsection}{\numberline {4.4}まとめ}{55}{}%
+\contentsline {section}{\numberline {5}結論}{56}{}%
+\contentsline {section}{謝辞}{57}{}%
+\contentsline {section}{参考文献}{58}{}%

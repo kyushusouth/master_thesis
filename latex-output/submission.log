@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  6 NOV 2024 18:53
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  11 NOV 2024 14:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -541,7 +541,11 @@ File: ./figure/sec4/model/mpd.png Graphic file (type bmp)
 <./figure/sec4/model/mpd.png>
 File: ./figure/sec4/model/msd.png Graphic file (type bmp)
 <./figure/sec4/model/msd.png>
-[32] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42]
+[32] [33] [34] [35] [36] [37]
+
+LaTeX Warning: Reference `sec4:subsubsection:methods' on page 38 undefined on input line 862.
+
+[38] [39] [40] [41] [42]
 File: ./figure/sec4/learning_curves/0/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/0/mel_loss.png>
 File: ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
@@ -582,11 +586,13 @@ File: ./figure/sec4/learning_curves/5/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/5/total_loss.png>
 [43] [44] [45] [46] [47] [48] [49] [50] [51] [52
 
-] [53
-
-] [54
+] [53] [54
 
 ] [55
+
+] [56
+
+] [57
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -611,7 +617,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 64.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 71.
-[56
+[58
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -630,7 +636,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 121.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 128.
-[57]
+[59]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 136.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -651,7 +657,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 195.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 200.
-[58]
+[60]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 205.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -674,23 +680,27 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 266.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 277.
-[59]
+[61]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 285.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 292.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 305.
+(Font)              No change on input line 300.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 311.
-) [60] (latex-output/submission.aux) ) 
+(Font)              No change on input line 306.
+) [62] (latex-output/submission.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 11261 strings out of 478692
- 241798 string characters out of 5855915
- 537075 words of memory out of 5000000
- 29546 multiletter control sequences out of 15000+600000
+ 11266 strings out of 478692
+ 241926 string characters out of 5855915
+ 536078 words of memory out of 5000000
+ 29551 multiletter control sequences out of 15000+600000
  491126 words of font info for 113 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  74i,17n,79p,2801b,721s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (63 pages, 246212 bytes).
+Output written on latex-output/submission.dvi (65 pages, 260040 bytes).
