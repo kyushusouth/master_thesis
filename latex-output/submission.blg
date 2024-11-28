@@ -3,47 +3,45 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: submission.aux
 The style file: junsrt.bst
 Database file #1: library.bib
-Warning--can't use both volume and number fields in kim2024let
-You've used 48 entries,
+You've used 28 entries,
             2270 wiz_defined-function locations,
-            763 strings with 14014 characters,
-and the built_in function-call counts, 16624 in all, are:
-= -- 1279
-> -- 639
-< -- 29
-+ -- 245
-- -- 197
-* -- 775
-:= -- 2090
-add.period$ -- 154
-call.type$ -- 48
-change.case$ -- 48
+            676 strings with 9069 characters,
+and the built_in function-call counts, 8425 in all, are:
+= -- 637
+> -- 292
+< -- 15
++ -- 116
+- -- 88
+* -- 355
+:= -- 1072
+add.period$ -- 87
+call.type$ -- 28
+change.case$ -- 28
 chr.to.int$ -- 0
-cite$ -- 49
-duplicate$ -- 1014
-empty$ -- 1551
-format.name$ -- 394
-if$ -- 4084
+cite$ -- 28
+duplicate$ -- 538
+empty$ -- 818
+format.name$ -- 176
+if$ -- 2062
 int.to.chr$ -- 0
-int.to.str$ -- 48
-missing$ -- 46
-newline$ -- 242
-num.names$ -- 48
-pop$ -- 332
+int.to.str$ -- 28
+missing$ -- 26
+newline$ -- 142
+num.names$ -- 28
+pop$ -- 182
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 845
+skip$ -- 448
 stack$ -- 0
-substring$ -- 848
-swap$ -- 309
-text.length$ -- 29
+substring$ -- 376
+swap$ -- 143
+text.length$ -- 15
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 1
-while$ -- 117
-width$ -- 50
-write$ -- 515
-is.kanji.str$ -- 597
-(There was 1 warning)
+warning$ -- 0
+while$ -- 58
+width$ -- 30
+write$ -- 294
+is.kanji.str$ -- 314

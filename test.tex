@@ -31,7 +31,9 @@
 % \renewcommand{\tablename}{Table }   % 表 -> Table
 
 \renewcommand{\baselinestretch}{1.1}
-\newcommand{\ie}{\textit{i}.\textit{e}.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
 
 \newlength{\figcaptionskip}
 \setlength{\figcaptionskip}{5pt} % 図のキャプション間隔
@@ -46,15 +48,22 @@
 
 
 \begin{document}
-今、以下を示しました。
-\begin{align}
-    f\text{が実連続関数である} & \iff \text{条件1が成り立つ} \\
-    f\text{が実連続関数である} & \iff \text{条件2が成り立つ} \\
-    f\text{が実連続関数である} & \iff \text{条件3が成り立つ} \\
-\end{align}
-この時、
+ある集合$S$を考える。$S$に距離$d: S \times S \rightarrow \mathbb{R}$を導入すれば、距離空間$(S, d)$が構成される。ここで、$S$の任意の点$a$、任意の正の実数$\epsilon$に対し、球体$B(a; \epsilon)$は
 \begin{equation}
-    f\text{が実連続関数である} \iff \text{条件1, 2, 3のいずれかが成り立つ}
+    B(a; \epsilon) = \{x \mid x \in S, ~ d(a, x) < \epsilon\}
 \end{equation}
-は成り立つと言っていいですかね？論理式でちゃんと示せるといいのですが。
+と定義される。ここで、部分集合系$\mathfrak{O}$を
+\begin{equation}
+    \mathfrak{O} = \{O \mid O \in \mathfrak{P}(S), ~ \forall a \in O, \exists \epsilon > 0, B(a; \epsilon) \subset O\}
+\end{equation}
+とすると、これは$S$における位相となる。すなわち、$S$を台とする位相空間$(S, \mathfrak{O})$は距離$d$を用いて直ちに構成できる。
+
+ある$S$の部分集合$M$に対し、位相空間$(S, \mathfrak{O})$における$M$の内部$M^{i}_{O}$および閉包$\overline{M}_{O}$は、開集合（$\mathfrak{O}$の元）を用いて定義される。一方、距離空間における$M$の内部$M^{i}_{d}$および閉包$\overline{M}_{d}$は、距離$d$を用いて定義される。この時、
+\begin{gather}
+    M^{i}_{O} = M^{i}_{d} \\
+    \overline{M}_{O} = \overline{M}_{d}
+\end{gather}
+が成り立つ。従って、距離空間の意味での内部と位相空間の意味での内部は一致しているから、どちらの観点から見て得られる性質も自由に使って良い。閉包についても同様である。
+
+上記の議論は、あくまで距離空間がベースとなり、距離を用いて定義した位相に限定されることには注意が必要である。距離と無関係な$S$の位相を考えることも可能であるが、その場合は距離空間の意味での内部および閉包と、位相空間の意味での内部および閉包は必ずしも一致しないから、一方の観点で得られた性質をもう一方の観点でも用いることができるかはわからない。
 \end{document}
