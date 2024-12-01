@@ -55,6 +55,24 @@ Kyunghyun Cho.
   statistical machine translation.
 \newblock {\em arXiv preprint arXiv:1406.1078}, 2014.
 
+\bibitem{ioffe2015batch}
+Sergey Ioffe.
+\newblock Batch normalization: Accelerating deep network training by reducing
+  internal covariate shift.
+\newblock {\em arXiv preprint arXiv:1502.03167}, 2015.
+
+\bibitem{ba2016layer}
+Jimmy~Lei Ba.
+\newblock Layer normalization.
+\newblock {\em arXiv preprint arXiv:1607.06450}, 2016.
+
+\bibitem{salimans2016weight}
+Tim Salimans and Durk~P Kingma.
+\newblock Weight normalization: A simple reparameterization to accelerate
+  training of deep neural networks.
+\newblock {\em Advances in neural information processing systems}, Vol.~29, ,
+  2016.
+
 \bibitem{vaswani2017attention}
 A~Vaswani.
 \newblock Attention is all you need.
@@ -77,31 +95,6 @@ Diederik~P Kingma.
 \newblock Adam: A method for stochastic optimization.
 \newblock {\em arXiv preprint arXiv:1412.6980}, 2014.
 
-\bibitem{ioffe2015batch}
-Sergey Ioffe.
-\newblock Batch normalization: Accelerating deep network training by reducing
-  internal covariate shift.
-\newblock {\em arXiv preprint arXiv:1502.03167}, 2015.
-
-\bibitem{ba2016layer}
-Jimmy~Lei Ba.
-\newblock Layer normalization.
-\newblock {\em arXiv preprint arXiv:1607.06450}, 2016.
-
-\bibitem{salimans2016weight}
-Tim Salimans and Durk~P Kingma.
-\newblock Weight normalization: A simple reparameterization to accelerate
-  training of deep neural networks.
-\newblock {\em Advances in neural information processing systems}, Vol.~29, ,
-  2016.
-
-\bibitem{kong2020hifi}
-Jungil Kong, Jaehyeon Kim, and Jaekyoung Bae.
-\newblock Hifi-gan: Generative adversarial networks for efficient and high
-  fidelity speech synthesis.
-\newblock {\em Advances in neural information processing systems}, Vol.~33, pp.
-  17022--17033, 2020.
-
 \bibitem{hsu2021hubert}
 Wei-Ning Hsu, Benjamin Bolte, Yao-Hung~Hubert Tsai, Kushal Lakhotia, Ruslan
   Salakhutdinov, and Abdelrahman Mohamed.
@@ -115,6 +108,13 @@ Li~Wan, Quan Wang, Alan Papir, and Ignacio~Lopez Moreno.
 \newblock Generalized end-to-end loss for speaker verification.
 \newblock In {\em 2018 IEEE International Conference on Acoustics, Speech and
   Signal Processing (ICASSP)}, pp. 4879--4883. IEEE, 2018.
+
+\bibitem{kong2020hifi}
+Jungil Kong, Jaehyeon Kim, and Jaekyoung Bae.
+\newblock Hifi-gan: Generative adversarial networks for efficient and high
+  fidelity speech synthesis.
+\newblock {\em Advances in neural information processing systems}, Vol.~33, pp.
+  17022--17033, 2020.
 
 \bibitem{taguchi}
 田口史郎.
