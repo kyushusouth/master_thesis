@@ -623,12 +623,5 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
-INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
-INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
-INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm7.tfm
 OUTPUT latex-output/test.dvi
 INPUT latex-output/test.aux

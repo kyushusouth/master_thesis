@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  27 NOV 2024 11:07
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  1 DEC 2024 09:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -475,10 +475,6 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 51.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+euf on input line 55.
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
-File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
-)
 
 Package caption Warning: Unused \captionsetup[figure] on input line 42.
 See the caption package documentation for explanation.
@@ -491,12 +487,12 @@ See the caption package documentation for explanation.
 
 ] (latex-output/test.aux) ) 
 Here is how much of TeX's memory you used:
- 10926 strings out of 478692
- 228644 string characters out of 5855915
- 507157 words of memory out of 5000000
- 29263 multiletter control sequences out of 15000+600000
- 482348 words of font info for 79 fonts, out of 8000000 for 9000
+ 10912 strings out of 478692
+ 228373 string characters out of 5855915
+ 503157 words of memory out of 5000000
+ 29254 multiletter control sequences out of 15000+600000
+ 481640 words of font info for 76 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,8n,79p,414b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,7n,79p,343b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/test.dvi (1 page, 3388 bytes).
+Output written on latex-output/test.dvi (1 page, 1188 bytes).

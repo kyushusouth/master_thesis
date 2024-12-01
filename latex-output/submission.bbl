@@ -27,6 +27,23 @@ Jeongsoo Choi, Minsu Kim, and Yong~Man Ro.
 \newblock Intelligible lip-to-speech synthesis with speech units.
 \newblock {\em arXiv preprint arXiv:2305.19603}, 2023.
 
+\bibitem{maas2013rectifier}
+Andrew~L Maas, Awni~Y Hannun, Andrew~Y Ng, et~al.
+\newblock Rectifier nonlinearities improve neural network acoustic models.
+\newblock In {\em Proc. icml}, Vol.~30, p.~3. Atlanta, GA, 2013.
+
+\bibitem{he2015delving}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Delving deep into rectifiers: Surpassing human-level performance on
+  imagenet classification.
+\newblock In {\em Proceedings of the IEEE international conference on computer
+  vision}, pp. 1026--1034, 2015.
+
+\bibitem{hendrycks2016gaussian}
+Dan Hendrycks and Kevin Gimpel.
+\newblock Gaussian error linear units (gelus).
+\newblock {\em arXiv preprint arXiv:1606.08415}, 2016.
+
 \bibitem{hochreiter1997long}
 S~Hochreiter.
 \newblock Long short-term memory.
@@ -78,6 +95,13 @@ Tim Salimans and Durk~P Kingma.
 \newblock {\em Advances in neural information processing systems}, Vol.~29, ,
   2016.
 
+\bibitem{kong2020hifi}
+Jungil Kong, Jaehyeon Kim, and Jaekyoung Bae.
+\newblock Hifi-gan: Generative adversarial networks for efficient and high
+  fidelity speech synthesis.
+\newblock {\em Advances in neural information processing systems}, Vol.~33, pp.
+  17022--17033, 2020.
+
 \bibitem{hsu2021hubert}
 Wei-Ning Hsu, Benjamin Bolte, Yao-Hung~Hubert Tsai, Kushal Lakhotia, Ruslan
   Salakhutdinov, and Abdelrahman Mohamed.
@@ -91,13 +115,6 @@ Li~Wan, Quan Wang, Alan Papir, and Ignacio~Lopez Moreno.
 \newblock Generalized end-to-end loss for speaker verification.
 \newblock In {\em 2018 IEEE International Conference on Acoustics, Speech and
   Signal Processing (ICASSP)}, pp. 4879--4883. IEEE, 2018.
-
-\bibitem{kong2020hifi}
-Jungil Kong, Jaehyeon Kim, and Jaekyoung Bae.
-\newblock Hifi-gan: Generative adversarial networks for efficient and high
-  fidelity speech synthesis.
-\newblock {\em Advances in neural information processing systems}, Vol.~33, pp.
-  17022--17033, 2020.
 
 \bibitem{taguchi}
 田口史郎.

@@ -1,10 +1,10 @@
 # Fdb version 3
-["dvipdf"] 1732673230 "latex-output/test.dvi" "latex-output/test.pdf" "latex-output/test" 1732673230
-  "latex-output/test.dvi" 1732673230 3388 9a0818789f19a04a10086724a457b150 "latex"
+["dvipdf"] 1733013171 "latex-output/test.dvi" "latex-output/test.pdf" "latex-output/test" 1733013171
+  "latex-output/test.dvi" 1733013171 1188 c205cb57eae768f4083764925e9c250a "latex"
   (generated)
   "latex-output/test.pdf"
-["latex"] 1732673229 "/Users/minami/class/research/master_thesis/test.tex" "latex-output/test.dvi" "test" 1732673230
-  "/Users/minami/class/research/master_thesis/test.tex" 1732673229 3469 37326466585cc6b6a90a751c0cd13fa9 ""
+["latex"] 1733013170 "/Users/minami/class/research/master_thesis/test.tex" "latex-output/test.dvi" "test" 1733013171
+  "/Users/minami/class/research/master_thesis/test.tex" 1733013170 2020 a8b1090181cc2a41335411505fb324e7 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm" 1463434352 1196 977af188465e721f1f65facb66282510 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm" 1463434352 1196 f76ab7ae43ed1dfe29b9e6ec2933fdb4 ""
@@ -16,8 +16,6 @@
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib6.tfm" 1246382020 1516 a3bf6a5e7ec4401b1f52092dfaaed242 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib8.tfm" 1246382020 1528 dab402b9d3774ca98baa037071cee7ae ""
-  "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm10.tfm" 1246382020 1040 b84415f97d114011685943ade933dc71 ""
-  "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm7.tfm" 1246382020 1040 82eb6630b094bff824fccca83ff507f9 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm" 1246382020 928 2dc8d444221b7a635bb58038579b861a ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm" 1246382020 908 2921f8a10601f252058503cc6570e581 ""
@@ -48,7 +46,6 @@
   "/usr/local/texlive/2022/texmf-dist/tex/latex/amscls/amsthm.sty" 1591045760 12594 0d51ac3a545aaaa555021326ff22a6cc ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/amsfonts.sty" 1359763108 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/amssymb.sty" 1359763108 13829 94730e64147574077f8ecfea9bb69af4 ""
-  "/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd" 1359763108 1047 4252767c0fde12e3ce9f914ef4bb1ea1 ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd" 1359763108 961 6518c6525a34feb5e8250ffa91731cff ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd" 1359763108 961 d02606146ba5601b5645f987c92e6193 ""
   "/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amsbsy.sty" 1622667781 2222 da905dc1db75412efd2d8f67739f0596 ""
@@ -97,8 +94,8 @@
   "/usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf" 1646502317 40171 cdab547de63d26590bebb3baff566530 ""
   "/usr/local/texlive/2022/texmf-var/web2c/eptex/platex.fmt" 1650600716 2830424 f9cd5b7823a0535560635b2555e565db ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "latex-output/test.aux" 1732673230 32 3985256e7290058c681f74d7a3565a19 "latex"
-  "test.tex" 1732673229 3469 37326466585cc6b6a90a751c0cd13fa9 ""
+  "latex-output/test.aux" 1733013171 32 3985256e7290058c681f74d7a3565a19 "latex"
+  "test.tex" 1733013170 2020 a8b1090181cc2a41335411505fb324e7 ""
   (generated)
   "latex-output/test.aux"
   "latex-output/test.dvi"
