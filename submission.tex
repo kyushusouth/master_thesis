@@ -44,6 +44,8 @@
 
 \input{vars.tex}
 
+\allowdisplaybreaks[4]
+
 \begin{document}
 
 \begin{titlepage}
@@ -720,6 +722,71 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 
 \section{動画音声合成モデルの検討}
 \subsection{音声合成法}
+\subsubsection{全体像}
+変数
+\begin{gather}
+    \bm{\inputLower}_{\text{sp-waveform}}, \hat{\bm{\outputLower}}_{\text{sp-waveform}} \in \realSet^{\timeUpper_{\text{sp-waveform}}}  \\
+    \bm{\inputLower}_{\text{spk-emb}} \in \realSet^{\dimUpper_{\text{spk-emb}}} \\
+    \bm{\outputUpper}_{\text{HuBERT-int}}, \hat{\bm{\outputUpper}}_{\text{HuBERT-int}} \in \realSet^{\dimUpper_{\text{HuBERT-int}} \times \timeUpper_{\text{HuBERT}}} \\
+    \bm{\outputUpper}_{\text{HuBERT-disc}}, \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{A}, \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{B} \in \{0, 1\}^{\classUpper \times \timeUpper_{\text{HuBERT}}} \\
+    \hat{\bm{\outputUpper}}_{\text{mel}}^{A}, \hat{\bm{\outputUpper}}_{\text{mel}}^{B} \in \realSet^{\dimUpper_{\text{mel}} \times \timeUpper_{\text{mel}}} \\
+    \bm{\inputUpper}_{\text{video}} \in \realSet^{\dimUpper_{\text{video}} \times \timeUpper_{\text{video}} \times \widthUpper_{\text{video}} \times \heightUpper_{\text{video}}} \\
+    \bm{\featureUpper}_{\text{AVHuBERT}}, \bm{\featureUpper}_{\text{w-spk}}^{A}, \bm{\featureUpper}_{\text{post}}^{A} \in \realSet^{\dimUpper_{\text{AVHuBERT}} \times \timeUpper_{\text{video}}} \\
+    \bm{\featureUpper}_{\text{HuBERT}}, \bm{\featureUpper}_{\text{w-spk}}^{B}, \bm{\featureUpper}_{\text{post}}^{B} \in \realSet^{\dimUpper_{\text{HuBERT}} \times \timeUpper_{\text{HuBERT}}} \\
+    \bm{\featureUpper}_{\text{mel-voc}} \in \realSet^{\dimUpper_{\text{mel-voc}} \times \timeUpper_{\text{HuBERT}}} \\
+    \bm{\featureUpper}_{\text{HuBERT-voc}} \in \realSet^{\dimUpper_{\text{HuBERT-voc}} \times \timeUpper_{\text{HuBERT}}} \\
+    \hat{\bm{\outputLower}}_{\text{mpd-real}}, \hat{\bm{\outputLower}}_{\text{mpd-fake}} \in \realSet^{\numUpper_{\text{disc}}^{\text{mpd}}}  \\
+    \hat{\bm{\outputLower}}_{\text{msd-real}}, \hat{\bm{\outputLower}}_{\text{msd-fake}} \in \realSet^{\numUpper_{\text{disc}}^{\text{msd}}} \\
+    \hat{\bm{\featureUpper}}_{\text{mpd-real}}, \hat{\bm{\featureUpper}}_{\text{mpd-fake}} \in \prod_{n = 1}^{\numUpper_{\text{disc}}^{\text{mpd}}} \prod_{l = 1}^{\numUpper_{\text{layer}}^{\text{mpd}}} \realSet^{\dimUpper_{l} \times \widthUpper_{l}^{n} \times \heightUpper_{l}^{n}} \\
+    \hat{\bm{\featureUpper}}_{\text{msd-real}}, \hat{\bm{\featureUpper}}_{\text{msd-real}} \in \prod_{n = 1}^{\numUpper_{\text{disc}}^{\text{msd}}} \prod_{l = 1}^{\numUpper_{\text{layer}}^{\text{msd}}} \realSet^{\dimUpper_{l} \times \timeUpper_{l}^{n}} \\
+\end{gather}
+全体像
+\begin{gather}
+    \bm{\inputLower}_{\text{spk-emb}} = \spkEmbExtractor(\bm{\inputLower}_{\text{sp-waveform}}; \bm{\weightAndBias}_{\text{spk-pretrained}}) \\
+    \bm{\outputUpper}_{\text{HuBERT-int}} = \hubertConv(\bm{\inputLower}_{\text{sp-waveform}}; \bm{\weightAndBias}_{\text{HuBERT-pretrained}}) \\
+    \bm{\outputUpper}_{\text{HuBERT-disc}} = \kmeans(\hubertTransformer(\bm{\outputUpper}_{\text{HuBERT-int}}; \bm{\weightAndBias}_{\text{HuBERT-pretrained}})) \\
+    \hat{\bm{\outputUpper}}_{\text{HuBERT-int}}, \hat{\bm{\outputUpper}}_{\text{mel}}^{A}, \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{A} = \myNetworkA(\bm{\inputUpper}_{\text{video}}, \bm{\inputLower}_{\text{spk-emb}}; \bm{\weightAndBias}_{\text{A}}) \\
+    \hat{\bm{\outputUpper}}_{\text{mel}}^{B}, \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{B} = \myNetworkB(\hat{\bm{\outputUpper}}_{\text{HuBERT-int}}, \bm{\inputLower}_{\text{spk-emb}}; \bm{\weightAndBias}_{\text{B}}) \\
+    \hat{\bm{\outputLower}}_{\text{sp-waveform}} = \vocoder(\hat{\bm{\outputUpper}}_{\text{mel}}^{B}, \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{B}; \bm{\weightAndBias}_{\text{voc}})
+\end{gather}
+ネットワークA
+\begin{gather}
+    \bm{\featureUpper}_{\text{AVHuBERT}} = \AVHuBERT(\bm{\inputUpper}_{\text{video}}; \bm{\weightAndBias}_{\text{AVHuBERT-pretrained}}) \\
+    \bm{\featureUpper}_{\text{w-spk}}^{A} = \concat(\bm{\featureUpper}_{\text{AVHuBERT}}, \opRepeat(\bm{\inputLower}_{\text{spk-emb}})) \\
+    \bm{\featureUpper}_{\text{post}}^{A} = \myNetworkPost(\bm{\featureUpper}_{\text{w-spk}}^{A}; \bm{\weightAndBias}_{\text{post}}^{\text{A}}) \\
+    \hat{\bm{\outputUpper}}_{\text{HuBERT-int}} = \myNetworkFcHubInt(\bm{\featureUpper}_{\text{post}}^{A}; \bm{\weightAndBias}_{\text{fc-HuBERT-int}}) \\
+    \hat{\bm{\outputUpper}}_{\text{mel}}^{A} = \myNetworkFcMel(\bm{\featureUpper}_{\text{post}}^{A}; \bm{\weightAndBias}_{\text{fc-mel}}^{A}) \\
+    \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{A} = \myNetworkFcHubDisc(\bm{\featureUpper}_{\text{post}}^{A}; \bm{\weightAndBias}_{\text{fc-HuBERT-disc}}^{A})
+\end{gather}
+ネットワークB
+\begin{gather}
+    \bm{\featureUpper}_{\text{HuBERT}} = \hubertTransformer(\hat{\bm{\outputUpper}}_{\text{HuBERT-int}}; \bm{\weightAndBias}_{\text{random}}) \\
+    \bm{\featureUpper}_{\text{HuBERT}} = \hubertTransformer(\hat{\bm{\outputUpper}}_{\text{HuBERT-int}}; \bm{\weightAndBias}_{\text{HuBERT-pretrained}}) \\
+    \bm{\featureUpper}_{\text{w-spk}}^{B} = \concat(\bm{\featureUpper}_{\text{HuBERT}}, \opRepeat(\bm{\inputLower}_{\text{spk-emb}})) \\
+    \bm{\featureUpper}_{\text{post}}^{B} = \myNetworkPost(\bm{\featureUpper}_{\text{w-spk}}^{B}; \bm{\weightAndBias}_{\text{post}}^{\text{B}}) \\
+    \hat{\bm{\outputUpper}}_{\text{mel}}^{B} = \myNetworkFcMel(\bm{\featureUpper}_{\text{post}}^{B}; \bm{\weightAndBias}_{\text{fc-mel}}^{B}) \\
+    \hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{B} = \myNetworkFcHubDisc(\bm{\featureUpper}_{\text{post}}^{B}; \bm{\weightAndBias}_{\text{fc-HuBERT-disc}}^{B})
+\end{gather}
+Multi-input vocoder
+\begin{gather}
+    \bm{\featureUpper}_{\text{mel-voc}} = \vocoderPreMel(\hat{\bm{\outputUpper}}_{\text{mel}}^{B}; \bm{\weightAndBias}_{\text{voc-pre-mel}}) \\
+    \bm{\featureUpper}_{\text{HuBERT-voc}} = \vocoderPreHub(\hat{\bm{\outputUpper}}_{\text{HuBERT-disc}}^{B}; \bm{\weightAndBias}_{\text{voc-pre-HuBERT}}) \\
+    \hat{\bm{\outputLower}}_{\text{sp-waveform}} = \vocoderMain(\bm{\featureUpper}_{\text{mel-voc}}, \bm{\featureUpper}_{\text{HuBERT-voc}}; \bm{\weightAndBias}_{\text{voc-main}}) \\
+    \hat{\bm{\outputLower}}_{\text{mpd-real}}, \hat{\bm{\featureUpper}}_{\text{mpd-real}}  = \mpd(\bm{\inputLower}_{\text{sp-waveform}}; \bm{\weightAndBias}_{\text{mpd}}) \\
+    \hat{\bm{\outputLower}}_{\text{mpd-fake}}, \hat{\bm{\featureUpper}}_{\text{mpd-fake}} = \mpd(\hat{\bm{\outputLower}}_{\text{sp-waveform}}; \bm{\weightAndBias}_{\text{mpd}}) \\
+    \hat{\bm{\outputLower}}_{\text{msd-real}}, \hat{\bm{\featureUpper}}_{\text{msd-real}} = \msd(\bm{\inputLower}_{\text{sp-waveform}}; \bm{\weightAndBias}_{\text{msd}}) \\
+    \hat{\bm{\outputLower}}_{\text{msd-fake}}, \hat{\bm{\featureUpper}}_{\text{msd-real}} = \msd(\hat{\bm{\outputLower}}_{\text{sp-waveform}}; \bm{\weightAndBias}_{\text{msd}})
+\end{gather}
+損失関数
+\begin{gather}
+    \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper}) = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, \hat{\bm{\outputLower}}_{\indexLower}) = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))
+\end{gather}
+
+\subsubsection{ネットワークA}
+\subsubsection{ネットワークB}
+\subsubsection{Multi-input Vocoder}
+\subsubsection{損失関数}
+
 提案手法の構築手順は3段階に分かれる．ネットワークの構造を図~\ref{sec4:fig:network}に示す．一段階目では，動画を入力として，メルスペクトログラムとHuBERT離散特徴量，HuBERT中間特徴量を推定するネットワークAを学習する（図~\ref{sec4:fig:network}のA）．ここで，HuBERT離散特徴量はHuBERT Transformer層から得られる特徴量を k-means法によってクラスタリングすることで離散化した値，HuBERT中間特徴量はHuBERTにおける畳み込み層出力で，HuBERTの事前学習時にマスク対象となる値のことを指す．図~\ref{sec4:fig:hubert}にこれらの取得位置を示す．第一段階では，AVHuBERTを動画からの特徴抽出に利用した．これにより，動画の空間情報は完全に圧縮され，768次元の一次元系列となる．その後，事前学習済みの話者識別モデル\cite{wan2018generalized}によって音声波形から得られる256次元の話者Embeddingを，各フレームでチャンネル方向に結合する．これによって特徴量は1024次元に拡張され，全結合層によって再度768次元に圧縮する．その後，畳み込み層と全結合層からなるデコーダを通すことによって，話者Embeddingを結合した特徴量に対する変換を施した．これにより，特にメルスペクトログラムにおいて話者性が正しく反映されることを狙った．複数話者モデルであっても，入力である動画の見た目から話者性を判別できる可能性があったが，将来的な未知話者対応への拡張性も考慮して，本研究では補助特徴量として入力することとした．デコーダは残差結合を利用したブロック単位で構成され，各ブロックに2層の畳み込み層を設けた．各畳み込み層のチャンネル数は768，カーネルサイズは3であり，3ブロック積み重ねた．最後に全結合層を通し，所望の次元に変換することで予測対象を得た．ネットワークAの役割は，続くネットワークBの入力であるHuBERT中間特徴量を提供することである．これに対し，メルスペクトログラムとHuBERT離散特徴量の推定を同時に行った理由は，先行研究においてマルチタスク学習の有効性が確認されていることを考慮し，ネットワークAでもマルチタスク学習を採用しておこうと考えたからである．
 
 二段階目では，一段階目に学習されたネットワークAの重みを固定した状態でHuBERT中間特徴量を推定し，それを入力としてメルスペクトログラムとHuBERT離散特徴量を推定する，HuBERT Transformer層を中心としたネットワークBの学習を行う（図~\ref{sec4:fig:network}のB）．HuBERT Transformer層出力はAVHuBERT出力と同じ768次元の特徴量となるため，これに対してネットワークAと同様に話者Embeddingを結合し，デコーダを通すことで予測値を得た．ネットワークBの役割は，音声波形への変換に必要となるメルスペクトログラムとHuBERT離散特徴量の予測である．HuBERT Transformer層の転移学習を検討した狙いについて，HuBERTは自己教師あり学習時，畳み込み層出力にマスクを適用し，Transformer層を通すことによってマスクされた部分を推定しようとする．これにより，音声の文脈を考慮するのに長けた学習済み重みが，特にTransformer層で獲得されると仮定した．これに基づき，本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより，動画を入力としたAVHuBERTを中心とするネットワークAにおける推定残差を，音声自体の文脈を考慮することによって軽減し，動画から直接推定しきれなかった部分を補うことでの精度改善を狙った．

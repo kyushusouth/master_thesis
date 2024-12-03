@@ -1,3 +1,4 @@
+% section3
 % data
 \newcommand{\dataset}{\mathcal{D}}
 \newcommand{\dimLower}{d}
@@ -16,7 +17,6 @@
 \newcommand{\timeUpper}{T}
 \newcommand{\widthLower}{w}
 \newcommand{\widthUpper}{W}
-
 % model
 \newcommand{\biasLower}{b}
 \newcommand{\classLower}{c}
@@ -32,7 +32,6 @@
 \newcommand{\weightLower}{w}
 \newcommand{\weightUpper}{W}
 \newcommand{\weightAndBias}{\theta}
-
 % other
 \newcommand{\binaryMaskLower}{m}
 \newcommand{\binaryMaskUpper}{M}
@@ -45,7 +44,6 @@
 \newcommand{\normShift}{\beta}
 \newcommand{\probaLower}{p}
 \newcommand{\regConst}{\lambda}
-
 % math
 \newcommand{\closedinterval}[2]{[#1, #2]}
 \newcommand{\openinterval}[2]{(#1, #2)}
@@ -53,7 +51,31 @@
 \newcommand{\rightclosedinterval}[2]{(#1, #2]}
 \newcommand{\realSet}{\mathbb{R}}
 \newcommand{\naturalSet}{\mathbb{N}}
-
 % operator
 \newcommand{\elemMul}{\odot}
 \newcommand{\elemSum}{\oplus}
+\newcommand{\concat}{\text{concat}}
+\newcommand{\opRepeat}{\text{repeat}}
+
+% section4
+% model
+\newcommand{\spkEmbExtractor}{f_{\text{spk}}}
+\newcommand{\hubert}{f_{\text{HuBERT}}}
+\newcommand{\hubertConv}{f_{\text{HuBERT-conv}}}
+\newcommand{\hubertTransformer}{f_{\text{HuBERT-trans}}}
+\newcommand{\kmeans}{f_{\text{k-means}}}
+\newcommand{\AVHuBERT}{f_{\text{AVHuBERT}}}
+\newcommand{\myNetworkA}{f_{\text{A}}}
+\newcommand{\myNetworkB}{f_{\text{B}}}
+\newcommand{\myNetworkPost}{f_{\text{post}}}
+\newcommand{\myNetworkFcMel}{f_{\text{fc-mel}}}
+\newcommand{\myNetworkFcHubDisc}{f_{\text{fc-HuBERT-disc}}}
+\newcommand{\myNetworkFcHubInt}{f_{\text{fc-HuBERT-int}}}
+\newcommand{\vocoder}{f_{\text{voc}}}
+\newcommand{\vocoderPreMel}{f_{\text{voc-pre-mel}}}
+\newcommand{\vocoderPreHub}{f_{\text{voc-pre-HuBERT}}}
+\newcommand{\vocoderMain}{f_{\text{voc-main}}}
+\newcommand{\mpd}{f_{\text{mpd}}}
+\newcommand{\msd}{f_{\text{msd}}}
+% data
+\newcommand{\featureUpper}{H}
