@@ -568,6 +568,9 @@ INPUT ./vars.tex
 INPUT vars.tex
 INPUT ./vars.tex
 INPUT vars.tex
+INPUT latex-output/submission.aux
+INPUT latex-output/submission.aux
+INPUT latex-output/submission.aux
 OUTPUT latex-output/submission.aux
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/graphics/color.sty
@@ -585,13 +588,9 @@ OUTPUT latex-output/submission.dvi
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-OUTPUT latex-output/submission.toc
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT latex-output/submission.toc
+INPUT latex-output/submission.toc
+INPUT latex-output/submission.toc
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
@@ -630,6 +629,13 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm
+OUTPUT latex-output/submission.toc
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT ./figure/sec2/spectrogram_1.png
 INPUT ./figure/sec2/spectrogram_1.png
 INPUT ./figure/sec2/spectrogram_1.png
@@ -707,3 +713,61 @@ INPUT ./figure/sec3/transformer.drawio.png
 INPUT ./figure/sec3/transformer.drawio.png
 INPUT extractbb -B cropbox -O ./figure/sec3/transformer.drawio.png
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
+INPUT ./figure/sec3/lr_scheduler.png
+INPUT ./figure/sec3/lr_scheduler.png
+INPUT ./figure/sec3/lr_scheduler.png
+INPUT extractbb -B cropbox -O ./figure/sec3/lr_scheduler.png
+INPUT ./figure/sec4/model/network.drawio.png
+INPUT ./figure/sec4/model/network.drawio.png
+INPUT ./figure/sec4/model/network.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/network.drawio.png
+INPUT ./figure/sec4/model/hubert.png
+INPUT ./figure/sec4/model/hubert.png
+INPUT ./figure/sec4/model/hubert.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/hubert.png
+INPUT ./figure/sec4/model/multi-input_vocoder.png
+INPUT ./figure/sec4/model/multi-input_vocoder.png
+INPUT ./figure/sec4/model/multi-input_vocoder.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/multi-input_vocoder.png
+INPUT ./figure/sec4/model/mpd.png
+INPUT ./figure/sec4/model/mpd.png
+INPUT ./figure/sec4/model/mpd.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/mpd.png
+INPUT ./figure/sec4/model/msd.png
+INPUT ./figure/sec4/model/msd.png
+INPUT ./figure/sec4/model/msd.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model/msd.png
+INPUT ./figure/sec4/learning_curves/0/mel_loss.png
+INPUT ./figure/sec4/learning_curves/0/mel_loss.png
+INPUT ./figure/sec4/learning_curves/0/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/0/mel_loss.png
+INPUT ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/0/total_loss.png
+INPUT ./figure/sec4/learning_curves/0/total_loss.png
+INPUT ./figure/sec4/learning_curves/0/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/0/total_loss.png
+INPUT ./figure/sec4/learning_curves/2/mel_loss.png
+INPUT ./figure/sec4/learning_curves/2/mel_loss.png
+INPUT ./figure/sec4/learning_curves/2/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/2/mel_loss.png
+INPUT ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/2/total_loss.png
+INPUT ./figure/sec4/learning_curves/2/total_loss.png
+INPUT ./figure/sec4/learning_curves/2/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/2/total_loss.png
+INPUT ./figure/sec4/sbj/age.png
+INPUT ./figure/sec4/sbj/age.png
+INPUT ./figure/sec4/sbj/age.png
+INPUT extractbb -B cropbox -O ./figure/sec4/sbj/age.png
+INPUT latex-output/submission.bbl
+INPUT latex-output/submission.bbl
+INPUT latex-output/submission.bbl
+INPUT latex-output/submission.bbl
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmti12.tfm
+INPUT latex-output/submission.aux

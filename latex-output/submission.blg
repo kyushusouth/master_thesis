@@ -1,0 +1,49 @@
+This is pBibTeX, Version 0.99d-j0.34 (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: submission.aux
+The style file: junsrt.bst
+Database file #1: library.bib
+Warning--can't use both volume and number fields in maas2013rectifier
+You've used 33 entries,
+            2270 wiz_defined-function locations,
+            703 strings with 9811 characters,
+and the built_in function-call counts, 10015 in all, are:
+= -- 762
+> -- 336
+< -- 21
++ -- 134
+- -- 101
+* -- 429
+:= -- 1264
+add.period$ -- 103
+call.type$ -- 33
+change.case$ -- 33
+chr.to.int$ -- 0
+cite$ -- 34
+duplicate$ -- 644
+empty$ -- 975
+format.name$ -- 202
+if$ -- 2459
+int.to.chr$ -- 0
+int.to.str$ -- 33
+missing$ -- 31
+newline$ -- 167
+num.names$ -- 33
+pop$ -- 213
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 533
+stack$ -- 0
+substring$ -- 450
+swap$ -- 177
+text.length$ -- 21
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 70
+width$ -- 35
+write$ -- 349
+is.kanji.str$ -- 371
+(There was 1 warning)

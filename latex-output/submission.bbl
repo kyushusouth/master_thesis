@@ -101,6 +101,11 @@ I~Loshchilov.
 \newblock Decoupled weight decay regularization.
 \newblock {\em arXiv preprint arXiv:1711.05101}, 2017.
 
+\bibitem{higham2019deep}
+Catherine~F Higham and Desmond~J Higham.
+\newblock Deep learning: An introduction for applied mathematicians.
+\newblock {\em Siam review}, Vol.~61, No.~4, pp. 860--891, 2019.
+
 \bibitem{hsu2021hubert}
 Wei-Ning Hsu, Benjamin Bolte, Yao-Hung~Hubert Tsai, Kushal Lakhotia, Ruslan
   Salakhutdinov, and Abdelrahman Mohamed.
