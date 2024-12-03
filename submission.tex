@@ -363,18 +363,18 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
     \bm{f}_{t} = \sigma(\bm{\weightUpper}_{f}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{f}) \\
     \bm{i}_{t} = \sigma(\bm{\weightUpper}_{i}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{i}) \\
     \tilde{\bm{c}}_{t} = \tanh (\bm{\weightUpper}_{h}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{h}) \\
-    \bm{c}_{t} = \bm{f}_{t} \odot \bm{c}_{t-1} + \bm{i}_{t} \odot \tilde{\bm{c}}_{t} \\
+    \bm{c}_{t} = \bm{f}_{t} \elemMul \bm{c}_{t-1} + \bm{i}_{t} \elemMul \tilde{\bm{c}}_{t} \\
     \bm{o}_{t} = \sigma(\bm{\weightUpper}_{o}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{o}) \\
-    \bm{h}_{t} = \bm{o}_{t} \odot \tanh(\bm{c}_{t})
+    \bm{h}_{t} = \bm{o}_{t} \elemMul \tanh(\bm{c}_{t})
 \end{gather}
-ここで，$\bm{\inputLower}_{t} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$t$の入力，$\bm{f}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$におけるセルの状態，$\bm{o}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$における隠れ状態を表す．また，$[\cdot, \cdot]$はチャンネル方向の結合，$\odot$は要素積を表す．$\bm{\weightUpper}_{f}, \bm{\weightUpper}_{i}, \bm{\weightUpper}_{h}, \bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{\text{out}} \times (\dimUpper_{\text{in}} + \dimUpper_{\text{out}})}$は重み，$\bm{\biasLower}_{f}, \bm{\biasLower}_{i}, \bm{\biasLower}_{h}, \bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．忘却ゲート出力$\bm{f}_{t}$が前時刻のセル状態$\bm{c}_{t}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{t}$が新たな入力$\tilde{\bm{c}}_{t}$に含まれる情報の選択に用いられ，$\bm{c}_{t}$が決まる．その後，出力ゲート出力$\bm{o}_{t}$が$\bm{c}_{t}$に含まれる情報の選択に用いられ，$\bm{h}_{t}$が決まる．
+ここで，$\bm{\inputLower}_{t} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$t$の入力，$\bm{f}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$におけるセルの状態，$\bm{o}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$における隠れ状態を表す．また，$[\cdot, \cdot]$はチャンネル方向の結合，$\elemMul$は要素積を表す．$\bm{\weightUpper}_{f}, \bm{\weightUpper}_{i}, \bm{\weightUpper}_{h}, \bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{\text{out}} \times (\dimUpper_{\text{in}} + \dimUpper_{\text{out}})}$は重み，$\bm{\biasLower}_{f}, \bm{\biasLower}_{i}, \bm{\biasLower}_{h}, \bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．忘却ゲート出力$\bm{f}_{t}$が前時刻のセル状態$\bm{c}_{t}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{t}$が新たな入力$\tilde{\bm{c}}_{t}$に含まれる情報の選択に用いられ，$\bm{c}_{t}$が決まる．その後，出力ゲート出力$\bm{o}_{t}$が$\bm{c}_{t}$に含まれる情報の選択に用いられ，$\bm{h}_{t}$が決まる．
 
 また，LSTMが3つのゲートを必要とするのに対し，ゲートを2つに減らすことでネットワークの軽量化を図ったのがゲート付き回帰型ユニット（Gated Recurrent Unit; GRU）\cite{cho2014learning}である．GRUはリセットゲートと更新ゲートの2つを用いて隠れ状態を更新する．GRUのネットワーク内部で行われる計算を以下に示す．
 \begin{gather}
     \bm{z}_{t} = \sigma(\bm{\weightUpper}_{z}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{z}) \\
     \bm{r}_{t} = \sigma(\bm{\weightUpper}_{r}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{r}) \\
-    \tilde{\bm{h}}_{t} = \tanh(\bm{\weightUpper}_{h}[\bm{x}_{t}, \bm{r}_{t} \odot \bm{h}_{t-1}] + \bm{\biasLower}_{h}) \\
-    \bm{h}_{t} = (1 - \bm{z}_{t}) \odot \bm{h}_{t-1} + \bm{z}_{t} \odot \tilde{\bm{h}}_{t}
+    \tilde{\bm{h}}_{t} = \tanh(\bm{\weightUpper}_{h}[\bm{x}_{t}, \bm{r}_{t} \elemMul \bm{h}_{t-1}] + \bm{\biasLower}_{h}) \\
+    \bm{h}_{t} = (1 - \bm{z}_{t}) \elemMul \bm{h}_{t-1} + \bm{z}_{t} \elemMul \tilde{\bm{h}}_{t}
 \end{gather}
 ここで，$\bm{x}_{t} \in \realSet^{\dimUpper_{\text{in}}}$が時刻$t$における入力，$\bm{z}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$が更新ゲートの出力，$\bm{r}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$がリセットゲートの出力，$\bm{h}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$における隠れ状態を表す．また，$\bm{\weightUpper}_{z}, \bm{\weightUpper}_{r}, \bm{\weightUpper}_{h} \in \realSet^{\dimUpper_{\text{out}} \times (\dimUpper_{\text{in}} + \dimUpper_{\text{out}})}$は重み，$\bm{\biasLower}_{z}, \bm{\biasLower}_{r}, \bm{\biasLower}_{h} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．更新ゲート出力$\bm{z}_{t}$が$\bm{h}_{t - 1}$と$\tilde{\bm{h}}_{t}$に含まれる情報の選択，リセットゲート出力$\bm{r}_{t}$が$\bm{h}_{t - 1}$に含まれる情報の選択に用いられる．
 
@@ -409,7 +409,6 @@ DNNの学習過程では学習の進行に伴って重みが変化するため�
 のように単位ベクトル$\bm{v} / \| \bm{v} \|$（ベクトルの向き）とスカラー$g$（ベクトルの大きさ）に再パラメータ化するものである．学習時は重みの更新を$\bm{v}$と$g$で別々に行う．重み正規化は，バッチ正規化やレイヤー正規化と同様に学習の安定化に役立つが，計算に入力特徴量の系列長が依存しない．そのため，例えば音声波形など系列長が非常に長くなりがちなデータを扱う場合，計算コストを下げながら同様の効果を狙える手段だと考えられる．
 
 \subsubsection{Transformer}
-% Q, K, Vのバイアスベクトル加算から続き
 Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention）を用いて，入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである．特に，再帰的な計算を必要とするRNNと比較して，Transformerは並列計算のみ行うため，GPUによる計算の高速化が可能である．以下，入力特徴量を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$として，Transformerにおいて行われる計算を説明する．また，Transformer層の構造を図~\ref{sec3:fig:transformer_layer}に示す．
 
 \begin{figure}[bt]
@@ -421,86 +420,216 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 
 まず，TransformerにおけるSelf-Attentionの計算の流れを述べる．ここでは，はじめにクエリ$\bm{Q} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，キー$\bm{K} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，バリュー$\bm{V} \in \realSet^{\timeUpper \times \dimUpper_{v}}$の計算を行う．これは，
 \begin{align}
-    \bm{Q} & = \bm{\inputUpper}\bm{\weightUpper}_{Q} \\
-    \bm{K} & = \bm{\inputUpper}\bm{\weightUpper}_{K} \\
-    \bm{V} & = \bm{\inputUpper}\bm{\weightUpper}_{V}
+    \bm{Q} & = \bm{\inputUpper}\bm{\weightUpper}_{Q} \elemSum \bm{\biasLower}_{Q} \\
+    \bm{K} & = \bm{\inputUpper}\bm{\weightUpper}_{K} \elemSum \bm{\biasLower}_{K} \\
+    \bm{V} & = \bm{\inputUpper}\bm{\weightUpper}_{V} \elemSum \bm{\biasLower}_{V}
 \end{align}
-で与えられる．ここで，$\bm{\weightUpper}_{Q}, \bm{\weightUpper}_{K} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{k}}$，$\bm{\weightUpper}_{V} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{v}}$はそれぞれ重みである．次に，クエリとキーを元にアテンション重みを求め，バリューに対する行列積を計算する．これは，
+で与えられる．ここで，$\bm{\weightUpper}_{Q}, \bm{\weightUpper}_{K} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{k}}, \bm{\weightUpper}_{V} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{v}}$は重み，$\bm{\biasLower}_{Q}, \bm{\biasLower}_{K} \in \realSet^{\dimUpper_{k}}, \bm{\biasLower}_{V} \in \realSet^{\dimUpper_{v}}$はバイアスである．また，演算子$\elemSum$について，$\bm{A} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$，$\bm{b} \in \realSet^{\dimUpper_{2}}$に対する$\bm{A} \elemSum \bm{b} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$の$(i, j)$成分$(\bm{A} \elemSum \bm{b})_{i, j}$は，
+\begin{equation}
+    (\bm{A} \elemSum \bm{b})_{i, j} = a_{i, j} + b_{j}
+\end{equation}
+で与えられる．ここで，$a_{i, j}$は$\bm{A}$の$(i, j)$成分，$b_{j}$は$\bm{b}$の$j$成分である．
+
+次に，クエリとキーを元にアテンション重みを求め，バリューに対する行列積を計算する．これは，
 \begin{equation}
     \text{Attention}(\bm{Q}, \bm{K}, \bm{V}) = \text{softmax}\left(\frac{\bm{Q}\bm{K}^\top}{\sqrt{\dimUpper_{k}}}\right) \bm{V}
 \end{equation}
-で与えられる．softmax関数は列方向に適用されるため，$\text{softmax}\left(\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}\right)$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$から全てのキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ (t = 1, \ldots, T)$に対する注意度になっている．
+で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\left(\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}\right)$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ (t = 1, \ldots, T)$に対する注意度になっている．
 
 ここまでがSelf-Attentionの計算であったが，TransformerではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．ヘッド数を$\numHeadUpper$とすると，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$の計算は，
 \begin{align}
-    \bm{Q}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{Q}^{\numHeadLower} \\
-    \bm{K}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{K}^{\numHeadLower} \\
-    \bm{V}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{V}^{\numHeadLower}
+    \bm{Q}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{Q}^{\numHeadLower} \elemSum \bm{\biasLower}_{Q}^{\numHeadLower} \\
+    \bm{K}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{K}^{\numHeadLower} \elemSum \bm{\biasLower}_{K}^{\numHeadLower} \\
+    \bm{V}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{V}^{\numHeadLower} \elemSum \bm{\biasLower}_{V}^{\numHeadLower}
 \end{align}
-で与えられる．ここで，$\bm{\weightUpper}_{Q}^{\numHeadLower}, \bm{\weightUpper}_{K}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，$\bm{\weightUpper}_{V}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{v}}{\numHeadUpper}}$は重みである．この後の処理もSelf-Attention同様に，
+で与えられる．ここで，$\bm{\weightUpper}_{Q}^{\numHeadLower}, \bm{\weightUpper}_{K}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，$\bm{\weightUpper}_{V}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{v}}{\numHeadUpper}}$は重み，$\bm{\biasLower}_{Q}^{\numHeadLower}, \bm{\biasLower}_{K}^{\numHeadLower} \in \realSet^{\frac{\dimUpper_{k}}{\numHeadUpper}}, \bm{\biasLower}_{V}^{\numHeadLower} \in \realSet^{\frac{\dimUpper_{v}}{\numHeadUpper}}$はバイアスである．この後の処理もSelf-Attentionと同様に，
 \begin{equation}
-    \text{Attention}(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}) = \text{softmax}\left(\frac{\bm{Q}^{\numHeadLower}(\bm{K}^{\numHeadLower})^\top}{\sqrt{\dimUpper_{k}} / \numHeadUpper}\right) \bm{V}^{\numHeadLower}
+    \text{Attention}\left(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}\right) = \text{softmax}\left(\frac{\bm{Q}^{\numHeadLower}(\bm{K}^{\numHeadLower})^\top}{\sqrt{\dimUpper_{k}} / \numHeadUpper}\right) \bm{V}^{\numHeadLower}
 \end{equation}
-となる．ここで得られた各ヘッドからの出力を結合し，さらに全結合層を通すことでMulti-Head Attetionの出力が得られる．これは，
+となる．ここで得られた各ヘッドからの出力を結合し，さらに全結合層を通すことでMulti-Head Attetionの出力が得られる．すなわち，
 \begin{equation}
-    \text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) = \text{Concat}(\text{head}^{1}, \ldots, \text{head}^{\numHeadUpper})\bm{\weightUpper}_{o}
+    \text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) = \left[\text{Attention}\left(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}\right), \ldots, \text{Attention}\left(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}\right)\right] \bm{\weightUpper}_{o} \elemSum \bm{\biasLower}_{o}
 \end{equation}
-と表される．ここで，$\text{head}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$が各ヘッドから出力されたAttentionスコア，$\text{Concat}(\text{head}^{1}, \\ \ldots, \text{head}^{\numHeadUpper}) \in \realSet^{\timeUpper \times \dimUpper_{v}}$が全ヘッドのAttentionスコアを結合した特徴量，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$が最終的な線形変換に用いられる重みである．ヘッドを分割することで複数パターンのアテンションが可能になり，これが入出力間の複雑な関係性を考慮するのに役立っていると考えられる．Multi-Head Attention後には，残差結合とレイヤー正規化を適用する．
-これは，出力系列を$\bm{Y} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$とすると，
+と表される．ここで，$[\cdot, \ldots, \cdot]$は次元方向の結合を表し，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$は重み，$\bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．ヘッドを分割して複数パターンのSelf-Attentionを可能にすることで，より複雑な入出力の関係を学習できると考えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
 \begin{equation}
-    \bm{Y} = \text{LayerNorm}\left(\text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) + \bm{\inputUpper}\right)
+    \bm{\outputUpper} = \text{LayerNorm}\left(\text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) + \bm{\inputUpper}\right)
+\end{equation}
+で与えられる．その後，全結合層を通し，残差結合とレイヤー正規化を適用することでTransformer層最終出力を得る．すなわち，
+\begin{equation}
+    \bm{\outputUpper} = \text{LayerNorm}((\text{ReLU}(\bm{\outputUpper}\bm{\weightUpper}_{1} \elemSum \bm{b}_{1})\bm{\weightUpper}_{2} \elemSum \bm{b}_{2}) + \bm{\outputUpper})
+\end{equation}
+となる．ここで，$\bm{\weightUpper}_{1} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{\text{fc}}}$，$\bm{\weightUpper}_{2} \in \realSet^{\dimUpper_{\text{fc}} \times \dimUpper_{\text{model}}}$は重み，$\bm{b}_{1} \in \realSet^{\dimUpper_{\text{fc}}}$，$\bm{b}_{2} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．$\dimUpper_{\text{fc}}$は$\dimUpper_{\text{model}}$の4倍とされることが多い．Transformer全体は，Transformer層を多層積み重ねて構成される．
+
+最後に，TransformerではRNNと違い，並列計算によって系列全体を一度に処理することが可能であるが，それと引き換えに入力の順序情報を考慮することができなくなる．これに対し，TransformerではPositional Encodingによって入力に位置情報を与える．Positional Encodingは$\sin$と$\cos$に基づいて，
+\begin{equation}
+    \text{PositionalEncoding(\timeLower, \dimLower)} =
+    \begin{cases}
+        \sin \left(\frac{\timeLower}{10000^{2\dimLower / \dimUpper_{\text{model}}}}\right) & \text{if $d \bmod 2 = 0$} \\
+        \cos \left(\frac{\timeLower}{10000^{2\dimLower / \dimUpper_{\text{model}}}}\right) & \text{if $d \bmod 2 = 1$}
+    \end{cases}
 \end{equation}
 で与えられる．
-
-Multi-Head Attentionによって系列全体の依存関係を考慮した後は，各フレームごとに独立して全結合層を適用する．これは，
-\begin{equation}
-    \text{FFN}(\bm{Y}) = \text{ReLU}(\bm{Y}\bm{\weightUpper}_{1} + \bm{b}_{1})\bm{\weightUpper}_{2} + \bm{b}_{2}
-\end{equation}
-で与えられる．
-ここで，$\bm{\weightUpper}_{1} \in \realSet^{\dimUpper_{\text{model}} \times d_{\text{ff}}}$，$\bm{\weightUpper}_{2} \in \realSet^{d_{1} \times \dimUpper_{\text{model}}}$は重み，$\bm{b}_{1} \in \realSet^{d_{\text{ff}}}$，$\bm{b}_{2} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．$d_{\text{ff}}$は$\dimUpper_{\text{model}}$の4倍とされることが多い．全結合層適用後は，Multi-Head Attention後と同様に，残差結合とレイヤー正規化を適用する．
-
-上述したMulti-Head Attentionとフレームごとに適用される全結合層を合わせて，Transformer層と呼ぶ．実際には，Transformer層を多層積み重ねて用いることが多い．
-
-最後に，TransformerではRNNと違い，並列計算によって系列全体を一度に処理することが可能であるが，それと引き換えに入力の順序情報を考慮することができなくなる．この問題に対し，入力系列に対して位置情報を与えるために行われるのが，Positional Encodingである．Positional Encodingは$\sin$関数と$\cos$関数に基づいて計算される値であり，
-\begin{align}
-    \text{PE}_{\text{pos}, 2d}     & = \sin \left(\frac{\text{pos}}{10000^{2d / \dimUpper_{\text{model}}}}\right) \\
-    \text{PE}_{\text{pos}, 2d + 1} & = \cos \left(\frac{\text{pos}}{10000^{2d / \dimUpper_{\text{model}}}}\right)
-\end{align}
-で与えられる．ここで，$\text{pos}$は入力系列の位置を表し，$d$は入力系列の次元を表す．
 
 \subsection{学習方法}
-本節において，$\bm{\theta}$はモデルの重みとバイアスをまとめて表す変数とする．また，文章中では簡潔さを優先し，特別な理由がない限りは重み$\bm{\theta}$と記述する．
+本節において，$\bm{\weightAndBias} \in \realSet^{\numUpper_{\text{model}}}$はDNNの重みとバイアスをまとめて表す変数とする．また，文章中では簡潔さを優先し，特別な理由がない限りは重みと呼ぶ．
 
 \subsubsection{損失関数}
-損失関数は，DNNによって推定された結果と，正解値との間の誤差を求める関数のことであり，扱う問題によって様々である．例えば，回帰問題において用いられる関数の一つに，MAE（Mean Absolute Error） Lossがある．推定対象を$\bm{Y} \in \realSet^{\timeUpper \times D}$，DNNによる推定結果を$\hat{\bm{Y}} \in \realSet^{T \times D}$とすると，MAE Lossは
+損失関数は，DNNによって推定された結果と正解値との間の誤差を求める関数のことであり，扱う問題によって様々である．例えば，回帰問題において用いられる関数の一つに，MAE（Mean Absolute Error）Lossがある．推定対象を$\bm{\outputLower} \in \realSet^{\dimUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\dimUpper}$とすると，MAE Lossは
 \begin{equation}
-    L_{MAE}(\bm{Y}, \hat{\bm{Y}}) = \frac{1}{TD} \sum_{t = 1}^{T} \sum_{d = 1}^{D}  |\bm{Y}_{t, d} - \hat{\bm{Y}}_{t, d}|
+    \lossFuncUpper_{MAE}(\bm{\outputLower}, \hat{\bm{\outputLower}}) = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper}  |\outputLower_{\dimLower} - \hat{\outputLower}_{\dimLower}|
 \end{equation}
-で与えられる．ここで，$T$が系列長，$D$が次元である．
+で与えられる．
 
-一方，分類問題において用いられる関数の一つに，Cross Entropy Lossがある．Cクラス分類の問題について，推定対象を$\bm{y} \in [0, 1]^{C}$，DNNによる推定結果を$\hat{\bm{y}} \in [0, 1]^{C}$とすると，Cross Entropy Lossは
+一方，分類問題において用いられる関数の一つに，Cross Entropy Lossがある．$\classUpper$クラス分類の問題について，推定対象を$\bm{y} \in [0, 1]^{\classUpper}$，DNNによる推定結果を$\hat{\bm{y}} \in [0, 1]^{\classUpper}$とすると，Cross Entropy Lossは
 \begin{equation}
-    L_{CE}(\bm{y}, \hat{\bm{y}}) = - \sum_{c = 1}^{C} \bm{y}_{c}\log(\hat{\bm{y}}_{c})
+    \lossFuncUpper_{CE}(\bm{y}, \hat{\bm{y}}) = - \sum_{\classLower = 1}^{\classUpper} y_{\classLower}\log(\hat{y}_{\classLower})
 \end{equation}
 で与えられる．ここで，$\bm{y}, \hat{\bm{y}}$はどちらもクラスに対する確率分布であり，
 \begin{equation}
-    \sum_{c = 1}^{C} \bm{y}_{c} = 1, \quad \sum_{c = 1}^{C} \hat{\bm{y}}_{c} = 1
+    \sum_{\classLower = 1}^{\classUpper} y_{\classLower} = 1, \quad \sum_{\classLower = 1}^{\classUpper} \hat{y}_{\classLower} = 1
 \end{equation}
-を満たす．また，推定対象がテキストなど系列長の次元を持つ場合，推定対象を$\bm{Y} \in [0, 1]^{T \times C}$，DNNによる推定結果を$\hat{\bm{Y}} \in [0, 1]^{T \times C}$とすると，Cross Entropy Lossは
-\begin{equation}
-    L_{CE}(\bm{Y}, \hat{\bm{Y}}) = - \frac{1}{T} \sum_{t = 1}^{T} \sum_{c = 1}^{C} \bm{Y}_{t, c}\log(\hat{\bm{Y}}_{t, c})
-\end{equation}
-で与えられる．ここで，$\bm{Y}_{t}, \hat{\bm{Y}}_{t} \in [0, 1]^{C} ~ (t = 1, \ldots, T)$はそれぞれクラスに対する確率分布である．実際の分類問題において推定対象は，正解となるクラスのみを1，それ以外を0としたOne-hotベクトルとされることが多い．
+を満たす．推定対象$\bm{y}$は，正解となるクラスのみを1，それ以外を0としたOne-hotベクトルとされることが多い．
 
 \subsubsection{勾配降下法}
 \label{sec3:sec:gradient_descent}
-勾配降下法は，損失関数を最小化するDNNの重みとバイアスを得るための最適化手法である．モデルの重みとバイアスをまとめて$\bm{\theta}$，損失関数を$L(\bm{\theta})$とすると，勾配降下法による$\bm{\theta}$の更新は
+勾配降下法（Gradient Descent）は，損失関数の重みについての勾配を利用して，損失関数の値を最小化するようにDNNを最適化するアルゴリズムである．ここで，学習データセットを$\dataset_{\text{train}} = \left\{(\bm{\inputLower}_{\numLower}, \bm{\outputLower}_{\numLower})\right\}_{\numLower = 1}^{\numUpper}$とする．各$n$に対し，$\bm{\inputLower}_{\numLower} \in \realSet^{\dimUpper_{\text{in}}}$はDNNへの入力, $\bm{\outputLower}_{\numLower} \in \realSet^{\dimUpper_{\text{out}}}$は予測対象を表す．DNNは$f: \realSet^{\dimUpper_{\text{in}}} \to \realSet^{\dimUpper_{\text{out}}}$で表し，予測値を$\hat{\bm{\outputLower}}_{\numLower} = f(\bm{\inputLower}_{\numLower}; \bm{\weightAndBias})$とする．損失関数は$\lossFuncUpper: \realSet^{\dimUpper_{\text{out}}} \times \realSet^{\dimUpper_{\text{out}}} \to \realSet$とし，$\mathcal{\lossFuncUpper}: \realSet^{\numUpper_{\text{model}}} \to \realSet$を，
 \begin{equation}
-    \bm{\theta} \leftarrow \bm{\theta} - \eta \nabla L(\bm{\theta})
+    \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper}) = \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, \hat{\bm{\outputLower}}_{\indexLower}) = \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\numLower}; \bm{\weightAndBias}))
 \end{equation}
-で表される．ここで，$\eta$は学習率と呼ばれるパラメータであり，$\bm{\theta}$の一回の更新による変化量を制御する役割を果たす．上式より，勾配降下法は損失関数の$\bm{\theta}$についての勾配を利用し，損失関数の値をより小さくする方向へ$\bm{\theta}$を更新する手続きを繰り返すことによって，損失関数の値を最小化するDNNを得ようとする最適化手法だと解釈できる．
+で定義する．ここで，$\mathcal{\indexUpper} \subset \{1, \ldots, N\}$は各サンプルに対するインデックスの部分集合を表す．すなわち，$\mathcal{L}$は学習データ$\left\{(\bm{\inputLower}_{\indexLower}, \bm{\outputLower}_{\indexLower})\right\}_{\indexLower \in \indexUpper}$に対する損失を，DNNの重み$\bm{\weightAndBias}$の関数として扱うものである．上の表記を用いれば，DNNの最適化問題は
+\begin{equation}
+    \min_{\bm{\weightAndBias} \in \realSet^{\numUpper_{\text{model}}}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \{1, \ldots, N\})
+\end{equation}
+と表される．この最適化問題に対し，勾配降下法による重み$\bm{\weightAndBias}$の更新は，
+\begin{equation}
+    \label{sec3:eq:normal_gradient_descent}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter - 1})
+\end{equation}
+で与えられる．ここで，$\iter \in \naturalSet$は学習におけるイテレーション，$\learningRate \in [0, \infty)$は学習率を表す．
 
-勾配降下法には三種類の方法がある．一つ目は，バッチ勾配降下法である．これは，$\bm{\theta}$の更新一回につき，全学習データを利用して損失関数の勾配を計算する方法である．データ一つ一つのノイズに影響を受けづらく安定した更新が期待できるが，一回の更新にかかる計算コストが大きいというデメリットがある．二つ目は，確率的勾配降下法である．これは，$\bm{\theta}$の更新一回につき，ある一つの学習データのみによって損失関数の勾配を計算する方法である．バッチ勾配降下法と比較して一回の更新にかかる計算コストは低くなるが，各データのノイズによる影響が大きくなることで学習が不安定になる可能性がある．三つ目は，ミニバッチ勾配降下法である．これは，$\bm{\theta}$の更新一回につき，学習データの中から指定した個数のデータをサンプリングしてミニバッチを作成し，これを利用して損失関数の勾配を計算する方法である．ここで，サンプリングするデータの個数はバッチサイズと呼ばれる．ミニバッチ勾配降下法は，バッチ勾配降下法と確率的勾配降下法の間をとったような方法であり，バッチサイズによって一回の更新に利用するデータの数を調整可能であることが両者にないメリットである．実際，DNNの学習においてはミニバッチ勾配降下法が用いられることが多い．
+勾配降下法には，三種類の方法がある\cite{zhang2019gradient}．一つ目は，バッチ勾配降下法である．これは，
+\begin{equation}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \{1, \ldots, N\})
+\end{equation}
+で与えられる．すなわち，各イテレーションで学習データ全てを用いる方法である．各サンプルのノイズの影響が低減されることで安定した学習が期待できるが，計算コストが高い．二つ目は，確率的勾配降下法である．これは，ランダムに選択された$n_{\iter} \in \{1, \ldots, N\}$に対し，
+\begin{equation}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \{n_{\iter}\})
+\end{equation}
+で与えられる．すなわち，各イテレーションで単一サンプルのみを用いる方法である．計算コストが下がるが，各サンプルのノイズの影響が大きくなることで学習が不安定になる可能性がある．三つ目は，ミニバッチ勾配降下法である．これは，$1 < |\mathcal{I}_{\iter}| < N$を満たすランダムに選択された$\mathcal{I}_{\iter} \subsetneq \{1, \ldots, N\}$に対し，
+\begin{equation}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter})
+\end{equation}
+で与えられる．ここで，$|\cdot|$は集合の元の数を表す．これより，各イテレーションで二つ以上のサンプルからなる学習データセットの真部分集合を用いる方法だと言える．バッチ勾配降下法と確率的勾配降下法の間をとった方法であり，DNNの学習においては一般にミニバッチ勾配降下法が用いられる．ここで，ミニバッチに含まれるサンプルの数をバッチサイズと呼ぶ．
+
+また，確率的勾配降下法やミニバッチ勾配降下法では，サンプルを学習データセットからランダムに非復元抽出する．ここで，毎回のサンプリングされた学習データに対する処理は1イテレーションとカウントし，学習データセットを一度全て使い切ることは1エポックとカウントする．実際には，データセットの総サンプル数$N$に対してバッチサイズを決定することで1エポックあたりの総イテレーション数は決まり，最大エポック数を設定して学習を回すこととなる．
+
+\subsubsection{正則化}
+DNNは大量のパラメータにより高い表現力を持つが，その分学習データに過剰に適合し，未知データに対する汎化性能が低いモデルとなる，過学習を引き起こす可能性がある．正則化は，このようなDNNの過学習を防ぐための手段である．以下，具体的な方法を四つ述べる．
+
+一つ目は，L2正則化である．これは，$\mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper})$を
+\begin{equation}
+    \label{sec3:eq:l2_reg}
+    \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper}) = \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\numLower}; \bm{\weightAndBias})) + \frac{\regConst}{2} \|\bm{\weightAndBias}\|_{2}^{2}
+\end{equation}
+とすることで与えられる．ここで，$\regConst \in [0, \infty)$は正則化の程度を調整するパラメータである．これより，L2正則化は損失関数の値に$\|\bm{\weightAndBias}\|_{2}^{2}$を加算することで，重み$\bm{\weightAndBias}$のL2ノルムが過大になることを防ぐ方法だと言える．
+
+二つ目は，Weight Decayである．これは，重みの更新式を
+\begin{equation}
+    \label{sec3:eq:weight_decay}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter - 1}) - \regConst' \bm{\weightAndBias}
+\end{equation}
+とすることで与えられる．ここで，$\regConst' \in [0, \infty)$は正則化の程度を調整するパラメータである．これより，Weight Decayは重み$\bm{\weightAndBias}$の絶対値が過大になることを防ぐ手法だと言える．
+
+三つ目は，Dropout\cite{srivastava2014dropout}である．Dropoutは，学習時に特徴量の一部を0に落とす手法である．一方，推論時は恒等写像となり，学習時と挙動が変わる．Dropoutへの入力を$\bm{\inputLower} \in \realSet^{\dimUpper_{\text{in}}}$，特徴量を0に落とす確率を$p \in (0, 1)$とすると，学習時のDropout出力$\bm{y}_{\text{train}} \in \realSet^{\dimUpper_{\text{out}}}$および推論時のDropout出力$\bm{y}_{\text{infer}} \in \realSet^{\dimUpper_{\text{out}}}$は，
+\begin{align}
+    \bm{y}_{\text{train}} & = \frac{\bm{x} \elemMul \bm{m}}{1 - p} \label{sec3:eq:regularization_dropout_training_output} \\
+    \bm{y}_{\text{infer}} & = \bm{x}
+\end{align}
+で与えられる．ここで，$\bm{m} \in \{0, 1\}^{\dimUpper_{\text{in}}}$は各成分$\bm{m}_{\dimLower}$が確率$1 - p$で1，確率$p$で0をとる確率変数である．式\eqref{sec3:eq:regularization_dropout_training_output}より，学習時はDropout出力を$1 / (1 - p)$倍していることがわかる．この理由は，学習時の出力の期待値と推論時の出力を一致させるためである．実際，確率変数$\bm{m}$の従う確率分布上で$\bm{y}_{\text{train}}$の期待値をとれば，
+\begin{align}
+    \mathbb{E}[\bm{y}_{\text{train}}] & = \mathbb{E} \left[ \frac{\bm{x} \elemMul \bm{m}}{1 - p} \right] \\
+                                      & = \frac{\bm{x}}{1 - p} \elemMul \mathbb{E}[\bm{m}]               \\
+                                      & = \frac{\bm{x}}{1 - p} \elemMul (1 - p ~ \cdots ~ 1 - p)^\top    \\
+                                      & = \bm{x} = \bm{f}_{\text{infer}}
+\end{align}
+となる．Dropoutは学習時に一部のニューロンを落とすことで，実質的に異なるネットワークを学習させていると考えることができる．よって，学習時の出力の期待値に推論時の出力を一致させることは，異なるネットワークから得られた出力の期待値をとり，アンサンブルモデルとして推論時の出力を得ていると解釈できる．
+
+四つ目は，Early Stoppingである．Early Stoppingは，検証データに対する損失の増加を監視し，設定したエポック数だけ増加し続けた場合に学習を停止する手法である．これにより，学習データに対する過度なフィッティングを防止する．
+
+\subsubsection{最適化手法}
+\label{sec3:sec:optimizer}
+\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter} \in \realSet^{\numUpper_{\text{model}}}$は勾配の一次モーメント，$\bm{m}_{\iter} \realSet^{\numUpper_{\text{model}}}$が勾配の一次モーメントの指数移動平均，$\bm{v}_{\iter} \realSet^{\numUpper_{\text{model}}}$が勾配の二次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．また，$\regConst$はL2正則化の程度を調整するパラメータである．
+\begin{algorithm}
+    \caption{Adam}
+    \label{sec3:algo:adam}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} $\learningRate$, $\optimEmaConst_{1}$, $\optimEmaConst_{2}$, $\regConst$, $\bm{\weightAndBias}_{0}$, $L(\bm{\weightAndBias})$
+        \State \textbf{Initialize:} $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
+        \For{$\iter = 1$ to \texttt{...}}
+        \State $\bm{g}_{\iter} = \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}) + \regConst \bm{\weightAndBias}_{\iter-1}$
+        \State $\bm{m}_{\iter} = \optimEmaConst_{1} \bm{m}_{\iter-1} + (1 - \optimEmaConst_{1}) \bm{g}_{\iter}$
+        \State $\bm{v}_{\iter} = \optimEmaConst_{2} \bm{v}_{\iter-1} + (1 - \optimEmaConst_{2}) \bm{g}_{\iter}^{2}$
+        \State $\tilde{\bm{m}}_{\iter} = \bm{m}_{\iter} / (1 - \optimEmaConst_{1}^{\iter})$
+        \State $\tilde{\bm{v}}_{\iter} = \bm{v}_{\iter} / (1 - \optimEmaConst_{2}^{\iter})$
+        \State $\bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter-1} - \learningRate \tilde{\bm{m}}_{\iter} / (\sqrt{\tilde{\bm{v}}_{\iter}} + \epsilon)$
+        \EndFor
+        \State \textbf{Return} $\bm{\weightAndBias}_{\iter}$
+    \end{algorithmic}
+\end{algorithm}
+ここで，Adamでは正則化としてL2正則化を採用したが，Weight Decayを採用した最適化手法としてAdamW\cite{loshchilov2017decoupled}がある．AdamWの計算過程をアルゴリズム\ref{sec3:algo:adamw}に示す．正則化がL2正則化からWeight Decayに変わった点以外は同じである．
+\begin{algorithm}
+    \caption{AdamW}
+    \label{sec3:algo:adamw}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} $\learningRate$, $\optimEmaConst_{1}$, $\optimEmaConst_{2}$, $\regConst$, $\bm{\weightAndBias}_{0}$, $L(\bm{\weightAndBias})$
+        \State \textbf{Initialize:} $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
+        \For{$\iter = 1$ to \texttt{...}}
+        \State $\bm{g}_{\iter} = \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}(\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}) + \regConst \bm{\weightAndBias}_{\iter-1}$
+        \State $\bm{m}_{\iter} = \optimEmaConst_{1} \bm{m}_{\iter-1} + (1 - \optimEmaConst_{1}) \bm{g}_{\iter}$
+        \State $\bm{v}_{\iter} = \optimEmaConst_{2} \bm{v}_{\iter-1} + (1 - \optimEmaConst_{2}) \bm{g}_{\iter}^{2}$
+        \State $\tilde{\bm{m}}_{\iter} = \bm{m}_{\iter} / (1 - \optimEmaConst_{1}^{\iter})$
+        \State $\tilde{\bm{v}}_{\iter} = \bm{v}_{\iter} / (1 - \optimEmaConst_{2}^{\iter})$
+        \State $\bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter-1} - \learningRate \tilde{\bm{m}}_{\iter} / (\sqrt{\tilde{\bm{v}}_{\iter}} + \epsilon)$
+        \EndFor
+        \State \textbf{Return} $\bm{\weightAndBias}_{\iter}$
+
+        \State $\bm{\theta}_{t} \gets \bm{\theta}_{t-1} - \eta (\tilde{\bm{m}}_{t} / (\sqrt{\tilde{\bm{v}}_{t}} + \epsilon) - \lambda \bm{\theta}_{t - 1})$
+        \EndFor
+        \State \textbf{Return} $\bm{\theta}_{t}$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{学習率のスケジューリング}
+\ref{sec3:sec:optimizer}節では，DNNの学習における学習率の重要性および，AdamやAdamWといった，学習過程で適応的に重みの更新幅を変更できる最適化手法について述べた．このような最適化手法に対し，学習率のスケジューリングは，学習率$\eta$の値自体を学習の進行に伴って変更するものである．これは，より安定した学習を促すための調整や，より早く学習を収束させるのに役立つ手段である．以下，三つのスケジューラを例として述べる．また，各スケジューラを用いた場合における学習率の遷移を図~\ref{sec3:fig:lr_scheduler}に示す．
+
+一つ目は，StepLRSchedulerである．これは，初期学習率を$\eta_{0}$として，エポック$t$における学習率$\eta_{t}$を
+\begin{equation}
+    \eta_{t} = \eta_{0} \gamma^{\left\lfloor t / \text{step\_size} \right\rfloor}
+\end{equation}
+で与えるスケジューラである．これは，学習が$\text{step\_size}$エポック進むごとに学習率を$\gamma$倍することで，学習率を段階的に変化させる．シンプルで分かりやすいが，学習率の変化が不連続的になる．
+
+二つ目は，ExponentialLRSchedulerである．これは，$\eta_{t}$を
+\begin{equation}
+    \eta_{t} = \eta_{0} \cdot \exp \left( -\gamma t \right)
+\end{equation}
+で与えるスケジューラである．学習が1エポック進むごとに学習率を指数関数的に変化させるため，StepLRSchedulerと比較して，学習率を連続的に変化させられる．
+
+三つ目は，Cosine Annealing with Warmupである．これは，$\eta_{t}$を
+\begin{equation}
+    \eta_{t} =
+    \begin{cases}
+        \eta_{\text{min}} + \left( \frac{t}{\text{warmup\_steps}} \right) (\eta_{\text{max}} - \eta_{\text{min}})                                                                                  & \text{if $t < \text{warmup\_steps}$}   \\
+        \eta_{\text{min}} + \frac{1}{2} (\eta_{\text{max}} - \eta_{\text{min}}) \left( 1 + \cos \left( \frac{(t - \text{warmup\_steps})\pi}{t_{\text{max}} - \text{warmup\_steps}} \right) \right) & \text{if $t \ge \text{warmup\_steps}$}
+    \end{cases}
+\end{equation}
+で与えるスケジューラである．ここで，$\eta_{\text{min}}$は最小学習率，$\eta_{\text{max}}$は最大学習率，$t_{\text{max}}$は最大エポックである．$\text{warmup\_steps}$は学習率を$\eta_{\text{min}}$から$\eta_{\text{max}}$まで線形に増加させるのにかけるエポック数を指定するパラメータである．エポック数が$\text{warmup\_steps}$以上となれば，$\cos$関数に従って学習率を減衰させる．Cosine Annealing with Warmupは不安定になりがちな学習初期に学習率が低い状態から開始して，徐々に学習率を大きくすることで解の十分な探索を可能にし，その後再び学習率を小さくすることで学習の収束を促すスケジューラである．
+
+\begin{figure}[bt]
+    \centering
+    \includegraphics[height=70mm]{./figure/sec3/lr_scheduler.png}
+    \caption{スケジューラによる学習率の変化}
+    \label{sec3:fig:lr_scheduler}
+\end{figure}
 
 \subsubsection{誤差逆伝播法}
 \label{sec3:sec:backpropagation}
@@ -566,117 +695,6 @@ Multi-Head Attentionによって系列全体の依存関係を考慮した後は
                                                       & = \bm{o}_{i}^{k - 1} f'(\bm{a}_{j}^{k}) \sum_{l = 0}^{N_{k + 1}} \delta_{l}^{k + 1} \bm{W}_{j, l}^{k + 1}
 \end{align}
 で計算できる．以上より，出力層の重みについての損失関数の勾配は直ちに計算可能であるのに対して，隠れ層$k$の重みについての損失関数の勾配は，自身の次の層$k + 1$についての$\delta_{l}^{k + 1}$に依存していることがわかる．従って，出力から入力へと遡るように勾配を計算していき，以前に求めた計算結果をメモしておけば，効率よく勾配を計算することが可能だとわかる．
-
-\subsubsection{正則化}
-DNNは大量のパラメータにより高い表現力を持つが，その分学習データに過剰に適合し，未知データに対する汎化性能が低いモデルとなる，過学習を引き起こす可能性がある．正則化は，このようなDNNの過学習を防ぐための手段である．以下，具体的な方法を四つ述べる．
-
-一つ目は，L2正則化である．L2正則化は，損失関数にDNNの重みおよびバイアスの二乗和を加算することにより，重みが極端大きくなることを防ぐ手法である．損失関数を$L$，重みとバイアスをまとめた変数を$\bm{\theta}$とすると，L2正則化を適用した場合における損失関数の値$L_{w}(\bm{\theta})$は
-\begin{equation}
-    \label{sec3:eq:l2_reg}
-    L_{w}(\bm{\theta}) = L(\bm{\theta}) + \frac{\lambda}{2} \|\bm{\theta}\|_{2}^{2}
-\end{equation}
-で与えられる．重みのL2ノルムの二乗が損失関数に加算されることで，重みの大きさが過大になることを防ぐ．正則化の程度は係数$\lambda$で調整する．
-
-二つ目は，Weight Decayである．Weight Decayは重みの絶対値が過大になることを防ぐ手法であり，重みの更新式を
-\begin{equation}
-    \label{sec3:eq:weight_decay}
-    \bm{\theta} \leftarrow \bm{\theta} - \eta \nabla L(\bm{\theta}) - \lambda' \bm{\theta}
-\end{equation}
-とすることで与えられる．これは，特に通常の勾配降下法においてL2正則化を用いたとき，式\eqref{sec3:eq:l2_reg}における係数$\lambda$を$\lambda = \lambda' / \eta$とした場合に等しい\cite{loshchilov2017decoupled}．実際，
-\begin{align}
-    \nabla L_{w}(\bm{\theta}) & = \nabla L(\bm{\theta}) + \nabla \frac{\lambda}{2} \|\bm{\theta}\|_{2}^{2} \\
-                              & = \nabla L(\bm{\theta}) + \frac{\lambda'}{2\eta} \cdot 2\bm{\theta}        \\
-                              & = \nabla L(\bm{\theta}) + \frac{\lambda'}{\eta} \bm{\theta}
-\end{align}
-となり，このとき重みの更新式は式\eqref{sec3:eq:weight_decay}に一致する．
-
-三つ目は，Dropout\cite{srivastava2014dropout}である．Dropoutは，学習時に特徴量の一部を0に落とす手法である．一方，推論時は恒等写像となり，学習時と挙動が変わる．Dropoutへの入力を$\bm{h} \in \realSet^{D}$，特徴量を0に落とす確率を$p \in [0, 1]$とすると，学習時のDropout出力$\bm{h}_{\text{train}} \in \realSet^{D}$および推論時のDropout出力$\bm{h}_{\text{infer}} \in \realSet^{D}$は，
-\begin{align}
-    \bm{h}_{\text{train}} & = \frac{\bm{h} \odot \bm{m}}{1 - p} \label{sec3:eq:regularization_dropout_training_output} \\
-    \bm{h}_{\text{infer}} & = \bm{h}
-\end{align}
-で与えられる．ここで，$\bm{m} \in \{0, 1\}^{D}$は各要素$\bm{m}_{d}$が確率$1 - p$で1，確率$p$で0をとる確率変数であり，$\odot$は要素積を表す．式\eqref{sec3:eq:regularization_dropout_training_output}より，学習時はDropout出力を$1 / (1 - p)$倍していることがわかる．この理由は，学習時の出力の期待値と推論時の出力を一致させるためである．実際，確率変数$\bm{m}$の従う確率分布上で$\bm{h}_{\text{train}}$の期待値をとれば，
-\begin{align}
-    \mathbb{E}[\bm{h}_{\text{train}}] & = \mathbb{E} \left[ \frac{\bm{h} \odot \bm{m}}{1 - p} \right] \\
-                                      & = \frac{\bm{h}}{1 - p} \mathbb{E}[\bm{m}]                     \\
-                                      & = \frac{\bm{h}}{1 - p} (1 - p)                                \\
-                                      & = \bm{h} = \bm{f}_{\text{infer}}
-\end{align}
-となる．Dropoutは学習時に一部のニューロンを落とすことで，実質的に異なるネットワークを学習させていると解釈できる．よって，学習時の出力の期待値に推論時の出力を一致させることは，異なるネットワークの出力の平均をとり，アンサンブルモデルとして推論時の出力を得ていると考えられる．
-
-四つ目は，Early Stoppingである．Early Stoppingは，検証データに対する損失の増加を監視し，設定したエポック数だけ増加し続けた場合に学習を停止する手法である．これにより，学習データに対する過度なフィッティングを防止する．
-
-\subsubsection{最適化手法}
-\label{sec3:sec:optimizer}
-\ref{sec3:sec:gradient_descent}節において，DNNの重みとバイアスが勾配降下法によって最適化されること，\ref{sec3:sec:backpropagation}節において，勾配降下法に必要な損失関数の勾配を計算するアルゴリズムである，誤差逆伝播法について述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{t}$は重み$\bm{\theta}$についての損失関数$L(\bm{\theta})$の勾配の一次モーメント，$\bm{m}_{t}$が勾配の一次モーメントの指数移動平均，$\bm{v}_{t}$が勾配の二次モーメントの指数移動平均である．$\hat{\bm{m}}_{t}$および$\hat{\bm{v}}_{t}$はそれぞれ，$\bm{m}_{t}$および$\bm{v}_{t}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．また，$\lambda$はL2正則化の程度を調整するパラメータである．
-\begin{algorithm}
-    \caption{Adam}
-    \label{sec3:algo:adam}
-    \begin{algorithmic}[1]
-        \State \textbf{Input:} $\eta$, $\beta_{1}$, $\beta_{2}$, $\lambda$, $\bm{\theta}_{0}$, $L(\bm{\theta})$
-        \State \textbf{Initialize:} $\bm{m}_{0} \gets 0$, $\bm{v}_{0} \gets 0$
-        \For{$t = 1$ to \texttt{...}}
-        \State $\bm{g}_{t} \gets \nabla_{\bm{\theta}} L(\bm{\theta}_{t-1})$
-        \State $\bm{g}_t \gets \bm{g}_t + \lambda \bm{\theta}_{t-1}$
-        \State $\bm{m}_{t} \gets \beta_{1} \bm{m}_{t-1} + (1 - \beta_{1}) \bm{g}_{t}$
-        \State $\bm{v}_{t} \gets \beta_{2} \bm{v}_{t-1} + (1 - \beta_{2}) \bm{g}_{t}^{2}$
-        \State $\tilde{\bm{m}}_{t} \gets \bm{m}_{t} / (1 - \beta_{1}^{t})$
-        \State $\tilde{\bm{v}}_{t} \gets \bm{v}_{t} / (1 - \beta_{2}^{t})$
-        \State $\bm{\theta}_{t} \gets \bm{\theta}_{t-1} - \eta \tilde{\bm{m}}_{t} / (\sqrt{\tilde{\bm{v}}_{t}} + \epsilon)$
-        \EndFor
-        \State \textbf{Return} $\bm{\theta}_{t}$
-    \end{algorithmic}
-\end{algorithm}
-ここで，Adamでは正則化としてL2正則化を採用したが，Weight Decayを採用した最適化手法としてAdamW\cite{loshchilov2017decoupled}がある．AdamWの計算過程をアルゴリズム\ref{sec3:algo:adamw}に示す．正則化がL2正則化からWeight Decayに変わった点以外は同じである．
-\begin{algorithm}
-    \caption{AdamW}
-    \label{sec3:algo:adamw}
-    \begin{algorithmic}[1]
-        \State \textbf{Input:} $\eta$, $\beta_{1}$, $\beta_{2}$, $\lambda$, $\bm{\theta}_{0}$, $L(\bm{\theta})$
-        \State \textbf{Initialize:} $\bm{m}_{0} \gets 0$, $\bm{v}_{0} \gets 0$
-        \For{$t = 1$ to \texttt{...}}
-        \State $\bm{g}_{t} \gets \nabla_{\bm{\theta}} L(\bm{\theta}_{t-1})$
-        \State $\bm{m}_{t} \gets \beta_{1} \bm{m}_{t-1} + (1 - \beta_{1}) \bm{g}_{t}$
-        \State $\bm{v}_{t} \gets \beta_{2} \bm{v}_{t-1} + (1 - \beta_{2}) \bm{g}_{t^{2}}$
-        \State $\tilde{\bm{m}}_{t} \gets \bm{m}_{t} / (1 - \beta_{1}^{t})$
-        \State $\tilde{\bm{v}}_{t} \gets \bm{v}_{t} / (1 - \beta_{2}^{t})$
-        \State $\bm{\theta}_{t} \gets \bm{\theta}_{t-1} - \eta (\tilde{\bm{m}}_{t} / (\sqrt{\tilde{\bm{v}}_{t}} + \epsilon) - \lambda \bm{\theta}_{t - 1})$
-        \EndFor
-        \State \textbf{Return} $\bm{\theta}_{t}$
-    \end{algorithmic}
-\end{algorithm}
-
-\subsubsection{学習率のスケジューリング}
-\ref{sec3:sec:optimizer}節では，DNNの学習における学習率の重要性および，AdamやAdamWといった，学習過程で適応的に重みおよびバイアスの更新幅を変更できる最適化手法について述べた．このような最適化手法に対し，学習率のスケジューリングは，学習率$\eta$の値自体を学習の進行に伴って変更するものである．これは，より安定した学習を促すための調整や，より早く学習を収束させるのに役立つ手段である．以下，三つのスケジューラを例として述べる．また，各スケジューラを用いた場合における学習率の遷移を図~\ref{sec3:fig:lr_scheduler}に示す．
-
-一つ目は，StepLRSchedulerである．これは，初期学習率を$\eta_{0}$として，エポック$t$における学習率$\eta_{t}$を
-\begin{equation}
-    \eta_{t} = \eta_{0} \gamma^{\left\lfloor t / \text{step\_size} \right\rfloor}
-\end{equation}
-で与えるスケジューラである．これは，学習が$\text{step\_size}$エポック進むごとに学習率を$\gamma$倍することで，学習率を段階的に変化させる．シンプルで分かりやすいが，学習率の変化が不連続的になる．
-
-二つ目は，ExponentialLRSchedulerである．これは，$\eta_{t}$を
-\begin{equation}
-    \eta_{t} = \eta_{0} \cdot \exp \left( -\gamma t \right)
-\end{equation}
-で与えるスケジューラである．学習が1エポック進むごとに学習率を指数関数的に変化させるため，StepLRSchedulerと比較して，学習率を連続的に変化させられる．
-
-三つ目は，Cosine Annealing with Warmupである．これは，$\eta_{t}$を
-\begin{equation}
-    \eta_{t} =
-    \begin{cases}
-        \eta_{\text{min}} + \left( \frac{t}{\text{warmup\_steps}} \right) (\eta_{\text{max}} - \eta_{\text{min}})                                                                                  & \text{if $t < \text{warmup\_steps}$}   \\
-        \eta_{\text{min}} + \frac{1}{2} (\eta_{\text{max}} - \eta_{\text{min}}) \left( 1 + \cos \left( \frac{(t - \text{warmup\_steps})\pi}{t_{\text{max}} - \text{warmup\_steps}} \right) \right) & \text{if $t \ge \text{warmup\_steps}$}
-    \end{cases}
-\end{equation}
-で与えるスケジューラである．ここで，$\eta_{\text{min}}$は最小学習率，$\eta_{\text{max}}$は最大学習率，$t_{\text{max}}$は最大エポックである．$\text{warmup\_steps}$は学習率を$\eta_{\text{min}}$から$\eta_{\text{max}}$まで線形に増加させるのにかけるエポック数を指定するパラメータである．エポック数が$\text{warmup\_steps}$以上となれば，$\cos$関数に従って学習率を減衰させる．Cosine Annealing with Warmupは不安定になりがちな学習初期に学習率が低い状態から開始して，徐々に学習率を大きくすることで解の十分な探索を可能にし，その後再び学習率を小さくすることで学習の収束を促すスケジューラである．
-
-\begin{figure}[bt]
-    \centering
-    \includegraphics[height=70mm]{./figure/sec3/lr_scheduler.png}
-    \caption{スケジューラによる学習率の変化}
-    \label{sec3:fig:lr_scheduler}
-\end{figure}
 
 \subsubsection{学習の安定化}
 DNNの学習は勾配降下法によって行われるが，ここで勾配が大きくなりすぎると重みの更新幅が過剰に大きくなり，学習が不安定になる可能性がある．これに対して，Gradient Clippingが有効である．Gradient Clippingは，勾配のノルムが設定した閾値を超える場合に，勾配をスケーリングしてそのノルムを抑制する方法である．勾配の更新式は，勾配を$\bm{g}$，設定した閾値を$c$とすると，

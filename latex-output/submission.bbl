@@ -78,10 +78,11 @@ A~Vaswani.
 \newblock Attention is all you need.
 \newblock {\em Advances in Neural Information Processing Systems}, 2017.
 
-\bibitem{loshchilov2017decoupled}
-I~Loshchilov.
-\newblock Decoupled weight decay regularization.
-\newblock {\em arXiv preprint arXiv:1711.05101}, 2017.
+\bibitem{zhang2019gradient}
+Jiawei Zhang.
+\newblock Gradient descent based optimization algorithms for deep learning
+  models training.
+\newblock {\em arXiv preprint arXiv:1903.03614}, 2019.
 
 \bibitem{srivastava2014dropout}
 Nitish Srivastava, Geoffrey Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan
@@ -94,6 +95,11 @@ Nitish Srivastava, Geoffrey Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan
 Diederik~P Kingma.
 \newblock Adam: A method for stochastic optimization.
 \newblock {\em arXiv preprint arXiv:1412.6980}, 2014.
+
+\bibitem{loshchilov2017decoupled}
+I~Loshchilov.
+\newblock Decoupled weight decay regularization.
+\newblock {\em arXiv preprint arXiv:1711.05101}, 2017.
 
 \bibitem{hsu2021hubert}
 Wei-Ning Hsu, Benjamin Bolte, Yao-Hung~Hubert Tsai, Kushal Lakhotia, Ruslan

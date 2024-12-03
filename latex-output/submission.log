@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  2 DEC 2024 02:06
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  3 DEC 2024 09:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -392,7 +392,7 @@ Document Style - pseudocode environments for use with the `algorithmicx' style
 \tabcaptionskip=\skip96
 (./vars.tex)
 Package translations Info: No language package found. I am going to use `english' as default language. on input line 47.
-(latex-output/submission.aux)
+No file submission.aux.
 \openout1 = `submission.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
@@ -461,19 +461,8 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <17.28> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 79.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 79.
-[1] (latex-output/submission.toc
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 1.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 1.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
+[1]
+No file submission.toc.
 \tf@toc=\write3
 \openout3 = `submission.toc'.
 
@@ -484,9 +473,42 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 92.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 92.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 101.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 101.
+
+LaTeX Warning: Citation `afouras2018lrs3' on page 1 undefined on input line 101.
+
+
+LaTeX Warning: Citation `chung2018voxceleb2' on page 1 undefined on input line 101.
+
+
+LaTeX Warning: Citation `shi2022learning' on page 1 undefined on input line 101.
+
+
+LaTeX Warning: Citation `kim2023lip_multitask' on page 1 undefined on input line 101.
+
+
+LaTeX Warning: Citation `choi2023intelligible' on page 1 undefined on input line 101.
+
+
+LaTeX Warning: Citation `choi2023intelligible' on page 1 undefined on input line 113.
+
 [1
 
 ]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 126.
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 126.
+(/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+LaTeX Warning: Reference `sec2:fig:log_power_spectrograms' on page 2 undefined on input line 137.
+
 File: ./figure/sec2/spectrogram_1.png Graphic file (type bmp)
 <./figure/sec2/spectrogram_1.png>
 File: ./figure/sec2/spectrogram_2.png Graphic file (type bmp)
@@ -498,9 +520,16 @@ File: ./figure/sec2/spectrogram_8.png Graphic file (type bmp)
 [2
 
 ] [3]
+
+LaTeX Warning: Reference `sec2:fig:melspectrogram' on page 4 undefined on input line 176.
+
 File: ./figure/sec2/melspectrogram.png Graphic file (type bmp)
 <./figure/sec2/melspectrogram.png>
-[4] [5
+[4]
+
+LaTeX Warning: Reference `sec3:fig:conv_variations' on page 5 undefined on input line 206.
+
+[5
 
 ]
 File: ./figure/sec3/conv1.drawio.png Graphic file (type bmp)
@@ -511,136 +540,107 @@ File: ./figure/sec3/conv3.drawio.png Graphic file (type bmp)
 <./figure/sec3/conv3.drawio.png>
 File: ./figure/sec3/conv4.drawio.png Graphic file (type bmp)
 <./figure/sec3/conv4.drawio.png>
+
+LaTeX Warning: Reference `sec3:fig:tconv_variations' on page 6 undefined on input line 242.
+
+
+LaTeX Warning: Reference `sec3:fig:tconv1' on page 6 undefined on input line 242.
+
+
+LaTeX Warning: Reference `sec3:fig:tconv2' on page 6 undefined on input line 242.
+
 [6]
 File: ./figure/sec3/tconv1.drawio.png Graphic file (type bmp)
 <./figure/sec3/tconv1.drawio.png>
 File: ./figure/sec3/tconv2.drawio.png Graphic file (type bmp)
 <./figure/sec3/tconv2.drawio.png>
-[7] [8]
+
+LaTeX Warning: Reference `sec3:fig:activations_and_their_prime' on page 7 undefined on input line 263.
+
+
+LaTeX Warning: Reference `sec3:fig:activations_prime' on page 7 undefined on input line 273.
+
+[7]
+
+LaTeX Warning: Reference `sec3:fig:activations_prime' on page 8 undefined on input line 284.
+
+
+LaTeX Warning: Citation `maas2013rectifier' on page 8 undefined on input line 300.
+
+
+LaTeX Warning: Citation `he2015delving' on page 8 undefined on input line 318.
+
+
+LaTeX Warning: Citation `hendrycks2016gaussian' on page 8 undefined on input line 320.
+
+[8]
 File: ./figure/sec3/activations.png Graphic file (type bmp)
 <./figure/sec3/activations.png>
 File: ./figure/sec3/activations_prime.png Graphic file (type bmp)
 <./figure/sec3/activations_prime.png>
-[9] [10] [11]
+
+LaTeX Warning: Citation `hochreiter1997long' on page 9 undefined on input line 361.
+
+
+LaTeX Warning: Citation `cho2014learning' on page 9 undefined on input line 372.
+
+[9] [10]
+
+LaTeX Warning: Citation `ioffe2015batch' on page 11 undefined on input line 382.
+
+
+LaTeX Warning: Citation `ba2016layer' on page 11 undefined on input line 396.
+
+[11]
+
+LaTeX Warning: Citation `salimans2016weight' on page 12 undefined on input line 405.
+
+
+LaTeX Warning: Citation `vaswani2017attention' on page 12 undefined on input line 412.
+
+
+LaTeX Warning: Reference `sec3:fig:transformer_layer' on page 12 undefined on input line 412.
+
 File: ./figure/sec3/transformer.drawio.png Graphic file (type bmp)
 <./figure/sec3/transformer.drawio.png>
-[12] [13]
-Overfull \hbox (2.80157pt too wide) in paragraph at lines 447--450
-\JY1/mc/m/n/12 と表される ． ここで ， $[][] \OMS/cmsy/m/n/12 2 \U/msb/m/n/12 R[]$ \JY1/mc/m/n/12 が各ヘ ッ ドから出力された \OT1/cmr/m/n/12 At-ten-tion \JY1/mc/m/n/12 スコア， $[]\OT1/cmr/m/n/12 ([][]\OML/cmm/m/it/12 ; [] 
- []
+[12] [13] [14] [15]
 
-[14] [15] [16] [17] [18] [19] [20] [21]
-File: ./figure/sec3/lr_scheduler.png Graphic file (type bmp)
-<./figure/sec3/lr_scheduler.png>
-[22] [23] [24]
-File: ./figure/sec4/model/network.drawio.png Graphic file (type bmp)
-<./figure/sec4/model/network.drawio.png>
-File: ./figure/sec4/model/hubert.png Graphic file (type bmp)
-<./figure/sec4/model/hubert.png>
-[25
+LaTeX Warning: Citation `zhang2019gradient' on page 16 undefined on input line 510.
 
-] [26]
-File: ./figure/sec4/model/multi-input_vocoder.png Graphic file (type bmp)
-<./figure/sec4/model/multi-input_vocoder.png>
-[27]
-File: ./figure/sec4/model/mpd.png Graphic file (type bmp)
-<./figure/sec4/model/mpd.png>
-File: ./figure/sec4/model/msd.png Graphic file (type bmp)
-<./figure/sec4/model/msd.png>
-[28] [29] [30] [31] [32] [33]
-Overfull \hbox (19.05278pt too wide) in paragraph at lines 886--911
-\JY1/mc/m/n/12 リスト， $[]$ が手法名のリスト， $[]$ が話者名のリスト， $[]$
- []
+[16]
 
-[34] [35] [36]
-File: ./figure/sec4/learning_curves/0/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curves/0/mel_loss.png>
-File: ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curves/0/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curves/0/total_loss.png>
-File: ./figure/sec4/learning_curves/2/mel_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curves/2/mel_loss.png>
-File: ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png>
-File: ./figure/sec4/learning_curves/2/total_loss.png Graphic file (type bmp)
-<./figure/sec4/learning_curves/2/total_loss.png>
-[37] [38] [39] [40]
-File: ./figure/sec4/sbj/age.png Graphic file (type bmp)
-<./figure/sec4/sbj/age.png>
-[41] [42] [43] [44] [45] [46] [47] [48
+LaTeX Warning: Citation `srivastava2014dropout' on page 17 undefined on input line 543.
 
-] [49
 
-] [50
+LaTeX Warning: Reference `sec3:eq:regularization_dropout_training_output' on page 17 undefined on input line 548.
 
-] (latex-output/submission.bbl
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 6.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 11.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 17.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 22.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 28.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 33.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 39.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 45.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 50.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 56.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 62.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 67.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 73.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 79.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 84.
-[51
 
-]
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 90.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 96.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 103.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 109.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 116.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 133.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 144.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 150.
-[52]
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 161.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 169.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 176.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 184.
-) [53] (latex-output/submission.aux) ) 
+LaTeX Warning: Reference `sec3:sec:gradient_descent' on page 17 undefined on input line 561.
+
+
+LaTeX Warning: Citation `kingma2014adam' on page 17 undefined on input line 561.
+
+
+LaTeX Warning: Reference `sec3:algo:adam' on page 17 undefined on input line 561.
+
+
+LaTeX Warning: Citation `loshchilov2017decoupled' on page 17 undefined on input line 579.
+
+
+LaTeX Warning: Reference `sec3:algo:adamw' on page 17 undefined on input line 579.
+
+/Users/minami/class/research/master_thesis/submission.tex:597: Missing number, treated as zero.
+<to be read again> 
+                   \ALG@b@2@EndFor@0 
+l.597         \EndFor
+                      
 Here is how much of TeX's memory you used:
- 11218 strings out of 478692
- 237381 string characters out of 5855915
- 535945 words of memory out of 5000000
- 29506 multiletter control sequences out of 15000+600000
- 491126 words of font info for 113 fonts, out of 8000000 for 9000
+ 11038 strings out of 478692
+ 231556 string characters out of 5855915
+ 513018 words of memory out of 5000000
+ 29354 multiletter control sequences out of 15000+600000
+ 490779 words of font info for 112 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,17n,79p,3090b,721s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,13n,79p,3090b,687s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (56 pages, 231988 bytes).
+Output written on latex-output/submission.dvi (19 pages, 71196 bytes).
