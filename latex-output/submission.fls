@@ -741,26 +741,6 @@ INPUT ./figure/sec3/lr_scheduler.png
 INPUT ./figure/sec3/lr_scheduler.png
 INPUT ./figure/sec3/lr_scheduler.png
 INPUT extractbb -B cropbox -O ./figure/sec3/lr_scheduler.png
-INPUT ./figure/sec4/model/network.drawio.png
-INPUT ./figure/sec4/model/network.drawio.png
-INPUT ./figure/sec4/model/network.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/network.drawio.png
-INPUT ./figure/sec4/model/hubert.png
-INPUT ./figure/sec4/model/hubert.png
-INPUT ./figure/sec4/model/hubert.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/hubert.png
-INPUT ./figure/sec4/model/multi-input_vocoder.png
-INPUT ./figure/sec4/model/multi-input_vocoder.png
-INPUT ./figure/sec4/model/multi-input_vocoder.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/multi-input_vocoder.png
-INPUT ./figure/sec4/model/mpd.png
-INPUT ./figure/sec4/model/mpd.png
-INPUT ./figure/sec4/model/mpd.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/mpd.png
-INPUT ./figure/sec4/model/msd.png
-INPUT ./figure/sec4/model/msd.png
-INPUT ./figure/sec4/model/msd.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model/msd.png
 INPUT ./figure/sec4/learning_curves/0/mel_loss.png
 INPUT ./figure/sec4/learning_curves/0/mel_loss.png
 INPUT ./figure/sec4/learning_curves/0/mel_loss.png

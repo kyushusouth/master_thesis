@@ -120,13 +120,6 @@ Li~Wan, Quan Wang, Alan Papir, and Ignacio~Lopez Moreno.
 \newblock In {\em 2018 IEEE International Conference on Acoustics, Speech and
   Signal Processing (ICASSP)}, pp. 4879--4883. IEEE, 2018.
 
-\bibitem{kong2020hifi}
-Jungil Kong, Jaehyeon Kim, and Jaekyoung Bae.
-\newblock Hifi-gan: Generative adversarial networks for efficient and high
-  fidelity speech synthesis.
-\newblock {\em Advances in neural information processing systems}, Vol.~33, pp.
-  17022--17033, 2020.
-
 \bibitem{taguchi}
 田口史郎.
 \newblock "深層学習を用いたデータ駆動型調音・音声間変換に関する研究".
