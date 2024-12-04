@@ -1,6 +1,7 @@
 % section3
 % data
 \newcommand{\dataset}{\mathcal{D}}
+\newcommand{\datasetTrain}{\dataset_{\text{train}}}
 \newcommand{\dimLower}{d}
 \newcommand{\dimUpper}{D}
 \newcommand{\heightLower}{h}
@@ -56,26 +57,79 @@
 \newcommand{\elemSum}{\oplus}
 \newcommand{\concat}{\text{concat}}
 \newcommand{\opRepeat}{\text{repeat}}
+\newcommand{\lr}[1]{\left(#1\right)}
+\newcommand{\lrsq}[1]{\left[#1\right]}
+\newcommand{\lrc}[1]{\left\{#1\right\}}
+\newcommand{\onehot}{\text{onehot}}
+\newcommand{\argmax}{\text{argmax}}
 
 % section4
 % model
 \newcommand{\spkEmbExtractor}{f_{\text{spk}}}
-\newcommand{\hubert}{f_{\text{HuBERT}}}
-\newcommand{\hubertConv}{f_{\text{HuBERT-conv}}}
-\newcommand{\hubertTransformer}{f_{\text{HuBERT-trans}}}
+\newcommand{\hubert}{f_{\text{HuB}}}
+\newcommand{\hubertConv}{f_{\text{HuB-conv}}}
+\newcommand{\hubertTransformer}{f_{\text{HuB-trans}}}
 \newcommand{\kmeans}{f_{\text{k-means}}}
-\newcommand{\AVHuBERT}{f_{\text{AVHuBERT}}}
+\newcommand{\AVHuBERT}{f_{\text{AVHuB}}}
 \newcommand{\myNetworkA}{f_{\text{A}}}
 \newcommand{\myNetworkB}{f_{\text{B}}}
+\newcommand{\myNetworkSpkMerge}{f_{\text{spk-merge}}}
 \newcommand{\myNetworkPost}{f_{\text{post}}}
 \newcommand{\myNetworkFcMel}{f_{\text{fc-mel}}}
-\newcommand{\myNetworkFcHubDisc}{f_{\text{fc-HuBERT-disc}}}
-\newcommand{\myNetworkFcHubInt}{f_{\text{fc-HuBERT-int}}}
+\newcommand{\myNetworkFcHubDisc}{f_{\text{fc-HuB-disc}}}
+\newcommand{\myNetworkFcHubInt}{f_{\text{fc-HuB-int}}}
 \newcommand{\vocoder}{f_{\text{voc}}}
 \newcommand{\vocoderPreMel}{f_{\text{voc-pre-mel}}}
-\newcommand{\vocoderPreHub}{f_{\text{voc-pre-HuBERT}}}
+\newcommand{\vocoderPreHub}{f_{\text{voc-pre-HuB}}}
 \newcommand{\vocoderMain}{f_{\text{voc-main}}}
 \newcommand{\mpd}{f_{\text{mpd}}}
 \newcommand{\msd}{f_{\text{msd}}}
+\newcommand{\weightSpk}{\bm{\weightAndBias}_{\text{spk}}}
+\newcommand{\weightHuBERT}{\bm{\weightAndBias}_{\text{HuB}}}
+\newcommand{\weightA}{\bm{\weightAndBias}_{\text{A}}}
+\newcommand{\weightB}{\bm{\weightAndBias}_{\text{B}}}
+\newcommand{\weightVoc}{\bm{\weightAndBias}_{\text{voc}}}
 % data
 \newcommand{\featureUpper}{H}
+\newcommand{\spkId}{s_{\numLower}}
+\newcommand{\spkIdSet}{\{1, \ldots, \numUpper_{\text{spk}}\}}
+\newcommand{\spWaveformGt}{\bm{\outputLower}^{\text{sp-wf}}_{\numLower}}
+\newcommand{\spWaveformPred}{\hat{\bm{\outputLower}}^{\text{sp-wf}}_{\numLower}}
+\newcommand{\spWaveformSet}{\realSet^{\timeUpper^{\text{sp-wf}}_{\numLower}}}
+\newcommand{\spkEmb}{\bm{\inputLower}^{\text{spk-emb}}_{\spkId}}
+\newcommand{\spkEmbSet}{\realSet^{\dimUpper^{\text{spk-emb}}}}
+\newcommand{\hubertIntGt}{\bm{\outputUpper}^{\text{HuB-int}}_{\numLower}}
+\newcommand{\hubertIntPred}{\hat{\bm{\outputUpper}}^{\text{HuB-int}}_{\numLower}}
+\newcommand{\hubertIntSet}{\realSet^{\dimUpper^{\text{HuB-int}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\hubertDiscGt}{\bm{\outputUpper}^{\text{HuB-disc}}_{\numLower}}
+\newcommand{\hubertDiscGtVec}{\bm{\outputLower}^{\text{HuB-disc}}_{\numLower, \timeLower}}
+\newcommand{\hubertDiscGtSet}{\{0, 1\}^{\classUpper \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\hubertDiscPredA}{\hat{\bm{\outputUpper}}^{\text{HuB-disc-A}}_{\numLower}}
+\newcommand{\hubertDiscPredB}{\hat{\bm{\outputUpper}}^{\text{HuB-disc-B}}_{\numLower}}
+\newcommand{\hubertDiscPredSet}{\realSet^{\classUpper \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\melGt}{\bm{\outputUpper}^{\text{mel}}_{\numLower}}
+\newcommand{\melPredA}{\hat{\bm{\outputUpper}}^{\text{mel-A}}_{\numLower}}
+\newcommand{\melPredB}{\hat{\bm{\outputUpper}}^{\text{mel-B}}_{\numLower}}
+\newcommand{\melSet}{\realSet^{\dimUpper^{\text{mel}} \times \timeUpper^{\text{mel}}_{\numLower}}}
+\newcommand{\video}{\bm{\inputUpper}^{\text{video}}_{\numLower}}
+\newcommand{\videoSet}{\realSet^{\dimUpper^{\text{video}} \times \timeUpper^{\text{video}}_{\numLower} \times \widthUpper^{\text{video}} \times \heightUpper^{\text{video}}}}
+\newcommand{\featureA}{\bm{\featureUpper}^{\text{A}}_{\numLower}}
+% \newcommand{\featureAVHuBERT}{\bm{\featureUpper}^{\text{AVHuB}}_{\numLower}}
+% \newcommand{\featureWithSpkA}{\bm{\featureUpper}^{\text{w-spk-A}}_{\numLower}}
+% \newcommand{\featurePostA}{\bm{\featureUpper}^{\text{post-A}}_{\numLower}}
+\newcommand{\featureASet}{\realSet^{\dimUpper^{\text{A}} \times \timeUpper^{\text{video}}_{\numLower}}}
+\newcommand{\featureB}{\bm{\featureUpper}^{\text{B}}_{\numLower}}
+% \newcommand{\featureHuBERT}{\bm{\featureUpper}^{\text{HuB}}_{\numLower}}
+% \newcommand{\featureWithSpkB}{\bm{\featureUpper}^{\text{w-spk-B}}_{\numLower}}
+% \newcommand{\featurePostB}{\bm{\featureUpper}^{\text{post-B}}_{\numLower}}
+\newcommand{\featureBSet}{\realSet^{\dimUpper^{\text{B}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\featureVocMel}{\bm{\featureUpper}^{\text{mel-voc}}_{\numLower}}
+\newcommand{\featureVocMelSet}{\realSet^{\dimUpper^{\text{mel-voc}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\featureVocHuBERT}{\bm{\featureUpper}^{\text{HuB-voc}}_{\numLower}}
+\newcommand{\featureVocHuBERTSet}{\realSet^{\dimUpper^{\text{HuB-voc}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+% loss
+\newcommand{\lossWeightMel}{\lambda_{\text{mel}}}
+\newcommand{\lossWeightHubInt}{\lambda_{\text{HuB-int}}}
+\newcommand{\lossWeightHubDisc}{\lambda_{\text{HuB-disc}}}
+\newcommand{\lossMAE}[2]{\lossFuncUpper_{\text{MAE}}\lr{#1, #2}}
+\newcommand{\lossCE}[2]{\lossFuncUpper_{\text{CE}}\lr{#1, #2}}
