@@ -21,6 +21,7 @@
 \usepackage{array}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{physics}
 
 \numberwithin{equation}{section}    % 数式番号にセクション番号をつける
 \numberwithin{figure}{section}      % 図番号にセクション
@@ -127,13 +128,13 @@
 
 離散信号を$x[n]$，それに対するフーリエ変換を$X[k]$とする．ここで，nはサンプルのインデックス，kは周波数インデックスである．$X[k]$は複素数であり，以下のように極座標表示することができる．
 \begin{align}
-    X[k] & = \mathrm{Re}(X[k]) + j\mathrm{Im}(X[k]) \\
+    X[k] & = \mathrm{Re}\lr{X[k]} + j\mathrm{Im}lr{X[k]} \\
          & = |X[k]|e^{j\angle\mathrm{X[k]}}
 \end{align}
 ここで，$|X[k]|$は振幅特性（振幅スペクトル），$\angle\mathrm{X[k]}$は位相特性（位相スペクトル）であり，
 \begin{gather}
-    |X[k]| = \sqrt{\mathrm{Re}(X[k])^{2} + \mathrm{Im}(X[k])^{2}} \\
-    \angle\mathrm{X[k]} = \tan^{-1} \frac{\mathrm{Im}(X[k])}{\mathrm{Re}(X[k])}
+    |X[k]| = \sqrt{\mathrm{Re}\lr{X[k]}^{2} + \mathrm{Im}\lr{X[k]}^{2}} \\
+    \angle\mathrm{X[k]} = \tan^{-1} \frac{\mathrm{Im}\lr{X[k]}}{\mathrm{Re}\lr{X[k]}}
 \end{gather}
 と表される．また，$|X[k]|^2$はパワースペクトルと呼ばれる．これにより，信号中にどのような周波数成分がどれくらい含まれているかを調べることができる．しかし，音声はフォルマントやピッチが時々刻々と変化するため，信号全体に対して直接フーリエ変換を適用したとしても有用な結果が得られない．このような音声の持つ非定常性の問題に対して，十分短い時間幅においては信号の定常性が成り立つという仮定のもと，短時間フーリエ変換（short-time Fourier transform; STFT）が用いられる．STFTでは，音声信号に対して窓関数による窓処理を適用し，短時間に区切られた信号それぞれに対してDFTを適用する．ここで，窓処理とはある特定の窓関数と音声信号を時間領域でかけ合わせることであり，窓関数の時間幅を窓長という．また，窓関数を時間方向にシフトするときの時間幅をシフト幅という．STFTには時間分解能と周波数分解能の間に不確定性が存在し，両者の間にトレード・オフの関係がある．窓長が長い場合には周波数分解能が向上する一方，時間分解能が低下する．窓長が短い場合にはその逆となる．音声信号$x[n]$のSTFTを時刻$j$，周波数インデックスを$k$として$X[j, k]$と表すと，$X[j, k]$は時間周波数領域における複素数となる．これを複素スペクトログラムと呼ぶ．また，$|X[j, k]|$を振幅スペクトログラム，$\angle\mathrm{X[j, k]}$を位相スペクトログラム，
 $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻屋に，熱気のようなものがみなぎる」と発話した音声に対し，窓関数としてハニング窓を用いた上で，複数の窓長・シフト幅によって計算した対数パワースペクトログラムを，図~\ref{sec2:fig:log_power_spectrograms}に示す．窓長が100msと長い場合には周波数分解能が高いが，時間分解能が低下することでスペクトルの時間変化が滑らかでないことがわかる．一方，窓長が12.5msと短い場合には時間分解能が高いが，周波数分解能が低下することでスペクトルがぼやけていることがわかる．これが窓長に対する時間分解能と周波数分解能とトレード・オフであり，窓長25msや50msが程よいパラメータであることがわかる．
@@ -173,7 +174,7 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 \subsection{メルスペクトログラム}
 メルスペクトログラムは，パワースペクトログラムを人間の聴感特性を考慮したメル尺度に変換することによって得られる．周波数軸をメル尺度に変換する際，以下の式を用いる．
 \begin{equation}
-    \text{Mel}(f) = 2595\log_{10} \left(1 + \frac{f}{700}\right)
+    \text{Mel}\lr{f} = 2595\log_{10} \lr{1 + \frac{f}{700}}
 \end{equation}
 メル尺度は，$\SI[]{1000}{Hz}$，$\SI[]{40}{dB}$の純音を$\SI[]{1000}{mel}$とする比率尺度である．メル尺度を用いることにより，低い周波数ほど細かく，高い周波数ほど荒い特徴量になる．メルスペクトログラムは，パワースペクトログラムに対してメルフィルタバンクを適用することによって得られる．メルフィルタバンクの数は任意に決定できるパラメータであり，メルスペクトログラムの周波数方向の次元はこれに一致する．音声合成においては，音声のサンプリング周波数を$\SI[]{16}{kHz}$とするとき，メルフィルタバンクの数を80とし，$\SI[]{8000}{Hz}$までの帯域に対して適用することが多い．「小さな鰻屋に，熱気のようなものがみなぎる」と発話した音声に対し，窓関数にハニング窓を用い，窓長25ms，シフト幅10msとしてパワースペクトログラムを計算した上で，80次元のメルフィルタバンクを適用して得られた対数メルスペクトログラムを，図~\ref{sec2:fig:melspectrogram}に示す．
 \begin{figure}[bt]
@@ -199,11 +200,11 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 \subsubsection{畳み込み層}
 畳み込み層は，入力に対して畳み込み演算を行う層である．一次元畳み込み層について，入力を$\bm{\inputUpper} \in \realSet^{\dimUpper_{\text{in}} \times \timeUpper_{\text{in}}}$，出力を$\bm{\outputUpper} \in \realSet^{\dimUpper_{\text{out}} \times \timeUpper_{\text{out}}}$とし，それぞれ$\dimLower$次元目，$\timeLower$番目の成分を$\inputLower_{\dimLower_{\text{in}}, \timeLower}, \outputLower_{\dimLower_{\text{out}}, \timeLower}$で表す．このとき，$\outputLower_{\dimLower_{\text{out}}, \timeLower}$は，
 \begin{align}
-    \outputLower_{\dimLower_{\text{out}}, \timeLower} = b_{\dimLower_{\text{out}}} + \sum_{\dimLower_{\text{in}} = 1}^{\dimUpper_{\text{in}}} \sum_{\kernelSizeLower = 1}^{\kernelSizeUpper} \inputLower_{\dimLower_{\text{in}}, \timeLower - \left\lfloor \frac{\kernelSizeUpper}{2} \right\rfloor + \kernelSizeLower} \weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}
+    \outputLower_{\dimLower_{\text{out}}, \timeLower} = b_{\dimLower_{\text{out}}} + \sum_{\dimLower_{\text{in}} = 1}^{\dimUpper_{\text{in}}} \sum_{\kernelSizeLower = 1}^{\kernelSizeUpper} \inputLower_{\dimLower_{\text{in}}, \timeLower - \lrFloor{\frac{\kernelSizeUpper}{2}} + \kernelSizeLower} \weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}
 \end{align}
-で与えられる．ここで，$\kernelSizeUpper \in \naturalSet$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower} \in \realSet$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}} \in \realSet$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，一次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．一次元畳み込みはテキストや音声など，データの形状が$(\dimUpper \times \timeUpper)$となっている時に用いられる．ここで，$\dimUpper$は次元，$\timeUpper$は系列長である．
+で与えられる．ここで，$\kernelSizeUpper \in \naturalSet$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower} \in \realSet$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}} \in \realSet$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，一次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．一次元畳み込みはテキストや音声など，データの形状が$\lr{\dimUpper \times \timeUpper}$となっている時に用いられる．ここで，$\dimUpper$は次元，$\timeUpper$は系列長である．
 
-これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$(\dimUpper \times \heightUpper \times \widthUpper)$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$は幅に相当する．三次元畳み込み層は動画など，データの形状が$(\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper)$となっている場合に用いられる．
+これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$は幅に相当する．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
 
 畳み込み層における主要なパラメータは三つある．一つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．二つ目はストライドであり，これによってカーネルのシフト幅を設定できる．三つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．例えば，カーネルサイズを3，ストライドとダイレーションを1とした場合には，入力の両端に1ずつゼロパディングすれば良い．図~\ref{sec3:fig:conv_variations}に，ある次元における一次元畳み込み層の処理を示す．
 
@@ -212,13 +213,13 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[height=4cm]{./figure/sec3/conv1.drawio.png}
-        \caption{$(\kernelSizeUpper, \strideUpper, \dilationUpper) = (3, 1, 1)$}
+        \caption{$\lr{\kernelSizeUpper, \strideUpper, \dilationUpper} = \lr{3, 1, 1}$}
         \label{sec3:fig:conv1}
     \end{subfigure}
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[height=4cm]{./figure/sec3/conv2.drawio.png}
-        \caption{$(\kernelSizeUpper, \strideUpper, \dilationUpper) = (5, 1, 1)$}
+        \caption{$\lr{kernelSizeUpper, \strideUpper, \dilationUpper} = \lr{5, 1, 1}$}
         \label{sec3:fig:conv2}
     \end{subfigure}
 
@@ -227,13 +228,13 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[height=4cm]{./figure/sec3/conv3.drawio.png}
-        \caption{$(\kernelSizeUpper, \strideUpper, \dilationUpper) = (3, 2, 1)$}
+        \caption{$\lr{\kernelSizeUpper, \strideUpper, \dilationUpper} = \lr{3, 2, 1}$}
         \label{sec3:fig:conv3}
     \end{subfigure}
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[height=4cm]{./figure/sec3/conv4.drawio.png}
-        \caption{$(\kernelSizeUpper, \strideUpper, \dilationUpper) = (3, 1, 2)$}
+        \caption{$\lr{\kernelSizeUpper, \strideUpper, \dilationUpper} = \lr{3, 1, 2}$}
         \label{sec3:fig:conv4}
     \end{subfigure}
     \caption{ある次元における一次元畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライド，$\dilationUpper$はダイレーションを表し，図中の0はパディング部を表す．}
@@ -241,20 +242,20 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 \end{figure}
 
 \subsubsection{転置畳み込み層}
-転置畳み込み層は，畳み込み層の逆演算に対応する層であり，主に入力のアップサンプリングに使用される．図~\ref{sec3:fig:tconv_variations}に，ある入出力チャンネル間における一次元転置畳み込み層の処理を示す．一次元転置畳み込み層では，$\timeLower$番目の入力とカーネルの積を計算し，その結果を$\timeLower$番目から$\timeLower + \kernelSizeUpper$番目までの出力とする．ここで$\kernelSizeUpper$はカーネルサイズである．また，複数の入力から計算された出力がオーバーラップする場合，これらは加算される．図~\ref{sec3:fig:tconv1}は，カーネルサイズを4，ストライドを1とした場合の様子である．アップサンプリングを行いたい場合は，ストライドを2以上とすれば良い．図~\ref{sec3:fig:tconv2}にカーネルサイズを4，ストライドを2とした場合を示す．この時，入力系列長が4であるのに対して，出力系列長が10まで拡大されていることがわかる．ここで，出力系列長を入力系列長の整数倍に保つためには，出力の両端の削除数を適切に設定する必要がある．上述の例では両端の削除数を1とすることで，出力系列長を入力系列長の2倍である8に調整できる．
+転置畳み込み層は，畳み込み層の逆演算に対応する層であり，主に入力のアップサンプリングに使用される．図~\ref{sec3:fig:tconv_variations}に，ある入出力次元間における一次元転置畳み込み層の処理を示す．一次元転置畳み込み層では，$\timeLower$番目の入力とカーネルの積を計算し，その結果を$\timeLower$番目から$\timeLower + \kernelSizeUpper$番目までの出力とする．ここで$\kernelSizeUpper$はカーネルサイズである．また，複数の入力から計算された出力がオーバーラップする場合，これらは加算される．図~\ref{sec3:fig:tconv1}は，カーネルサイズを4，ストライドを1とした場合の様子である．アップサンプリングを行いたい場合は，ストライドを2以上とすれば良い．図~\ref{sec3:fig:tconv2}にカーネルサイズを4，ストライドを2とした場合を示す．この時，入力系列長が4であるのに対して，出力系列長が10まで拡大されていることがわかる．ここで，出力系列長を入力系列長の整数倍に保つためには，出力の両端の削除数を適切に設定する必要がある．上述の例では両端の削除数を1とすることで，出力系列長を入力系列長の2倍である8に調整できる．
 
 \begin{figure}[tb]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[height=4cm]{./figure/sec3/tconv1.drawio.png}
-        \caption{$(\kernelSizeUpper, \strideUpper) = (4, 1)$}
+        \caption{$\lr{\kernelSizeUpper, \strideUpper} = \lr{4, 1}$}
         \label{sec3:fig:tconv1}
     \end{subfigure}
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[height=4cm]{./figure/sec3/tconv2.drawio.png}
-        \caption{$(\kernelSizeUpper, \strideUpper) = (4, 2)$}
+        \caption{$\lr{\kernelSizeUpper, \strideUpper} = lr{4, 2}$}
         \label{sec3:fig:tconv2}
     \end{subfigure}
     \caption{ある次元における一次元転置畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライドを表す．}
@@ -266,42 +267,42 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 
 一つ目は，シグモイド関数である．シグモイド関数は
 \begin{equation}
-    \sigma(\inputLower) = \frac{1}{1 + \exp(-\inputLower)}
+    \sigmoid\lr{\inputLower} = \frac{1}{1 + \exp\lr{-\inputLower}}
 \end{equation}
 で与えられ，その一階導関数は
 \begin{equation}
-    \frac{d\sigma(\inputLower)}{dx} = \frac{\exp(-\inputLower)}{(1 + \exp(-\inputLower))^{2}}
+    \dv{\sigmoid\lr{\inputLower}}{x} = \frac{\exp\lr{-\inputLower}}{\lr{1 + \exp\lr{-\inputLower}}^{2}}
 \end{equation}
-となる．図~\ref{sec3:fig:activations_prime}より，シグモイド関数の一階導関数の最大値は$\inputLower=0$における0.25であり，$|\inputLower - 0|$が大きくなるのに伴ってその値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の一階導関数の値が乗算された結果となる．前述したように，シグモイド関数は一階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
+となる．図~\ref{sec3:fig:activations_prime}より，シグモイド関数の一階導関数の最大値は$\inputLower=0$における0.25であり，$\lrAbs{\inputLower - 0}$が大きくなるのに伴ってその値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の一階導関数の値が乗算された結果となる．前述したように，シグモイド関数は一階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
 
-二つ目は，tanh関数である．tanhは
+二つ目は，$\tanh$関数である．$\tanh$は
 \begin{equation}
-    \tanh(\inputLower) = \frac{\exp(\inputLower) - \exp(-\inputLower)}{\exp(\inputLower) + \exp(-\inputLower)}
+    \tanh\lr{\inputLower} = \frac{\exp\lr{\inputLower} - \exp\lr{-\inputLower}}{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}
 \end{equation}
 で与えられ，その一階導関数は
 \begin{align}
-    \frac{d\tanh(\inputLower)}{dx} & = \frac{4}{(\exp(\inputLower) + \exp(-\inputLower))^{2}} \\
-                                   & = \frac{1}{\cosh(\inputLower)^{2}}
+    \dv{\tanh\lr{\inputLower}}{x} & = \frac{4}{\lr{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}^{2}} \\
+                                  & = \frac{1}{\cosh\lr{\inputLower}^{2}}
 \end{align}
-となる．tanhの値域は$[-1, 1]$となっており，図\ref{sec3:fig:activations_prime}より$|\inputLower - 0|$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$|\inputLower - 0|$が大きくなればシグモイド関数と同様に一回導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
+となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower - 0}$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower - 0}$が大きくなればシグモイド関数と同様に一回導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
 
-三つ目は，ReLUである．ReLUは
+三つ目は，$\relu$である．$\relu$は
 \begin{equation}
-    \text{ReLU}(\inputLower) = \max (0, \inputLower)
+    \relu\lr{\inputLower} = \max \lr{0, \inputLower}
 \end{equation}
 で与えられ，その一階導関数は
 \begin{equation}
-    \frac{d\text{ReLU}(\inputLower)}{dx} =
+    \dv{\relu\lr{\inputLower}}{x} =
     \begin{cases}
         1 & \text{if $\inputLower > 0$}  \\
         0 & \text{if $\inputLower <= 0$}
     \end{cases}
 \end{equation}
-となる．ここで，ReLUは本来$x = 0$で微分不可能であるが，便宜上$d\text{ReLU}(0) / dx = 0$とした．ReLUは入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．一階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に微分係数は1となることから，シグモイド関数やtanhよりも勾配消失が起こりづらい．ReLUは現在，標準的な活性化関数として広く用いられている．しかし，ReLUへの入力が0未満の値を取るとき，ReLU入力についての出力の勾配は0になるから，ReLU以前の層の重みが更新されず，学習が遅くなる可能性がある．
+となる．ここで，$\relu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\relu\lr{0}}{x} = 0$とした．$\relu$は入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．一階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に微分係数は1となることから，シグモイド関数や$\tanh$よりも勾配消失が起こりづらい．$\relu$は現在，標準的な活性化関数として広く用いられている．しかし，$\relu$への入力が0未満の値を取るとき，$\relu$入力についての出力の勾配は0になるから，$\relu$以前の層の重みが更新されず，学習が遅くなる可能性がある．
 
-四つ目は，LeakyReLU\cite{maas2013rectifier}である．LeakyReLUは
+四つ目は，$\leakyRelu$\cite{maas2013rectifier}である．$\leakyRelu$は
 \begin{equation}
-    \text{LeakyReLU}(\inputLower) =
+    \leakyRelu\lr{\inputLower} =
     \begin{cases}
         \inputLower  & \text{if $\inputLower > 0$}  \\
         a\inputLower & \text{if $\inputLower <= 0$}
@@ -309,35 +310,35 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 \end{equation}
 で与えられ，その一階導関数は
 \begin{equation}
-    \frac{d\text{LeakyReLU}(\inputLower)}{dx} =
+    \dv{\leakyRelu\lr{\inputLower}}{x} =
     \begin{cases}
         1 & \text{if $\inputLower > 0$}  \\
         a & \text{if $\inputLower <= 0$}
     \end{cases}
 \end{equation}
-となる．ここで，LeakyReLUは本来$x = 0$で微分不可能であるが，便宜上$d\text{LeakyReLU}(0) / dx = a$とした．ReLUと比較すると，0未満の入力に対しても0でない値を出力し，一階導関数も0にならない点が異なっている．これにより，重みの更新が進まなくなるReLUの課題を解消した．
+となる．ここで，$\leakyRelu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\leakyRelu\lr{0}}{x} = a$とした．ReLUと比較すると，0未満の入力に対しても0でない値を出力し，一階導関数も0にならない点が異なっている．これにより，重みの更新が進まなくなるReLUの課題を解消した．
 
-五つ目は，PReLU\cite{he2015delving}である．これは，LeakyReLUと似た活性化関数であるが，LeakyReLUのパラメータ$a$を学習可能にすることで，その他の層と合わせて最適化が可能となったことが特徴である．
+五つ目は，$\prelu$\cite{he2015delving}である．これは，$\leakyRelu$と似た活性化関数であるが，$\leakyRelu$のパラメータ$a$を学習可能にすることで，その他の層と合わせて最適化が可能となったことが特徴である．
 
-六つ目は，GELU\cite{hendrycks2016gaussian}である．GELUは
+六つ目は，$\gelu$\cite{hendrycks2016gaussian}である．$\gelu$は
 \begin{equation}
-    \text{GELU}(\inputLower) = \inputLower \Phi(\inputLower)
+    \gelu\lr{\inputLower} = \inputLower \Phi\lr{\inputLower}
 \end{equation}
 で与えられる．ここで，
 \begin{equation}
-    \Phi(\inputLower) = P(X \le \inputLower), ~ X \sim \mathcal{N} (0, 1)
+    \Phi\lr{\inputLower} = P\lr{X \le \inputLower}, ~ X \sim \mathcal{N} \lr{0, 1}
 \end{equation}
-である．GELUの一階導関数は，
+である．$\gelu$の一階導関数は，
 \begin{equation}
-    \frac{d\text{GELU}(\inputLower)}{dx} = \Phi(\inputLower) + \frac{\inputLower}{\sqrt{2\pi}}\exp\left(-\frac{\inputLower^{2}}{2}\right)
+    \dv{\gelu\lr{\inputLower}}{x} = \Phi\lr{\inputLower} + \frac{\inputLower}{\sqrt{2\pi}}\exp\lr{-\frac{\inputLower^{2}}{2}}
 \end{equation}
-となる．GELUは，ReLUが入力に対して0あるいは1を確定的にかける活性化関数と捉えた上で，これを入力に依存した確率的な挙動に変更したものである．実際，$\binaryMaskLower \sim \text{Bernoulli}(\Phi(\inputLower))$とすると，
+となる．$\gelu$は，$\relu$が入力に対して0あるいは1を確定的にかける活性化関数と捉えた上で，これを入力に依存した確率的な挙動に変更したものである．実際，$\binaryMaskLower \sim \text{Bernoulli}\lr{\Phi\lr{\inputLower}}$とすると，
 \begin{align}
-    \text{GELU}(\inputLower) & = \inputLower \Phi(\inputLower)                                                       \\
-                             & = 1 \inputLower \cdot \Phi(\inputLower) + 0 \inputLower \cdot (1 - \Phi(\inputLower)) \\
-                             & = \mathbb{E} [mx]
+    \gelu\lr{\inputLower} & = \inputLower \Phi\lr{\inputLower}                                                             \\
+                          & = 1 \inputLower \cdot \Phi\lr{\inputLower} + 0 \inputLower \cdot \lr{1 - \Phi\lr{\inputLower}} \\
+                          & = \expectation \lrsq{mx}
 \end{align}
-となり，GELUの出力は確率的なバイナリマスク$\binaryMaskLower$を入力$\inputLower$にかけた，$mx$の期待値に等しいことがわかる．
+となり，$\gelu$の出力は確率的なバイナリマスク$\binaryMaskLower$を入力$\inputLower$にかけた，$mx$の期待値に等しいことがわかる．
 
 \begin{figure}[tb]
     \centering
@@ -362,53 +363,53 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 
 近年よく用いられるRNNとして，長・短期記憶（Long Short-Time Memory; LSTM）\cite{hochreiter1997long}がある．LSTMは入力ゲート，忘却ゲート，出力ゲートの3つを持ち，これらゲートによってネットワーク内部の情報の取捨選択を行うことで，長い系列データからの学習を可能にした．LSTMのネットワーク内部で行われる計算を以下に示す．
 \begin{gather}
-    \bm{f}_{t} = \sigma(\bm{\weightUpper}_{f}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{f}) \\
-    \bm{i}_{t} = \sigma(\bm{\weightUpper}_{i}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{i}) \\
-    \tilde{\bm{c}}_{t} = \tanh (\bm{\weightUpper}_{h}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{h}) \\
-    \bm{c}_{t} = \bm{f}_{t} \elemMul \bm{c}_{t-1} + \bm{i}_{t} \elemMul \tilde{\bm{c}}_{t} \\
-    \bm{o}_{t} = \sigma(\bm{\weightUpper}_{o}[\bm{\inputLower}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{o}) \\
-    \bm{h}_{t} = \bm{o}_{t} \elemMul \tanh(\bm{c}_{t})
+    \bm{f}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{f}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{f}} \\
+    \bm{i}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{i}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{i}} \\
+    \tilde{\bm{c}}_{\timeLower} = \tanh\lr{\bm{\weightUpper}_{h}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1} + \bm{\biasLower}_{h}}} \\
+    \bm{c}_{\timeLower} = \bm{f}_{\timeLower} \elemMul \bm{c}_{\timeLower-1} + \bm{i}_{\timeLower} \elemMul \tilde{\bm{c}}_{\timeLower} \\
+    \bm{o}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{o}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{o}} \\
+    \bm{h}_{\timeLower} = \bm{o}_{\timeLower} \elemMul \tanh\lr{\bm{c}_{\timeLower}}
 \end{gather}
-ここで，$\bm{\inputLower}_{t} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$t$の入力，$\bm{f}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$におけるセルの状態，$\bm{o}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$における隠れ状態を表す．また，$[\cdot, \cdot]$はチャンネル方向の結合，$\elemMul$は要素積を表す．$\bm{\weightUpper}_{f}, \bm{\weightUpper}_{i}, \bm{\weightUpper}_{h}, \bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{\text{out}} \times (\dimUpper_{\text{in}} + \dimUpper_{\text{out}})}$は重み，$\bm{\biasLower}_{f}, \bm{\biasLower}_{i}, \bm{\biasLower}_{h}, \bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．忘却ゲート出力$\bm{f}_{t}$が前時刻のセル状態$\bm{c}_{t}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{t}$が新たな入力$\tilde{\bm{c}}_{t}$に含まれる情報の選択に用いられ，$\bm{c}_{t}$が決まる．その後，出力ゲート出力$\bm{o}_{t}$が$\bm{c}_{t}$に含まれる情報の選択に用いられ，$\bm{h}_{t}$が決まる．
+ここで，$\bm{\inputLower}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$\timeLower$の入力，$\bm{f}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$におけるセルの状態，$\bm{o}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．また，$\lrsq{\cdot, \cdot}$は次元方向の結合，$\elemMul$は要素積を表す．$\bm{\weightUpper}_{f}, \bm{\weightUpper}_{i}, \bm{\weightUpper}_{h}, \bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{\text{out}} \times \lr{\dimUpper_{\text{in}} + \dimUpper_{\text{out}}}}$は重み，$\bm{\biasLower}_{f}, \bm{\biasLower}_{i}, \bm{\biasLower}_{h}, \bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．忘却ゲート出力$\bm{f}_{\timeLower}$が前時刻のセル状態$\bm{c}_{\timeLower}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{\timeLower}$が新たな入力$\tilde{\bm{c}}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{c}_{\timeLower}$が決まる．その後，出力ゲート出力$\bm{o}_{\timeLower}$が$\bm{c}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{h}_{\timeLower}$が決まる．
 
 また，LSTMが3つのゲートを必要とするのに対し，ゲートを2つに減らすことでネットワークの軽量化を図ったのがゲート付き回帰型ユニット（Gated Recurrent Unit; GRU）\cite{cho2014learning}である．GRUはリセットゲートと更新ゲートの2つを用いて隠れ状態を更新する．GRUのネットワーク内部で行われる計算を以下に示す．
 \begin{gather}
-    \bm{z}_{t} = \sigma(\bm{\weightUpper}_{z}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{z}) \\
-    \bm{r}_{t} = \sigma(\bm{\weightUpper}_{r}[\bm{x}_{t}, \bm{h}_{t-1}] + \bm{\biasLower}_{r}) \\
-    \tilde{\bm{h}}_{t} = \tanh(\bm{\weightUpper}_{h}[\bm{x}_{t}, \bm{r}_{t} \elemMul \bm{h}_{t-1}] + \bm{\biasLower}_{h}) \\
-    \bm{h}_{t} = (1 - \bm{z}_{t}) \elemMul \bm{h}_{t-1} + \bm{z}_{t} \elemMul \tilde{\bm{h}}_{t}
+    \bm{z}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{z}\lrsq{\bm{x}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{z}} \\
+    \bm{r}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{r}\lrsq{\bm{x}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{r}} \\
+    \tilde{\bm{h}}_{\timeLower} = \tanh\lr{\bm{\weightUpper}_{h}\lrsq{\bm{x}_{\timeLower}, \bm{r}_{\timeLower} \elemMul \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{h}} \\
+    \bm{h}_{\timeLower} = \lr{1 - \bm{z}_{\timeLower}} \elemMul \bm{h}_{\timeLower-1} + \bm{z}_{\timeLower} \elemMul \tilde{\bm{h}}_{\timeLower}
 \end{gather}
-ここで，$\bm{x}_{t} \in \realSet^{\dimUpper_{\text{in}}}$が時刻$t$における入力，$\bm{z}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$が更新ゲートの出力，$\bm{r}_{t} \in [0, 1]^{\dimUpper_{\text{out}}}$がリセットゲートの出力，$\bm{h}_{t} \in [-1, 1]^{\dimUpper_{\text{out}}}$が時刻$t$における隠れ状態を表す．また，$\bm{\weightUpper}_{z}, \bm{\weightUpper}_{r}, \bm{\weightUpper}_{h} \in \realSet^{\dimUpper_{\text{out}} \times (\dimUpper_{\text{in}} + \dimUpper_{\text{out}})}$は重み，$\bm{\biasLower}_{z}, \bm{\biasLower}_{r}, \bm{\biasLower}_{h} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．更新ゲート出力$\bm{z}_{t}$が$\bm{h}_{t - 1}$と$\tilde{\bm{h}}_{t}$に含まれる情報の選択，リセットゲート出力$\bm{r}_{t}$が$\bm{h}_{t - 1}$に含まれる情報の選択に用いられる．
+ここで，$\bm{x}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$が時刻$\timeLower$における入力，$\bm{z}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が更新ゲートの出力，$\bm{r}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$がリセットゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．また，$\bm{\weightUpper}_{z}, \bm{\weightUpper}_{r}, \bm{\weightUpper}_{h} \in \realSet^{\dimUpper_{\text{out}} \times \lr{\dimUpper_{\text{in}} + \dimUpper_{\text{out}}}}$は重み，$\bm{\biasLower}_{z}, \bm{\biasLower}_{r}, \bm{\biasLower}_{h} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．更新ゲート出力$\bm{z}_{\timeLower}$が$\bm{h}_{\timeLower - 1}$と$\tilde{\bm{h}}_{\timeLower}$に含まれる情報の選択，リセットゲート出力$\bm{r}_{\timeLower}$が$\bm{h}_{\timeLower - 1}$に含まれる情報の選択に用いられる．
 
 \subsubsection{正規化層}
-DNNの学習過程では学習の進行に伴って重みが変化するため，その度に各層への入力の分布が変わってしまう．これは内部共変量シフトと呼ばれ，ネットワークの学習を不安定にする原因となる．これに対し，バッチ正規化（Batch Normalization）\cite{ioffe2015batch}が有効である．バッチ正規化は，ミニバッチ内における入力特徴量の期待値と分散を次元ごとに計算し，これらを用いて入力特徴量を次元ごとに標準化するものである．ここで，バッチサイズを$\numUpper$，バッチ正規化への入力特徴量を$\bm{\inputLower}_{i} \in \realSet^{\dimUpper} ~ (\numLower = 1, \ldots, \numUpper)$，出力特徴量を$\bm{y}_{\numLower} \in \realSet^{\dimUpper} ~ (\numLower = 1, \ldots, \numUpper)$とする．このとき，各$\numLower$に対し入力特徴量$\bm{\inputLower}_{\numLower}$の$\dimLower$次元目の成分を$\inputLower_{\numLower, \dimLower}$，出力特徴量$\bm{\outputLower}_{\numLower}$の$\dimLower$次元目の成分を$\outputLower_{\numLower, \dimLower}$とすると，$\outputLower_{\numLower, \dimLower}$は
+DNNの学習過程では学習の進行に伴って重みが変化するため，その度に各層への入力の分布が変わってしまう．これは内部共変量シフトと呼ばれ，ネットワークの学習を不安定にする原因となる．これに対し，バッチ正規化（Batch Normalization）\cite{ioffe2015batch}が有効である．バッチ正規化は，ミニバッチ内における入力特徴量の期待値と分散を次元ごとに計算し，これらを用いて入力特徴量を次元ごとに標準化するものである．ここで，バッチサイズを$\numUpper$，バッチ正規化への入力特徴量を$\bm{\inputLower}_{\numLower} \in \realSet^{\dimUpper} ~ \lr{\numLower = 1, \ldots, \numUpper}$，出力特徴量を$\bm{y}_{\numLower} \in \realSet^{\dimUpper} ~ \lr{\numLower = 1, \ldots, \numUpper}$とする．このとき，各$\numLower$に対し入力特徴量$\bm{\inputLower}_{\numLower}$の$\dimLower$次元目の成分を$\inputLower_{\numLower, \dimLower}$，出力特徴量$\bm{\outputLower}_{\numLower}$の$\dimLower$次元目の成分を$\outputLower_{\numLower, \dimLower}$とすると，$\outputLower_{\numLower, \dimLower}$は
 \begin{align}
-    \mu^{B}_{\dimLower}                        & = \frac{1}{\numUpper} \sum_{\numLower = 1}^{\numUpper} \inputLower_{\numLower, \dimLower}                                        \\
-    \left(\sigma^{B}_{\dimLower}\right)^{2}    & = \frac{1}{\numUpper} \sum_{\numLower = 1}^{\numUpper} \left(\inputLower_{\numLower, \dimLower} - \mu^{B}_{\dimLower}\right)^{2} \\
-    \tilde{\inputLower}_{\numLower, \dimLower} & = \frac{\inputLower_{\numLower, \dimLower} - \mu^{B}_{\dimLower}}{\sqrt{\left(\sigma^{B}_{\dimLower}\right)^{2} + \epsilon}}     \\
+    \mean^{B}_{\dimLower}                      & = \frac{1}{\numUpper} \sum_{\numLower = 1}^{\numUpper} \inputLower_{\numLower, \dimLower}                                  \\
+    \lr{\std^{B}_{\dimLower}}^{2}              & = \frac{1}{\numUpper} \sum_{\numLower = 1}^{\numUpper} \lr{\inputLower_{\numLower, \dimLower} - \mean^{B}_{\dimLower}}^{2} \\
+    \tilde{\inputLower}_{\numLower, \dimLower} & = \frac{\inputLower_{\numLower, \dimLower} - \mean^{B}_{\dimLower}}{\sqrt{\lr{\std^{B}_{\dimLower}}^{2} + \epsilon}}       \\
     \outputLower_{\numLower, \dimLower}        & = \normScale_{\dimLower} \tilde{\inputLower}_{\numLower, \dimLower} +  \normShift_{\dimLower}
 \end{align}
 で与えられる．ここで，$\normScale_{\dimLower}, \normShift_{\dimLower} \in \realSet$は学習可能なスカラーであり，$\epsilon \in \realSet$はゼロ割を避けるためのスカラーである．バッチ正規化では$\normScale_{\dimLower}, \normShift_{\dimLower}$によって表現力を向上させており，実際
 \begin{align}
-    \normScale_{\dimLower} & = \sqrt{\left(\sigma^{B}_{\dimLower}\right)^{2} + \epsilon} \\
-    \beta_{\dimLower}      & = \mu^{B}_{\dimLower}
+    \normScale_{\dimLower} & = \sqrt{\lr{\std^{B}_{\dimLower}}^{2} + \epsilon} \\
+    \beta_{\dimLower}      & = \mean^{B}_{\dimLower}
 \end{align}
 とすれば，標準化前の入力を再び得ることが可能である．学習時は，サンプルの標準化に用いる統計量とは別に，期待値の移動平均と不偏分散の移動平均を計算しておく．推論時は学習終了時に得られたこれら移動平均の値を用いることで，確率的な挙動を持たないよう工夫されている．
 
 バッチ正規化はDNNの学習の安定化に貢献する一方，ミニバッチ全体における統計量を利用するため，バッチサイズが小さい場合はデータの分布を安定させることが難しくなる．また，テキストや音声といった系列長を持つデータを扱う場合，ミニバッチを構成するためにはゼロパディングによって系列長を揃える必要がある．この時，RNNの各ステップの出力に対しバッチ正規化を適用すると，ゼロパディングによって人為的に系列量を揃えているから，統計量が実際のデータの分布からかけ離れたものになる可能性がある．これら課題に対し，ミニバッチ内の各サンプルごとに期待値と分散を求めて標準化する，レイヤー正規化（Layer Normalization）\cite{ba2016layer}がある．バッチ正規化のときと同様の表記を用いると，$\outputLower_{\numLower, \dimLower}$は
 \begin{align}
-    \mu^{L}_{\numLower}                        & = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper} \inputLower_{\numLower, \dimLower}                                        \\
-    \left(\sigma^{L}_{\numLower}\right)^{2}    & = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper} \left(\inputLower_{\numLower, \dimLower} - \mu^{L}_{\numLower}\right)^{2} \\
-    \tilde{\inputLower}_{\numLower, \dimLower} & = \frac{\inputLower_{\numLower, \dimLower} - \mu^{L}_{\numLower}}{\sqrt{\left(\sigma^{L}_{\numLower}\right)^{2} + \epsilon}}     \\
+    \mean^{L}_{\numLower}                      & = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper} \inputLower_{\numLower, \dimLower}                                  \\
+    \lr{\std^{L}_{\numLower}}^{2}              & = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper} \lr{\inputLower_{\numLower, \dimLower} - \mean^{L}_{\numLower}}^{2} \\
+    \tilde{\inputLower}_{\numLower, \dimLower} & = \frac{\inputLower_{\numLower, \dimLower} - \mean^{L}_{\numLower}}{\sqrt{\lr{\std^{L}_{\numLower}}^{2} + \epsilon}}       \\
     \outputLower_{\numLower, \dimLower}        & = \normScale_{\dimLower} \tilde{\inputLower}_{\numLower, \dimLower} +  \normShift_{\dimLower}
 \end{align}
 で与えられる．
 
 上述したバッチ正規化およびレイヤー正規化は，特徴量を標準化することで学習を安定させる手法であった．一方，DNN内のある層の重みを再パラメータ化することで学習を安定させる手法として，重み正規化（Weight Normalization）\cite{salimans2016weight}がある．これは，ある層の重みベクトル$\bm{\weightLower}$を，
 \begin{equation}
-    \bm{\weightLower} = \frac{\bm{v}}{\| \bm{v} \|} g
+    \bm{\weightLower} = \frac{\bm{v}}{\lrOneNorm{\bm{v}}} g
 \end{equation}
-のように単位ベクトル$\bm{v} / \| \bm{v} \|$（ベクトルの向き）とスカラー$g$（ベクトルの大きさ）に再パラメータ化するものである．学習時は重みの更新を$\bm{v}$と$g$で別々に行う．重み正規化は，バッチ正規化やレイヤー正規化と同様に学習の安定化に役立つが，計算に入力特徴量の系列長が依存しない．そのため，例えば音声波形など系列長が非常に長くなりがちなデータを扱う場合，計算コストを下げながら同様の効果を狙える手段だと考えられる．
+のように単位ベクトル$\bm{v} / \lrOneNorm{\bm{v}}$（ベクトルの向き）とスカラー$g$（ベクトルの大きさ）に再パラメータ化するものである．学習時は重みの更新を$\bm{v}$と$g$で別々に行う．重み正規化は，バッチ正規化やレイヤー正規化と同様に学習の安定化に役立つが，計算に入力特徴量の系列長が依存しない．そのため，例えば音声波形など系列長が非常に長くなりがちなデータを扱う場合，計算コストを下げながら同様の効果を狙える手段だと考えられる．
 
 \subsubsection{Transformer}
 Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention）を用いて，入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである．特に，再帰的な計算を必要とするRNNと比較して，Transformerは並列計算のみ行うため，GPUによる計算の高速化が可能である．以下，入力特徴量を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$として，Transformerにおいて行われる計算を説明する．また，Transformer層の構造を図~\ref{sec3:fig:transformer_layer}に示す．
@@ -426,17 +427,17 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
     \bm{K} & = \bm{\inputUpper}\bm{\weightUpper}_{K} \elemSum \bm{\biasLower}_{K} \\
     \bm{V} & = \bm{\inputUpper}\bm{\weightUpper}_{V} \elemSum \bm{\biasLower}_{V}
 \end{align}
-で与えられる．ここで，$\bm{\weightUpper}_{Q}, \bm{\weightUpper}_{K} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{k}}, \bm{\weightUpper}_{V} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{v}}$は重み，$\bm{\biasLower}_{Q}, \bm{\biasLower}_{K} \in \realSet^{\dimUpper_{k}}, \bm{\biasLower}_{V} \in \realSet^{\dimUpper_{v}}$はバイアスである．また，演算子$\elemSum$について，$\bm{A} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$，$\bm{b} \in \realSet^{\dimUpper_{2}}$に対する$\bm{A} \elemSum \bm{b} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$の$(i, j)$成分$(\bm{A} \elemSum \bm{b})_{i, j}$は，
+で与えられる．ここで，$\bm{\weightUpper}_{Q}, \bm{\weightUpper}_{K} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{k}}, \bm{\weightUpper}_{V} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{v}}$は重み，$\bm{\biasLower}_{Q}, \bm{\biasLower}_{K} \in \realSet^{\dimUpper_{k}}, \bm{\biasLower}_{V} \in \realSet^{\dimUpper_{v}}$はバイアスである．また，演算子$\elemSum$について，$\bm{A} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$，$\bm{b} \in \realSet^{\dimUpper_{2}}$に対する$\bm{A} \elemSum \bm{b} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$の$\lr{i, j}$成分$\lr{\bm{A} \elemSum \bm{b}}_{i, j}$は，
 \begin{equation}
-    (\bm{A} \elemSum \bm{b})_{i, j} = a_{i, j} + b_{j}
+    \lr{\bm{A} \elemSum \bm{b}}_{i, j} = a_{i, j} + b_{j}
 \end{equation}
-で与えられる．ここで，$a_{i, j}$は$\bm{A}$の$(i, j)$成分，$b_{j}$は$\bm{b}$の$j$成分である．
+で与えられる．ここで，$a_{i, j}$は$\bm{A}$の$\lr{i, j}$成分，$b_{j}$は$\bm{b}$の$j$成分である．
 
 次に，クエリとキーを元にアテンション重みを求め，バリューに対する行列積を計算する．これは，
 \begin{equation}
-    \text{Attention}(\bm{Q}, \bm{K}, \bm{V}) = \text{softmax}\left(\frac{\bm{Q}\bm{K}^\top}{\sqrt{\dimUpper_{k}}}\right) \bm{V}
+    \text{Attention}\lr{\bm{Q}, \bm{K}, \bm{V}} = \text{softmax}\lr{\frac{\bm{Q}\bm{K}^\top}{\sqrt{\dimUpper_{k}}}} \bm{V}
 \end{equation}
-で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\left(\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}\right)$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ (t = 1, \ldots, T)$に対する注意度になっている．
+で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\lr{\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}}$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ lr{t = 1, \ldots, T}$に対する注意度になっている．
 
 ここまでがSelf-Attentionの計算であったが，TransformerではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．ヘッド数を$\numHeadUpper$とすると，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$の計算は，
 \begin{align}
@@ -446,28 +447,28 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{align}
 で与えられる．ここで，$\bm{\weightUpper}_{Q}^{\numHeadLower}, \bm{\weightUpper}_{K}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，$\bm{\weightUpper}_{V}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{v}}{\numHeadUpper}}$は重み，$\bm{\biasLower}_{Q}^{\numHeadLower}, \bm{\biasLower}_{K}^{\numHeadLower} \in \realSet^{\frac{\dimUpper_{k}}{\numHeadUpper}}, \bm{\biasLower}_{V}^{\numHeadLower} \in \realSet^{\frac{\dimUpper_{v}}{\numHeadUpper}}$はバイアスである．この後の処理もSelf-Attentionと同様に，
 \begin{equation}
-    \text{Attention}\left(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}\right) = \text{softmax}\left(\frac{\bm{Q}^{\numHeadLower}(\bm{K}^{\numHeadLower})^\top}{\sqrt{\dimUpper_{k}} / \numHeadUpper}\right) \bm{V}^{\numHeadLower}
+    \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}} = \text{softmax}\lr{\frac{\bm{Q}^{\numHeadLower}lr{\bm{K}^{\numHeadLower}}^\top}{\sqrt{\dimUpper_{k}} / \numHeadUpper}} \bm{V}^{\numHeadLower}
 \end{equation}
 となる．ここで得られた各ヘッドからの出力を結合し，さらに全結合層を通すことでMulti-Head Attetionの出力が得られる．すなわち，
 \begin{equation}
-    \text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) = \left[\text{Attention}\left(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}\right), \ldots, \text{Attention}\left(\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}\right)\right] \bm{\weightUpper}_{o} \elemSum \bm{\biasLower}_{o}
+    \text{MultiHead}\lr{\bm{Q}, \bm{K}, \bm{V}} = \left[\text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}\right] \bm{\weightUpper}_{o} \elemSum \bm{\biasLower}_{o}
 \end{equation}
 と表される．ここで，$[\cdot, \ldots, \cdot]$は次元方向の結合を表し，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$は重み，$\bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．ヘッドを分割して複数パターンのSelf-Attentionを可能にすることで，より複雑な入出力の関係を学習できると考えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
 \begin{equation}
-    \bm{\outputUpper} = \text{LayerNorm}\left(\text{MultiHead}(\bm{Q}, \bm{K}, \bm{V}) + \bm{\inputUpper}\right)
+    \bm{\outputUpper} = \text{LayerNorm}\lr{\text{MultiHead}lr{\bm{Q}, \bm{K}, \bm{V}} + \bm{\inputUpper}}
 \end{equation}
 で与えられる．その後，全結合層を通し，残差結合とレイヤー正規化を適用することでTransformer層最終出力を得る．すなわち，
 \begin{equation}
-    \bm{\outputUpper} = \text{LayerNorm}((\text{ReLU}(\bm{\outputUpper}\bm{\weightUpper}_{1} \elemSum \bm{b}_{1})\bm{\weightUpper}_{2} \elemSum \bm{b}_{2}) + \bm{\outputUpper})
+    \bm{\outputUpper} = \text{LayerNorm}\lr{\lr{\relu\lr{\bm{\outputUpper}\bm{\weightUpper}_{1} \elemSum \bm{b}_{1}}\bm{\weightUpper}_{2} \elemSum \bm{b}_{2}} + \bm{\outputUpper}}
 \end{equation}
 となる．ここで，$\bm{\weightUpper}_{1} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{\text{fc}}}$，$\bm{\weightUpper}_{2} \in \realSet^{\dimUpper_{\text{fc}} \times \dimUpper_{\text{model}}}$は重み，$\bm{b}_{1} \in \realSet^{\dimUpper_{\text{fc}}}$，$\bm{b}_{2} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．$\dimUpper_{\text{fc}}$は$\dimUpper_{\text{model}}$の4倍とされることが多い．Transformer全体は，Transformer層を多層積み重ねて構成される．
 
 最後に，TransformerではRNNと違い，並列計算によって系列全体を一度に処理することが可能であるが，それと引き換えに入力の順序情報を考慮することができなくなる．これに対し，TransformerではPositional Encodingによって入力に位置情報を与える．Positional Encodingは$\sin$と$\cos$に基づいて，
 \begin{equation}
-    \text{PositionalEncoding(\timeLower, \dimLower)} =
+    \text{PositionalEncoding}\lr{\timeLower, \dimLower} =
     \begin{cases}
-        \sin \left(\frac{\timeLower}{10000^{2\dimLower / \dimUpper_{\text{model}}}}\right) & \text{if $d \bmod 2 = 0$} \\
-        \cos \left(\frac{\timeLower}{10000^{2\dimLower / \dimUpper_{\text{model}}}}\right) & \text{if $d \bmod 2 = 1$}
+        \sin \lr{\frac{\timeLower}{10000^{2\dimLower / \dimUpper_{\text{model}}}}} & \text{if $d \bmod 2 = 0$} \\
+        \cos \lr{\frac{\timeLower}{10000^{2\dimLower / \dimUpper_{\text{model}}}}} & \text{if $d \bmod 2 = 1$}
     \end{cases}
 \end{equation}
 で与えられる．
@@ -478,17 +479,17 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \subsubsection{損失関数}
 損失関数は，DNNによって推定された結果と正解値との間の誤差を求める関数のことであり，扱う問題によって様々である．例えば，回帰問題において用いられる関数の一つに，MAE（Mean Absolute Error）Lossがある．推定対象を$\bm{\outputLower} \in \realSet^{\dimUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\dimUpper}$とすると，MAE Lossは
 \begin{equation}
-    \lossFuncUpper_{\text{MAE}}(\bm{\outputLower}, \hat{\bm{\outputLower}}) = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper}  |\outputLower_{\dimLower} - \hat{\outputLower}_{\dimLower}|
+    \lossFuncUpper_{\text{MAE}}\lr{\bm{\outputLower}, \hat{\bm{\outputLower}}} = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper}  |\outputLower_{\dimLower} - \hat{\outputLower}_{\dimLower}|
 \end{equation}
 で与えられる．また，推定対象が行列$\bm{\outputUpper} \in \realSet^{\dimUpper \times \timeUpper}$の場合，DNNによる推定結果を$\hat{\bm{\outputUpper}} \in \realSet^{\dimUpper \times \timeUpper}$とすると，
 \begin{equation}
-    \lossFuncUpper_{\text{MAE}}(\bm{\outputUpper}, \hat{\bm{\outputUpper}}) = \frac{1}{\dimUpper \timeUpper} \sum_{\dimLower = 1}^{\dimUpper} \sum_{\timeLower = 1}^{\timeUpper}  |\outputLower_{\dimLower, \timeLower} - \hat{\outputLower}_{\dimLower, \timeLower}|
+    \lossFuncUpper_{\text{MAE}}\lr{\bm{\outputUpper}, \hat{\bm{\outputUpper}}} = \frac{1}{\dimUpper \timeUpper} \sum_{\dimLower = 1}^{\dimUpper} \sum_{\timeLower = 1}^{\timeUpper}  |\outputLower_{\dimLower, \timeLower} - \hat{\outputLower}_{\dimLower, \timeLower}|
 \end{equation}
 で与えられる．
 
 一方，分類問題において用いられる関数の一つに，Cross Entropy Lossがある．$\classUpper$クラス分類の問題について，推定対象を$\bm{\outputLower} \in [0, 1]^{\classUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\classUpper}$とすると，Cross Entropy Lossは
 \begin{equation}
-    \lossFuncUpper_{\text{CE}}(\bm{\outputLower}, \hat{\bm{\outputLower}}) = - \sum_{\classLower = 1}^{\classUpper} y_{\classLower} \log \frac{\exp(\hat{\outputLower}_{c})}{\sum_{i = 1}^{C} \exp(\hat{\outputLower}_{c})}
+    \lossFuncUpper_{\text{CE}}\lr{\bm{\outputLower}, \hat{\bm{\outputLower}}} = - \sum_{\classLower = 1}^{\classUpper} y_{\classLower} \log \frac{\exp(\hat{\outputLower}_{c})}{\sum_{i = 1}^{C} \exp\lr{\hat{\outputLower}_{c}}}
 \end{equation}
 で与えられる．ここで，$\bm{\outputLower}$はクラスに対する確率分布であり，
 \begin{equation}
@@ -496,15 +497,15 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 を満たす．実際は，正解となるクラスのみを1，それ以外を0としたOne-hotベクトルとされることが多い．また，推定対象が行列$\bm{\outputUpper} \in [0, 1]^{\classUpper}$の場合，DNNによる推定結果を$\hat{\bm{\outputUpper}} \in \realSet^{\classUpper \times \timeUpper}$とすると，
 \begin{equation}
-    \lossFuncUpper_{\text{CE}}(\bm{\outputUpper}, \hat{\bm{\outputUpper}}) = - \frac{1}{\timeUpper} \sum_{\timeLower = 1}^{\timeUpper} \sum_{\classLower = 1}^{\classUpper} y_{\classLower, t} \log \frac{\exp(\hat{\outputLower}_{\classLower, t})}{\sum_{i = 1}^{C} \exp(\hat{\outputLower}_{\classLower, t})}
+    \lossFuncUpper_{\text{CE}}\lr{\bm{\outputUpper}, \hat{\bm{\outputUpper}}} = - \frac{1}{\timeUpper} \sum_{\timeLower = 1}^{\timeUpper} \sum_{\classLower = 1}^{\classUpper} y_{\classLower, t} \log \frac{\exp\lr{\hat{\outputLower}_{\classLower, t}}}{\sum_{i = 1}^{C} \exp\lr{\hat{\outputLower}_{\classLower, t}}}
 \end{equation}
 で与えられる．
 
 \subsubsection{勾配降下法}
 \label{sec3:sec:gradient_descent}
-勾配降下法（Gradient Descent）は，損失関数の重みについての勾配を利用して，損失関数の値を最小化するようにDNNを最適化するアルゴリズムである．ここで，学習データセットを$\dataset_{\text{train}} = \left\{(\bm{\inputLower}_{\numLower}, \bm{\outputLower}_{\numLower})\right\}_{\numLower = 1}^{\numUpper}$とする．各$n$に対し，$\bm{\inputLower}_{\numLower} \in \realSet^{\dimUpper_{\text{in}}}$はDNNへの入力, $\bm{\outputLower}_{\numLower} \in \realSet^{\dimUpper_{\text{out}}}$は予測対象を表す．DNNは$f: \realSet^{\dimUpper_{\text{in}}} \to \realSet^{\dimUpper_{\text{out}}}$で表し，予測値を$\hat{\bm{\outputLower}}_{\numLower} = f(\bm{\inputLower}_{\numLower}; \bm{\weightAndBias})$とする．損失関数は$\lossFuncUpper: \realSet^{\dimUpper_{\text{out}}} \times \realSet^{\dimUpper_{\text{out}}} \to \realSet$とし，$\mathcal{\lossFuncUpper}: \realSet^{\numUpper_{\text{model}}} \to \realSet$を，
+勾配降下法（Gradient Descent）は，損失関数の重みについての勾配を利用して，損失関数の値を最小化するようにDNNを最適化するアルゴリズムである．ここで，学習データセットを$\dataset_{\text{train}} = \left\{\lr{\bm{\inputLower}_{\numLower}, \bm{\outputLower}_{\numLower}}\right\}_{\numLower = 1}^{\numUpper}$とする．各$n$に対し，$\bm{\inputLower}_{\numLower} \in \realSet^{\dimUpper_{\text{in}}}$はDNNへの入力, $\bm{\outputLower}_{\numLower} \in \realSet^{\dimUpper_{\text{out}}}$は予測対象を表す．DNNは$f: \realSet^{\dimUpper_{\text{in}}} \to \realSet^{\dimUpper_{\text{out}}}$で表し，予測値を$\hat{\bm{\outputLower}}_{\numLower} = f\lr{\bm{\inputLower}_{\numLower}; \bm{\weightAndBias}}$とする．損失関数は$\lossFuncUpper: \realSet^{\dimUpper_{\text{out}}} \times \realSet^{\dimUpper_{\text{out}}} \to \realSet$とし，$\mathcal{\lossFuncUpper}: \realSet^{\numUpper_{\text{model}}} \to \realSet$を，
 \begin{equation}
-    \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper}) = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, \hat{\bm{\outputLower}}_{\indexLower}) = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))
+    \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}} = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \hat{\bm{\outputLower}}_{\indexLower}} = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias})}
 \end{equation}
 で定義する．ここで，$\mathcal{\indexUpper} \subset \{1, \ldots, N\}$は各サンプルに対するインデックスの部分集合，$|\cdot|$は集合の元の数を表す．すなわち，$\mathcal{L}$は学習データ$\left\{(\bm{\inputLower}_{\indexLower}, \bm{\outputLower}_{\indexLower})\right\}_{\indexLower \in \indexUpper} \subset \mathcal{D}_{\text{train}}$に対する損失を，DNNの重み$\bm{\weightAndBias}$の関数として扱うものである．上の表記を用いれば，DNNの最適化問題は
 \begin{equation}
@@ -557,10 +558,10 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{align}
 で与えられる．ここで，$\bm{m} \in \{0, 1\}^{\dimUpper_{\text{in}}}$は各成分$m_{\dimLower}$が確率$1 - p$で1，確率$p$で0をとる確率変数である．式\eqref{sec3:eq:regularization_dropout_training_output}より，学習時はDropout出力を$1 / (1 - p)$倍していることがわかる．この理由は，学習時の出力の期待値と推論時の出力を一致させるためである．実際，確率変数$\bm{m}$の従う確率分布上で$\bm{\outputLower}_{\text{train}}$の期待値をとれば，
 \begin{align}
-    \mathbb{E}[\bm{\outputLower}_{\text{train}}] & = \mathbb{E} \left[ \frac{\bm{x} \elemMul \bm{m}}{1 - p} \right] \\
-                                                 & = \frac{\bm{x}}{1 - p} \elemMul \mathbb{E}[\bm{m}]               \\
-                                                 & = \frac{\bm{x}}{1 - p} \elemMul (1 - p ~ \cdots ~ 1 - p)^\top    \\
-                                                 & = \bm{x} = \bm{\outputLower}_{\text{infer}}
+    \expectation[\bm{\outputLower}_{\text{train}}] & = \expectation \left[ \frac{\bm{x} \elemMul \bm{m}}{1 - p} \right] \\
+                                                   & = \frac{\bm{x}}{1 - p} \elemMul \expectation[\bm{m}]               \\
+                                                   & = \frac{\bm{x}}{1 - p} \elemMul (1 - p ~ \cdots ~ 1 - p)^\top      \\
+                                                   & = \bm{x} = \bm{\outputLower}_{\text{infer}}
 \end{align}
 となる．Dropoutは学習時に一部のニューロンを落とすことで，実質的に異なるネットワークを学習させていると考えることができる．よって，学習時の出力の期待値に推論時の出力を一致させることは，異なるネットワークから得られた出力の期待値をとり，アンサンブルモデルとして推論時の出力を得ていると解釈できる．
 
@@ -617,7 +618,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 
 二つ目は，ExponentialLRSchedulerである．これは，$\learningRate_{\counter^{\text{epoch}}}$を
 \begin{equation}
-    \learningRate_{\counter^{\text{epoch}}} = \learningRate_{0} \exp \left( -\gamma \counter^{\text{epoch}} \right)
+    \learningRate_{\counter^{\text{epoch}}} = \learningRate_{0} \exp \lr{ -\gamma \counter^{\text{epoch}} }
 \end{equation}
 で与えるスケジューラである．学習が1エポック進むごとに学習率を指数関数的に変化させるため，StepLRSchedulerと比較して変化が連続的である．
 
@@ -625,8 +626,8 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \begin{equation}
     \learningRate_{\counter^{\text{epoch}}} =
     \begin{cases}
-        \learningRate_{\text{min}} + \left( \frac{\counter^{\text{epoch}}}{\text{warmup\_steps}} \right) (\learningRate_{\text{max}} - \learningRate_{\text{min}})                                                                                                        & \text{if $\counter^{\text{epoch}} < \text{warmup\_steps}$}   \\
-        \learningRate_{\text{min}} + \frac{1}{2} (\learningRate_{\text{max}} - \learningRate_{\text{min}}) \left( 1 + \cos \left( \frac{(\counter^{\text{epoch}} - \text{warmup\_steps})\pi}{\counter^{\text{epoch}}_{\text{max}} - \text{warmup\_steps}} \right) \right) & \text{if $\counter^{\text{epoch}} \ge \text{warmup\_steps}$}
+        \learningRate_{\text{min}} + \lr{ \frac{\counter^{\text{epoch}}}{\text{warmup\_steps}} } (\learningRate_{\text{max}} - \learningRate_{\text{min}})                                                                                                & \text{if $\counter^{\text{epoch}} < \text{warmup\_steps}$}   \\
+        \learningRate_{\text{min}} + \frac{1}{2} (\learningRate_{\text{max}} - \learningRate_{\text{min}}) \lr{ 1 + \cos \lr{ \frac{(\counter^{\text{epoch}} - \text{warmup\_steps})\pi}{\counter^{\text{epoch}}_{\text{max}} - \text{warmup\_steps}} } } & \text{if $\counter^{\text{epoch}} \ge \text{warmup\_steps}$}
     \end{cases}
 \end{equation}
 で与えるスケジューラである．ここで，$\learningRate_{\text{min}}$は最小学習率，$\learningRate_{\text{max}}$は最大学習率，$\counter^{\text{epoch}}_{\text{max}}$は最大エポックである．$\text{warmup\_steps}$は学習率を$\learningRate_{\text{min}}$から$\learningRate_{\text{max}}$まで線形に増加させるのにかけるエポック数を指定するパラメータである．エポック数が$\text{warmup\_steps}$以上となれば，$\cos$関数に従って学習率を減衰させる．Cosine Annealing with Warmupは不安定になりがちな学習初期に学習率が低い状態から開始して，徐々に学習率を大きくすることで解の十分な探索を可能にし，その後再び学習率を小さくすることで学習の収束を促すスケジューラである．
@@ -659,34 +660,34 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{equation}
 と整理できる．この時，
 \begin{align}
-    \frac{\partial \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper})}{\partial w_{p, q}^{n}} & = \frac{\partial}{\partial w_{p, q}^{n}} \left(\frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))\right) \\
-                                                                                                                & = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \frac{\partial \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))}{\partial w_{p, q}^{n}}              \\
+    \frac{\partial \mathcal{\lossFuncUpper}(\bm{\weightAndBias}; \mathcal{\indexUpper})}{\partial w_{p, q}^{n}} & = \frac{\partial}{\partial w_{p, q}^{n}} \lr{\frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))} \\
+                                                                                                                & = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \frac{\partial \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))}{\partial w_{p, q}^{n}}      \\
                                                                                                                 & = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \frac{\partial \lossFuncUpper_{\indexLower}}{\partial w_{p, q}^{n}}
 \end{align}
 となる．ここで，$\lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias})) = \lossFuncUpper_{\indexLower}$とおいた．この時，各$n \in \{1, \ldots, N_{\text{layer}}\}$に対し，
 $\partial \lossFuncUpper_{\indexLower} / \partial w_{p, q}^{n}$は式\eqref{sec3:eq:output_before_act_2}を用いて，
 \begin{align}
-    \frac{\partial \lossFuncUpper_{\indexLower}}{\partial w_{p, q}^{n}} & = \frac{\partial \lossFuncUpper_{\indexLower}}{\partial a_{q}^{n}} \frac{\partial a_{q}^{n}}{\partial w_{p, q}^{n}}      \\
-                                                                        & = \delta_{q}^{n} \frac{\partial}{\partial w_{p, q}^{n}} \left(\sum_{r = 0}^{D_{n - 1}} w_{r, q}^{n} o_{r}^{n - 1}\right) \\
+    \frac{\partial \lossFuncUpper_{\indexLower}}{\partial w_{p, q}^{n}} & = \frac{\partial \lossFuncUpper_{\indexLower}}{\partial a_{q}^{n}} \frac{\partial a_{q}^{n}}{\partial w_{p, q}^{n}} \\
+                                                                        & = \delta_{q}^{n} \frac{\partial}{\partial w_{p, q}^{n}} \lr{\sum_{r = 0}^{D_{n - 1}} w_{r, q}^{n} o_{r}^{n - 1}}    \\
                                                                         & = \delta_{q}^{n} o_{p}^{n - 1}
 \end{align}
 となる．ここで，$\partial \lossFuncUpper_{\indexLower} / \partial a_{q}^{n} = \delta_{q}^{n}$とおいた．このとき，最終層（$n = \numUpper_{\text{layer}}$）の重みの場合，
 \begin{align}
-    \frac{\partial L_{\indexLower}}{\partial w_{p, q}^{\numUpper_{\text{layer}}}} & = \delta_{q}^{\numUpper_{\text{layer}}} o_{p}^{\numUpper_{\text{layer}} - 1}                                                                                                                                                                                                                                                           \\
-                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial L_{i}}{\partial a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                                                                                                                                \\
-                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))}{\partial a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                              \\
-                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial \lossFuncUpper\left(\bm{\outputLower}_{\indexLower}, \phi\left(\bm{a}^{\numUpper_{\text{layer}}}\right)\right)}{\partial a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                       \\
-                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \left(\nabla_{\phi\left(\bm{a}^{\numUpper_{\text{layer}}}\right)} \lossFuncUpper\left(\bm{\outputLower}_{\indexLower}, \phi\left(\bm{a}^{\numUpper_{\text{layer}}}\right)\right)\right)^\top \frac{\partial \phi(\bm{a}^{\numUpper_{\text{layer}}})}{\partial a_{q}^{\numUpper_{\text{layer}}}} \\
-                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial \lossFuncUpper\left(\bm{\outputLower}_{\indexLower}, \phi\left(\bm{a}^{\numUpper_{\text{layer}}}\right)\right)}{\partial \phi\left(a_{q}^{\numUpper_{\text{layer}}}\right)} \phi'\left(a_{q}^{\numUpper_{\text{layer}}}\right)
+    \frac{\partial L_{\indexLower}}{\partial w_{p, q}^{\numUpper_{\text{layer}}}} & = \delta_{q}^{\numUpper_{\text{layer}}} o_{p}^{\numUpper_{\text{layer}} - 1}                                                                                                                                                                                                                           \\
+                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial L_{i}}{\partial a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                                                                                                \\
+                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial \lossFuncUpper(\bm{\outputLower}_{\indexLower}, f(\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}))}{\partial a_{q}^{\numUpper_{\text{layer}}}}                                                                                              \\
+                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{\partial a_{q}^{\numUpper_{\text{layer}}}}                                                                                                       \\
+                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \lr{\nabla_{\phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}^\top \frac{\partial \phi(\bm{a}^{\numUpper_{\text{layer}}})}{\partial a_{q}^{\numUpper_{\text{layer}}}} \\
+                                                                                  & = o_{p}^{\numUpper_{\text{layer}} - 1} \frac{\partial \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{\partial \phi\lr{a_{q}^{\numUpper_{\text{layer}}}}} \phi'\lr{a_{q}^{\numUpper_{\text{layer}}}}
 \end{align}
 となる．これは，入力から出力を計算する順伝搬で得られた値のみに依存するから，直ちに計算可能であることがわかる．一方，最終層以外（$1 \le n < \numUpper_{\text{layer}}$）の重みの場合，
 \begin{align}
-    \frac{\partial L_{\indexLower}}{\partial w_{p, q}^{n}} & = \delta_{q}^{n} o_{p}^{n - 1}                                                                                                                                     \\
-                                                           & = o_{p}^{n - 1} \frac{\partial L_{i}}{\partial a_{q}^{n}}                                                                                                          \\
-                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \frac{\partial L_{\indexLower}}{\partial a_{r}^{n + 1}} \frac{\partial a_{r}^{n + 1}}{\partial a_{q}^{n}}                 \\
-                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} \frac{\partial}{\partial a_{q}^{n}} \left(\sum_{s = 0}^{D_{n}} w_{s, r}^{n + 1} o_{s}^{n}\right)       \\
-                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} \frac{\partial}{\partial a_{q}^{n}} \left(\sum_{s = 0}^{D_{n}} w_{s, r}^{n + 1} \phi(a_{s}^{n})\right) \\
-                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} w_{q, r}^{n + 1} \phi'(a_{q}^{n})                                                                      \\
+    \frac{\partial L_{\indexLower}}{\partial w_{p, q}^{n}} & = \delta_{q}^{n} o_{p}^{n - 1}                                                                                                                             \\
+                                                           & = o_{p}^{n - 1} \frac{\partial L_{i}}{\partial a_{q}^{n}}                                                                                                  \\
+                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \frac{\partial L_{\indexLower}}{\partial a_{r}^{n + 1}} \frac{\partial a_{r}^{n + 1}}{\partial a_{q}^{n}}         \\
+                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} \frac{\partial}{\partial a_{q}^{n}} \lr{\sum_{s = 0}^{D_{n}} w_{s, r}^{n + 1} o_{s}^{n}}       \\
+                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} \frac{\partial}{\partial a_{q}^{n}} \lr{\sum_{s = 0}^{D_{n}} w_{s, r}^{n + 1} \phi(a_{s}^{n})} \\
+                                                           & = o_{p}^{n - 1} \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} w_{q, r}^{n + 1} \phi'(a_{q}^{n})                                                              \\
                                                            & = o_{p}^{n - 1} \phi'(a_{q}^{n}) \sum_{r = 0}^{D_{n + 1}} \delta_{r}^{n + 1} w_{q, r}^{n + 1}
 \end{align}
 となる．これは，順伝搬時には計算されない$\delta_{r}^{n + 1}$に依存しているから，$n + 1$層目についての勾配計算を先に行う必要があることがわかる．従って，最終層のみ直ちに勾配を計算可能であり，それ以外の層は自身の次の層に依存しているから，出力から入力へとDNNを遡る方向に計算する，誤差逆伝播法が効率の良いアルゴリズムだと言える．
@@ -739,11 +740,11 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \begin{equation}
     \spkEmb = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \spkEmbExtractor(\bm{\outputLower}^{\text{sp-wf}}_{\indexLower}; \weightSpk)
 \end{equation}
-で与えられる．$\mathcal{\indexUpper}$は学習データセット$\datasetTrain$における話者$s_{n}$と話者が同一のデータのインデックスからなる集合，すなわち
+で与えられる．$\mathcal{\indexUpper}$は学習データセット$\datasetTrain$において、話者$s_{n}$と話者が同一であるデータのインデックス集合から、ランダムに$\numUpper_{\text{spk-emb}}$個のインデックスを抽出した部分集合とする。すなわち、
 \begin{equation}
-    \mathcal{\indexUpper} = \{\indexLower \mid \indexLower \in \{1, \ldots, N\}, ~ s_{\indexLower} = \spkId\}
+    \mathcal{\indexUpper} \subseteq \{\indexLower \mid \indexLower \in \{1, \ldots, N\}, ~ s_{\indexLower} = \spkId\}, \quad |\mathcal{\indexUpper}| = \numUpper_{\text{spk-emb}}
 \end{equation}
-である．次に，HuBERT中間特徴量とHuBERT離散特徴量は，HuBERTにおける畳み込みエンコーダまで（Transformer層以前）を$\hubertConv$，HuBERTにおけるTransformer層（$\hubertConv$以後）を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，
+である。次に，HuBERT中間特徴量とHuBERT離散特徴量は，HuBERTにおける畳み込みエンコーダまで（Transformer層以前）を$\hubertConv$，HuBERTにおけるTransformer層（$\hubertConv$以後）を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，
 \begin{gather}
     \hubertIntGt = \hubertConv\lr{\spWaveformGt; \weightHuBERT} \\
     \hubertDiscGt = \onehot\lr{\kmeans\lr{\hubertTransformer\lr{\hubertIntGt; \weightHuBERT}}}

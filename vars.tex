@@ -18,6 +18,8 @@
 \newcommand{\timeUpper}{T}
 \newcommand{\widthLower}{w}
 \newcommand{\widthUpper}{W}
+\newcommand{\std}{\sigma}
+\newcommand{\mean}{\mu}
 % model
 \newcommand{\biasLower}{b}
 \newcommand{\classLower}{c}
@@ -46,22 +48,36 @@
 \newcommand{\probaLower}{p}
 \newcommand{\regConst}{\lambda}
 % math
-\newcommand{\closedinterval}[2]{[#1, #2]}
-\newcommand{\openinterval}[2]{(#1, #2)}
-\newcommand{\leftclosedinterval}[2]{[#1, #2)}
-\newcommand{\rightclosedinterval}[2]{(#1, #2]}
 \newcommand{\realSet}{\mathbb{R}}
 \newcommand{\naturalSet}{\mathbb{N}}
+% 囲み
+\newcommand{\lrClosedInterval}[2]{\left[#1, #2\right]}
+\newcommand{\lrOpenInterval}[2]{\left(#1, #2\right)}
+\newcommand{\lrLeftClosedInterval}[2]{\left[#1, #2\right)}
+\newcommand{\lrRightClosedInterval}[2]{\left(#1, #2\right]}
+\newcommand{\lr}[1]{\left(#1\right)}
+\newcommand{\lrsq}[1]{\left[#1\right]}
+\newcommand{\lrc}[1]{\left\{#1\right\}}
+\newcommand{\lrFloor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\lrAbs}[1]{\left|#1\right|}
+\newcommand{\lrOneNorm}[1]{\left\|#1\right\|}
+\newcommand{\lrTwoNorm}[1]{\left\|#1\right\|_{2}}
+\newcommand{\diff}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}}
 % operator
+\newcommand{\expectation}{\mathbb{E}}
 \newcommand{\elemMul}{\odot}
 \newcommand{\elemSum}{\oplus}
 \newcommand{\concat}{\text{concat}}
 \newcommand{\opRepeat}{\text{repeat}}
-\newcommand{\lr}[1]{\left(#1\right)}
-\newcommand{\lrsq}[1]{\left[#1\right]}
-\newcommand{\lrc}[1]{\left\{#1\right\}}
-\newcommand{\onehot}{\text{onehot}}
+\newcommand{\onehot}{\text{one-hot}}
 \newcommand{\argmax}{\text{argmax}}
+\newcommand{\softmax}{\text{softmax}}
+\newcommand{\sigmoid}{\sigma}
+\newcommand{\relu}{\text{ReLU}}
+\newcommand{\leakyRelu}{\text{LeakyReLU}}
+\newcommand{\prelu}{\text{PReLU}}
+\newcommand{\gelu}{\text{GELU}}
 
 % section4
 % model
@@ -114,14 +130,8 @@
 \newcommand{\video}{\bm{\inputUpper}^{\text{video}}_{\numLower}}
 \newcommand{\videoSet}{\realSet^{\dimUpper^{\text{video}} \times \timeUpper^{\text{video}}_{\numLower} \times \widthUpper^{\text{video}} \times \heightUpper^{\text{video}}}}
 \newcommand{\featureA}{\bm{\featureUpper}^{\text{A}}_{\numLower}}
-% \newcommand{\featureAVHuBERT}{\bm{\featureUpper}^{\text{AVHuB}}_{\numLower}}
-% \newcommand{\featureWithSpkA}{\bm{\featureUpper}^{\text{w-spk-A}}_{\numLower}}
-% \newcommand{\featurePostA}{\bm{\featureUpper}^{\text{post-A}}_{\numLower}}
 \newcommand{\featureASet}{\realSet^{\dimUpper^{\text{A}} \times \timeUpper^{\text{video}}_{\numLower}}}
 \newcommand{\featureB}{\bm{\featureUpper}^{\text{B}}_{\numLower}}
-% \newcommand{\featureHuBERT}{\bm{\featureUpper}^{\text{HuB}}_{\numLower}}
-% \newcommand{\featureWithSpkB}{\bm{\featureUpper}^{\text{w-spk-B}}_{\numLower}}
-% \newcommand{\featurePostB}{\bm{\featureUpper}^{\text{post-B}}_{\numLower}}
 \newcommand{\featureBSet}{\realSet^{\dimUpper^{\text{B}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
 \newcommand{\featureVocMel}{\bm{\featureUpper}^{\text{mel-voc}}_{\numLower}}
 \newcommand{\featureVocMelSet}{\realSet^{\dimUpper^{\text{mel-voc}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
