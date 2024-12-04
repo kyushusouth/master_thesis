@@ -423,15 +423,11 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 
 まず，TransformerにおけるSelf-Attentionの計算の流れを述べる．ここでは，はじめにクエリ$\bm{Q} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，キー$\bm{K} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，バリュー$\bm{V} \in \realSet^{\timeUpper \times \dimUpper_{v}}$の計算を行う．これは，
 \begin{align}
-    \bm{Q} & = \bm{\inputUpper}\bm{\weightUpper}_{Q} \elemSum \lr{\lrRepeat{\bm{\biasLower}_{Q}}{T}}^\top \bm{\biasLower}_{Q} \\
-    \bm{K} & = \bm{\inputUpper}\bm{\weightUpper}_{K} \elemSum \bm{\biasLower}_{K}                                             \\
-    \bm{V} & = \bm{\inputUpper}\bm{\weightUpper}_{V} \elemSum \bm{\biasLower}_{V}
+    \bm{Q} & = \bm{\inputUpper}\bm{\weightUpper}_{Q} + \lrRepeatTr{\bm{\biasLower}_{Q}}{T} \\
+    \bm{K} & = \bm{\inputUpper}\bm{\weightUpper}_{K} + \lrRepeatTr{\bm{\biasLower}_{K}}{T} \\
+    \bm{V} & = \bm{\inputUpper}\bm{\weightUpper}_{V} + \lrRepeatTr{\bm{\biasLower}_{V}}{T}
 \end{align}
-で与えられる．ここで，$\bm{\weightUpper}_{Q}, \bm{\weightUpper}_{K} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{k}}, \bm{\weightUpper}_{V} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{v}}$は重み，$\bm{\biasLower}_{Q}, \bm{\biasLower}_{K} \in \realSet^{\dimUpper_{k}}, \bm{\biasLower}_{V} \in \realSet^{\dimUpper_{v}}$はバイアスである．また，演算子$\elemSum$について，$\bm{A} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$，$\bm{b} \in \realSet^{\dimUpper_{2}}$に対する$\bm{A} \elemSum \bm{b} \in \realSet^{\dimUpper_{1} \times \dimUpper_{2}}$の$\lr{i, j}$成分$\lr{\bm{A} \elemSum \bm{b}}_{i, j}$は，
-\begin{equation}
-    \lr{\bm{A} \elemSum \bm{b}}_{i, j} = a_{i, j} + b_{j}
-\end{equation}
-で与えられる．ここで，$a_{i, j}$は$\bm{A}$の$\lr{i, j}$成分，$b_{j}$は$\bm{b}$の$j$成分である．
+で与えられる．ここで，$\bm{\weightUpper}_{Q}, \bm{\weightUpper}_{K} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{k}}, \bm{\weightUpper}_{V} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{v}}$は重み，$\bm{\biasLower}_{Q}, \bm{\biasLower}_{K} \in \realSet^{\dimUpper_{k}}, \bm{\biasLower}_{V} \in \realSet^{\dimUpper_{v}}$はバイアスである．また，$\lrRepeat{\bm{\biasLower}_{Q}}{T} \in \realSet^{\dimUpper_{k} \times \timeUpper}$は，列ベクトル$\bm{\biasLower}_{Q}$を$T$回列方向に並べる操作を表す．
 
 次に，クエリとキーを元にアテンション重みを求め，バリューに対する行列積を計算する．これは，
 \begin{equation}
@@ -441,17 +437,17 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 
 ここまでがSelf-Attentionの計算であったが，TransformerではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．ヘッド数を$\numHeadUpper$とすると，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$の計算は，
 \begin{align}
-    \bm{Q}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{Q}^{\numHeadLower} \elemSum \bm{\biasLower}_{Q}^{\numHeadLower} \\
-    \bm{K}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{K}^{\numHeadLower} \elemSum \bm{\biasLower}_{K}^{\numHeadLower} \\
-    \bm{V}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{V}^{\numHeadLower} \elemSum \bm{\biasLower}_{V}^{\numHeadLower}
+    \bm{Q}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{Q}^{\numHeadLower} + \lrRepeatTr{\bm{\biasLower}_{Q}^{\numHeadLower}}{T} \\
+    \bm{K}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{K}^{\numHeadLower} + \lrRepeatTr{\bm{\biasLower}_{K}^{\numHeadLower}}{T} \\
+    \bm{V}^{\numHeadLower} & = \bm{\inputUpper}\bm{\weightUpper}_{V}^{\numHeadLower} + \lrRepeatTr{\bm{\biasLower}_{V}^{\numHeadLower}}{T}
 \end{align}
 で与えられる．ここで，$\bm{\weightUpper}_{Q}^{\numHeadLower}, \bm{\weightUpper}_{K}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，$\bm{\weightUpper}_{V}^{\numHeadLower} \in \realSet^{\dimUpper_{\text{model}} \times \frac{\dimUpper_{v}}{\numHeadUpper}}$は重み，$\bm{\biasLower}_{Q}^{\numHeadLower}, \bm{\biasLower}_{K}^{\numHeadLower} \in \realSet^{\frac{\dimUpper_{k}}{\numHeadUpper}}, \bm{\biasLower}_{V}^{\numHeadLower} \in \realSet^{\frac{\dimUpper_{v}}{\numHeadUpper}}$はバイアスである．この後の処理もSelf-Attentionと同様に，
 \begin{equation}
-    \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}} = \text{softmax}\lr{\frac{\bm{Q}^{\numHeadLower}r{\bm{K}^{\numHeadLower}}^\top}{\sqrt{\dimUpper_{k}} / \numHeadUpper}} \bm{V}^{\numHeadLower}
+    \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}} = \text{softmax}\lr{\frac{\bm{Q}^{\numHeadLower}\lr{\bm{K}^{\numHeadLower}}^\top}{\sqrt{\dimUpper_{k}} / \numHeadUpper}} \bm{V}^{\numHeadLower}
 \end{equation}
 となる．ここで得られた各ヘッドからの出力を結合し，さらに全結合層を通すことでMulti-Head Attetionの出力が得られる．すなわち，
 \begin{equation}
-    \text{MultiHead}\lr{\bm{Q}, \bm{K}, \bm{V}} = \lrsq{\text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}} \bm{\weightUpper}_{o} \elemSum \bm{\biasLower}_{o}
+    \text{MultiHead}\lr{\bm{Q}, \bm{K}, \bm{V}} = \lrsq{\text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}} \bm{\weightUpper}_{o} + \lrRepeatTr{\bm{\biasLower}_{o}}{T}
 \end{equation}
 と表される．ここで，$\lrsq{\cdot, \ldots, \cdot}$は次元方向の結合を表し，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$は重み，$\bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．ヘッドを分割して複数パターンのSelf-Attentionを可能にすることで，より複雑な入出力の関係を学習できると考えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
 \begin{equation}
@@ -459,7 +455,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 で与えられる．その後，全結合層を通し，残差結合とレイヤー正規化を適用することでTransformer層最終出力を得る．すなわち，
 \begin{equation}
-    \bm{\outputUpper} = \text{LayerNorm}\lr{\lr{\relu\lr{\bm{\outputUpper}\bm{\weightUpper}_{1} \elemSum \bm{b}_{1}}\bm{\weightUpper}_{2} \elemSum \bm{b}_{2}} + \bm{\outputUpper}}
+    \bm{\outputUpper} = \text{LayerNorm}\lr{\lr{\relu\lr{\bm{\outputUpper}\bm{\weightUpper}_{1} + \lrRepeatTr{\bm{b}_{1}}{T}}\bm{\weightUpper}_{2} + \lrRepeatTr{\bm{b}_{2}}{T}} + \bm{\outputUpper}}
 \end{equation}
 となる．ここで，$\bm{\weightUpper}_{1} \in \realSet^{\dimUpper_{\text{model}} \times \dimUpper_{\text{fc}}}$，$\bm{\weightUpper}_{2} \in \realSet^{\dimUpper_{\text{fc}} \times \dimUpper_{\text{model}}}$は重み，$\bm{b}_{1} \in \realSet^{\dimUpper_{\text{fc}}}$，$\bm{b}_{2} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．$\dimUpper_{\text{fc}}$は$\dimUpper_{\text{model}}$の4倍とされることが多い．Transformer全体は，Transformer層を多層積み重ねて構成される．
 
@@ -774,7 +770,7 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \end{equation}
 と表される．次に，$\featureA$の各時刻$t$におけるベクトルに対し，話者埋め込みベクトル$\spkEmb$を次元方向に結合してから，全結合層によって次元を再度圧縮し，元の次元に戻す．これは，
 \begin{equation}
-    \featureA = \myNetworkSpkMerge\lr{\concat\lr{\featureA, \lrRepeat{\spkEmb}{T}}; \weightA}
+    \featureA = \myNetworkSpkMerge\lr{\lrsq{\featureA, \lrRepeat{\spkEmb}{T}}; \weightA}
 \end{equation}
 と表される．次に，話者埋め込みベクトルが統合された特徴量に対する後処理として，$\myNetworkPost$を適用する．これは，
 \begin{equation}
@@ -795,7 +791,7 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \end{equation}
 と表される．以下，ネットワークAと処理は同様であるため，数式のみ記載する．
 \begin{gather}
-    \featureB = \myNetworkSpkMerge\lr{\concat\lr{\featureB, \opRepeat\lr{\spkEmb}}; \weightB} \\
+    \featureB = \myNetworkSpkMerge\lr{\lrsq{\featureB, \lrRepeat{\spkEmb}{T}}; \weightB} \\
     \featureB = \myNetworkPost\lr{\featureB; \weightB} \\
     \melPredB = \myNetworkFcMel\lr{\featureB; \weightB} \\
     \hubertDiscPredB = \myNetworkFcHubDisc\lr{\featureB; \weightB}
@@ -810,7 +806,7 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \end{gather}
 と表される．前処理後の特徴量$\featureVocMel \in \featureVocMelSet$は，$\melPredB$の時間方向に隣接したベクトルを次元方向に結合することで，系列長を半減しつつ，次元を2倍に拡大したものである．一方，前処理後の特徴量$\featureVocHuBERT \in \featureVocHuBERTSet$は，$\hubertDiscPredB$に対して$\argmax$関数を適用した後，各時刻$t$において選択されたインデックスをベクトルに変換したものである．次に，$\featureVocMel, \featureVocHuBERT$を入力として，音声波形を生成する．これは，
 \begin{equation}
-    \spWaveformPred = \vocoderMain\lr{\concat\lr{\featureVocMel, \featureVocHuBERT}; \weightVoc}
+    \spWaveformPred = \vocoderMain\lr{\lrsq{\featureVocMel, \featureVocHuBERT}; \weightVoc}
 \end{equation}
 と表される．$\vocoderMain$の具体的な処理について，これはHiFi-GANのGeneratorと同様であり，本実験ではボコーダ自体ではなく，ボコーダ入力を予測する手法の検討に焦点を当てたから，ここでは詳細は割愛する．
 
