@@ -654,6 +654,10 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm
 OUTPUT latex-output/submission.toc
+INPUT ./section1.tex
+INPUT section1.tex
+INPUT ./section1.tex
+INPUT section1.tex
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
@@ -662,6 +666,10 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tf
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
+INPUT ./section2.tex
+INPUT section2.tex
+INPUT ./section2.tex
+INPUT section2.tex
 INPUT ./figure/sec2/spectrogram_1.png
 INPUT ./figure/sec2/spectrogram_1.png
 INPUT ./figure/sec2/spectrogram_1.png
@@ -685,6 +693,10 @@ INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT extractbb -B cropbox -O ./figure/sec2/melspectrogram.png
+INPUT ./section3.tex
+INPUT section3.tex
+INPUT ./section3.tex
+INPUT section3.tex
 INPUT ./figure/sec3/conv1.drawio.png
 INPUT ./figure/sec3/conv1.drawio.png
 INPUT ./figure/sec3/conv1.drawio.png
@@ -741,6 +753,42 @@ INPUT ./figure/sec3/lr_scheduler.png
 INPUT ./figure/sec3/lr_scheduler.png
 INPUT ./figure/sec3/lr_scheduler.png
 INPUT extractbb -B cropbox -O ./figure/sec3/lr_scheduler.png
+INPUT ./section4.tex
+INPUT section4.tex
+INPUT ./section4.tex
+INPUT section4.tex
+INPUT ./figure/sec4/model_2/hubert.drawio.png
+INPUT ./figure/sec4/model_2/hubert.drawio.png
+INPUT ./figure/sec4/model_2/hubert.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/hubert.drawio.png
+INPUT ./figure/sec4/model_2/overview.drawio.png
+INPUT ./figure/sec4/model_2/overview.drawio.png
+INPUT ./figure/sec4/model_2/overview.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/overview.drawio.png
+INPUT ./figure/sec4/model_2/networkA.drawio.png
+INPUT ./figure/sec4/model_2/networkA.drawio.png
+INPUT ./figure/sec4/model_2/networkA.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/networkA.drawio.png
+INPUT ./figure/sec4/model_2/post.drawio.png
+INPUT ./figure/sec4/model_2/post.drawio.png
+INPUT ./figure/sec4/model_2/post.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/post.drawio.png
+INPUT ./figure/sec4/model_2/post_resblock.drawio.png
+INPUT ./figure/sec4/model_2/post_resblock.drawio.png
+INPUT ./figure/sec4/model_2/post_resblock.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/post_resblock.drawio.png
+INPUT ./figure/sec4/model_2/post_convblock.drawio.png
+INPUT ./figure/sec4/model_2/post_convblock.drawio.png
+INPUT ./figure/sec4/model_2/post_convblock.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/post_convblock.drawio.png
+INPUT ./figure/sec4/model_2/networkB.drawio.png
+INPUT ./figure/sec4/model_2/networkB.drawio.png
+INPUT ./figure/sec4/model_2/networkB.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/networkB.drawio.png
+INPUT ./figure/sec4/model_2/vocoder.drawio.png
+INPUT ./figure/sec4/model_2/vocoder.drawio.png
+INPUT ./figure/sec4/model_2/vocoder.drawio.png
+INPUT extractbb -B cropbox -O ./figure/sec4/model_2/vocoder.drawio.png
 INPUT ./figure/sec4/learning_curves/0/mel_loss.png
 INPUT ./figure/sec4/learning_curves/0/mel_loss.png
 INPUT ./figure/sec4/learning_curves/0/mel_loss.png
