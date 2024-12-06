@@ -1,46 +1,47 @@
 \contentsline {section}{\numberline {1}序論}{1}{}%
 \contentsline {subsection}{\numberline {1.1}背景}{1}{}%
 \contentsline {subsection}{\numberline {1.2}目的}{1}{}%
-\contentsline {subsection}{\numberline {1.3}本論文の構成}{1}{}%
-\contentsline {section}{\numberline {2}音声信号処理}{2}{}%
-\contentsline {subsection}{\numberline {2.1}音声のフーリエ変換}{2}{}%
-\contentsline {subsection}{\numberline {2.2}メルスペクトログラム}{4}{}%
-\contentsline {section}{\numberline {3}深層学習}{5}{}%
-\contentsline {subsection}{\numberline {3.1}DNNの構成要素}{5}{}%
-\contentsline {subsubsection}{\numberline {3.1.1}全結合層}{5}{}%
-\contentsline {subsubsection}{\numberline {3.1.2}畳み込み層}{5}{}%
-\contentsline {subsubsection}{\numberline {3.1.3}転置畳み込み層}{6}{}%
-\contentsline {subsubsection}{\numberline {3.1.4}活性化関数}{7}{}%
-\contentsline {subsubsection}{\numberline {3.1.5}再帰型ニューラルネットワーク}{9}{}%
-\contentsline {subsubsection}{\numberline {3.1.6}正規化層}{11}{}%
-\contentsline {subsubsection}{\numberline {3.1.7}Transformer}{12}{}%
-\contentsline {subsection}{\numberline {3.2}学習方法}{15}{}%
-\contentsline {subsubsection}{\numberline {3.2.1}損失関数}{15}{}%
-\contentsline {subsubsection}{\numberline {3.2.2}勾配降下法}{15}{}%
-\contentsline {subsubsection}{\numberline {3.2.3}正則化}{17}{}%
-\contentsline {subsubsection}{\numberline {3.2.4}最適化手法}{18}{}%
-\contentsline {subsubsection}{\numberline {3.2.5}学習率のスケジューリング}{18}{}%
-\contentsline {subsubsection}{\numberline {3.2.6}誤差逆伝播法}{20}{}%
-\contentsline {subsubsection}{\numberline {3.2.7}学習の安定化}{22}{}%
-\contentsline {subsubsection}{\numberline {3.2.8}自己教師あり学習}{23}{}%
-\contentsline {section}{\numberline {4}動画音声合成モデルの検討}{24}{}%
-\contentsline {subsection}{\numberline {4.1}音声合成法}{24}{}%
-\contentsline {subsubsection}{\numberline {4.1.1}全体像}{24}{}%
-\contentsline {subsubsection}{\numberline {4.1.2}ネットワークA}{25}{}%
-\contentsline {subsubsection}{\numberline {4.1.3}ネットワークB}{26}{}%
-\contentsline {subsubsection}{\numberline {4.1.4}ボコーダ}{26}{}%
-\contentsline {subsubsection}{\numberline {4.1.5}損失関数}{27}{}%
-\contentsline {subsection}{\numberline {4.2}実験方法}{27}{}%
-\contentsline {subsubsection}{\numberline {4.2.1}利用したデータセット}{27}{}%
-\contentsline {subsubsection}{\numberline {4.2.2}データの前処理}{27}{}%
-\contentsline {subsubsection}{\numberline {4.2.3}学習方法}{29}{}%
-\contentsline {subsubsection}{\numberline {4.2.4}客観評価}{30}{}%
-\contentsline {subsubsection}{\numberline {4.2.5}主観評価}{31}{}%
-\contentsline {subsection}{\numberline {4.3}結果}{34}{}%
-\contentsline {subsubsection}{\numberline {4.3.1}客観評価1: ベースラインと提案手法の比較}{34}{}%
-\contentsline {subsubsection}{\numberline {4.3.2}客観評価2: 提案手法のさらなる検討}{37}{}%
-\contentsline {subsubsection}{\numberline {4.3.3}主観評価}{39}{}%
-\contentsline {subsection}{\numberline {4.4}まとめ}{46}{}%
-\contentsline {section}{\numberline {5}結論}{47}{}%
-\contentsline {section}{謝辞}{48}{}%
-\contentsline {section}{参考文献}{49}{}%
+\contentsline {subsection}{\numberline {1.3}本論文の構成}{2}{}%
+\contentsline {subsection}{\numberline {1.4}本論文で用いる演算子}{2}{}%
+\contentsline {section}{\numberline {2}音声信号処理}{3}{}%
+\contentsline {subsection}{\numberline {2.1}音声のフーリエ変換}{3}{}%
+\contentsline {subsection}{\numberline {2.2}メルスペクトログラム}{5}{}%
+\contentsline {section}{\numberline {3}深層学習}{6}{}%
+\contentsline {subsection}{\numberline {3.1}DNNの構成要素}{6}{}%
+\contentsline {subsubsection}{\numberline {3.1.1}全結合層}{6}{}%
+\contentsline {subsubsection}{\numberline {3.1.2}畳み込み層}{6}{}%
+\contentsline {subsubsection}{\numberline {3.1.3}転置畳み込み層}{7}{}%
+\contentsline {subsubsection}{\numberline {3.1.4}活性化関数}{8}{}%
+\contentsline {subsubsection}{\numberline {3.1.5}再帰型ニューラルネットワーク}{10}{}%
+\contentsline {subsubsection}{\numberline {3.1.6}正規化層}{12}{}%
+\contentsline {subsubsection}{\numberline {3.1.7}Transformer}{13}{}%
+\contentsline {subsection}{\numberline {3.2}学習方法}{16}{}%
+\contentsline {subsubsection}{\numberline {3.2.1}損失関数}{16}{}%
+\contentsline {subsubsection}{\numberline {3.2.2}勾配降下法}{16}{}%
+\contentsline {subsubsection}{\numberline {3.2.3}正則化}{18}{}%
+\contentsline {subsubsection}{\numberline {3.2.4}最適化手法}{19}{}%
+\contentsline {subsubsection}{\numberline {3.2.5}学習率のスケジューリング}{19}{}%
+\contentsline {subsubsection}{\numberline {3.2.6}誤差逆伝播法}{21}{}%
+\contentsline {subsubsection}{\numberline {3.2.7}学習の安定化}{23}{}%
+\contentsline {subsubsection}{\numberline {3.2.8}自己教師あり学習}{24}{}%
+\contentsline {section}{\numberline {4}動画音声合成モデルの検討}{25}{}%
+\contentsline {subsection}{\numberline {4.1}音声合成法}{25}{}%
+\contentsline {subsubsection}{\numberline {4.1.1}全体像}{25}{}%
+\contentsline {subsubsection}{\numberline {4.1.2}ネットワークA}{26}{}%
+\contentsline {subsubsection}{\numberline {4.1.3}ネットワークB}{27}{}%
+\contentsline {subsubsection}{\numberline {4.1.4}ボコーダ}{27}{}%
+\contentsline {subsubsection}{\numberline {4.1.5}損失関数}{28}{}%
+\contentsline {subsection}{\numberline {4.2}実験方法}{29}{}%
+\contentsline {subsubsection}{\numberline {4.2.1}利用したデータセット}{29}{}%
+\contentsline {subsubsection}{\numberline {4.2.2}データの前処理}{29}{}%
+\contentsline {subsubsection}{\numberline {4.2.3}学習方法}{30}{}%
+\contentsline {subsubsection}{\numberline {4.2.4}客観評価}{32}{}%
+\contentsline {subsubsection}{\numberline {4.2.5}主観評価}{32}{}%
+\contentsline {subsection}{\numberline {4.3}結果}{35}{}%
+\contentsline {subsubsection}{\numberline {4.3.1}客観評価1: ベースラインと提案手法の比較}{35}{}%
+\contentsline {subsubsection}{\numberline {4.3.2}客観評価2: 提案手法のさらなる検討}{38}{}%
+\contentsline {subsubsection}{\numberline {4.3.3}主観評価}{40}{}%
+\contentsline {subsection}{\numberline {4.4}まとめ}{47}{}%
+\contentsline {section}{\numberline {5}結論}{48}{}%
+\contentsline {section}{謝辞}{49}{}%
+\contentsline {section}{参考文献}{50}{}%

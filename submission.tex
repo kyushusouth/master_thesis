@@ -118,6 +118,23 @@
 % その他にも近年高い精度を達成したモデルは存在\cite{hsu2023revise,sahipjohn2023robustl2s,kim2024let}するが，手法\cite{choi2023intelligible}が採用しているマルチタスク学習の有効性は，テキストを用いた先行研究\cite{kim2023lip_multitask}でも同様に示されている．これより，このアプローチが現状特に有効性が高いと判断し，本研究においてはこの手法をベースラインとして，さらなる改善を狙う形で研究を行うこととした．この手法では，動画を入力としてメルスペクトログラムと音声SSL離散特徴量を推定し，これら両方をMulti-input Vocoderに入力することで音声波形へと変換する．しかし，動画と音声の間には，同様の口の動きであっても声道形状の違いによって生じる発話内容の曖昧さや，話者によるパターンの多様さが存在すると考え，推定を動画のみに依存した先行研究の手法ではこういった側面への対処が難しいと考えた．これに対して本研究では，音声SSLモデルであるHuBERTを利用した動画音声合成モデルを提案し，合成音声の推定残差をHuBERTを利用した後処理によって軽減することで，合成音声の品質改善を狙った．HuBERTは，音声波形を畳み込み層を通すことによってダウンサンプリングしつつ特徴量に変換し，ここでマスクをかけた上でTransformer層を通す．そして，マスクされたフレームにおける予測対象を推定する，Masked Predictionを行うことで学習する．大規模な音声データを用いてこの自己教師あり学習を行うことで，音声のコンテキスト自体をデータそのものから学習することが可能であり，音声認識において有効性が確認されている．本研究では，大規模日本語音声データで事前学習済みのHuBERTを活用し，動画音声合成モデルにおいて生じる推定残差を，音声自体のコンテキストを考慮する形で補うようなアプローチを検討した．
 
 \subsection{本論文の構成}
+
+\subsection{本論文で用いる演算子}
+\begin{tabular}{|c|l|}
+    \hline
+    記号                              & 説明                         \\
+    \hline
+    $\elemMul$                      & 要素積                        \\
+    \hline
+    $\concat{\cdot, \ldots, \cdot}$ & 特徴量の次元方向の結合                \\
+    \hline
+    $\lrRepeat{\bm{x}}{N}$          & ベクトル$\bm{x}$を$N$回列方向に並べる   \\
+    \hline
+    $\onehot$                       & インデックス系列をOne-hotベクトルに変換    \\
+    \hline
+    $\argmax$                       & 特徴量の次元方向に、最大の値を取るインデックスに変換 \\
+    \hline
+\end{tabular}
 \clearpage
 
 \section{音声信号処理}
@@ -336,7 +353,7 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 \begin{align}
     \gelu\lr{\inputLower} & = \inputLower \Phi\lr{\inputLower}                                                             \\
                           & = 1 \inputLower \cdot \Phi\lr{\inputLower} + 0 \inputLower \cdot \lr{1 - \Phi\lr{\inputLower}} \\
-                          & = \expectation \lrsq{mx}
+                          & = \expectation{mx}
 \end{align}
 となり，$\gelu$の出力は確率的なバイナリマスク$\binaryMaskLower$を入力$\inputLower$にかけた，$mx$の期待値に等しいことがわかる．
 
@@ -362,21 +379,22 @@ $|X[j, k]|^{2}$をパワースペクトログラムと呼ぶ．「小さな鰻�
 再帰型ニューラルネットワーク（Recurrent Neural Network; RNN）は，自身の過去の出力を保持し，それをループさせる再帰的な構造を持ったネットワークである．
 
 近年よく用いられるRNNとして，長・短期記憶（Long Short-Time Memory; LSTM）\cite{hochreiter1997long}がある．LSTMは入力ゲート，忘却ゲート，出力ゲートの3つを持ち，これらゲートによってネットワーク内部の情報の取捨選択を行うことで，長い系列データからの学習を可能にした．LSTMのネットワーク内部で行われる計算を以下に示す．
+% concatTwo
 \begin{gather}
-    \bm{f}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{f}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{f}} \\
-    \bm{i}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{i}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{i}} \\
-    \tilde{\bm{c}}_{\timeLower} = \tanh\lr{\bm{\weightUpper}_{h}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1} + \bm{\biasLower}_{h}}} \\
+    \bm{f}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{f}\concat{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{f}} \\
+    \bm{i}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{i}\concat{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{i}} \\
+    \tilde{\bm{c}}_{\timeLower} = \tanh\lr{\bm{\weightUpper}_{h}\concat{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1} + \bm{\biasLower}_{h}}} \\
     \bm{c}_{\timeLower} = \bm{f}_{\timeLower} \elemMul \bm{c}_{\timeLower-1} + \bm{i}_{\timeLower} \elemMul \tilde{\bm{c}}_{\timeLower} \\
-    \bm{o}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{o}\lrsq{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{o}} \\
+    \bm{o}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{o}\concat{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{o}} \\
     \bm{h}_{\timeLower} = \bm{o}_{\timeLower} \elemMul \tanh\lr{\bm{c}_{\timeLower}}
 \end{gather}
-ここで，$\bm{\inputLower}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$\timeLower$の入力，$\bm{f}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$におけるセルの状態，$\bm{o}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．また，$\lrsq{\cdot, \cdot}$は次元方向の結合，$\elemMul$は要素積を表す．$\bm{\weightUpper}_{f}, \bm{\weightUpper}_{i}, \bm{\weightUpper}_{h}, \bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{\text{out}} \times \lr{\dimUpper_{\text{in}} + \dimUpper_{\text{out}}}}$は重み，$\bm{\biasLower}_{f}, \bm{\biasLower}_{i}, \bm{\biasLower}_{h}, \bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．忘却ゲート出力$\bm{f}_{\timeLower}$が前時刻のセル状態$\bm{c}_{\timeLower}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{\timeLower}$が新たな入力$\tilde{\bm{c}}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{c}_{\timeLower}$が決まる．その後，出力ゲート出力$\bm{o}_{\timeLower}$が$\bm{c}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{h}_{\timeLower}$が決まる．
+ここで，$\bm{\inputLower}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$\timeLower$の入力，$\bm{f}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$におけるセルの状態，$\bm{o}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．$\bm{\weightUpper}_{f}, \bm{\weightUpper}_{i}, \bm{\weightUpper}_{h}, \bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{\text{out}} \times \lr{\dimUpper_{\text{in}} + \dimUpper_{\text{out}}}}$は重み，$\bm{\biasLower}_{f}, \bm{\biasLower}_{i}, \bm{\biasLower}_{h}, \bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．忘却ゲート出力$\bm{f}_{\timeLower}$が前時刻のセル状態$\bm{c}_{\timeLower}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{\timeLower}$が新たな入力$\tilde{\bm{c}}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{c}_{\timeLower}$が決まる．その後，出力ゲート出力$\bm{o}_{\timeLower}$が$\bm{c}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{h}_{\timeLower}$が決まる．
 
 また，LSTMが3つのゲートを必要とするのに対し，ゲートを2つに減らすことでネットワークの軽量化を図ったのがゲート付き回帰型ユニット（Gated Recurrent Unit; GRU）\cite{cho2014learning}である．GRUはリセットゲートと更新ゲートの2つを用いて隠れ状態を更新する．GRUのネットワーク内部で行われる計算を以下に示す．
 \begin{gather}
-    \bm{z}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{z}\lrsq{\bm{x}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{z}} \\
-    \bm{r}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{r}\lrsq{\bm{x}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{r}} \\
-    \tilde{\bm{h}}_{\timeLower} = \tanh\lr{\bm{\weightUpper}_{h}\lrsq{\bm{x}_{\timeLower}, \bm{r}_{\timeLower} \elemMul \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{h}} \\
+    \bm{z}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{z}\concat{\bm{x}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{z}} \\
+    \bm{r}_{\timeLower} = \sigmoid\lr{\bm{\weightUpper}_{r}\concat{\bm{x}_{\timeLower}, \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{r}} \\
+    \tilde{\bm{h}}_{\timeLower} = \tanh\lr{\bm{\weightUpper}_{h}\concat{\bm{x}_{\timeLower}, \bm{r}_{\timeLower} \elemMul \bm{h}_{\timeLower-1}} + \bm{\biasLower}_{h}} \\
     \bm{h}_{\timeLower} = \lr{1 - \bm{z}_{\timeLower}} \elemMul \bm{h}_{\timeLower-1} + \bm{z}_{\timeLower} \elemMul \tilde{\bm{h}}_{\timeLower}
 \end{gather}
 ここで，$\bm{x}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$が時刻$\timeLower$における入力，$\bm{z}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が更新ゲートの出力，$\bm{r}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$がリセットゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．また，$\bm{\weightUpper}_{z}, \bm{\weightUpper}_{r}, \bm{\weightUpper}_{h} \in \realSet^{\dimUpper_{\text{out}} \times \lr{\dimUpper_{\text{in}} + \dimUpper_{\text{out}}}}$は重み，$\bm{\biasLower}_{z}, \bm{\biasLower}_{r}, \bm{\biasLower}_{h} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスである．更新ゲート出力$\bm{z}_{\timeLower}$が$\bm{h}_{\timeLower - 1}$と$\tilde{\bm{h}}_{\timeLower}$に含まれる情報の選択，リセットゲート出力$\bm{r}_{\timeLower}$が$\bm{h}_{\timeLower - 1}$に含まれる情報の選択に用いられる．
@@ -433,7 +451,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \begin{equation}
     \text{Attention}\lr{\bm{Q}, \bm{K}, \bm{V}} = \text{softmax}\lr{\frac{\bm{Q}\bm{K}^\top}{\sqrt{\dimUpper_{k}}}} \bm{V}
 \end{equation}
-で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\lr{\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}}$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ r{t = 1, \ldots, T}$に対する注意度になっている．
+で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\lr{\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}}$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ \lr{t = 1, \ldots, T}$に対する注意度になっている．
 
 ここまでがSelf-Attentionの計算であったが，TransformerではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．ヘッド数を$\numHeadUpper$とすると，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$の計算は，
 \begin{align}
@@ -447,9 +465,9 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 となる．ここで得られた各ヘッドからの出力を結合し，さらに全結合層を通すことでMulti-Head Attetionの出力が得られる．すなわち，
 \begin{equation}
-    \text{MultiHead}\lr{\bm{Q}, \bm{K}, \bm{V}} = \lrsq{\text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}} \bm{\weightUpper}_{o} + \lrRepeatTr{\bm{\biasLower}_{o}}{T}
+    \text{MultiHead}\lr{\bm{Q}, \bm{K}, \bm{V}} = \concat{\text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{Attention}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}} \bm{\weightUpper}_{o} + \lrRepeatTr{\bm{\biasLower}_{o}}{T}
 \end{equation}
-と表される．ここで，$\lrsq{\cdot, \ldots, \cdot}$は次元方向の結合を表し，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$は重み，$\bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．ヘッドを分割して複数パターンのSelf-Attentionを可能にすることで，より複雑な入出力の関係を学習できると考えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
+と表される．ここで，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$は重み，$\bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．ヘッドを分割して複数パターンのSelf-Attentionを可能にすることで，より複雑な入出力の関係を学習できると考えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
 \begin{equation}
     \bm{\outputUpper} = \text{LayerNorm}\lr{\text{MultiHead}r{\bm{Q}, \bm{K}, \bm{V}} + \bm{\inputUpper}}
 \end{equation}
@@ -554,10 +572,10 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{align}
 で与えられる．ここで，$\bm{m} \in \{0, 1\}^{\dimUpper_{\text{in}}}$は各成分$m_{\dimLower}$が確率$1 - p$で1，確率$p$で0をとる確率変数である．式\eqref{sec3:eq:regularization_dropout_training_output}より，学習時はDropout出力を$1 / \lr{1 - p}$倍していることがわかる．この理由は，学習時の出力の期待値と推論時の出力を一致させるためである．実際，確率変数$\bm{m}$の従う確率分布上で$\bm{\outputLower}_{\text{train}}$の期待値をとれば，
 \begin{align}
-    \expectation\lrsq{\bm{\outputLower}_{\text{train}}} & = \expectation \lrsq{\frac{\bm{x} \elemMul \bm{m}}{1 - p}}       \\
-                                                        & = \frac{\bm{x}}{1 - p} \elemMul \expectation\lrsq{\bm{m}}        \\
-                                                        & = \frac{\bm{x}}{1 - p} \elemMul \lr{1 - p ~ \cdots ~ 1 - p}^\top \\
-                                                        & = \bm{x} = \bm{\outputLower}_{\text{infer}}
+    \expectation{\bm{\outputLower}_{\text{train}}} & = \expectation{\frac{\bm{x} \elemMul \bm{m}}{1 - p}}             \\
+                                                   & = \frac{\bm{x}}{1 - p} \elemMul \expectation{\bm{m}}             \\
+                                                   & = \frac{\bm{x}}{1 - p} \elemMul \lr{1 - p ~ \cdots ~ 1 - p}^\top \\
+                                                   & = \bm{x} = \bm{\outputLower}_{\text{infer}}
 \end{align}
 となる．Dropoutは学習時に一部のニューロンを落とすことで，実質的に異なるネットワークを学習させていると考えることができる．よって，学習時の出力の期待値に推論時の出力を一致させることは，異なるネットワークから得られた出力の期待値をとり，アンサンブルモデルとして推論時の出力を得ていると解釈できる．
 
@@ -706,6 +724,7 @@ DNNの学習は勾配降下法によって行われるが，ここで勾配が�
 で与えられる．$\numUpper_{\text{accum}}$回分の勾配を累積した分，重みを更新する際には$1 / \numUpper_{\text{accum}}$倍して平均をとることで，実質的に$\numUpper_{\text{accum}}$倍のバッチサイズにおける学習が可能になる．また，重み更新後は累積した勾配を0にリセットして，次の$\numUpper_{\text{accum}}$回の累積に備える．
 
 \subsubsection{自己教師あり学習}
+\label{sec3:sec:ssl}
 近年，音声や動画を用いる分野では，自己教師あり学習を事前に行ったモデルを特定の問題にFineTuningする転移学習の有効性が確認されている．自己教師あり学習とは、教師ラベルのないデータから特徴を学習する手法であり、データ自体を利用して擬似的な教師ラベルを生成し、教師あり学習を行う点が特徴である。このアプローチは教師なし学習と類似しているが、教師ラベルを生成して利用する点で教師あり学習に近いといえる。ここでは特に，本研究で用いる自己教師あり学習モデルであるHuBERT\cite{hsu2021hubert}，AVHuBERT\cite{shi2022learning}で行われている，Masked Predictionという自己教師あり学習方法について述べる．
 
 Masked Predictionでは，データの一部をマスクした上でモデルに入力し，マスクされた領域をモデルに予測させることで学習を行う．入力データを$\bm{\inputUpper} \in \realSet^{T \times D}$とし，このうちマスクされるインデックスの部分集合を$\mathcal{M} \subset \{ 1, \ldots T \}$とする．この時，マスクされた入力$\bm{X}^{\text{masked}}$の各時刻$t$における値$\bm{x}^{\text{masked}}_{t}$は，
@@ -732,7 +751,7 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \begin{equation}
     \datasetTrain = \lrc{\lr{\video, \spWaveformGt, \spkEmb, \melGt, \hubertIntGt, \hubertDiscGt}}_{\numLower = 1}^{\numUpper}
 \end{equation}
-とする．各$\numLower$に対し，$\video \in \videoSet$は口唇動画， $\spWaveformGt \in \spWaveformSet$は原音声の音声波形，$\spkEmb \in \spkEmbSet$は$\spWaveformGt$から計算された話者埋め込みベクトル，$\melGt \in \melSet$は$\spWaveformGt$から計算されたメルスペクトログラム，$\hubertIntGt \in \hubertIntSet$は$\spWaveformGt$から計算されたHuBERT中間特徴量，$\hubertDiscGt \in \hubertDiscGtSet$は$\spWaveformGt$から計算されたHuBERT離散特徴量とする．ここで，話者埋め込めベクトル$\spkEmb$は，事前学習済みの話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトルであり，
+とする．各$\numLower$に対し，$\video \in \videoSet$は口唇動画， $\spWaveformGt \in \spWaveformSet$は原音声の音声波形，$\spkEmb \in \spkEmbSet$は話者埋め込みベクトル，$\melGt \in \melSet$はメルスペクトログラム，$\hubertIntGt \in \hubertIntSet$はHuBERT中間特徴量，$\hubertDiscGt \in \hubertDiscGtSet$はHuBERT離散特徴量とする．ここで，話者埋め込めベクトル$\spkEmb$は，事前学習済みの話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトルであり，
 \begin{equation}
     \spkEmb = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \spkEmbExtractor\lr{\bm{\outputLower}^{\text{sp-wf}}_{\indexLower}; \weightSpk}
 \end{equation}
@@ -758,31 +777,32 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \end{equation}
 と表される．ここで，$\melPredB \in \melSet$はネットワークBの予測メルスペクトログラム，$\hubertDiscPredB \in \hubertDiscPredSet$はネットワークBのHuBERT離散特徴量に対するロジットを表す．最後に，音声波形を生成するボコーダを$\vocoder$とすると，$\vocoder$の行う処理は，
 \begin{equation}
-    \spWaveformPred = \vocoder\lr{\melPredB, \argmax\lr{\hubertDiscPredB}}
+    \spWaveformPred = \vocoder\lr{\melPredB, \hubertDiscPredB}
 \end{equation}
 と表される．まとめると，提案手法は口唇動画と話者埋め込みベクトルを入力とし，ネットワークAとネットワークBによって中間表現を獲得後，中間表現をボコーダに入力することで音声波形を生成するものである．
 
 \subsubsection{ネットワークA}
-% postは作っているので具体的な構造も図を利用して述べる．
 ネットワークAでは，まず，口唇動画$\video$をAVHuBERTに通すことで，特徴量$\featureA \in \featureASet$に変換する．これは，
 \begin{equation}
     \featureA = \AVHuBERT\lr{\video; \weightA}
 \end{equation}
 と表される．次に，$\featureA$の各時刻$t$におけるベクトルに対し，話者埋め込みベクトル$\spkEmb$を次元方向に結合してから，全結合層によって次元を再度圧縮し，元の次元に戻す．これは，
 \begin{equation}
-    \featureA = \myNetworkSpkMerge\lr{\lrsq{\featureA, \lrRepeat{\spkEmb}{T}}; \weightA}
+    \featureA = \myNetworkSpkMerge\lr{\concat{\featureA, \lrRepeat{\spkEmb}{T}}; \weightA}
 \end{equation}
 と表される．次に，話者埋め込みベクトルが統合された特徴量に対する後処理として，$\myNetworkPost$を適用する．これは，
 \begin{equation}
     \featureA = \myNetworkPost\lr{\featureA; \weightA}
 \end{equation}
-と表される．最後に，$\featureA$を全結合層を通して変換することで，予測対象であるHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量に対するロジットを獲る．これは，
+と表される．ここで、後処理層$\myNetworkPost$の構造を図\ref{}に示す。$\myNetworkPost$は主に一次元畳み込み層と残差結合からなるネットワークである。$\AVHuBERT$はMasked Predictionによって事前学習されたモデルであるから、動画の文脈的な構造を考慮するのに適していると考えられる。一方、音声合成に必要となる話者性は発話に依存しない、すなわち動画の文脈的な構造とは別の性質を持った情報だと考えられる。よって、$\myNetworkPost$は話者埋め込みベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対し、特に話者性を考慮した特徴量の変換を行うために導入した。最後に，$\featureA$を全結合層を通して変換することで，予測対象であるHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量に対するロジットを得る．これは，
 \begin{gather}
     \hubertIntPred = \myNetworkFcHubInt\lr{\featureA; \weightA} \\
     \melPredA = \myNetworkFcMel\lr{\featureA; \weightA} \\
     \hubertDiscPredA = \myNetworkFcHubDisc\lr{\featureA; \weightA}
 \end{gather}
 と表される．
+
+ネットワークAの役割は，続くネットワークBの入力であるHuBERT中間特徴量を予測することである．これに対し，メルスペクトログラムとHuBERT離散特徴量の推定を同時に行った理由は，先行研究\cite{kim2023lip_multitask,choi2023intelligible}においてマルチタスク学習の有効性が確認されており、HuBERT中間特徴量の推定においても有効ではないかと考えたからである。
 
 \subsubsection{ネットワークB}
 ネットワークBでは，まず，ネットワークAで得られた予測HuBERT中間特徴量$\hubertIntPred$を$\hubertTransformer$に通すことで，特徴量$\featureB \in \featureBSet$に変換する．これは，
@@ -791,27 +811,28 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
 \end{equation}
 と表される．以下，ネットワークAと処理は同様であるため，数式のみ記載する．
 \begin{gather}
-    \featureB = \myNetworkSpkMerge\lr{\lrsq{\featureB, \lrRepeat{\spkEmb}{T}}; \weightB} \\
+    \featureB = \myNetworkSpkMerge\lr{\concat{\featureB, \lrRepeat{\spkEmb}{T}}; \weightB} \\
     \featureB = \myNetworkPost\lr{\featureB; \weightB} \\
     \melPredB = \myNetworkFcMel\lr{\featureB; \weightB} \\
     \hubertDiscPredB = \myNetworkFcHubDisc\lr{\featureB; \weightB}
 \end{gather}
-ネットワークAの処理と見比べていただくと，$\myNetworkSpkMerge, \myNetworkPost, \myNetworkFcMel, \myNetworkFcHubDisc$は同じ関数で重みのみ異なることがわかる．これは，これらのネットワーク構造が同一であり，学習される重みのみが異なることを表す．
+
+ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．HuBERT Transformer層の転移学習を検討した狙いは、HuBERTの自己教師あり学習の方法に基づく。HuBERTはMasked Predictionという自己教師あり学習を行っており、これは、畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し，Transformer層$\hubertTransformer$を通すことによって、マスクされた部分を推定する学習方法である．\ref{sec3:sec:ssl}節より、Masked Predictionでは未知の情報を正しく穴埋めできるように観測できる情報から特徴抽出を行う必要があるから，最適化されたHuBERTは音声の文脈的な構造を学習していると考えられる．また、Masked Predictionは音声データのみによる学習が可能であり、近年では大規模なデータによって学習されたモデルも一般に公開されている。よって、本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより，動画を入力とするネットワークAにおける推定残差を，大量の音声データから学習された音声自体の文脈を考慮する力によって軽減することで、最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する推定精度改善を狙った．
 
 \subsubsection{ボコーダ}
-ボコーダでは，まず，ネットワークBで得られた予測メルスペクトログラム$\melPredB$とHuBERT離散特徴量に対するロジット$\hubertDiscPredB$を前処理層に通し，扱いやすい形状に変換する．これは，
+本実験で用いるボコーダは、今回ベースラインとする先行研究\cite{choi2023intelligible}で提案されたMulti-input Vocoderを参考にしたものである。まず，ネットワークBで得られた予測メルスペクトログラム$\melPredB$とHuBERT離散特徴量に対するロジット$\hubertDiscPredB$を前処理層に通し，扱いやすい形状に変換する．これは，
 \begin{gather}
     \featureVocMel = \vocoderPreMel\lr{\melPredB; \weightVoc} \\
     \featureVocHuBERT = \vocoderPreHub\lr{\hubertDiscPredB; \weightVoc}
 \end{gather}
-と表される．前処理後の特徴量$\featureVocMel \in \featureVocMelSet$は，$\melPredB$の時間方向に隣接したベクトルを次元方向に結合することで，系列長を半減しつつ，次元を2倍に拡大したものである．一方，前処理後の特徴量$\featureVocHuBERT \in \featureVocHuBERTSet$は，$\hubertDiscPredB$に対して$\argmax$関数を適用した後，各時刻$t$において選択されたインデックスをベクトルに変換したものである．次に，$\featureVocMel, \featureVocHuBERT$を入力として，音声波形を生成する．これは，
+と表される．$\featureVocMel \in \featureVocMelSet$は，$\melPredB$の時間方向に隣接したベクトルを次元方向に結合することで$\hubertDiscPredB$と系列長を揃え、その後全結合層を適用した特徴量である．一方，$\featureVocHuBERT \in \featureVocHuBERTSet$は，$\hubertDiscPredB$に対して$\argmax$関数を適用した後，各時刻$t$において選択されたインデックスをベクトルに変換した特徴量である．次に，$\featureVocMel, \featureVocHuBERT$を入力として，音声波形を生成する．これは，
 \begin{equation}
-    \spWaveformPred = \vocoderMain\lr{\lrsq{\featureVocMel, \featureVocHuBERT}; \weightVoc}
+    \spWaveformPred = \vocoderMain\lr{\concat{\featureVocMel, \featureVocHuBERT}; \weightVoc}
 \end{equation}
-と表される．$\vocoderMain$の具体的な処理について，これはHiFi-GANのGeneratorと同様であり，本実験ではボコーダ自体ではなく，ボコーダ入力を予測する手法の検討に焦点を当てたから，ここでは詳細は割愛する．
+と表される．$\vocoderMain$の具体的な処理はHiFi-GANのGeneratorと同様であり，本実験ではボコーダ自体ではなく，ボコーダ入力を予測する手法の検討に焦点を当てたから，ここでは詳細は割愛する．
 
 \subsubsection{損失関数}
-まず，ネットワークAの学習に用いる損失関数は，
+まず，ネットワークAの学習に用いる損失関数$\lossFuncUpper_{A}$は，
 \begin{equation}
     \begin{aligned}
         \lossFuncUpper_{A} & \lr{\hubertIntGt, \hubertIntPred, \melGt, \melPredA, \hubertDiscGt, \hubertDiscPredA}                 \\
@@ -819,7 +840,7 @@ Masked Predictionでは，データの一部をマスクした上でモデルに
                            & + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredA}
     \end{aligned}
 \end{equation}
-で与えられる．すなわち，HuBERT中間特徴量とメルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．次に，ネットワークBの学習に用いる損失関数は，
+で与えられる．すなわち，HuBERT中間特徴量とメルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．次に，ネットワークBの学習に用いる損失関数$\lossFuncUpper_{B}$は，
 \begin{equation}
     \begin{aligned}
         \lossFuncUpper_{B} & \lr{\melGt, \melPredB, \hubertDiscGt, \hubertDiscPredB}                                                  \\

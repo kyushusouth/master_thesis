@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex latex-output/submission"] 1733333149 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1733333154
+["bibtex latex-output/submission"] 1733451185 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1733460909
   "junsrt.bst" 0 -1 0 ""
-  "latex-output/submission.aux" 1733333152 14881 eae09f939bbe0e265fdc8843b56ac443 "latex"
+  "latex-output/submission.aux" 1733460907 15138 ef8ae91e6cb4a6774400c329074cb8e1 "latex"
   "library.bib" 1733199171 18959 48f325fb01e228c0143db3427382d44a ""
   (generated)
   "latex-output/submission.bbl"
   "latex-output/submission.blg"
-["dvipdf"] 1733333152 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1733333154
-  "latex-output/submission.dvi" 1733333152 245560 9d0a7d7eef140d4db5922b52a23fe822 "latex"
+["dvipdf"] 1733460907 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1733460909
+  "latex-output/submission.dvi" 1733460907 250216 ff25ea3622e876ddc413011ef5d79188 "latex"
   (generated)
   "latex-output/submission.pdf"
-["latex"] 1733333149 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1733333154
-  "/Users/minami/class/research/master_thesis/submission.tex" 1733333146 188612 e4e04236a6ac8b0e1d245f15728aa4bf ""
+["latex"] 1733460904 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1733460909
+  "/Users/minami/class/research/master_thesis/submission.tex" 1733460904 191443 8b66671bde5cdc90293dca8611e730cb ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1463434352 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm" 1463434352 1196 977af188465e721f1f65facb66282510 ""
@@ -141,11 +141,11 @@
   "figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png" 1731306436 76950 8bb175ef6d8ea90f3e6a7755f719bd3d ""
   "figure/sec4/learning_curves/2/total_loss.png" 1731306436 65940 8f069b8dcfa8cf87dd25e657e9c82f52 ""
   "figure/sec4/sbj/age.png" 1732694776 11307 48060155a55a2a5a2ac20f51866d4220 ""
-  "latex-output/submission.aux" 1733333152 14881 eae09f939bbe0e265fdc8843b56ac443 "latex"
-  "latex-output/submission.bbl" 1733333149 7411 dc5580537dff4dfbb0480d2ea34a7df6 "bibtex latex-output/submission"
-  "latex-output/submission.toc" 1733333152 3304 a8b08c756a7dc4e2c0965b1d85c7f29b "latex"
-  "submission.tex" 1733333146 188612 e4e04236a6ac8b0e1d245f15728aa4bf ""
-  "vars.tex" 1733332060 6702 b1586041b452400eb23577f1c177b00a ""
+  "latex-output/submission.aux" 1733460907 15138 ef8ae91e6cb4a6774400c329074cb8e1 "latex"
+  "latex-output/submission.bbl" 1733451185 7411 dc5580537dff4dfbb0480d2ea34a7df6 "bibtex latex-output/submission"
+  "latex-output/submission.toc" 1733460907 3387 4a145018dfa39924cd4495627a3714dd "latex"
+  "submission.tex" 1733460904 191443 8b66671bde5cdc90293dca8611e730cb ""
+  "vars.tex" 1733446311 6669 5f99bedc5fb3fffd4b511bf46dbe2150 ""
   (generated)
   "latex-output/submission.aux"
   "latex-output/submission.dvi"

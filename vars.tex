@@ -68,9 +68,9 @@
 \newcommand{\diff}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
 \newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}}
 % operator
-\newcommand{\expectation}{\mathbb{E}}
+\newcommand{\expectation}[1]{\mathbb{E}\lrsq{#1}}
 \newcommand{\elemMul}{\odot}
-\newcommand{\concat}{\text{concat}}
+\newcommand{\concat}[1]{\lrsq{#1}}
 \newcommand{\onehot}{\text{one-hot}}
 \newcommand{\argmax}{\text{argmax}}
 \newcommand{\softmax}{\text{softmax}}
@@ -90,11 +90,11 @@
 \newcommand{\AVHuBERT}{f_{\text{AVHuB}}}
 \newcommand{\myNetworkA}{f_{\text{A}}}
 \newcommand{\myNetworkB}{f_{\text{B}}}
-\newcommand{\myNetworkSpkMerge}{f_{\text{spk-merge}}}
+\newcommand{\myNetworkSpkMerge}{\text{FC}}
 \newcommand{\myNetworkPost}{f_{\text{post}}}
-\newcommand{\myNetworkFcMel}{f_{\text{fc-mel}}}
-\newcommand{\myNetworkFcHubDisc}{f_{\text{fc-HuB-disc}}}
-\newcommand{\myNetworkFcHubInt}{f_{\text{fc-HuB-int}}}
+\newcommand{\myNetworkFcMel}{\text{FC}}
+\newcommand{\myNetworkFcHubDisc}{\text{FC}}
+\newcommand{\myNetworkFcHubInt}{\text{FC}}
 \newcommand{\vocoder}{f_{\text{voc}}}
 \newcommand{\vocoderPreMel}{f_{\text{voc-pre-mel}}}
 \newcommand{\vocoderPreHub}{f_{\text{voc-pre-HuB}}}
