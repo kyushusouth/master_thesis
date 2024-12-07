@@ -1,0 +1,173 @@
+\subsection{実験方法}
+\subsubsection{利用したデータセット}
+動画音声データセットには，先行研究\cite{taguchi,esaki}で収録されたもののうち，ATR音素バランス文\cite{atr}を読み上げたデータを利用した．このデータセットは、男女二人ずつから収録された合計4人分のデータから構成される。分割は，AからHセットを学習データ，Iセットを検証データ，Jセットをテストデータとした．各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す．
+
+ボコーダの学習には，Hi-Fi-Captain\cite{okamoto2023hi}とJVS\cite{takamichi2019jvs}を利用した．Hi-Fi-Captainは，日本語話者2名と英語話者2名からなるデータセットであるが，本実験では日本語話者2名分のデータのみを利用した．分割は，train-parallelおよびtrain-non-parallelを学習データ，valを検証データ，evalをテストデータとした．各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す．JVSは100人の話者からなるデータであり，各話者に対して1から100まで番号が割り振られている．読み上げ音声のparallel100およびnonpara30と，裏声のfalset10，囁き声のwhisper10が含まれるが，本研究ではparallel100とnonpara30のみ利用した．分割は，1から80番の話者を学習データ，81番から90番の話者を検証データ，91番から100番までの話者をテストデータとした．各分割ごとの文章数を表~\ref{sec4:tab:dataset_info}に示す．
+
+\begin{table*}[bt]
+    \centering
+    \caption{利用したデータセットの文章数}
+    \label{sec4:tab:dataset_info}
+    \begin{center}
+        \renewcommand{\arraystretch}{0.9} % 行の高さ調整
+        \setlength{\tabcolsep}{8pt}      % 列の幅調整
+        \scalebox{1.0}{
+            \begin{tabular}{|l|r|r|r|}
+                \hline
+                              & \multicolumn{1}{c|}{学習} & \multicolumn{1}{c|}{検証} & \multicolumn{1}{c|}{テスト} \\
+                \hline
+                動画音声データセット    & 1598                    & 200                     & 212                      \\
+                Hi-Fi-Captain & 37714                   & 200                     & 200                      \\
+                JVS           & 10398                   & 1299                    & 1300                     \\
+                \hline
+            \end{tabular}
+        }
+    \end{center}
+\end{table*}
+
+\subsubsection{データの前処理}
+動画データは60 FPSで収録されたものをffmpegにより25 FPSに変換して用いた．その後，手法\cite{bulat2017far}により動画に対してランドマーク検出を適用した\footnote{\url{https://github.com/1adrianb/face-alignment}}．このランドマークを利用することで口元のみを切り取り，画像サイズを$\lr{96, 96}$にリサイズした．モデル入力時は動画をグレースケールに変換し，各フレームに対する正規化および標準化を適用した．全体として，今回はAVHuBERTの転移学習を行うため，そこでの前処理に合わせている．学習時のデータ拡張は，ランダムクロップ，左右反転，Time Maskingを適用した．ランダムクロップは，$\lr{96, 96}$で与えられる画像から$\lr{88, 88}$をランダムに切り取る処理である．検証およびテスト時は，必ず画像中央を切り取るよう実装した．左右反転は，50\%の確率で左右が反転されるよう実装した．Time Maskingは，動画1秒あたり0から0.5秒の間でランダムに停止区間を定め，その区間における動画の時間方向平均値を計算し，区間内のすべてのフレームをこの平均値で置換した．これにより，動画が一時停止されるような効果が得られる．
+
+音声データは16 kHzにダウンサンプリングして用いた．窓長25 msのハニング窓を用いてシフト幅10 msでSTFTを適用することで，フレームレート100 Hzのスペクトログラムに変換し，パワースペクトログラムに対して80次のメルフィルタバンクを適用した後，対数スケールに変換することで対数メルスペクトログラムを得た．また，Hi-Fi-CaptainとJVSには，ボコーダの学習安定化のため，無音区間のトリミング（-40 dBFS未満かつ500 ms継続する区間を100 msまでカット）を適用した．
+
+モデルへの入力とした話者ベクトルは，動画音声データセット，Hi-Fi-Captain，JVSともに，各話者に対し学習データの中から100文章をランダムサンプリングし，各発話に対して得られたベクトルの平均値を用いた．これを学習・検証・テストで一貫して用いるため，検証データやテストデータには非依存な値となっている．
+
+HuBERT離散特徴量の計算に利用するHuBERT Transformer層出力は，8層目出力を利用した．HuBERTの層ごとの特徴量について，音素のOne-hotベクトルおよび単語のOne-hotベクトルとの相関をCanonical Correlation Analysis（CCA）によって調べた先行研究\cite{pasad2023comparative}より，8層目出力がそのどちらとも相関が高いことが示されている．本実験では，HuBERT離散特徴量は言語的な情報を持つものとして扱いたかったため，この層からの出力を利用した．k-means法のクラスタ数は100とし，動画音声データセットの学習用データを利用して学習した後，全データセットに対してクラスタリングを実施した．また，学習時はゼロパディングされる区間のためにクラスを一つ追加したため，合計101クラスとして扱った．
+
+\subsubsection{本実験で利用した事前学習済みモデルについて}
+話者ベクトルの計算に用いた話者識別モデルの事前学習済み重みには，VoxCeleb1\cite{nagrani2020voxceleb}とVoxCeleb2，LibriSpeech\cite{panayotov2015librispeech}のotherセットで学習されたものを用いた\footnote{\url{https://github.com/resemble-ai/Resemblyzer}}．学習データセットの記述は，このモデルを利用して複数話者TTSを検討した先行研究\cite{jia2018transfer}のGitHubリポジトリにある\footnote{\url{https://github.com/CorentinJ/Real-Time-Voice-Cloning/wiki/Training}}．話者識別モデルは，音声波形をメルスペクトログラムに変換した後，これを1.6秒ごとに0.77秒のオーバーラップを持つよう分割し，各区間ごとに一つのベクトル表現を獲得した後，区間ごとの出力ベクトルを平均して正規化することで最終出力を得る．モデル構造は3層のLSTMと全結合層からなり，得られる話者ベクトルの次元は256次元である．
+
+AVHuBERTの事前学習済み重みには，LRS3とVoxCeleb2の英語データを利用し，データ拡張として音声データにノイズを付与した場合\cite{shi2022robust}の重みを利用した\footnote{\url{https://github.com/facebookresearch/av_hubert}}．脚注のリンク先では，「Model: Noise-Augmented AV-HuBERT Base」，「Pretraining Data: LRS3 + VoxCeleb2 (En)」，「Finetuning Data: No finetuning」と示されている．ノイズ付与の場合を利用した理由は，音声にノイズが含まれることで動画からの特徴抽出が促進され，より動画タスクに適した重みになっているのではないかと考えたからである．AVHuBERTは3次元畳み込み層と2次元畳み込み層を中心としたResNetと，12層のTransformer層から構成される．ResNetによって形状が$\lr{\dimUpper \times \timeUpper \times \widthUpper \times \heightUpper}$である動画からの特徴抽出および空間情報の圧縮が行われ，出力特徴量の形状は$\lr{\dimUpper \times \timeUpper}$となる．これに対してTransformer層を適用することで，時系列全体を考慮した特徴抽出を行う．最終的に得られる特徴量は768次元で，25 Hzである．
+
+HuBERTの事前学習済み重みには，HuggingFaceに公開されているReazonSpeechによって学習されたもの\cite{rinna-japanese-hubert-base,sawada2024release}を利用した\footnote{\url{https://huggingface.co/rinna/japanese-hubert-base}}．ReazonSpeechは約19000時間の日本語音声からなるデータセットであり，今回用いる動画音声データセットが日本語であることから，このモデルが検討対象に適すると判断した．HuBERTは一次元畳み込み層を中心とした畳み込みエンコーダと，12層のTransformer層から構成される．畳み込みエンコーダによって音声波形の系列長を削減しつつ次元を上げた後，Transformer層を適用することで，時系列全体を考慮した特徴抽出を行う．最終的に得られる特徴量の次元は768次元で，50 Hzである．
+
+\subsubsection{本実験で独自に構築したモデルについて}
+本実験で独自に構築したモデルは，ネットワークAとBにおける$\myNetworkPost$と，ボコーダ$\vocoder$である．
+
+$\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は入力される特徴量に揃えて768次元とし，カーネルサイズは3とした．Dropoutは$p = 0.1$で用いた．ConvBlockから構成されるResBlockは3層積み重ねた．
+
+ボコーダについて，メルスペクトログラムの前処理層$\vocoderPreMel$では，入力される80次元100 Hzのメルスペクトログラムに対し，時間方向に隣接した2フレームを次元方向に積むことで160次元50 Hzの特徴量に変換し，全結合層を適用して128次元まで次元を削減した．HuBERT離散特徴量の前処理層$\vocoderPreHub$では，初めに各時刻$t$におけるロジットに対して$\argmax$を適用することで，最も確率の高いクラスを選択する．ここで，学習時など原音声から計算されたインデックス系列が初めから入力される場合は，この処理をスキップする．その後，各時刻$t$におけるインデックスを128次元のベクトルに変換することで，128次元50 Hzの特徴量が得られる．前処理後の二つの特徴量を次元方向に結合することで，256次元50 Hzの特徴量が得られる．次に，メインの処理層$\vocoderMain$では，初めにカーネルサイズ7の畳み込み層により，次元を1024次元まで拡大する．これに対し，転置畳み込み層によるアップサンプリングと複数種類の畳み込み層による特徴抽出を繰り返し行うことで，16 kHzの特徴量を獲得する．各UpsamplingBlockにおけるパラメータを表\ref{sec4:tab:vocoder_main_params}に示す．ここで，$K$はカーネルサイズ，$S$はストライド，$R$はダイレーション，$D$は次元，$T$は系列長である．畳み込み層についてはカーネルサイズとダイレーションを集合として表記しているが，実際はこれらの直積の元，すなわち$\lr{3, 1}$や$\lr{3, 3}$，$\lr{3, 5}$をパラメータとする層が存在することを表す．すなわち，転置畳み込み層一層に対し，その後の特徴量抽出は15種類の異なるカーネルサイズ，ダイレーションを設定した畳み込み層によって行われる．最後に，畳み込み層によって1次元まで次元を削減することで，16 kHzの音声波形が得られる．
+\begin{table}[bt]
+    \centering
+    \caption{$\vocoderMain$の各UpsamplingBlockにおけるパラメータ}
+    \label{sec4:tab:vocoder_main_params}
+    \begin{center}
+        \renewcommand{\arraystretch}{0.9}
+        \setlength{\tabcolsep}{8pt}
+        \scalebox{1.0}{
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                  & \multicolumn{1}{c|}{転置畳み込み層 $\lr{\kernelSizeUpper, \strideUpper}$} & \multicolumn{1}{c|}{畳み込み層 $\lr{\kernelSizeUpper, \dilationUpper}$} & \multicolumn{1}{c|}{出力特徴量の形状 $\lr{\dimUpper, \timeUpper}$} \\
+                \hline
+                1 & $\lr{11, 5}$                                                       & $\lr{\lrc{3, 5, 7, 9, 11}, \lrc{1, 3, 5}}$                         & $\lr{512, 250}$                                            \\
+                2 & $\lr{8, 4}$                                                        & $\lr{\lrc{3, 5, 7, 9, 11}, \lrc{1, 3, 5}}$                         & $\lr{256, 1000}$                                           \\
+                3 & $\lr{4, 2}$                                                        & $\lr{\lrc{3, 5, 7, 9, 11}, \lrc{1, 3, 5}}$                         & $\lr{128, 2000}$                                           \\
+                4 & $\lr{4, 2}$                                                        & $\lr{\lrc{3, 5, 7, 9, 11}, \lrc{1, 3, 5}}$                         & $\lr{64, 4000}$                                            \\
+                5 & $\lr{4, 2}$                                                        & $\lr{\lrc{3, 5, 7, 9, 11}, \lrc{1, 3, 5}}$                         & $\lr{32, 8000}$                                            \\
+                6 & $\lr{4, 2}$                                                        & $\lr{\lrc{3, 5, 7, 9, 11}, \lrc{1, 3, 5}}$                         & $\lr{16, 16000}$                                           \\
+                \hline
+            \end{tabular}
+        }
+    \end{center}
+\end{table}
+
+\subsubsection{学習方法}
+ネットワークAについて，最適化手法はAdamW\cite{loshchilov2017decoupled}を利用し，$\beta_{1} = 0.9, \beta_{2} = 0.98, \lambda = 0.01$とした．スケジューラはCosine Annealing with Warmupを利用し，$\learningRate_{\text{min}} = 1.0 \times 10^{-6}, \learningRate_{\text{max}} = 1.0 \times 10^{-3}, \text{warmup\_steps} = 5, \epoch_{\text{max}} = 50$とした．バッチサイズは4とし，8イテレーションに一回重みを更新するようGradient Accumulationを行った．モデルに入力する動画の秒数は10秒を上限とし，10秒を超える場合はランダムにトリミング，10秒未満の場合はゼロパディングした．また，ゼロパディングした部分は損失の計算からは除外した．勾配のノルムは3.0を上限としてクリッピングした．10エポック連続して検証データに対する損失$\lossFuncUpper_{A}$の値が小さくならない場合には学習を中断するようにし（Early Stopping），学習終了時には検証データに対する損失が最も小さかったエポックにおけるチェックポイントを保存して，これをテストデータに対する評価に用いた．
+
+ネットワークBについて，ここではネットワークAの重みは固定した．最適化手法はAdamWを利用し，$\beta_{1} = 0.9, \beta_{2} = 0.98, \lambda = 0.01$とした．スケジューラはCosine Annealing with Warmupを利用し，$\learningRate_{\text{min}} = 1.0 \times 10^{-6}, \learningRate_{\text{max}} = 5.0 \times 10^{-4}, \text{warmup\_steps} = 5, \epoch_{\text{max}} = 50$とした．$\learningRate_{\text{max}}$をネットワークAから半減したのは，学習の安定化のためである．その他の設定はネットワークAと同様で，Early Stoppingにおいて監視したのは検証データに対する$\lossFuncUpper_{B}$の値である．
+
+ボコーダについて，ここでははじめにHi-Fi-Captainのみを用いて学習させ，その後JVSによって再学習した．最適化手法はAdamWを利用し，$\beta_{1} = 0.8$，$\beta_{2} = 0.99$，$\lambda = \num{1.0e-5}$とした．スケジューラはExponentialLRSchedulerを利用し，$\gamma = 0.99$とした．また，最大エポック数は30とした．バッチサイズは16とした．モデルへの入力は1秒を上限とし，1秒を超える場合はランダムにトリミング，1秒未満の場合はゼロパディングした．ここではEarly Stoppingは適用せず，学習終了時に検証データに対する損失（メルスペクトログラムに対するMAE Loss）が最も小さかったエポックにおけるチェックポイントを保存し，これをテストデータに対する評価に用いた．また，先行研究\cite{choi2023intelligible}においては学習時に，メルスペクトログラムにノイズを付与するデータ拡張手法が提案されている．本研究では，動画から推定されるメルスペクトログラムとHuBERT離散特徴量の推定精度向上に焦点を当てたため，ボコーダの学習は原音声から計算される特徴量で行い，ボコーダ自体の汎化性能向上による精度改善は追求しなかった．
+
+実装に用いた深層学習ライブラリはPyTorchおよびPyTorch Lightningである．GPUにはNVIDIA RTX A4000を利用し，計算の高速化のためAutomatic Mixed Precisionを適用した．
+
+\subsubsection{客観評価}
+合成音声の客観評価には，二種類の指標を用いた．
+一つ目は，音声認識の結果から算出した単語誤り率（Word Error Rate; WER）である．WERの計算方法について，まず，正解文字列$s_{1}$と音声認識モデルによる予測文字列$s_{2}$に対し，レーベンシュタイン距離によってその差分を測る．レーベンシュタイン距離は，二つの文字列を一致させるために必要なトークンの挿入数$I$，削除数$D$，置換数$R$の和の最小値として定義される．WERは，レーベンシュタイン距離を測ることによって得られた$I, D, R$を利用し，
+\begin{equation}
+    \text{WER}\lr{s_{1}, s_{2}} = \frac{I + D + R}{|s_{1}|}
+\end{equation}
+で与えられる．ここで，$|s_{1}|$は正解文字列$s_{1}$のトークン数を表す．実際には，音声認識モデルにWhisper\cite{radford2023robust}を利用し，出力される漢字仮名交じり文に対してMeCabを用いて分かち書きを行った上で，jiwerというライブラリを用いて算出した．WhisperはLargeモデルを利用し，MeCabの辞書にはunidicを利用した．WERの値は0\%以上であり，この値が低いほど音声認識の誤りが少ないため，より聞き取りやすい音声であると判断した．
+
+二つ目は，話者ベクトルから計算したコサイン類似度である．モデルへの入力値を計算するのに用いた話者識別モデルを同様に利用して，各サンプルごとに合成音声の話者ベクトルと原音声の話者ベクトルを計算し，これらのコサイン類似度を計算した．今回構築するモデルは4人の話者に対応するモデルとなるため，原音声に似た声質の合成音声が得られているかをこの指標で評価した．値は-1以上1以下であり，高いほど原音声と似た合成音声だと判断した．
+
+\subsubsection{主観評価}
+\label{sec4:sec:sbj_explanation}
+合成音声の主観評価では，音声の明瞭性と類似性の二点を評価した．今回はクラウドワークスというクラウドソーシングサービスおよび，自作の実験用Webサイトを利用してオンラインで実験を実施した．被験者の条件は，日本語母語話者であること，聴覚に異常がないこと，イヤホンあるいはヘッドホンを用いて静かな環境で実験を実施可能であることとした．被験者の方に行っていただいた項目は，以下の五つである．
+\begin{enumerate}
+    \item アンケート
+    \item 練習試行（明瞭性）
+    \item 本番試行（明瞭性）
+    \item 練習試行（類似性）
+    \item 本番試行（類似性）
+\end{enumerate}
+
+一つ目のアンケートでは，被験者についての基本的な統計を取ることを目的として，性別・年齢・実験に利用した音響機器について回答してもらった．性別は，男性，女性，無回答の三つからの選択式とした．年齢は被験者の方に直接数値を入力してもらう形式とした．実験に使用した音響機器は，イヤホン，ヘッドホンの二つからの選択式とした．
+
+二つ目の練習試行（明瞭性）および三つ目の本番試行（明瞭性）では，音声の明瞭性の評価を実施した．初めに練習試行を行っていただくことで実験内容を把握してもらい，その後本番施行を行っていただく流れとした．ここで，練習施行は何度でも実施可能とし，本番試行は一回のみ実施可能とした．
+評価項目について，明瞭性は「話者の意図した発話内容を，一回の発話でどの程度聞き取ることができたか」を評価するものとした．実際の評価プロセスは以下の二段階で構成した．
+\begin{enumerate}
+    \item 音声サンプルのみを一回再生し，発話内容を聞き取ってもらう．
+    \item 本来の発話内容を確認してもらい，聴取者が想定していた発話内容と本来の発話内容を照らし合わせ，音声の聞き取りやすさを5段階評価してもらう．
+\end{enumerate}
+5段階評価の回答項目は以下のようにした．
+\begin{enumerate}
+    \item 全く聞き取れなかった
+    \item ほとんど聞き取れなかった
+    \item ある程度聞き取れた
+    \item ほとんど聞き取れた
+    \item 完全に聞き取れた
+\end{enumerate}
+
+実験に利用した音声サンプルについて，練習試行では検証データ，本番試行ではテストデータを用いた．被験者ごとの評価サンプルの割り当て方法をアルゴリズム\ref{sec4:algo:sample-assignment}に示す．$\text{sentences}$は文章のリスト，$\text{method\_names}$が手法名のリスト，$\text{speaker\_names}$が話者名のリスト，$\text{num\_total\_respondents}$が被験者総数である．各被験者について，まず$\text{sentences}$と$\text{method\_names}$をランダムにシャッフルし，それからランダムサンプリングした$\text{speaker\_name}$を合わせて，一つのサンプルを決定するようになっている．この選択方法では，二つのことに注意した．一つ目は，各被験者がユニークな53文章を評価することである．評価の際に本来の発話内容を知ることになるため，それを知った上で同じ発話内容のサンプルが出現した場合，音声自体の明瞭性に関わらず発話内容がわかってしまう可能性があると考え，これを避けるようにした．二つ目は，各手法がなるべく均等な回数出現することである．今回は手法の比較が実験の目的となるため，各被験者がすべての手法を評価することが望ましいと判断した．また，評価に際し音声サンプルを一回だけ聞いてもらうようにした理由は，代用音声をコミュニケーションツールとして利用する場面を想定したとき，会話において何度も聞き返されることはストレスになると考えられるため，一回の発話で意図した発話内容をどの程度聞き取ってもらえるかをその手法の聞き取りやすさとして評価するべきだと考えたからである．
+\begin{algorithm}
+    \caption{Sample Assignment Algorithm}
+    \label{sec4:algo:sample-assignment}
+    \begin{algorithmic}[1]
+        \Require \text{sentences}: List of sentences
+        \Require \text{method\_names}: List of method names
+        \Require \text{speaker\_names}: List of speaker names
+        \Require \text{num\_total\_respondents}: Total number of respondents
+        \State Initialize \text{all\_assignments} $\gets$ []
+        \For{\text{respondent\_id} $\gets 1$ to \text{num\_total\_respondents}}
+        \State Initialize \text{assignments} $\gets$ []
+        \State Randomly shuffle \text{sentences}
+        \State Randomly shuffle \text{method\_names}
+        \For{$i \gets 0$ to $\text{len}\lr{\text{sentences}} - 1$}
+        \State \text{sentence} $\gets \text{sentences}[i]$
+        \State \text{method\_name} $\gets \text{method\_names}[i \bmod \text{len}\lr{\text{method\_names}}]$
+        \State \text{speaker\_name} $\gets$ Randomly select from \text{speaker\_names}
+        \State Append $\lr{\text{respondent\_id}, \text{sentence}, \text{method\_name}, \text{speaker\_name}}$ to \text{assignments}
+        \EndFor
+        \State \text{all\_assignments} $\gets \text{all\_assignments} \cup \text{assignments}$
+        \EndFor
+        \State \Return \text{all\_assignments}
+    \end{algorithmic}
+\end{algorithm}
+
+四つ目の練習試行（類似性）および五つ目の本番試行（類似性）では，評価対象の音声と同一話者の原音声の類似性の評価を実施した．ここでも初めに練習試行を行っていただくことで実験内容を把握してもらい，その後本番施行を行っていただく流れとした．ここで，練習施行は何度でも実施可能とし，本番試行は一回のみ実施可能とした．
+評価項目について，類似性は「評価対象の音声が同一話者の原音声とどれくらい似ているか」を評価するものとした．実際の評価プロセスは以下の二段階で構成した．
+\begin{enumerate}
+    \item 評価対象の音声と原音声を聞き比べてもらう．
+    \item 評価対象の音声が原音声にどれくらい似ていたかを五段階評価してもらう．
+\end{enumerate}
+5段階評価の回答項目は以下のようにした．
+\begin{enumerate}
+    \item 全く似ていなかった
+    \item あまり似ていなかった
+    \item やや似ていた
+    \item かなり似ていた
+    \item 同じ話者に聞こえた
+\end{enumerate}
+実験に利用した音声サンプルおよび，被験者ごとの評価サンプルの割り当て方法は明瞭性の評価実験と同様にした．ただし，類似性評価においては，評価対象となる音声に対して同一話者の原音声をランダムに選択し，評価対象となる音声とペアで提示できるようにした．また，明瞭性評価では音声サンプルを一回だけ聞いて評価してもらうようにしたが，類似性評価では何度でも聞けるようにした．聞き取りやすさのようにコミュニケーションを想定した評価というより，単に原音声とどの程度似ているかを評価したいと考えたからである．さらに，明瞭性評価では評価時に発話内容を提示したが，類似性評価は発話内容に依存しないため，提示しなかった．類似性評価は発話内容に依存しないと考えらえるからである．加えて，類似性評価は明瞭性評価を完了した後にしか実施できないようにした．類似性評価と明瞭性評価に用いるサンプルは同一の発話内容のパターンであり，特に類似性評価では原音声を聴取できることから，本来の発話内容を完全に把握できると予想される．その上で明瞭性評価を行った場合，音声自体の明瞭性に関わらず発話内容がわかってしまう可能性があると考えられ，望ましくない．一方，類似性評価は発話内容に依存しない評価であるため，発話内容を知っていることが評価に影響を与えないと考えられる．よって，今回は明瞭性評価の後に類似性評価を行うことにした．
+
+また，オンラインでの評価は効率よく数多くの方に評価していただけるという点でメリットがあるが，オフラインでの評価と比較して実験環境を制御することが難しく，評価品質が低下する恐れがある．これに対して，本実験では先行研究\cite{kirkland2023stuck}を参考に，評価サンプル中にダミー音声を混入させることで対策を講じた．ダミー音声は本研究で得られた合成音声とは無関係に，gTTSというライブラリを用いて生成したサンプルである．具体例として，明瞭性評価では
+\begin{quote}
+    これはダミー音声です．明瞭性は「3: ある程度聞き取れた」を選択してください．
+\end{quote}
+のような発話内容の音声を，類似性評価では
+\begin{quote}
+    これはダミー音声です．類似性は「1: 全く同じ話者には聞こえなかった」を選択してください．
+\end{quote}
+のような発話内容の音声を提示した．この時，その音声自体の明瞭性や類似性とは無関係に，必ずこの音声によって指定された評価値を選択するよう説明を与えた．本番試行においてダミー音声で指定された評価値を誤って選んだ場合は，すべての回答を無効にする旨を被験者に伝えた．実際，実験終了後にはそのようにデータを処理した．
+
+被験者数は75人とし，謝礼は実験一回あたり40分程度要すると予想し，650円とした．
