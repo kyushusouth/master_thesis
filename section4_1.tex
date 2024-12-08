@@ -172,19 +172,19 @@ $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべて�
 \end{figure}
 
 \subsubsection{損失関数}
-まず，ネットワークAの学習に用いる損失関数$\lossFuncUpper_{A}$は，
+まず，ネットワークAの学習に用いる損失関数$\lossA$は，
 \begin{equation}
     \begin{aligned}
-        \lossFuncUpper_{A} & \lr{\hubertIntGt, \hubertIntPred, \melGt, \melPredA, \hubertDiscGt, \hubertDiscPredA}                 \\
-        =                  & \lossWeightHubInt \lossMAE{\hubertIntGt}{\hubertIntPred} + \lossWeightMel \lossMAE{\melGt}{\melPredA} \\
-                           & + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredA}
+        \lossA & \lr{\hubertIntGt, \hubertIntPred, \melGt, \melPredA, \hubertDiscGt, \hubertDiscPredA}                 \\
+        =      & \lossWeightHubInt \lossMAE{\hubertIntGt}{\hubertIntPred} + \lossWeightMel \lossMAE{\melGt}{\melPredA} \\
+               & + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredA}
     \end{aligned}
 \end{equation}
-で与えられる．すなわち，HuBERT中間特徴量についてのMAE Loss，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．次に，ネットワークBの学習に用いる損失関数$\lossFuncUpper_{B}$は，
+で与えられる．すなわち，HuBERT中間特徴量についてのMAE Loss，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．次に，ネットワークBの学習に用いる損失関数$\lossB$は，
 \begin{equation}
     \begin{aligned}
-        \lossFuncUpper_{B} & \lr{\melGt, \melPredB, \hubertDiscGt, \hubertDiscPredB}                                                  \\
-        =                  & \lossWeightMel \lossMAE{\melGt}{\melPredB} + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredB}
+        \lossB & \lr{\melGt, \melPredB, \hubertDiscGt, \hubertDiscPredB}                                                  \\
+        =      & \lossWeightMel \lossMAE{\melGt}{\melPredB} + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredB}
     \end{aligned}
 \end{equation}
 で与えられる．すなわち，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．最後に，ボコーダの学習に用いる損失関数について，これはHiFi-GANと同様であるから，ここでは割愛する．

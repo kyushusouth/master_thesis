@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  8 DEC 2024 15:02
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  8 DEC 2024 19:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -684,73 +684,55 @@ File: ./figure/sec4/model_2/vocoder_main.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main.drawio.png>
 File: ./figure/sec4/model_2/vocoder_main_block.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main_block.drawio.png>
-[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35] [36] [37] [38])
-
-LaTeX Warning: Reference `sec4:fig:network' on page 39 undefined on input line 120.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 122.
-
+[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35] [36] [37] [38]) (./section4_3.tex [39]
 File: ./figure/sec4/learning_curves/0/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/0/mel_loss.png>
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10.95> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 182.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10.95> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 182.
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 182.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 182.
-
 File: ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png>
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 188.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 188.
-
 File: ./figure/sec4/learning_curves/0/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/0/total_loss.png>
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 194.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 194.
-
+File: ./figure/sec4/learning_curves/1/ssl_conv_feature_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/ssl_conv_feature_loss.png>
+File: ./figure/sec4/learning_curves/1/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/mel_loss.png>
+File: ./figure/sec4/learning_curves/1/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/1/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/1/total_loss.png>
 File: ./figure/sec4/learning_curves/2/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/2/mel_loss.png>
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 206.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 206.
-
 File: ./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png>
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 212.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 212.
-
 File: ./figure/sec4/learning_curves/2/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/2/total_loss.png>
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 218.
-
-
-LaTeX Warning: Reference `sec4:eq:loss' on page 39 undefined on input line 218.
-
-[39] [40] [41] [42]
+File: ./figure/sec4/learning_curves/4/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/4/mel_loss.png>
+File: ./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/4/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/4/total_loss.png>
+[40] [41]
+File: ./figure/sec4/learning_curves/6/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/6/mel_loss.png>
+File: ./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/6/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/6/total_loss.png>
+[42]
+File: ./figure/sec4/learning_curves/9/mel_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/9/mel_loss.png>
+File: ./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png>
+File: ./figure/sec4/learning_curves/9/total_loss.png Graphic file (type bmp)
+<./figure/sec4/learning_curves/9/total_loss.png>
+[43]
 File: ./figure/sec4/sbj/age.png Graphic file (type bmp)
 <./figure/sec4/sbj/age.png>
-[43] [44] [45] [46] [47] [48] [49] [50
+) (./section4_4.tex) [44] [45] [46] [47] [48] [49] [50] [51] [52] [53
 
-] [51
+] [54
 
-] [52
+] [55
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -783,7 +765,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 79.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 85.
-[53
+[56
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -804,7 +786,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 148.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 154.
-[54]
+[57]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 160.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -821,20 +803,17 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 204.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 212.
-) [55] (latex-output/submission.aux)
-
-LaTeX Warning: There were undefined references.
-
+) [58] (latex-output/submission.aux)
 Package rerunfilecheck Info: File `submission.out' has not changed.
-(rerunfilecheck)             Checksum: 6F1A513C1587DCC9EF20D2FC813D4C59;3599.
+(rerunfilecheck)             Checksum: 19C3F97739D959C2FB63CCE42AB9F82B;3655.
  ) 
 Here is how much of TeX's memory you used:
- 18443 strings out of 478692
- 347983 string characters out of 5855915
- 658268 words of memory out of 5000000
- 36611 multiletter control sequences out of 15000+600000
- 494378 words of font info for 126 fonts, out of 8000000 for 9000
+ 18541 strings out of 478692
+ 353083 string characters out of 5855915
+ 646755 words of memory out of 5000000
+ 36694 multiletter control sequences out of 15000+600000
+ 494189 words of font info for 125 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,17n,79p,3111b,883s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,17n,79p,3111b,885s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (59 pages, 362732 bytes).
+Output written on latex-output/submission.dvi (62 pages, 358532 bytes).

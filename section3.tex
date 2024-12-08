@@ -421,9 +421,9 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 
 一つ目は，StepLRSchedulerである．これは，初期学習率を$\learningRate_{0}$として，エポック$\epoch$における学習率$\learningRate_{\epoch}$を
 \begin{equation}
-    \learningRate_{\epoch} = \learningRate_{0} \gamma^{\left\lfloor \epoch / \text{step\_size} \right\rfloor}
+    \learningRate_{\epoch} = \learningRate_{0} \gamma^{\left\lfloor \epoch / \text{stepSize} \right\rfloor}
 \end{equation}
-で与えるスケジューラである．これは，学習が$\text{step\_size}$エポック進むごとに学習率を$\gamma$倍することで，学習率を段階的に変化させる．シンプルで分かりやすいが，学習率の変化が不連続的になる．
+で与えるスケジューラである．これは，学習が$\text{stepSize}$エポック進むごとに学習率を$\gamma$倍することで，学習率を段階的に変化させる．シンプルで分かりやすいが，学習率の変化が不連続的になる．
 
 二つ目は，ExponentialLRSchedulerである．これは，$\learningRate_{\epoch}$を
 \begin{equation}
@@ -435,11 +435,11 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \begin{equation}
     \learningRate_{\epoch} =
     \begin{cases}
-        \learningRate_{\text{min}} + \lr{ \frac{\epoch}{\text{warmup\_steps}} } \lr{\learningRate_{\text{max}} - \learningRate_{\text{min}}}                                                                                  & \text{if $\epoch < \text{warmup\_steps}$}   \\
-        \learningRate_{\text{min}} + \frac{1}{2} \lr{\learningRate_{\text{max}} - \learningRate_{\text{min}}} \lr{ 1 + \cos \lr{ \frac{\lr{\epoch - \text{warmup\_steps}}\pi}{\epoch_{\text{max}} - \text{warmup\_steps}} } } & \text{if $\epoch \ge \text{warmup\_steps}$}
+        \learningRate_{\text{min}} + \lr{ \frac{\epoch}{\text{warmupSteps}} } \lr{\learningRate_{\text{max}} - \learningRate_{\text{min}}}                                                                                & \text{if $\epoch < \text{warmupSteps}$}   \\
+        \learningRate_{\text{min}} + \frac{1}{2} \lr{\learningRate_{\text{max}} - \learningRate_{\text{min}}} \lr{ 1 + \cos \lr{ \frac{\lr{\epoch - \text{warmupSteps}}\pi}{\epoch_{\text{max}} - \text{warmupSteps}} } } & \text{if $\epoch \ge \text{warmupSteps}$}
     \end{cases}
 \end{equation}
-で与えるスケジューラである．ここで，$\learningRate_{\text{min}}$は最小学習率，$\learningRate_{\text{max}}$は最大学習率，$\epoch_{\text{max}}$は最大エポックである．$\text{warmup\_steps}$は学習率を$\learningRate_{\text{min}}$から$\learningRate_{\text{max}}$まで線形に増加させるのにかけるエポック数を指定するパラメータである．エポック数が$\text{warmup\_steps}$以上となれば，$\cos$関数に従って学習率を減衰させる．Cosine Annealing with Warmupは不安定になりがちな学習初期に学習率が低い状態から開始して，徐々に学習率を大きくすることで解の十分な探索を可能にし，その後再び学習率を小さくすることで学習の収束を促すスケジューラである．
+で与えるスケジューラである．ここで，$\learningRate_{\text{min}}$は最小学習率，$\learningRate_{\text{max}}$は最大学習率，$\epoch_{\text{max}}$は最大エポックである．$\text{warmupSteps}$は学習率を$\learningRate_{\text{min}}$から$\learningRate_{\text{max}}$まで線形に増加させるのにかけるエポック数を指定するパラメータである．エポック数が$\text{warmupSteps}$以上となれば，$\cos$関数に従って学習率を減衰させる．Cosine Annealing with Warmupは不安定になりがちな学習初期に学習率が低い状態から開始して，徐々に学習率を大きくすることで解の十分な探索を可能にし，その後再び学習率を小さくすることで学習の収束を促すスケジューラである．
 
 \begin{figure}[bt]
     \centering
