@@ -1,10 +1,10 @@
 # Fdb version 3
-["dvipdf"] 1733537324 "latex-output/test.dvi" "latex-output/test.pdf" "latex-output/test" 1733537325
-  "latex-output/test.dvi" 1733537324 1440 d278070aaf431f53553b1bb2d0083267 "latex"
+["dvipdf"] 1733618165 "latex-output/test.dvi" "latex-output/test.pdf" "latex-output/test" 1733618166
+  "latex-output/test.dvi" 1733618165 1264 ba2581781bf3d52d7f9b69f584ecdbd7 "latex"
   (generated)
   "latex-output/test.pdf"
-["latex"] 1733537324 "/Users/minami/class/research/master_thesis/test.tex" "latex-output/test.dvi" "test" 1733537325
-  "/Users/minami/class/research/master_thesis/test.tex" 1733537323 2075 4b3e482c3edcb07c14f352905822cda3 ""
+["latex"] 1733618165 "/Users/minami/class/research/master_thesis/test.tex" "latex-output/test.dvi" "test" 1733618166
+  "/Users/minami/class/research/master_thesis/test.tex" 1733618164 1809 583e24762b60f8cab91a72205fda6878 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm" 1463434352 1196 977af188465e721f1f65facb66282510 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm" 1463434352 1196 f76ab7ae43ed1dfe29b9e6ec2933fdb4 ""
@@ -94,8 +94,8 @@
   "/usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf" 1646502317 40171 cdab547de63d26590bebb3baff566530 ""
   "/usr/local/texlive/2022/texmf-var/web2c/eptex/platex.fmt" 1650600716 2830424 f9cd5b7823a0535560635b2555e565db ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "latex-output/test.aux" 1733537324 32 3985256e7290058c681f74d7a3565a19 "latex"
-  "test.tex" 1733537323 2075 4b3e482c3edcb07c14f352905822cda3 ""
+  "latex-output/test.aux" 1733618165 32 3985256e7290058c681f74d7a3565a19 "latex"
+  "test.tex" 1733618164 1809 583e24762b60f8cab91a72205fda6878 ""
   (generated)
   "latex-output/test.aux"
   "latex-output/test.dvi"

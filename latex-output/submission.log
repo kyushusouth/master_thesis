@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  8 DEC 2024 01:09
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  8 DEC 2024 15:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -684,12 +684,7 @@ File: ./figure/sec4/model_2/vocoder_main.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main.drawio.png>
 File: ./figure/sec4/model_2/vocoder_main_block.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main_block.drawio.png>
-[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35]
-Overfull \hbox (8.0062pt too wide) in paragraph at lines 121--146
-\JY1/mc/m/n/12 スト， $[]$ が手法名のリスト， $[]$ が話者名のリスト， $[]$
- []
-
-[36] [37] [38])
+[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35] [36] [37] [38])
 
 LaTeX Warning: Reference `sec4:fig:network' on page 39 undefined on input line 120.
 
@@ -834,12 +829,12 @@ Package rerunfilecheck Info: File `submission.out' has not changed.
 (rerunfilecheck)             Checksum: 6F1A513C1587DCC9EF20D2FC813D4C59;3599.
  ) 
 Here is how much of TeX's memory you used:
- 18442 strings out of 478692
- 347946 string characters out of 5855915
- 658220 words of memory out of 5000000
- 36610 multiletter control sequences out of 15000+600000
+ 18443 strings out of 478692
+ 347983 string characters out of 5855915
+ 658268 words of memory out of 5000000
+ 36611 multiletter control sequences out of 15000+600000
  494378 words of font info for 126 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,17n,79p,3111b,877s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,17n,79p,3111b,883s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (59 pages, 360852 bytes).
+Output written on latex-output/submission.dvi (59 pages, 362732 bytes).

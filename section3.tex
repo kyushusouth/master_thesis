@@ -385,7 +385,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
     \label{sec3:algo:adam}
     \begin{algorithmic}[1]
         \State \textbf{Input:} $\learningRate$, $\optimEmaConst_{1}$, $\optimEmaConst_{2}$, $\regConst$, $\bm{\weightAndBias}_{0}$, $L\lr{\bm{\weightAndBias}}$
-        \State \textbf{Initialize:} $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
+        \State $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
         \For{$\iter = 1$ to \texttt{...}}
         \State $\bm{g}_{\iter} = \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}} + \regConst \bm{\weightAndBias}_{\iter-1}$
         \State $\bm{m}_{\iter} = \optimEmaConst_{1} \bm{m}_{\iter-1} + \lr{1 - \optimEmaConst_{1}} \bm{g}_{\iter}$
@@ -403,7 +403,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
     \label{sec3:algo:adamw}
     \begin{algorithmic}[1]
         \State \textbf{Input:} $\learningRate$, $\optimEmaConst_{1}$, $\optimEmaConst_{2}$, $\regConst$, $\bm{\weightAndBias}_{0}$, $L\lr{\bm{\weightAndBias}}$
-        \State \textbf{Initialize:} $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
+        \State $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
         \For{$\iter = 1$ to \texttt{...}}
         \State $\bm{g}_{\iter} = \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}$
         \State $\bm{m}_{\iter} = \optimEmaConst_{1} \bm{m}_{\iter - 1} + \lr{1 - \optimEmaConst_{1}} \bm{g}_{\iter}$
