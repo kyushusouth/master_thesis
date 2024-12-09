@@ -923,6 +923,8 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 OUTPUT latex-output/submission.toc
 INPUT ./section1.tex
 INPUT section1.tex
@@ -934,8 +936,6 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 INPUT ./section2.tex
 INPUT section2.tex
 INPUT ./section2.tex
@@ -1163,6 +1163,30 @@ INPUT ./figure/sec4/learning_curves/9/total_loss.png
 INPUT ./figure/sec4/learning_curves/9/total_loss.png
 INPUT ./figure/sec4/learning_curves/9/total_loss.png
 INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/9/total_loss.png
+INPUT ./figure/sec4/learning_curves/7/mel_loss.png
+INPUT ./figure/sec4/learning_curves/7/mel_loss.png
+INPUT ./figure/sec4/learning_curves/7/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/7/mel_loss.png
+INPUT ./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/7/total_loss.png
+INPUT ./figure/sec4/learning_curves/7/total_loss.png
+INPUT ./figure/sec4/learning_curves/7/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/7/total_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/mel_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/mel_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/mel_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/10_11_12/mel_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/total_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/total_loss.png
+INPUT ./figure/sec4/learning_curves/10_11_12/total_loss.png
+INPUT extractbb -B cropbox -O ./figure/sec4/learning_curves/10_11_12/total_loss.png
 INPUT ./figure/sec4/sbj/age.png
 INPUT ./figure/sec4/sbj/age.png
 INPUT ./figure/sec4/sbj/age.png
@@ -1171,6 +1195,8 @@ INPUT ./section4_4.tex
 INPUT section4_4.tex
 INPUT ./section4_4.tex
 INPUT section4_4.tex
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth8.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth6.tfm
 INPUT latex-output/submission.bbl
 INPUT latex-output/submission.bbl
 INPUT latex-output/submission.bbl

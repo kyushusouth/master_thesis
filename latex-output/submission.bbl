@@ -211,4 +211,40 @@ Ambika Kirkland, Shivam Mehta, Harm Lameris, Gustav~Eje Henter, Eva
   tts evaluation.
 \newblock In {\em 12th Speech Synthesis Workshop (SSW) 2023}, 2023.
 
+\bibitem{chen2022large}
+Zhengyang Chen, Sanyuan Chen, Yu~Wu, Yao Qian, Chengyi Wang, Shujie Liu, Yanmin
+  Qian, and Michael Zeng.
+\newblock Large-scale self-supervised speech representation learning for
+  automatic speaker verification.
+\newblock In {\em ICASSP 2022-2022 IEEE International Conference on Acoustics,
+  Speech and Signal Processing (ICASSP)}, pp. 6147--6151. IEEE, 2022.
+
+\bibitem{djilali2023lip2vec}
+Yasser Abdelaziz~Dahou Djilali, Sanath Narayan, Haithem Boussaid, Ebtessam
+  Almazrouei, and Merouane Debbah.
+\newblock Lip2vec: Efficient and robust visual speech recognition via
+  latent-to-latent visual to audio representation mapping.
+\newblock In {\em Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pp. 13790--13801, 2023.
+
+\bibitem{chen2018gradnorm}
+Zhao Chen, Vijay Badrinarayanan, Chen-Yu Lee, and Andrew Rabinovich.
+\newblock Gradnorm: Gradient normalization for adaptive loss balancing in deep
+  multitask networks.
+\newblock In {\em International conference on machine learning}, pp. 794--803.
+  PMLR, 2018.
+
+\bibitem{liu2019end}
+Shikun Liu, Edward Johns, and Andrew~J Davison.
+\newblock End-to-end multi-task learning with attention.
+\newblock In {\em Proceedings of the IEEE/CVF conference on computer vision and
+  pattern recognition}, pp. 1871--1880, 2019.
+
+\bibitem{yu2020gradient}
+Tianhe Yu, Saurabh Kumar, Abhishek Gupta, Sergey Levine, Karol Hausman, and
+  Chelsea Finn.
+\newblock Gradient surgery for multi-task learning.
+\newblock {\em Advances in Neural Information Processing Systems}, Vol.~33, pp.
+  5824--5836, 2020.
+
 \end{thebibliography}

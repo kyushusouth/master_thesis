@@ -44,7 +44,9 @@
 \BOOKMARK [3][-]{subsubsection.4.3.2}{客観評価2: 提案手法のさらなる検討}{subsection.4.3}% 44
 \BOOKMARK [3][-]{subsubsection.4.3.3}{主観評価}{subsection.4.3}% 45
 \BOOKMARK [2][-]{subsection.4.4}{考察}{section.4}% 46
-\BOOKMARK [2][-]{subsection.4.5}{まとめ}{section.4}% 47
-\BOOKMARK [1][-]{section.5}{結論}{}% 48
-\BOOKMARK [1][-]{section*.30}{謝辞}{}% 49
-\BOOKMARK [1][-]{section*.30}{参考文献}{}% 50
+\BOOKMARK [3][-]{subsubsection.4.4.1}{ネットワークB（Randomized）について}{subsection.4.4}% 47
+\BOOKMARK [3][-]{subsubsection.4.4.2}{ネットワークB（Pretrained）について}{subsection.4.4}% 48
+\BOOKMARK [3][-]{subsubsection.4.4.3}{損失関数の重み係数HuB-discの影響について}{subsection.4.4}% 49
+\BOOKMARK [1][-]{section.5}{結論}{}% 50
+\BOOKMARK [1][-]{section*.34}{謝辞}{}% 51
+\BOOKMARK [1][-]{section*.34}{参考文献}{}% 52
