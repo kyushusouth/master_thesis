@@ -48,5 +48,35 @@
 
 
 \begin{document}
-距離空間$(S, d)$の部分集合を$M = \{a_{n}\}_{n \in \mathbb{N}}$とする．$M$が有限集合であるなら，適当に自然数列$i_{1} < i_{2} < \cdots < i_{n} < \cdots$をとれば，$a_{i_{1}} = a_{i_{2}} = \cdots = a_{i_{n}} = \cdots$となることを示せるか？
+$(S, d)$を距離空間とし，$((S^{\ast}, d^{\ast}), \phi), ((\tilde{S}^{\ast}, \tilde{d}^{\ast}), \tilde{\phi})$は，以下の条件を満たす距離空間とする．
+\begin{enumerate}
+    \item $(S^{\ast}, d^{\ast})$は完備である．
+    \item 任意の$x, y \in S$に対して$d(x, y) = d^{\ast}(\phi(x), \phi(y))$．
+    \item $\phi(S)$は$S^{\ast}$において密である．すなわち，$\overline{\phi(S)} = S^{\ast}$
+\end{enumerate}
+ここで，$x^{\ast}$を$S^{\ast}$の任意の点とすれば，$((S^{\ast}, d^{\ast}), \phi)$に関する条件3によって，
+\begin{equation}
+    x^{\ast} = \lim_{n \to \infty} \phi(x_{n})
+\end{equation}
+となる$S$の点列$(x_{n})$が存在する．また，点列$(\tilde{\phi}(x_{n}))$は$(\tilde{S}^{\ast}, \tilde{d}^{\ast})$のCauchy列となり，条件1より$(\tilde{S}^{\ast}, \tilde{d}^{\ast})$は完備だから$(\tilde{\phi}(x_{n}))$は収束列である．従って，$\tilde{S}^{\ast}$において
+\begin{equation}
+    \tilde{x}^{\ast} = \lim_{n \to \infty} \tilde{\phi}(x_{n})
+\end{equation}
+が存在する．ここで，$x^{\ast} \in \S^{\ast}$に$\tilde{x}^{\ast} \in \tilde{S}^{\ast}$を対応させる$S^{\ast}$から$\tilde{S}^{\ast}$への写像を$f$とする．
+
+この時，$(x_{n})$の取り方によらず$\tilde{x}^{\ast}$が一意に定まることを示したい．ここで，ある$S$の点列$(x_{n}), (y_{n})$が存在して，
+\begin{equation}
+    \tilde{x}^{\ast} = \lim_{n \to \infty} \tilde{\phi}(x_{n}), \quad \tilde{y}^{\ast} = \lim_{n \to \infty} \tilde{\phi}(y_{n})
+\end{equation}
+とする．この時，任意の$\epsilon > 0$に対して，
+\begin{gather}
+    \exists n_{0} \in \mathbb{N}, n > n_{0} \Rightarrow \tilde{d}^{\ast}(\tilde{x}^{\ast}, \tilde{\phi}(x_{n})) < \frac{\epsilon}{3} \\
+    \exists n_{1} \in \mathbb{N}, n > n_{1} \Rightarrow \tilde{d}^{\ast}(\tilde{y}^{\ast}, \tilde{\phi}(y_{n})) < \frac{\epsilon}{3}
+\end{gather}
+ここで，
+\begin{align}
+    \tilde{d}^{\ast}(\tilde{x}^{\ast}, \tilde{y}^{\ast}) & \le \tilde{d}^{\ast}(\tilde{x}^{\ast}, \tilde{\phi}(x_{n})) + \tilde{d}^{\ast}(\tilde{\phi}(x_{n}), \tilde{\phi}(y_{n})) + \tilde{d}^{\ast}(\tilde{\phi}(y_{n}), \tilde{y}^{\ast}) \\
+                                                         & < \frac{\epsilon}{3} + \tilde{d}^{\ast}(\tilde{\phi}(x_{n}), \tilde{\phi}(y_{n})) + \frac{\epsilon}{3}
+\end{align}
+ここから先が行き詰まっています．
 \end{document}

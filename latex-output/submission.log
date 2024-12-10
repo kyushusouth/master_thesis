@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  9 DEC 2024 23:25
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  10 DEC 2024 22:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -684,7 +684,7 @@ File: ./figure/sec4/model_2/vocoder_main.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main.drawio.png>
 File: ./figure/sec4/model_2/vocoder_main_block.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main_block.drawio.png>
-[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35] [36] [37] [38]) (./section4_3.tex [39] [40]
+[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35] [36] [37] [38]) (./section4_3.tex [39]
 File: ./figure/sec4/learning_curves/0/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/0/mel_loss.png>
 File: ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
@@ -711,14 +711,14 @@ File: ./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png Graphic file 
 <./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/4/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/4/total_loss.png>
-[41] [42] [43] [44] [45] [46]
+[40] [41] [42] [43] [44] [45]
 File: ./figure/sec4/learning_curves/6/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/6/mel_loss.png>
 File: ./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/6/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/6/total_loss.png>
-[47
+[46
 
 ]
 File: ./figure/sec4/learning_curves/9/mel_loss.png Graphic file (type bmp)
@@ -727,7 +727,7 @@ File: ./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png Graphic file 
 <./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/9/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/9/total_loss.png>
-[48]
+[47]
 File: ./figure/sec4/learning_curves/7/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/7/mel_loss.png>
 File: ./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png Graphic file (type bmp)
@@ -740,12 +740,12 @@ File: ./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png Graphi
 <./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/10_11_12/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/10_11_12/total_loss.png>
-[49] [50] [51] [52] [53]
+[48] [49] [50] [51] [52]
 File: ./figure/sec4/sbj/age.png Graphic file (type bmp)
 <./figure/sec4/sbj/age.png>
-[54
+[53
 
-]) (./section4_4.tex [55] [56]
+]) (./section4_4.tex [54] [55]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <8> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 10.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <8> not available
@@ -770,9 +770,9 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 10.
 
-) [57] [58
+) [56] [57
 
-] [59
+] [58
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -805,7 +805,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 79.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 85.
-[60
+[59
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -826,7 +826,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 148.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 154.
-[61]
+[60]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 160.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -847,24 +847,24 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 219.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 227.
-[62]
+[61]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 234.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 240.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 247.
-) [63] (latex-output/submission.aux)
+) [62] (latex-output/submission.aux)
 Package rerunfilecheck Info: File `submission.out' has not changed.
 (rerunfilecheck)             Checksum: 980408D80206E5CC6175EC8C332DDA6C;3926.
  ) 
 Here is how much of TeX's memory you used:
  18600 strings out of 478692
  355826 string characters out of 5855915
- 648189 words of memory out of 5000000
+ 648180 words of memory out of 5000000
  36747 multiletter control sequences out of 15000+600000
  494567 words of font info for 127 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  74i,17n,79p,3111b,885s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (67 pages, 385892 bytes).
+Output written on latex-output/submission.dvi (66 pages, 383112 bytes).
