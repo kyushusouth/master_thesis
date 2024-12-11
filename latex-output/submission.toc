@@ -45,8 +45,7 @@
 \contentsline {subsubsection}{\numberline {4.3.3}主観評価}{53}{subsubsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.4}考察}{54}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1}ネットワークB（Randomized）について}{54}{subsubsection.4.4.1}%
-\contentsline {subsubsection}{\numberline {4.4.2}ネットワークB（Pretrained）について}{55}{subsubsection.4.4.2}%
-\contentsline {subsubsection}{\numberline {4.4.3}損失関数の重み係数$\lambda _{\text {HuB-disc}}$の影響について}{56}{subsubsection.4.4.3}%
-\contentsline {section}{\numberline {5}結論}{57}{section.5}%
-\contentsline {section}{謝辞}{58}{section*.34}%
-\contentsline {section}{参考文献}{59}{section*.34}%
+\contentsline {subsubsection}{\numberline {4.4.2}ネットワークB（Pretrained）について}{56}{subsubsection.4.4.2}%
+\contentsline {section}{\numberline {5}結論}{58}{section.5}%
+\contentsline {section}{謝辞}{59}{section*.34}%
+\contentsline {section}{参考文献}{60}{section*.34}%
