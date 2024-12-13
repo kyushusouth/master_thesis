@@ -8,7 +8,7 @@
     \item ネットワークB（Randomized）
     \item ネットワークB（Pretrained）
 \end{enumerate}
-ベースラインは，提案手法におけるネットワークAで，メルスペクトログラムとHuBERT離散特徴量のみを予測する場合であり，損失関数は$\lossB$を用いた．ネットワークAは提案手法自体ではないが，その構成要素となっているため客観評価指標を確認する．ネットワークB（Randomized）は，HuBERT Transformer層をランダム初期化した場合，ネットワークB（Pretrained）は，事前学習済み重みで初期化した場合である．これらを比較することで，HuBERT Transformer層の転移学習の有効性を調べた．
+ベースラインは，提案手法におけるネットワークAで，メルスペクトログラムとHuBERT離散特徴量のみを予測する場合であり，損失関数は$\lossB$を用いた．ネットワークAは提案手法自体ではないが，その構成要素となっているため客観評価指標を確認した．ネットワークB（Randomized）は，HuBERT Transformer層をランダム初期化した場合，ネットワークB（Pretrained）は，事前学習済み重みで初期化した場合である．これらを比較することで，HuBERT Transformer層の転移学習の有効性を調べた．
 
 まず，損失関数の重み係数$\lossWeightHubDisc$を変化させた時の，客観評価指標の値を表\ref{sec4:tab:obj_weights}に示す．各手法の客観評価指標ごとに最良値を下線で示し，各手法ごとに最適だと判断した$\lossWeightHubDisc$の行を太字で示している．
 
@@ -18,7 +18,7 @@
 
 ネットワークB（Randomized）では，$\lossWeightHubDisc$が0.1の時にWERが最も低く，0.0001の時に話者類似度が最も高くなった．ここではWERの低さを優先し，0.1が最適だと判断した．図\ref{sec4:fig:learning_curve_method_2_val_losses}に学習曲線を示す．最適とした0.1の場合，学習データと検証データの両方において，メルスペクトログラムについてのMAE LossとHuBERT離散特徴量についてのCross Entropy Lossがバランスよく下がっていることがわかる。1.0では，0.1以下の場合と比較して話者類似度の低下が顕著であったが，この時学習データに対するメルスペクトログラムについてのMAE Lossが十分に下がり切らないまま，Early Stoppingによって学習が中断されていたことが分かる．これはベースラインと同様の傾向であった．
 
-ネットワークB（Pretrained）では，$\lossWeightHubDisc$が0.1の時にWERが最も低くなった一方で，0.01以下の場合と比較したときの話者類似度の低下が顕著であり，ネットワークB（Randomized）とは異なる傾向を示した．今回はWERが低いことを優先して，0.1が最適だと判断した．図\ref{sec4:fig:learning_curve_method_4_val_losses}に学習曲線を示す．ネットワークB（Randomized）と概ね同様であるが，$\lossWeightHubDisc = 0.1$の場合に学習データに対するメルスペクトログラムについてのMAE Lossが下がりきっていない点が異なる．これまでの結果より，これは話者類似度の低下につながると考えられるため，ネットワークB（Pretrained）が$\lossWeightHubDisc = 0.1$の場合に話者類似度を高い値で保てなかったのは，学習の結果として妥当だと考える．
+ネットワークB（Pretrained）では，$\lossWeightHubDisc$が0.1の時にWERが最も低くなった一方で，0.01以下の場合と比較したときの話者類似度の低下が顕著であり，ネットワークB（Randomized）とは異なる傾向を示した．今回はWERが低いことを優先して，0.1が最適だと判断した．図\ref{sec4:fig:learning_curve_method_4_val_losses}に学習曲線を示す．ネットワークB（Randomized）と概ね同様であるが，$\lossWeightHubDisc = 0.1$の場合に学習データに対するメルスペクトログラムについてのMAE Lossが十分に下がりきっていない傾向が見られる。これまでの結果より，これは話者類似度の低下につながると考えられるため，ネットワークB（Pretrained）が$\lossWeightHubDisc = 0.1$の場合に話者類似度を高い値で保てなかったのは，学習の結果として妥当だと考える．
 
 最後に，最適な$\lossWeightHubDisc$における手法ごとの比較を行った結果を表\ref{sec4:tab:obj_method_comp}に示す．分析合成は，原音声から計算した特徴量を入力としてボコーダで逆変換した合成音声であり，本実験において合成音声により達成され得る上限を表す．ベースライン，ネットワークB（Randomized），ネットワークB（Pretrained）は，それぞれ最適な$\lossWeightHubDisc$だと判断したものを載せている．また，ベースライン，ネットワークB（Randomized），ネットワークB（Pretrained）の中で，最良値を下線で示した．これより，ネットワークB（Randomized）はベースラインよりもWERが9.3\%低く，話者類似度が0.004高いことが分かる．一方，ネットワークB（Pretrained）はベースラインよりもWERが10.4\%低いが，話者類似度も0.058低いことが分かる．以上より，客観評価指標においては，$\lossWeightHubDisc = 0.1$としたネットワークB（Randomized）が最も優れていたと考えられる．
 
@@ -195,7 +195,7 @@
 \label{sec4:sec:obj_2}
 \ref{sec4:sec:obj_1}節において良好な結果を示したのはネットワークB（Randomized）であったが，これはHuBERTの転移学習による改善を狙った本実験の仮説に反する結果であった．これに対し，本節では良好な結果を示したネットワークB（Randomized）に焦点を当てたさらなる検討の結果を述べる．
 
-まず，HuBERT Transformer層への入力特徴量について検討した．\ref{sec4:sec:obj_1}節では事前学習済み重みを用いることの有効性を調べる目的があったため，入力特徴量はHuBERTの事前学習時に揃えて，HuBERT中間特徴量とした．しかし，ネットワークB（Randomized）は事前学習済み重みを利用しないため，HuBERT中間特徴量を入力とすることが意味をなしているか不明である．これに対し，ネットワークAからマルチタスク学習によって同時に予測される，メルスペクトログラムとHuBERT離散特徴量に対するロジットを組み合わせて入力する場合を比較した．メルスペクトログラムは，時間方向に隣接した2フレームを次元方向に積むことで160次元50 Hzの特徴量に変換し，HuBERT離散特徴量に対するロジットは101次元50 Hzの特徴量としてそのまま用いた．これらを次元方向に結合することで261次元50 Hzの特徴量を構成し，全結合層を通してHuBERT中間特徴量と同じ768次元に変換することで，HuBERT Transformer層への入力とした．結果を表\ref{sec4:tab:obj_weights_networkb_input_comparison}に示す．新たに検討した手法はネットワークB（Randomized・Mel-HuB）とし，$\lossWeightHubDisc = 0.001$の場合が最適だと判断した．これより，最適なネットワークB（Randomized・Mel-HuB）はネットワークB（Randomized）よりも話者類似度は0.005高いが，WERも10.1\%高いことが分かる．図\ref{sec4:fig:learning_curve_method_6_val_losses}にネットワークB（Randomized・Mel-HuB）の学習曲線を示す．最適とした0.001の場合，学習データと検証データの両方において，メルスペクトログラムについてのMAE LossとHuBERT離散特徴量についてのCross Entropy Lossがバランスよく下がっていることがわかる。また，ネットワークB（Randomized）では$\lossWeightHubDisc$の値を大きくすることによって，0.0001から0.1までWERが低下傾向にあった．これに対し，ネットワークB（Randomized・Mel-HuB）ではWERの低下傾向は見られず，結果としてネットワークB（Randomized）に劣る結果となった．以上より，HuBERT中間特徴量は，メルスペクトログラムとHuBERT離散特徴量のロジットから構成した特徴量と比較して，ネットワークBの推定精度改善につながるより良い入力特徴量であったと考えられる．
+まず，入力特徴量について検討した．\ref{sec4:sec:obj_1}節では事前学習済み重みを用いることの有効性を調べる目的があったため，入力特徴量はHuBERTの事前学習時に揃えて，HuBERT中間特徴量とした．しかし，ネットワークB（Randomized）は事前学習済み重みを利用しないため，HuBERT中間特徴量を入力とすることが意味をなしているか不明である．これに対し，ネットワークAからマルチタスク学習によって同時に予測される，メルスペクトログラムとHuBERT離散特徴量に対するロジットを組み合わせて入力する場合を比較した．メルスペクトログラムは，時間方向に隣接した2フレームを次元方向に積むことで160次元50 Hzの特徴量に変換し，HuBERT離散特徴量に対するロジットは101次元50 Hzの特徴量としてそのまま用いた．これらを次元方向に結合することで261次元50 Hzの特徴量を構成し，全結合層を通してHuBERT中間特徴量と同じ768次元に変換することで，HuBERT Transformer層への入力とした．結果を表\ref{sec4:tab:obj_weights_networkb_input_comparison}に示す．新たに検討した手法はネットワークB（Randomized・Mel-HuB）とし，$\lossWeightHubDisc = 0.001$の場合が最適だと判断した．下線は掲載した手法全てにおける最良値を示す。これより，最適なネットワークB（Randomized・Mel-HuB）はネットワークB（Randomized）よりも話者類似度は0.005高いが，WERも10.1\%高いことが分かる．図\ref{sec4:fig:learning_curve_method_6_val_losses}にネットワークB（Randomized・Mel-HuB）の学習曲線を示す．傾向自体はネットワークB（Randomized）と概ね変わらないことがわかる。また，ネットワークB（Randomized）では$\lossWeightHubDisc$の値を大きくすることによって，0.0001から0.1までWERが低下傾向にあった．これに対し，ネットワークB（Randomized・Mel-HuB）ではWERの低下傾向は見られず，結果としてネットワークB（Randomized）に劣る結果となった．以上より，HuBERT中間特徴量は，メルスペクトログラムとHuBERT離散特徴量のロジットから構成した特徴量と比較して，ネットワークBの推定精度改善につながるより良い入力特徴量であったと考えられる．
 
 \begin{table}[b]
     \centering
@@ -246,7 +246,7 @@
     \label{sec4:fig:learning_curve_method_6_val_losses}
 \end{figure}
 
-次に，HuBERT中間特徴量をネットワークBに与えている，ネットワークAの学習方法を検討した．ここでは，これまでネットワークAで採用していたHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習に対し，HuBERT中間特徴量のみを予測するシングルタスク学習の場合を比較した．結果を表\ref{sec4:tab:obj_weights_networka_multitask}に示す．新たに検討した手法はネットワークB（Randomized・A-SingleTask）とし，$\lossWeightHubDisc = 0.1$の場合が最適だと判断した．これより，最適なネットワークB（Randomized・A-SingleTask）はネットワークB（Randomized）よりもWERが2.8\%低く，話者類似度は0.007高いことがわかる．図\ref{sec4:fig:learning_curve_method_9_val_losses}にネットワークB（Randomized・A-SingleTask）の学習曲線を示す．これはネットワークB（Randomized）と概ね同様の傾向であった．以上より，ネットワークAではHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習行うよりも，ネットワークB（Randomized）の入力に必要となるHuBERT中間特徴量のみを推定する方が，ネットワークB（Randomized）に対してより良い入力特徴量を与えられるのだと考えられる．
+次に，HuBERT中間特徴量をネットワークBに与えている，ネットワークAの学習方法を検討した．ここでは，これまでネットワークAで採用していたHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習に対し，HuBERT中間特徴量のみを予測するシングルタスク学習の場合を比較した．結果を表\ref{sec4:tab:obj_weights_networka_multitask}に示す．新たに検討した手法はネットワークB（Randomized・A-SingleTask）とし，$\lossWeightHubDisc = 0.1$の場合が最適だと判断した．これより，最適なネットワークB（Randomized・A-SingleTask）はネットワークB（Randomized）よりもWERが2.8\%低く，話者類似度は0.007高いことがわかる．図\ref{sec4:fig:learning_curve_method_9_val_losses}にネットワークB（Randomized・A-SingleTask）の学習曲線を示す．これはネットワークB（Randomized）と概ね同様の傾向であった．以上より，ネットワークAではHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習行うよりも，HuBERT中間特徴量のみを推定する方が，ネットワークBに対してより良い入力特徴量を与えられるのだと考えられる．
 
 \begin{table}[bt]
     \centering
@@ -416,7 +416,7 @@
     \label{sec4:fig:age}
 \end{figure}
 
-明瞭性と類似性の評価値について，手法ごとの標本平均と95\%信頼区間を表\ref{sec4:tab:sbj_mean_ci}に示す．また，各手法の組み合わせについて，平均値の差の検定（Welchのt検定）を行った結果を表\ref{sec4:tab:sbj_int_p}, \ref{sec4:tab:sbj_sim_p}に示す．表における$\lr{i, j}$成分は，$i$行目の手法に対する評価値の母平均を$\mu_{i}$，$j$列目の手法に対する評価値の母平均を$\mu_{j}$とするとき，帰無仮説を$\mu_{i} = \mu_{j}$，対立仮説を$\mu_{i} > \mu_{j}$とした片側検定で計算されたp値に対し，Benjamini/Hochberg法による多重比較のための補正を行った結果である．ここで，表の文字列は以下の意味である．
+明瞭性と類似性の評価値について，手法ごとの標本平均と95\%信頼区間を表\ref{sec4:tab:sbj_mean_ci}に示す．また，各手法の組み合わせについて，平均値の差の検定（Welchのt検定）を行った結果を表\ref{sec4:tab:sbj_int_p}, \ref{sec4:tab:sbj_sim_p}に示す．表における$\lr{i, j}$成分は，$i$行目の手法に対する評価値の母平均を$\mu_{i}$，$j$列目の手法に対する評価値の母平均を$\mu_{j}$とするとき，帰無仮説を$\mu_{i} = \mu_{j}$，対立仮説を$\mu_{i} > \mu_{j}$とする片側検定で計算されたp値に対し，Benjamini/Hochberg法による多重比較のための補正を行った結果である．ここで，表の文字列は以下の意味である．
 \begin{enumerate}
     \item GT: 原音声（Ground Truth）
     \item AbS: 分析合成（Analysis by Synthesis）

@@ -61,7 +61,7 @@
 \begin{equation}
     \featureA = \myNetworkPost\lr{\featureA; \weightAPost}
 \end{equation}
-と表される．ここで、後処理層$\myNetworkPost$の構造を図\ref{sec4:fig:post_three_step}に示す。$\myNetworkPost$は，一次元畳み込み層を主としたConvBlockおよび，これに残差結合を組み合わせたResBlockから構成される．$\myNetworkPost$は，話者ベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対する話者性を考慮した特徴量の変換を行うために導入した。なぜなら，$\AVHuBERT$はMasked Predictionによって事前学習されたモデルであるから、動画の文脈的な構造を考慮するのに適していると考えられる一方で、音声合成に必要となる話者性は発話に依存しない、すなわち動画の文脈的な構造とは別の性質を持った情報だと考えたからである．最後に，$\featureA$を全結合層を通して変換することで，予測対象であるHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量に対するロジットを得る．これは，
+と表される．ここで、後処理層$\myNetworkPost$の構造を図\ref{sec4:fig:post_three_step}に示す。$\myNetworkPost$は，一次元畳み込み層を主としたConvBlockおよび，これに残差結合を組み合わせたResBlockから構成される．$\myNetworkPost$は，話者ベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対する話者性を考慮した特徴量の変換を行うために導入した。$\AVHuBERT$はMasked Predictionによって事前学習されたモデルだから、動画の文脈的な構造を考慮するのに適していると考えられる一方で、音声合成に必要となる話者性は発話に依存しない、すなわち動画の文脈的な構造とは別の性質を持った情報だと考えたからである．最後に，$\featureA$を全結合層を通して変換することで，予測対象であるHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量に対するロジットを得る．これは，
 \begin{gather}
     \hubertIntPred = \myNetworkFcHubInt\lr{\featureA; \weightAFcHubInt} \\
     \melPredA = \myNetworkFcMel\lr{\featureA; \weightAFcMel} \\
@@ -131,7 +131,7 @@
 \end{gather}
 $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべてランダムに初期化した．
 
-ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．HuBERT Transformer層の転移学習を検討した狙いは、HuBERTの自己教師あり学習の方法に基づく。HuBERTはMasked Predictionという自己教師あり学習を行っており、これは、畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し，Transformer層$\hubertTransformer$を通すことによって、マスクされた部分を推定する学習方法である．\ref{sec3:sec:ssl}節より、Masked Predictionでは未知の情報を正しく穴埋めできるように観測できる情報から特徴抽出を行う必要があるから，最適化されたHuBERTは音声の文脈的な構造を学習していると考えられる．また、Masked Predictionは音声データのみによる学習が可能であり、近年では大規模なデータによって学習されたモデルも一般に公開されている。よって、本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより，動画を入力とするネットワークAにおける推定残差を，大量の音声データから学習された音声自体の文脈を考慮する力によって軽減することで、最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する推定精度改善を狙った．
+ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．HuBERT Transformer層の転移学習を検討した狙いは、HuBERTの自己教師あり学習の方法に基づく。HuBERTはMasked Predictionという自己教師あり学習を行っており、これは、畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し，Transformer層$\hubertTransformer$を通すことによって、マスクされたフレームにおける教師ラベルを推定する学習方法である．\ref{sec3:sec:ssl}節より、Masked Predictionでは欠損された入力から特徴抽出を行う必要があるから，最適化されたHuBERTは音声の文脈的な構造を学習していると考えられる．また、Masked Predictionは音声データのみによる学習が可能であり、近年では大規模なデータによって学習されたモデルも一般に公開されている。よって、本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより，動画を入力とするネットワークAの推定残差を，大量の音声データから学習された音声自体の文脈を考慮する力によって軽減することで、最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する推定精度改善を狙った．
 
 \subsubsection{ボコーダ}
 ボコーダを図\ref{sec4:fig:vocoder}に示す。本実験で用いるボコーダは、今回ベースラインとする先行研究\cite{choi2023intelligible}で提案されたMulti-input Vocoderを参考にしたものである。まず，ネットワークBで得られた予測メルスペクトログラム$\melPredB$とHuBERT離散特徴量に対するロジット$\hubertDiscPredB$を前処理層に通し，扱いやすい形状に変換する．これは，

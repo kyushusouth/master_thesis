@@ -37,16 +37,16 @@ HuBERT離散特徴量の計算に利用するHuBERT Transformer層出力は，8�
 \subsubsection{本実験で利用した事前学習済みモデルについて}
 話者ベクトルの計算に用いた話者識別モデルの事前学習済み重みには，VoxCeleb1\cite{nagrani2020voxceleb}とVoxCeleb2，LibriSpeech\cite{panayotov2015librispeech}のotherセットで学習されたものを用いた\footnote{\url{https://github.com/resemble-ai/Resemblyzer}}．学習データセットの記述は，このモデルを利用して複数話者TTSを検討した先行研究\cite{jia2018transfer}のGitHubリポジトリにある\footnote{\url{https://github.com/CorentinJ/Real-Time-Voice-Cloning/wiki/Training}}．話者識別モデルは，音声波形をメルスペクトログラムに変換した後，これを1.6秒ごとに0.77秒のオーバーラップを持つよう分割し，各区間ごとに一つのベクトル表現を獲得した後，区間ごとの出力ベクトルを平均して正規化することで最終出力を得る．モデル構造は3層のLSTMと全結合層からなり，得られる話者ベクトルの次元は256次元である．
 
-AVHuBERTの事前学習済み重みには，LRS3とVoxCeleb2の英語データを利用し，データ拡張として音声データにノイズを付与した場合\cite{shi2022robust}の重みを利用した\footnote{\url{https://github.com/facebookresearch/av_hubert}}．脚注のリンク先では，「Model: Noise-Augmented AV-HuBERT Base」，「Pretraining Data: LRS3 + VoxCeleb2 (En)」，「Finetuning Data: No finetuning」と示されている．ノイズ付与の場合を利用した理由は，音声にノイズが含まれることで動画からの特徴抽出が促進され，より動画タスクに適した重みになっているのではないかと考えたからである．AVHuBERTは3次元畳み込み層と2次元畳み込み層を中心としたResNetと，12層のTransformer層から構成される．ResNetによって形状が$\lr{\dimUpper \times \timeUpper \times \widthUpper \times \heightUpper}$である動画からの特徴抽出および空間情報の圧縮が行われ，出力特徴量の形状は$\lr{\dimUpper \times \timeUpper}$となる．これに対してTransformer層を適用することで，時系列全体を考慮した特徴抽出を行う．最終的に得られる特徴量は768次元で，25 Hzである．
+AVHuBERTの事前学習済み重みには，LRS3とVoxCeleb2の英語データを利用し，データ拡張として音声データにノイズを付与した場合\cite{shi2022robust}の重みを利用した\footnote{\url{https://github.com/facebookresearch/av_hubert}}．脚注のリンク先では，「Model: Noise-Augmented AV-HuBERT Base」，「Pretraining Data: LRS3 + VoxCeleb2 (En)」，「Finetuning Data: No finetuning」と示されている．ノイズ付与の場合を利用した理由は，音声にノイズが含まれることで動画からの特徴抽出が促進され，より動画タスクに適した重みになっているのではないかと考えたからである．AVHuBERTは3次元畳み込み層と2次元畳み込み層を中心としたResNetと，12層のTransformer層から構成される．ResNetによって形状が$\lr{\dimUpper \times \timeUpper \times \widthUpper \times \heightUpper}$である動画からの特徴抽出および空間情報の圧縮が行われ，出力特徴量の形状は$\lr{\dimUpper \times \timeUpper}$となる．これに対してTransformer層を適用することで，時系列全体を考慮した特徴抽出を行う．最終的に得られる特徴量は768次元25 Hzである．
 
-HuBERTの事前学習済み重みには，HuggingFaceに公開されているReazonSpeechによって学習されたもの\cite{rinna-japanese-hubert-base,sawada2024release}を利用した\footnote{\url{https://huggingface.co/rinna/japanese-hubert-base}}．ReazonSpeechは約19000時間の日本語音声からなるデータセットであり，今回用いる動画音声データセットが日本語であることから，このモデルが検討対象に適すると判断した．HuBERTは一次元畳み込み層を中心とした畳み込みエンコーダと，12層のTransformer層から構成される．畳み込みエンコーダによって音声波形の系列長を削減しつつ次元を上げた後，Transformer層を適用することで，時系列全体を考慮した特徴抽出を行う．最終的に得られる特徴量の次元は768次元で，50 Hzである．
+HuBERTの事前学習済み重みには，HuggingFaceに公開されているReazonSpeechによって学習されたもの\cite{rinna-japanese-hubert-base,sawada2024release}を利用した\footnote{\url{https://huggingface.co/rinna/japanese-hubert-base}}．ReazonSpeechは約19000時間の日本語音声からなるデータセットであり，今回用いる動画音声データセットが日本語であることから，このモデルが検討対象に適すると判断した．HuBERTは一次元畳み込み層を中心とした畳み込みエンコーダと，12層のTransformer層から構成される．畳み込みエンコーダによって音声波形の系列長を削減しつつ次元を上げた後，Transformer層を適用することで，時系列全体を考慮した特徴抽出を行う．最終的に得られる特徴量は768次元50 Hzである．
 
 \subsubsection{本実験で独自に構築したモデルについて}
 本実験で独自に構築したモデルは，ネットワークAとBにおける$\myNetworkPost$と，ボコーダ$\vocoder$である．
 
-$\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は入力される特徴量に揃えて768次元とし，カーネルサイズは3とした．Dropoutは$p = 0.1$で用いた．ConvBlockから構成されるResBlockは3層積み重ねた．
+$\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は768次元とし，カーネルサイズは3とした．Dropoutは$p = 0.1$として用いた．ConvBlockから構成されるResBlockは3層積み重ねた．
 
-ボコーダについて，メルスペクトログラムの前処理層$\vocoderPreMel$では，入力される80次元100 Hzのメルスペクトログラムに対し，時間方向に隣接した2フレームを次元方向に積むことで160次元50 Hzの特徴量に変換し，全結合層を適用して128次元まで次元を削減した．HuBERT離散特徴量の前処理層$\vocoderPreHub$では，初めに各時刻$t$におけるロジットに対して$\argmax$を適用することで，最も確率の高いクラスを選択する．ここで，学習時など原音声から計算されたインデックス系列が初めから入力される場合は，この処理をスキップする．その後，各時刻$t$におけるインデックスを128次元のベクトルに変換することで，128次元50 Hzの特徴量が得られる．前処理後の二つの特徴量を次元方向に結合することで，256次元50 Hzの特徴量が得られる．次に，メインの処理層$\vocoderMain$では，初めにカーネルサイズ7の畳み込み層により，次元を1024次元まで拡大する．これに対し，転置畳み込み層によるアップサンプリングと複数種類の畳み込み層による特徴抽出を繰り返し行うことで，16 kHzの特徴量を獲得する．各UpsamplingBlockにおけるパラメータを表\ref{sec4:tab:vocoder_main_params}に示す．ここで，$K$はカーネルサイズ，$S$はストライド，$R$はダイレーション，$D$は次元，$T$は系列長である．畳み込み層についてはカーネルサイズとダイレーションを集合として表記しているが，実際はこれらの直積の元，すなわち$\lr{3, 1}$や$\lr{3, 3}$，$\lr{3, 5}$をパラメータとする層が存在することを表す．すなわち，転置畳み込み層一層に対し，その後の特徴量抽出は15種類の異なるカーネルサイズ，ダイレーションを設定した畳み込み層によって行われる．最後に，畳み込み層によって1次元まで次元を削減することで，16 kHzの音声波形が得られる．
+ボコーダについて，メルスペクトログラムの前処理層$\vocoderPreMel$では，入力される80次元100 Hzのメルスペクトログラムに対し，時間方向に隣接した2フレームを次元方向に積むことで160次元50 Hzの特徴量に変換し，全結合層を適用して128次元まで次元を削減した．HuBERT離散特徴量の前処理層$\vocoderPreHub$では，初めに各時刻$t$におけるロジットに対して$\argmax$を適用することで，最も確率の高いクラスを選択する．ここで，学習時など原音声から計算されたインデックス系列が初めから入力される場合は，この処理をスキップする．その後，各時刻$t$におけるインデックスを128次元のベクトルに変換することで，128次元50 Hzの特徴量が得られる．前処理後の二つの特徴量を次元方向に結合することで，256次元50 Hzの特徴量が得られる．次に，メインの処理層$\vocoderMain$では，初めにカーネルサイズ7の畳み込み層により，次元を1024次元まで拡大する．これに対し，転置畳み込み層によるアップサンプリングと複数種類の畳み込み層による特徴抽出を繰り返し行うことで，16 kHzの特徴量を獲得する．各UpsamplingBlockにおけるパラメータを表\ref{sec4:tab:vocoder_main_params}に示す．ここで，$K$はカーネルサイズ，$S$はストライド，$R$はダイレーション，$D$は次元，$T$は系列長である．畳み込み層についてはカーネルサイズとダイレーションを集合として表記しているが，実際はこれらの直積の元，すなわち$\lr{3, 1}$や$\lr{3, 3}$，$\lr{3, 5}$をパラメータとする層が存在することを表す．すなわち，転置畳み込み層一層に対し，その後の特徴量抽出は15種類の異なるカーネルサイズ，ダイレーションを設定した畳み込み層によって行われる．最後に，16次元16 kHzの特徴量を畳み込み層に通して1次元まで次元を削減することで，16 kHzの音声波形が得られる．
 \begin{table}[bt]
     \centering
     \caption{$\vocoderMain$の各UpsamplingBlockにおけるパラメータ}
@@ -72,11 +72,12 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
 \end{table}
 
 \subsubsection{学習方法}
-ネットワークAについて，最適化手法はAdamW\cite{loshchilov2017decoupled}を利用し，$\beta_{1} = 0.9, \beta_{2} = 0.98, \lambda = 0.01$とした．スケジューラはCosine Annealing with Warmupを利用し，$\learningRate_{\text{min}} = 1.0 \times 10^{-6}, \learningRate_{\text{max}} = 1.0 \times 10^{-3}, \text{warmupSteps} = 5, \epoch_{\text{max}} = 50$とした．バッチサイズは4とし，8イテレーションに一回重みを更新するようGradient Accumulationを適用した．モデルに入力する動画の秒数は10秒を上限とし，10秒を超える場合はランダムにトリミング，10秒未満の場合はゼロパディングした．また，ゼロパディングした部分は損失の計算からは除外した．勾配のノルムは3.0を上限としてクリッピングした．10エポック連続して検証データに対する損失関数$\lossA$の値が小さくならない場合には学習を中断するようにし（Early Stopping），学習終了時には検証データに対する損失が最も小さかったエポックにおけるチェックポイントを保存して，これをテストデータに対する評価に用いた．$\lossA$の重み係数は，$\lossWeightMel = 1.0, \lossWeightHubInt = 1.0$に固定した上で，$\lossWeightHubDisc$を$0.0001, 0.001, 0.01, 0.1, 1.0$の五段階でグリッドサーチした．
+ネットワークAについて，最適化手法はAdamW\cite{loshchilov2017decoupled}を利用し，$\beta_{1} = 0.9, \beta_{2} = 0.98, \lambda = 0.01$とした．スケジューラはCosine Annealing with Warmupを利用し，$\learningRate_{\text{min}} = 1.0 \times 10^{-6}, \learningRate_{\text{max}} = 1.0 \times 10^{-3}, \text{WarmupSteps} = 5, \epoch_{\text{max}} = 50$とした．バッチサイズは4とし，8イテレーションに一回重みを更新するようGradient Accumulationを適用した．モデルに入力する動画の秒数は10秒を上限とし，10秒を超える場合はランダムにトリミング，10秒未満の場合はゼロパディングした．また，ゼロパディングした部分は損失の計算から除外した．勾配のノルムは3.0を上限としてクリッピングした．10エポック連続して検証データに対する損失関数$\lossA$の値が小さくならない場合には学習を中断するようにし（Early Stopping），学習終了時には検証データに対する損失が最も小さかったエポックにおけるチェックポイントを保存して，これをテストデータに対する評価に用いた．$\lossA$の重み係数は，$\lossWeightMel = 1.0, \lossWeightHubInt = 1.0$に固定した上で，$\lossWeightHubDisc$を$0.0001, 0.001, 0.01, 0.1, 1.0$の五段階でグリッドサーチした．
 
-ネットワークBについて，ここではネットワークAの重みは固定した．最適化手法はAdamWを利用し，$\beta_{1} = 0.9, \beta_{2} = 0.98, \lambda = 0.01$とした．スケジューラはCosine Annealing with Warmupを利用し，$\learningRate_{\text{min}} = 1.0 \times 10^{-6}, \learningRate_{\text{max}} = 5.0 \times 10^{-4}, \text{warmupSteps} = 5, \epoch_{\text{max}} = 50$とした．$\learningRate_{\text{max}}$をネットワークAから半減したのは，学習の安定化のためである．その他の設定はネットワークAと同様で，Early Stoppingにおいて監視したのは検証データに対する$\lossFuncUpper_{B}$の値である．$\lossB$の重み係数は，$\lossWeightMel = 1.0$に固定した上で，$\lossWeightHubDisc$を$0.0001, 0.001, 0.01, 0.1, 1.0$の五段階でグリッドサーチした．ただし，ネットワークBにおいて用いるネットワークAの学習済み重みは，等しい$\lossWeightHubDisc$で学習されたものとした．例えば，ネットワークBにおいて$\lossWeightHubDisc = 0.0001$で学習させる時，ネットワークAも$\lossWeightHubDisc = 0.0001$で学習されたものを用いた．
+ネットワークBについて，ここではネットワークAの重みは固定した．最適化手法はAdamWを利用し，$\beta_{1} = 0.9, \beta_{2} = 0.98, \lambda = 0.01$とした．スケジューラはCosine Annealing with Warmupを利用し，$\learningRate_{\text{min}} = 1.0 \times 10^{-6}, \learningRate_{\text{max}} = 5.0 \times 10^{-4}, \text{WarmupSteps} = 5, \epoch_{\text{max}} = 50$とした．$\learningRate_{\text{max}}$をネットワークAから半減したのは，学習の安定化のためである．その他の設定はネットワークAと同様で，Early Stoppingにおいて監視したのは検証データに対する$\lossFuncUpper_{B}$の値である．$\lossB$の重み係数は，$\lossWeightMel = 1.0$に固定した上で，$\lossWeightHubDisc$を$0.0001, 0.001, 0.01, 0.1, 1.0$の五段階でグリッドサーチした．ただし，ネットワークBにおいて用いるネットワークAの学習済み重みは，等しい$\lossWeightHubDisc$で学習されたものとした．例えば，ネットワークBにおいて$\lossWeightHubDisc = 0.0001$で学習させる時，ネットワークAも$\lossWeightHubDisc = 0.0001$で学習されたものを用いた．
 
-ボコーダについて，ここでははじめにHi-Fi-Captainのみを用いて学習させ，その後JVSによって再学習した．最適化手法はAdamWを利用し，$\beta_{1} = 0.8$，$\beta_{2} = 0.99$，$\lambda = \num{1.0e-5}$とした．スケジューラはExponentialLRSchedulerを利用し，$\gamma = 0.99$とした．また，最大エポック数は30とした．バッチサイズは16とした．モデルへの入力は1秒を上限とし，1秒を超える場合はランダムにトリミング，1秒未満の場合はゼロパディングした．ここではEarly Stoppingは適用せず，学習終了時に検証データに対する損失（メルスペクトログラムに対するMAE Loss）が最も小さかったエポックにおけるチェックポイントを保存し，これをテストデータに対する評価に用いた．また，先行研究\cite{choi2023intelligible}においては学習時に，メルスペクトログラムにノイズを付与するデータ拡張手法が提案されている．本研究では，動画から推定されるメルスペクトログラムとHuBERT離散特徴量の推定精度向上に焦点を当てたため，ボコーダの学習は原音声から計算される特徴量で行い，ボコーダ自体の汎化性能向上による精度改善は追求しなかった．
+ボコーダについて，ここでははじめにHi-Fi-Captainのみを用いて学習させ，その後JVSによって再学習した．最適化手法はAdamWを利用し，$\beta_{1} = 0.8$，$\beta_{2} = 0.99$，$\lambda = \num{1.0e-5}$とした．スケジューラはExponentialLRSchedulerを利用し，$\gamma = 0.99$とした．また，最大エポック数は30とした．バッチサイズは16とした．モデルへの入力は1秒を上限とし，1秒を超える場合はランダムにトリミング，1秒未満の場合はゼロパディングした．ここではEarly Stoppingは適用せず，学習終了時に検証データに対する損失（メルスペクトログラムに対するMAE Loss）が最も小さかったエポックにおけるチェックポイントを保存し，これをテストデータに対する評価に用いた．
+% また，先行研究\cite{choi2023intelligible}においては学習時に，メルスペクトログラムにノイズを付与するデータ拡張手法が提案されている．本研究では，動画から推定されるメルスペクトログラムとHuBERT離散特徴量の推定精度向上に焦点を当てたため，ボコーダの学習は原音声から計算される特徴量で行い，ボコーダ自体の汎化性能向上による精度改善は追求しなかった．
 
 実装に用いた深層学習ライブラリはPyTorchおよびPyTorch Lightningである．GPUにはNVIDIA RTX A4000を利用し，計算の高速化のためAutomatic Mixed Precisionを適用した．
 
@@ -88,7 +89,7 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
 \end{equation}
 で与えられる．ここで，$|s_{1}|$は正解文字列$s_{1}$のトークン数を表す．実際には，音声認識モデルにWhisper\cite{radford2023robust}を利用し\footnote{\url{https://github.com/openai/whisper}}，出力される漢字仮名交じり文に対してMeCabを用いて分かち書きを行った上で，jiwerというライブラリを用いて算出した．WhisperはLargeモデルを利用し，MeCabの辞書にはunidicを利用した．WERの値は0\%以上であり，この値が低いほど音声認識の誤りが少ないため，より聞き取りやすい音声であると判断した．
 
-二つ目は，話者ベクトルから計算したコサイン類似度である．モデルへの入力値を計算するのに用いた話者識別モデルを同様に利用して，各サンプルごとに合成音声の話者ベクトルと原音声の話者ベクトルを計算し，これらのコサイン類似度を計算した．今回構築するモデルは4人の話者に対応するモデルとなるため，原音声に似た声質の合成音声が得られているかをこの指標で評価した．値は$-1$以上$1$以下であり，高いほど原音声と似た合成音声だと判断した．
+二つ目は，話者ベクトルから計算したコサイン類似度である．モデルに入力する話者ベクトルを計算するのに用いた話者識別モデルを利用して，各サンプルごとに合成音声の話者ベクトルと原音声の話者ベクトルを計算し，これらのコサイン類似度を計算した．今回構築するモデルは4人の話者に対応するモデルとなるため，原音声に似た声質の合成音声が得られているかをこの指標で評価した．値は$-1$以上$1$以下であり，高いほど原音声と似た合成音声だと判断した．
 
 \subsubsection{主観評価}
 \label{sec4:sec:sbj_explanation}
@@ -126,14 +127,14 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
     \item ほとんど聞き取れた
     \item 完全に聞き取れた
 \end{enumerate}
-実験に利用した音声サンプルについて，練習試行では検証データであるATR音素バランス文のIセット，本番試行ではテストデータであるATR音素バランス文のJセットを用いた．被験者ごとの評価サンプルの割り当て方法をアルゴリズム\ref{sec4:algo:sample-assignment-int}に示す．$\text{sentences}$は文章のリスト，$\text{methods}$が手法のリスト，$\text{speakers}$が話者のリスト，$\numUpper_{\text{respondents}}$が被験者総数である．各被験者について，初めに$\text{sentences}$と$\text{methods}$をランダムにシャッフルし，それから順に$\text{sentence}, \text{method}, \text{speaker}$を決めて，対応した音声サンプルを選択した．この方法では，二つのことに注意した．一つ目は，各被験者がユニークな発話文章を評価することである．各音声サンプルの評価の際に本来の発話内容が分かるため，これを知った上で同じ発話内容のサンプルを評価すると，音声自体の明瞭性に関わらず発話内容がわかってしまい，評価に影響を与える可能性がある．これを避けるため，評価サンプルは全て異なる発話内容にした．二つ目は，各手法がなるべく均等な回数出現することである．今回の実験は手法の比較を目的としており，各被験者になるべく均等に評価を受けることが望ましいと判断した．また，評価時に音声サンプルを一回だけ聞けるようにしたことについて，代用音声をコミュニケーションツールとして利用する場面を想定したとき，会話において何度も聞き返されることは利用者のストレスになると考えられる．よって，本実験では一回の発話で意図した発話内容をどの程度聞き取ってもらえるかを聞き取りやすさとして評価したいと考え，この制限を設けた．
+実験に利用した音声サンプルについて，練習試行では検証データであるATR音素バランス文のIセット，本番試行ではテストデータであるATR音素バランス文のJセットを用いた．被験者ごとの評価サンプルの割り当て方法をアルゴリズム\ref{sec4:algo:sample-assignment-int}に示す．$\text{sentences}$は文章のリスト，$\text{methods}$が手法のリスト，$\text{speakers}$が話者のリスト，$\numUpper_{\text{p}}$が被験者総数である．各被験者について，初めに$\text{sentences}$と$\text{methods}$をランダムにシャッフルし，それから順に$\text{sentence}, \text{method}, \text{speaker}$を決めて，対応した音声サンプルを選択した．この方法では，二つのことに注意した．一つ目は，各被験者がユニークな発話文章を評価することである．各音声サンプルの評価の際に本来の発話内容が分かるため，これを知った上で同じ発話内容のサンプルを評価すると，音声自体の明瞭性に関わらず発話内容がわかってしまい，評価に影響を与える可能性がある．これを避けるため，評価サンプルは全て異なる発話内容にした．二つ目は，各手法がなるべく均等な回数出現することである．今回の実験は手法の比較を目的としたため，各被験者がすべての手法をなるべく均等な回数評価できるようにした．また，評価時に音声サンプルを一回だけ聞けるようにしたことについて，代用音声をコミュニケーションツールとして利用する場面を想定したとき，会話において何度も聞き返されることは利用者のストレスになると考えられる．よって，本実験では一回の発話で意図した発話内容をどの程度聞き取ってもらえるかを聞き取りやすさとして評価したいと考え，この制限を設けた．
 \begin{algorithm}
     \caption{被験者に対する評価サンプル割り当て方法（明瞭性）}
     \label{sec4:algo:sample-assignment-int}
     \begin{algorithmic}[1]
-        \State \textbf{Input:} $\text{sentences, methods, speakers}, \numUpper_{\text{respondents}}$
+        \State \textbf{Input:} $\text{sentences, methods, speakers}, \numUpper_{\text{p}}$
         \State $\text{allAssignments} = \{\}$
-        \For{$\text{respondentId} = 0 \text{ to } \numUpper_{\text{respondents}} - 1$}
+        \For{$\text{participantId} = 0 \text{ to } \numUpper_{\text{p}} - 1$}
         \State $\text{assignments} = []$
         \State $\text{Randomly shuffle sentences}$
         \State $\text{Randomly shuffle methods}$
@@ -143,7 +144,7 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
         \State $\text{speaker} = \text{Randomly select from speakers}$
         \State $\text{Append } \lrsq{\text{sentence}, \text{method}, \text{speaker}} \text{ to assignments}$
         \EndFor
-        \State $\text{allAssignments}\lrsq{\text{respondentId}} = \text{assignments}$
+        \State $\text{allAssignments}\lrsq{\text{participantId}} = \text{assignments}$
         \EndFor
         \State \Return $\text{allAssignments}$
     \end{algorithmic}
@@ -167,9 +168,9 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
     \caption{被験者に対する評価サンプル割り当て方法（類似性）}
     \label{sec4:algo:sample-assignment-sim}
     \begin{algorithmic}[1]
-        \State \textbf{Input:} $\text{sentences, methods, speakers}, \numUpper_{\text{respondents}}$
+        \State \textbf{Input:} $\text{sentences, methods, speakers}, \numUpper_{\text{p}}$
         \State $\text{allAssignments} = \{\}$
-        \For{$\text{respondentId} = 0 \text{ to } \numUpper_{\text{respondents}} - 1$}
+        \For{$\text{participantId} = 0 \text{ to } \numUpper_{\text{p}} - 1$}
         \State $\text{assignments} = []$
         \State $\text{Randomly shuffle sentences}$
         \State $\text{Randomly shuffle methods}$
@@ -180,7 +181,7 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
         \State $\text{sentenceGT} = \text{Randomly select from sentences}$
         \State $\text{Append } \lrsq{\text{sentenceEval}, \text{method}, \text{speaker}, \text{sentenceGT}} \text{ to assignments}$
         \EndFor
-        \State $\text{allAssignments}\lrsq{\text{respondentId}} = \text{assignments}$
+        \State $\text{allAssignments}\lrsq{\text{participantId}} = \text{assignments}$
         \EndFor
         \State \Return $\text{allAssignments}$
     \end{algorithmic}
@@ -194,6 +195,6 @@ $\myNetworkPost$について，ConvBlockにおける畳み込み層の次元は�
 \begin{quote}
     これはダミー音声です．類似性は「3: やや似ていた」を選択してください．
 \end{quote}
-のような発話内容の音声を提示した．「3: ある程度聞き取れた」や「3: やや似ていた」の部分は，5段階の評価の回答項目からランダムに決定した．被験者には，ダミー音声が提示された場合はその音声自体の明瞭性や類似性とは無関係に，必ず音声で指定された評価値を選択するよう伝えた．また，本番試行でダミー音声に対する評価値を誤った被験者については，適当に回答した恐れがあると判断し，最終的な統計処理には用いなかった．
+のような発話内容の音声を提示した．「3: ある程度聞き取れた」や「3: やや似ていた」の部分は，5段階評価の回答項目からランダムに選択した．被験者には，ダミー音声が提示された場合はその音声自体の明瞭性や類似性とは無関係に，必ず音声で指定された評価値を選択するよう伝えた．練習試行では一つ、本番試行では二つ混入させ、本番試行でダミー音声に対する評価値を誤った被験者については，適当に回答した恐れがあると判断し，最終的な統計処理には用いなかった．
 
 総被験者数は75人とし，謝礼は実験一回あたり40分程度要すると考えて，750円とした．
