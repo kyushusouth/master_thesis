@@ -1,7 +1,7 @@
 \subsection{結果}
 \subsubsection{客観評価1: ベースラインと提案手法の比較}
 \label{sec4:sec:obj_1}
-本節では，ベースラインと提案手法の比較を行う．比較手法は，以下の四つである．
+本節では，ベースラインと提案手法の比較を行う．比較手法は，以下の4つである．
 \begin{enumerate}
     \item ベースライン
     \item ネットワークA
@@ -297,7 +297,7 @@
     \label{sec4:fig:learning_curve_method_9_val_losses}
 \end{figure}
 
-最後に，これまでネットワークAとネットワークBを二段階で学習させたのに対し，ネットワークAからネットワークBまでを一度に学習させる方法を検討した．これにより，HuBERT中間特徴量に表現力を制限させないことで，さらなる精度改善を狙った．ここでは，ネットワークBの出力に対する損失関数$\lossB$のみを用いて学習させ，ネットワークAの出力は単にネットワークBへの入力とした．ネットワークAおよびネットワークB（Randomized）を未学習の状態で初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_randomized}に示す．新たに検討した手法はネットワークE2E（Randomized）とし，$\lossWeightHubDisc = 0.1$が最適だと判断した．これより，最適なネットワークE2E（Randomized）はネットワークB（Randomized・A-SingleTask）よりもWERが20.0\%高く，話者類似度は0.080低いことがわかる．図\ref{sec4:fig:learning_curve_method_7_val_losses}に学習曲線を示す．二段階で学習させたネットワークB（Randomized・A-SingleTask）と比較して損失の下がりが悪く，客観評価指標が顕著に悪化したことは妥当だと考える．以上より，二段階学習は学習の安定化につながっていたと言える．次に，ここまでの検討で最も良好な結果を示した，ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_pretrained}に示す．新たに検討した手法はネットワークE2E（Pretrained）とし，ここでは$\lossWeightHubDisc$の値は0.1のままで固定して，スケジューラであるCosine Annealing with Warmupの最大学習率$\learningRate_{\text{max}}$を変更することでチューニングした．最適値は$\learningRate_{\text{max}} = 5.0 \times 10^{-5}$とした．これより，最適なネットワークE2E（Pretrained）はネットワークB（Randomized・A-SingleTask）よりもWERが1.3\%高く，話者類似度も0.006高いことがわかる．図\ref{sec4:fig:learning_curve_method_10_11_12_val_losses}に学習曲線を示す．線の色は$\learningRate_{\text{max}}$の違いを表す．損失が学習開始時からほとんど低下していないため，ネットワーク全体を再学習することは効果的でなかったと考えられる．
+最後に，これまでネットワークAとネットワークBを2段階で学習させたのに対し，ネットワークAからネットワークBまでを一度に学習させる方法を検討した．これにより，HuBERT中間特徴量に表現力を制限させないことで，さらなる精度改善を狙った．ここでは，ネットワークBの出力に対する損失関数$\lossB$のみを用いて学習させ，ネットワークAの出力は単にネットワークBへの入力とした．ネットワークAおよびネットワークB（Randomized）を未学習の状態で初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_randomized}に示す．新たに検討した手法はネットワークE2E（Randomized）とし，$\lossWeightHubDisc = 0.1$が最適だと判断した．これより，最適なネットワークE2E（Randomized）はネットワークB（Randomized・A-SingleTask）よりもWERが20.0\%高く，話者類似度は0.080低いことがわかる．図\ref{sec4:fig:learning_curve_method_7_val_losses}に学習曲線を示す．2段階で学習させたネットワークB（Randomized・A-SingleTask）と比較して損失の下がりが悪く，客観評価指標が顕著に悪化したことは妥当だと考える．以上より，2段階学習は学習の安定化につながっていたと言える．次に，ここまでの検討で最も良好な結果を示した，ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_pretrained}に示す．新たに検討した手法はネットワークE2E（Pretrained）とし，ここでは$\lossWeightHubDisc$の値は0.1のままで固定して，スケジューラであるCosine Annealing with Warmupの最大学習率$\learningRate_{\text{max}}$を変更することでチューニングした．最適値は$\learningRate_{\text{max}} = 5.0 \times 10^{-5}$とした．これより，最適なネットワークE2E（Pretrained）はネットワークB（Randomized・A-SingleTask）よりもWERが1.3\%高く，話者類似度も0.006高いことがわかる．図\ref{sec4:fig:learning_curve_method_10_11_12_val_losses}に学習曲線を示す．線の色は$\learningRate_{\text{max}}$の違いを表す．損失が学習開始時からほとんど低下していないため，ネットワーク全体を再学習することは効果的でなかったと考えられる．
 
 \begin{table}[bt]
     \centering
@@ -398,7 +398,7 @@
 \clearpage
 
 \subsubsection{主観評価}
-主観評価実験では，\ref{sec4:sec:obj_1}節および\ref{sec4:sec:obj_2}節の検討結果を踏まえ，以下の五種類の音声を評価対象とした．
+主観評価実験では，\ref{sec4:sec:obj_1}節および\ref{sec4:sec:obj_2}節の検討結果を踏まえ，以下の5種類の音声を評価対象とした．
 \begin{enumerate}
     \item ベースライン
     \item ネットワークB（Randomized）
@@ -406,7 +406,7 @@
     \item 分析合成
     \item 原音声
 \end{enumerate}
-ここで，ネットワークB（Randomized）およびネットワークB（Randomized・A-SingleTask）が，今回の実験を通して選択した提案手法の代表である．\ref{sec4:sec:sbj_explanation}節で述べたように，主観評価では音声の明瞭性と類似性の五段階評価を実施した．ダミー音声に対する評価値を誤った被験者は存在しなかったため，75人分のデータを統計処理に用いた．
+ここで，ネットワークB（Randomized）およびネットワークB（Randomized・A-SingleTask）が，今回の実験を通して選択した提案手法の代表である．\ref{sec4:sec:sbj_explanation}節で述べたように，主観評価では音声の明瞭性と類似性の5段階評価を実施した．ダミー音声に対する評価値を誤った被験者は存在しなかったため，75人分のデータを統計処理に用いた．
 
 被験者に対するアンケート結果について述べる．年齢層は21歳から62歳に渡り，箱ひげ図にてその分布を示した（図\ref{sec4:fig:age}）．性別の内訳は男性32名，女性43名であり，実験に利用した音響機器の内訳はヘッドホンが19名，イヤホンが56名であった．
 \begin{figure}[b]
@@ -416,7 +416,7 @@
     \label{sec4:fig:age}
 \end{figure}
 
-明瞭性と類似性の評価値について，手法ごとの標本平均と95\%信頼区間を表\ref{sec4:tab:sbj_mean_ci}に示す．また，各手法の組み合わせについて，平均値の差の検定（Welchのt検定）を行った結果を表\ref{sec4:tab:sbj_int_p}, \ref{sec4:tab:sbj_sim_p}に示す．表における$\lr{i, j}$成分は，$i$行目の手法に対する評価値の母平均を$\mu_{i}$，$j$列目の手法に対する評価値の母平均を$\mu_{j}$とするとき，帰無仮説を$\mu_{i} = \mu_{j}$，対立仮説を$\mu_{i} > \mu_{j}$とする片側検定で計算されたp値に対し，Benjamini/Hochberg法による多重比較のための補正を行った結果である．ここで，表の文字列は以下の意味である．
+明瞭性と類似性の評価値について，手法ごとの標本平均と95\%信頼区間を表\ref{sec4:tab:sbj_mean_ci}に示す．また，各手法の組み合わせについて，平均値の差の検定（Welchのt検定）を行った結果を表\ref{sec4:tab:sbj_int_p}, \ref{sec4:tab:sbj_sim_p}に示す．表における$\lr{i, j}$成分は，$i$行目の手法に対する評価値の母平均を$\mu_{i}$，$j$列目の手法に対する評価値の母平均を$\mu_{j}$とするとき，帰無仮説を$\mu_{i} = \mu_{j}$，対立仮説を$\mu_{i} > \mu_{j}$と片側検定で計算されたp値に対し，Benjamini/Hochberg法による多重比較のための補正を行った結果である．ここで，表の文字列は以下の意味である．
 \begin{enumerate}
     \item GT: 原音声（Ground Truth）
     \item AbS: 分析合成（Analysis by Synthesis）

@@ -18,7 +18,7 @@
 
 これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$は幅に相当する．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
 
-畳み込み層における主要なパラメータは三つある．一つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．二つ目はストライドであり，これによってカーネルのシフト幅を設定できる．三つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．例えば，カーネルサイズを3，ストライドとダイレーションを1とした場合には，入力の両端に1ずつゼロパディングすれば良い．図~\ref{sec3:fig:conv_variations}に，ある次元における一次元畳み込み層の処理を示す．
+畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．例えば，カーネルサイズを3，ストライドとダイレーションを1とした場合には，入力の両端に1ずつゼロパディングすれば良い．図~\ref{sec3:fig:conv_variations}に，ある次元における一次元畳み込み層の処理を示す．
 
 \begin{figure}[tb]
     \centering
@@ -75,9 +75,9 @@
 \end{figure}
 
 \subsubsection{活性化関数}
-活性化関数は，ニューラルネットワークの出力に非線形性を与えるための関数である．これにより，DNNは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる．以下，活性化関数への入力を$\inputLower \in \realSet$として，代表的なものを六つ述べる．また，本節で取り上げる活性化関数とその一階導関数のグラフを図~\ref{sec3:fig:activations_and_their_prime}に示す．
+活性化関数は，ニューラルネットワークの出力に非線形性を与えるための関数である．これにより，DNNは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる．以下，活性化関数への入力を$\inputLower \in \realSet$として，代表的なものを6つ述べる．また，本節で取り上げる活性化関数とその一階導関数のグラフを図~\ref{sec3:fig:activations_and_their_prime}に示す．
 
-一つ目は，シグモイド関数である．シグモイド関数は
+1つ目は，シグモイド関数である．シグモイド関数は
 \begin{equation}
     \sigmoid\lr{\inputLower} = \frac{1}{1 + \exp\lr{-\inputLower}}
 \end{equation}
@@ -87,7 +87,7 @@
 \end{equation}
 となる．図~\ref{sec3:fig:activations_prime}より，シグモイド関数の一階導関数の最大値は$\inputLower=0$における0.25であり，$\lrAbs{\inputLower - 0}$が大きくなるのに伴ってその値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の一階導関数の値が乗算された結果となる．前述したように，シグモイド関数は一階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
 
-二つ目は，$\tanh$関数である．$\tanh$は
+2つ目は，$\tanh$関数である．$\tanh$は
 \begin{equation}
     \tanh\lr{\inputLower} = \frac{\exp\lr{\inputLower} - \exp\lr{-\inputLower}}{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}
 \end{equation}
@@ -96,9 +96,9 @@
     \dv{\tanh\lr{\inputLower}}{x} & = \frac{4}{\lr{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}^{2}} \\
                                   & = \frac{1}{\cosh\lr{\inputLower}^{2}}
 \end{align}
-となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower - 0}$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower - 0}$が大きくなればシグモイド関数と同様に一回導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
+となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower - 0}$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower - 0}$が大きくなればシグモイド関数と同様に一階導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
 
-三つ目は，$\relu$である．$\relu$は
+3つ目は，$\relu$である．$\relu$は
 \begin{equation}
     \relu\lr{\inputLower} = \max \lr{0, \inputLower}
 \end{equation}
@@ -112,7 +112,7 @@
 \end{equation}
 となる．ここで，$\relu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\relu\lr{0}}{x} = 0$とした．$\relu$は入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．一階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に微分係数は1となることから，シグモイド関数や$\tanh$よりも勾配消失が起こりづらい．$\relu$は現在，標準的な活性化関数として広く用いられている．しかし，$\relu$への入力が0未満の値を取るとき，$\relu$入力についての出力の勾配は0になるから，$\relu$以前の層の重みが更新されず，学習が遅くなる可能性がある．
 
-四つ目は，$\leakyRelu$\cite{maas2013rectifier}である．$\leakyRelu$は
+3つ目は，$\leakyRelu$\cite{maas2013rectifier}である．$\leakyRelu$は
 \begin{equation}
     \leakyRelu\lr{\inputLower} =
     \begin{cases}
@@ -130,9 +130,9 @@
 \end{equation}
 となる．ここで，$\leakyRelu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\leakyRelu\lr{0}}{x} = a$とした．ReLUと比較すると，0未満の入力に対しても0でない値を出力し，一階導関数も0にならない点が異なっている．これにより，重みの更新が進まなくなるReLUの課題を解消した．
 
-五つ目は，$\prelu$\cite{he2015delving}である．これは，$\leakyRelu$と似た活性化関数であるが，$\leakyRelu$のパラメータ$a$を学習可能にすることで，その他の層と合わせて最適化が可能となったことが特徴である．
+5つ目は，$\prelu$\cite{he2015delving}である．これは，$\leakyRelu$と似た活性化関数であるが，$\leakyRelu$のパラメータ$a$を学習可能にすることで，その他の層と合わせて最適化が可能となったことが特徴である．
 
-六つ目は，$\gelu$\cite{hendrycks2016gaussian}である．$\gelu$は
+6つ目は，$\gelu$\cite{hendrycks2016gaussian}である．$\gelu$は
 \begin{equation}
     \gelu\lr{\inputLower} = \inputLower \Phi\lr{\inputLower}
 \end{equation}
@@ -286,7 +286,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 本節において，$\bm{\weightAndBias} \in \realSet^{\numUpper_{\text{model}}}$はDNNの重みとバイアスをまとめて表す変数とする．また，文章中では簡潔さを優先し，特別な理由がない限りは重みと呼ぶ．
 
 \subsubsection{損失関数}
-損失関数は，DNNによって推定された結果と正解値との間の誤差を求める関数のことであり，扱う問題によって様々である．例えば，回帰問題において用いられる関数の一つに，MAE（Mean Absolute Error）Lossがある．推定対象を$\bm{\outputLower} \in \realSet^{\dimUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\dimUpper}$とすると，MAE Lossは
+損失関数は，DNNによって推定された結果と正解値との間の誤差を求める関数のことであり，扱う問題によって様々である．例えば，回帰問題において用いられる関数の1つに，MAE（Mean Absolute Error）Lossがある．推定対象を$\bm{\outputLower} \in \realSet^{\dimUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\dimUpper}$とすると，MAE Lossは
 \begin{equation}
     \lossFuncUpper_{\text{MAE}}\lr{\bm{\outputLower}, \hat{\bm{\outputLower}}} = \frac{1}{\dimUpper} \sum_{\dimLower = 1}^{\dimUpper}  |\outputLower_{\dimLower} - \hat{\outputLower}_{\dimLower}|
 \end{equation}
@@ -296,7 +296,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 で与えられる．
 
-一方，分類問題において用いられる関数の一つに，Cross Entropy Lossがある．$\classUpper$クラス分類の問題について，推定対象を$\bm{\outputLower} \in \lrClosedInterval{0}{1}^{\classUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\classUpper}$とすると，Cross Entropy Lossは
+一方，分類問題において用いられる関数の1つに，Cross Entropy Lossがある．$\classUpper$クラス分類の問題について，推定対象を$\bm{\outputLower} \in \lrClosedInterval{0}{1}^{\classUpper}$，DNNによる推定結果を$\hat{\bm{\outputLower}} \in \realSet^{\classUpper}$とすると，Cross Entropy Lossは
 \begin{equation}
     \lossFuncUpper_{\text{CE}}\lr{\bm{\outputLower}, \hat{\bm{\outputLower}}} = - \sum_{\classLower = 1}^{\classUpper} y_{\classLower} \log \frac{\exp\lr{\hat{\outputLower}_{c}}}{\sum_{i = 1}^{C} \exp\lr{\hat{\outputLower}_{c}}}
 \end{equation}
@@ -327,40 +327,40 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 で与えられる．ここで，$\iter \in \naturalSet$は学習におけるイテレーション，$\learningRate \in \lrLeftClosedInterval{0}{\infty}$は学習率を表す．
 
-勾配降下法には，三種類の方法がある\cite{zhang2019gradient}．一つ目は，バッチ勾配降下法である．これは，
+勾配降下法には，3種類の方法がある\cite{zhang2019gradient}．1つ目は，バッチ勾配降下法である．これは，
 \begin{equation}
     \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \{1, \ldots, N\}}
 \end{equation}
-で与えられる．すなわち，各イテレーションで学習データ全てを用いる方法である．各サンプルのノイズの影響が低減されることで安定した学習が期待できるが，計算コストが高い．二つ目は，確率的勾配降下法である．これは，ランダムに選択された$n_{\iter} \in \{1, \ldots, N\}$に対し，
+で与えられる．すなわち，各イテレーションで学習データ全てを用いる方法である．各サンプルのノイズの影響が低減されることで安定した学習が期待できるが，計算コストが高い．2つ目は，確率的勾配降下法である．これは，ランダムに選択された$n_{\iter} \in \{1, \ldots, N\}$に対し，
 \begin{equation}
     \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \{n_{\iter}\}}
 \end{equation}
-で与えられる．すなわち，各イテレーションで単一サンプルのみを用いる方法である．計算コストが下がるが，各サンプルのノイズの影響が大きくなることで学習が不安定になる可能性がある．三つ目は，ミニバッチ勾配降下法である．これは，$1 < |\mathcal{I}_{\iter}| < N$を満たすランダムに選択された$\mathcal{I}_{\iter} \subsetneq \{1, \ldots, N\}$に対し，
+で与えられる．すなわち，各イテレーションで単一サンプルのみを用いる方法である．計算コストが下がるが，各サンプルのノイズの影響が大きくなることで学習が不安定になる可能性がある．3つ目は，ミニバッチ勾配降下法である．これは，$1 < |\mathcal{I}_{\iter}| < N$を満たすランダムに選択された$\mathcal{I}_{\iter} \subsetneq \{1, \ldots, N\}$に対し，
 \begin{equation}
     \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
 \end{equation}
-で与えられる．これより，各イテレーションで二つ以上のサンプルからなる学習データセットの真部分集合を用いる方法だと言える．バッチ勾配降下法と確率的勾配降下法の間をとった方法であり，DNNの学習においては一般にミニバッチ勾配降下法が用いられる．ここで，ミニバッチに含まれるサンプルの数をバッチサイズと呼ぶ．
+で与えられる．これより，各イテレーションで2つ以上のサンプルからなる学習データセットの真部分集合を用いる方法だと言える．バッチ勾配降下法と確率的勾配降下法の間をとった方法であり，DNNの学習においては一般にミニバッチ勾配降下法が用いられる．ここで，ミニバッチに含まれるサンプルの数をバッチサイズと呼ぶ．
 
 また，確率的勾配降下法やミニバッチ勾配降下法では，サンプルを学習データセットからランダムに非復元抽出する．ここで，毎回のサンプリングされた学習データに対する処理は1イテレーションとカウントし，学習データセットを一度全て使い切ることは1エポックとカウントする．実際には，データセットの総サンプル数$N$に対してバッチサイズを決定することで1エポックあたりの総イテレーション数は決まり，最大エポック数を設定して学習を回すこととなる．
 
 \subsubsection{正則化}
-DNNは大量のパラメータにより高い表現力を持つが，その分学習データに過剰に適合し，未知データに対する汎化性能が低いモデルとなる，過学習を引き起こす可能性がある．正則化は，このようなDNNの過学習を防ぐための手段である．以下，具体的な方法を四つ述べる．
+DNNは大量のパラメータにより高い表現力を持つが，その分学習データに過剰に適合し，未知データに対する汎化性能が低いモデルとなる，過学習を引き起こす可能性がある．正則化は，このようなDNNの過学習を防ぐための手段である．以下，具体的な方法を3つ述べる．
 
-一つ目は，L2正則化である．これは，$\mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}}$を
+1つ目は，L2正則化である．これは，$\mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}}$を
 \begin{equation}
     \label{sec3:eq:l2_reg}
     \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}} = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}} + \frac{\regConst}{2} \lrTwoNorm{\bm{\weightAndBias}}^{2}
 \end{equation}
 とすることで与えられる．ここで，$\regConst \in \lrLeftClosedInterval{0}{\infty}$は正則化の程度を調整するパラメータである．これより，L2正則化は損失関数の値に$\lrTwoNorm{\bm{\weightAndBias}}^{2}$を加算することで，重み$\bm{\weightAndBias}$のL2ノルムが過大になることを防ぐ方法だと言える．
 
-二つ目は，Weight Decayである．これは，重みの更新式を
+2つ目は，Weight Decayである．これは，重みの更新式を
 \begin{equation}
     \label{sec3:eq:weight_decay}
     \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}} - \regConst' \bm{\weightAndBias}
 \end{equation}
 とすることで与えられる．ここで，$\regConst' \in \lrLeftClosedInterval{0}{\infty}$は正則化の程度を調整するパラメータである．これより，Weight Decayは重み$\bm{\weightAndBias}$の絶対値が過大になることを防ぐ手法だと言える．
 
-三つ目は，Dropout\cite{srivastava2014dropout}である．Dropoutは，学習時に特徴量の一部を0に落とす手法である．一方，推論時は恒等写像となり，学習時と挙動が変わる．Dropoutへの入力を$\bm{\inputLower} \in \realSet^{\dimUpper_{\text{in}}}$，特徴量を0に落とす確率を$p \in \lr{0, 1}$とすると，学習時のDropout出力$\bm{\outputLower}_{\text{train}} \in \realSet^{\dimUpper_{\text{out}}}$および推論時のDropout出力$\bm{\outputLower}_{\text{infer}} \in \realSet^{\dimUpper_{\text{out}}}$は，
+3つ目は，Dropout\cite{srivastava2014dropout}である．Dropoutは，学習時に特徴量の一部を0に落とす手法である．一方，推論時は恒等写像となり，学習時と挙動が変わる．Dropoutへの入力を$\bm{\inputLower} \in \realSet^{\dimUpper_{\text{in}}}$，特徴量を0に落とす確率を$p \in \lr{0, 1}$とすると，学習時のDropout出力$\bm{\outputLower}_{\text{train}} \in \realSet^{\dimUpper_{\text{out}}}$および推論時のDropout出力$\bm{\outputLower}_{\text{infer}} \in \realSet^{\dimUpper_{\text{out}}}$は，
 \begin{align}
     \bm{\outputLower}_{\text{train}} & = \frac{\bm{x} \elemMul \bm{m}}{1 - p} \label{sec3:eq:regularization_dropout_training_output} \\
     \bm{\outputLower}_{\text{infer}} & = \bm{x}
@@ -374,7 +374,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{align}
 となる．Dropoutは学習時に一部のニューロンを落とすことで，実質的に異なるネットワークを学習させていると考えることができる．よって，学習時の出力の期待値に推論時の出力を一致させることは，異なるネットワークから得られた出力の期待値をとり，アンサンブルモデルとして推論時の出力を得ていると解釈できる．
 
-四つ目は，Early Stoppingである．Early Stoppingは，検証データに対する損失の増加を監視し，設定したエポック数だけ増加し続けた場合に学習を停止する手法である．これにより，学習データに対する過度なフィッティングを防止する．
+3つ目は，Early Stoppingである．Early Stoppingは，検証データに対する損失の増加を監視し，設定したエポック数だけ増加し続けた場合に学習を停止する手法である．これにより，学習データに対する過度なフィッティングを防止する．
 
 \subsubsection{最適化手法}
 % 時間あればadamがmomentamやrmspropの発展として解釈できることを述べても良い．
@@ -417,21 +417,21 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{algorithm}
 
 \subsubsection{学習率のスケジューリング}
-学習率のスケジューリングは，学習率$\learningRate$の値自体を学習の進行に伴って変更するものである．これは，より安定した学習を促したり，より早く学習を収束させたりするのに役立つ手段である．以下，三つのスケジューラを例として述べる．また，各スケジューラを用いた場合における学習率の遷移を図~\ref{sec3:fig:lr_scheduler}に示す．
+学習率のスケジューリングは，学習率$\learningRate$の値自体を学習の進行に伴って変更するものである．これは，より安定した学習を促したり，より早く学習を収束させたりするのに役立つ手段である．以下，3つのスケジューラを例として述べる．また，各スケジューラを用いた場合における学習率の遷移を図~\ref{sec3:fig:lr_scheduler}に示す．
 
-一つ目は，StepLRSchedulerである．これは，初期学習率を$\learningRate_{0}$として，エポック$\epoch$における学習率$\learningRate_{\epoch}$を
+1つ目は，StepLRSchedulerである．これは，初期学習率を$\learningRate_{0}$として，エポック$\epoch$における学習率$\learningRate_{\epoch}$を
 \begin{equation}
     \learningRate_{\epoch} = \learningRate_{0} \gamma^{\left\lfloor \epoch / \text{stepSize} \right\rfloor}
 \end{equation}
 で与えるスケジューラである．これは，学習が$\text{stepSize}$エポック進むごとに学習率を$\gamma$倍することで，学習率を段階的に変化させる．シンプルで分かりやすいが，学習率の変化が不連続的になる．
 
-二つ目は，ExponentialLRSchedulerである．これは，$\learningRate_{\epoch}$を
+2つ目は，ExponentialLRSchedulerである．これは，$\learningRate_{\epoch}$を
 \begin{equation}
     \learningRate_{\epoch} = \learningRate_{0} \exp \lr{ -\gamma \epoch }
 \end{equation}
 で与えるスケジューラである．学習が1エポック進むごとに学習率を指数関数的に変化させるため，StepLRSchedulerと比較して変化が連続的である．
 
-三つ目は，Cosine Annealing with Warmupである．これは，$\learningRate_{\epoch}$を
+3つ目は，Cosine Annealing with Warmupである．これは，$\learningRate_{\epoch}$を
 \begin{equation}
     \learningRate_{\epoch} =
     \begin{cases}

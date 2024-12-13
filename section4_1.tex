@@ -26,7 +26,7 @@
     \label{sec4:fig:hubert}
 \end{figure}
 
-提案手法を図\ref{sec4:fig:overview}に示す．提案手法は，ネットワークA，ネットワークB，ボコーダの三つからなる．まず，ネットワークAを$\myNetworkA$とすると，$\myNetworkA$の行う処理は，
+提案手法を図\ref{sec4:fig:overview}に示す．提案手法は，ネットワークA，ネットワークB，ボコーダの3つからなる．まず，ネットワークAを$\myNetworkA$とすると，$\myNetworkA$の行う処理は，
 \begin{equation}
     \label{sec4:eq:networkA_overview}
     \hubertIntPred, \melPredA, \hubertDiscPredA = \myNetworkA\lr{\video, \spkEmb; \weightA}
@@ -122,7 +122,7 @@
 \begin{equation}
     \featureB = \hubertTransformer\lr{\hubertIntPred; \weightBHuBERTTrans}
 \end{equation}
-と表される．$\weightBHuBERTTrans$は，HuBERTの事前学習済み重みで初期化する場合と，ランダム初期化する場合の二つを検討した．以下，ネットワークAと処理は同様であるため，数式のみ記載する．
+と表される．$\weightBHuBERTTrans$は，HuBERTの事前学習済み重みで初期化する場合と，ランダム初期化する場合の2つを検討した．以下，ネットワークAと処理は同様であるため，数式のみ記載する．
 \begin{gather}
     \featureB = \myNetworkSpkMerge\lr{\concat{\featureB, \lrRepeat{\spkEmb}{T}}; \weightBFcSpk} \\
     \featureB = \myNetworkPost\lr{\featureB; \weightBPost} \\
