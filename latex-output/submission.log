@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  13 DEC 2024 17:10
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  13 DEC 2024 17:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -605,7 +605,7 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 2.
 ) [1
 
-] [2] (./section2.tex
+] (./section2.tex
 File: ./figure/sec2/spectrogram_1.png Graphic file (type bmp)
 <./figure/sec2/spectrogram_1.png>
 File: ./figure/sec2/spectrogram_2.png Graphic file (type bmp)
@@ -614,12 +614,12 @@ File: ./figure/sec2/spectrogram_4.png Graphic file (type bmp)
 <./figure/sec2/spectrogram_4.png>
 File: ./figure/sec2/spectrogram_8.png Graphic file (type bmp)
 <./figure/sec2/spectrogram_8.png>
-[3
+[2
 
-] [4]
+] [3]
 File: ./figure/sec2/melspectrogram.png Graphic file (type bmp)
 <./figure/sec2/melspectrogram.png>
-) [5] (./section3.tex [6
+) [4] (./section3.tex [5
 
 ]
 File: ./figure/sec3/conv1.drawio.png Graphic file (type bmp)
@@ -630,30 +630,30 @@ File: ./figure/sec3/conv3.drawio.png Graphic file (type bmp)
 <./figure/sec3/conv3.drawio.png>
 File: ./figure/sec3/conv4.drawio.png Graphic file (type bmp)
 <./figure/sec3/conv4.drawio.png>
-[7]
+[6]
 File: ./figure/sec3/tconv1.drawio.png Graphic file (type bmp)
 <./figure/sec3/tconv1.drawio.png>
 File: ./figure/sec3/tconv2.drawio.png Graphic file (type bmp)
 <./figure/sec3/tconv2.drawio.png>
-[8] [9]
+[7] [8]
 File: ./figure/sec3/activations.png Graphic file (type bmp)
 <./figure/sec3/activations.png>
 File: ./figure/sec3/activations_prime.png Graphic file (type bmp)
 <./figure/sec3/activations_prime.png>
-[10] [11] [12]
+[9] [10] [11]
 File: ./figure/sec3/transformer.drawio.png Graphic file (type bmp)
 <./figure/sec3/transformer.drawio.png>
-[13] [14] [15] [16] [17] [18]
+[12] [13] [14] [15] [16] [17]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 384.
-[19]
+[18]
 File: ./figure/sec3/lr_scheduler.png Graphic file (type bmp)
 <./figure/sec3/lr_scheduler.png>
-[20] [21]
+[19] [20]
 Overfull \hbox (4.32182pt too wide) in paragraph at lines 475--478
 \JY1/mc/m/n/12 となる ． ここで ， $\OML/cmm/m/it/12 L [] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 L[]$ \JY1/mc/m/n/12 とおいた ． この時 ， 各 $\OML/cmm/m/it/12 n \OMS/cmsy/m/n/12 2 f\OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; [] ; N[]\OMS/cmsy/m/n/12 g$ \JY1/mc/m/n/12 に対し ， $[]$
  []
 
-[22] [23]) [24] (./section4_1.tex
+[21] [22]) [23] (./section4_1.tex
 File: ./figure/sec4/model_2/hubert.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/hubert.drawio.png>
 
@@ -661,12 +661,12 @@ Overfull \hbox (0.58258pt too wide) in paragraph at lines 33--35
 \JY1/mc/m/n/12 と表される ． ここで ， $[] \OMS/cmsy/m/n/12 2 \U/msb/m/n/12 R[]$ \JY1/mc/m/n/12 は予測 \OT1/cmr/m/n/12 Hu-BERT \JY1/mc/m/n/12 中間特徴量 ， $[] \OMS/cmsy/m/n/12 2 \U/msb/m/n/12 R[]$
  []
 
-[25
+[24
 
 ]
 File: ./figure/sec4/model_2/overview.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/overview.drawio.png>
-[26]
+[25]
 File: ./figure/sec4/model_2/networkA.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/networkA.drawio.png>
 File: ./figure/sec4/model_2/networkB.drawio.png Graphic file (type bmp)
@@ -677,14 +677,14 @@ File: ./figure/sec4/model_2/post_resblock.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/post_resblock.drawio.png>
 File: ./figure/sec4/model_2/post_convblock.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/post_convblock.drawio.png>
-[27] [28]
+[26] [27]
 File: ./figure/sec4/model_2/vocoder.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder.drawio.png>
 File: ./figure/sec4/model_2/vocoder_main.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main.drawio.png>
 File: ./figure/sec4/model_2/vocoder_main_block.drawio.png Graphic file (type bmp)
 <./figure/sec4/model_2/vocoder_main_block.drawio.png>
-[29]) (./section4_2.tex [30] [31] [32] [33] [34] [35] [36] [37] [38]) (./section4_3.tex [39]
+[28]) (./section4_2.tex [29] [30] [31] [32] [33] [34] [35] [36] [37]) (./section4_3.tex [38]
 File: ./figure/sec4/learning_curves/0/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/0/mel_loss.png>
 File: ./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png Graphic file (type bmp)
@@ -711,14 +711,14 @@ File: ./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png Graphic file 
 <./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/4/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/4/total_loss.png>
-[40] [41] [42] [43] [44] [45]
+[39] [40] [41] [42] [43] [44]
 File: ./figure/sec4/learning_curves/6/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/6/mel_loss.png>
 File: ./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/6/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/6/total_loss.png>
-[46
+[45
 
 ]
 File: ./figure/sec4/learning_curves/9/mel_loss.png Graphic file (type bmp)
@@ -727,7 +727,7 @@ File: ./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png Graphic file 
 <./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/9/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/9/total_loss.png>
-[47]
+[46]
 File: ./figure/sec4/learning_curves/7/mel_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/7/mel_loss.png>
 File: ./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png Graphic file (type bmp)
@@ -740,14 +740,14 @@ File: ./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png Graphi
 <./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png>
 File: ./figure/sec4/learning_curves/10_11_12/total_loss.png Graphic file (type bmp)
 <./figure/sec4/learning_curves/10_11_12/total_loss.png>
-[48] [49] [50] [51] [52]
+[47] [48] [49] [50] [51]
 File: ./figure/sec4/sbj/age.png Graphic file (type bmp)
 <./figure/sec4/sbj/age.png>
-[53
+[52
 
-]) (./section4_4.tex [54] [55]) [56] [57] [58
+]) (./section4_4.tex [53] [54]) [55] [56] [57
 
-] [59
+] [58
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -780,7 +780,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 79.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 85.
-[60
+[59
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -801,7 +801,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 148.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 154.
-[61]
+[60]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 160.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -822,24 +822,24 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 218.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 224.
-[62]
+[61]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 230.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 236.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 244.
-) [63] (latex-output/submission.aux)
+) [62] (latex-output/submission.aux)
 Package rerunfilecheck Info: File `submission.out' has not changed.
-(rerunfilecheck)             Checksum: 31E54B4673C3EF9FECC93317CBA6ABFE;3810.
+(rerunfilecheck)             Checksum: 316D2AE1494FBFD2711F75E04ED5D30B;3730.
  ) 
 Here is how much of TeX's memory you used:
- 18592 strings out of 478692
- 355753 string characters out of 5855915
- 648133 words of memory out of 5000000
- 36741 multiletter control sequences out of 15000+600000
+ 18594 strings out of 478692
+ 355761 string characters out of 5855915
+ 648054 words of memory out of 5000000
+ 36743 multiletter control sequences out of 15000+600000
  494189 words of font info for 125 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  74i,17n,79p,3110b,881s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (67 pages, 387088 bytes).
+Output written on latex-output/submission.dvi (66 pages, 385248 bytes).

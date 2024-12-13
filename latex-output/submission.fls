@@ -934,8 +934,6 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 INPUT ./section2.tex
 INPUT section2.tex
 INPUT ./section2.tex
@@ -959,6 +957,8 @@ INPUT ./figure/sec2/spectrogram_8.png
 INPUT ./figure/sec2/spectrogram_8.png
 INPUT ./figure/sec2/spectrogram_8.png
 INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_8.png
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
