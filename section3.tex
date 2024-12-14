@@ -1,5 +1,5 @@
 \section{深層学習}
-深層学習とは，人間の神経細胞の仕組みを模擬したニューラルネットワークを用いる機械学習手法のことである．特に近年ではその層を深くしたディープニューラルネットワーク（Deep Neural Network; DNN）が用いられ，大量のパラメータによる表現力により，自然言語処理や画像処理，音声認識や音声合成など様々な分野で成果を上げている．本章では，DNNの構成要素及び，構築したDNNの学習方法について説明する．
+深層学習とは，人間の神経細胞の仕組みを模擬したニューラルネットワークを用いる機械学習手法のことである．特に近年ではその層を深くしたディープニューラルネットワーク（Deep Neural Network; DNN）が用いられ，大量のパラメータによる表現力により，自然言語処理や画像処理，音声処理など様々な分野で成果を上げている．本章では，DNNの構成要素及び，構築したDNNの学習方法について説明する．
 
 \subsection{DNNの構成要素}
 \subsubsection{全結合層}
@@ -264,7 +264,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 と表される．ここで，$\bm{\weightUpper}_{o} \in \realSet^{\dimUpper_{v} \times \dimUpper_{\text{model}}}$は重み，$\bm{\biasLower}_{o} \in \realSet^{\dimUpper_{\text{model}}}$はバイアスである．ヘッドを分割して複数パターンのSelf-Attentionを可能にすることで，より複雑な入出力の関係を学習できると考えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
 \begin{equation}
-    \bm{\outputUpper} = \text{LayerNorm}\lr{\text{MultiHead}r{\bm{Q}, \bm{K}, \bm{V}} + \bm{\inputUpper}}
+    \bm{\outputUpper} = \text{LayerNorm}\lr{\text{MultiHead}\lr{\bm{Q}, \bm{K}, \bm{V}} + \bm{\inputUpper}}
 \end{equation}
 で与えられる．その後，全結合層を通し，残差結合とレイヤー正規化を適用することでTransformer層最終出力を得る．すなわち，
 \begin{equation}
