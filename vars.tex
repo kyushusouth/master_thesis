@@ -30,6 +30,8 @@
 \newcommand{\classLower}{c}
 \newcommand{\classUpper}{C}
 \newcommand{\dilationUpper}{R}
+\newcommand{\fcLayer}{\text{FC}}
+\newcommand{\fcLayerValue}[2]{\text{FC}\lr{#1; #2}}
 \newcommand{\numHeadLower}{h}
 \newcommand{\numHeadUpper}{H}
 \newcommand{\kernelSizeLower}{k}
@@ -67,12 +69,12 @@
 \newcommand{\lrc}[1]{\left\{#1\right\}}
 \newcommand{\lrFloor}[1]{\left\lfloor#1\right\rfloor}
 \newcommand{\lrAbs}[1]{\left|#1\right|}
-\newcommand{\lrOneNorm}[1]{\left\|#1\right\|}
+\newcommand{\lrOneNorm}[1]{\left\|#1\right\|_{1}}
 \newcommand{\lrTwoNorm}[1]{\left\|#1\right\|_{2}}
 \newcommand{\lrRepeat}[2]{\left(#1\right)_{#2}}
 \newcommand{\lrRepeatTr}[2]{\lr{\lr{#1}_{#2}}^\top}
-\newcommand{\diff}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
-\newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\card}[1]{\left|#1\right|}
+
 % operator
 \newcommand{\expectation}[1]{\mathbb{E}\lrsq{#1}}
 \newcommand{\elemMul}{\odot}
@@ -139,27 +141,27 @@
 \newcommand{\spkEmbSet}{\realSet^{\dimUpper^{\text{spk-emb}}}}
 \newcommand{\hubertIntGt}{\bm{\outputUpper}^{\text{HuB-int}}_{\numLower}}
 \newcommand{\hubertIntPred}{\hat{\bm{\outputUpper}}^{\text{HuB-int}}_{\numLower}}
-\newcommand{\hubertIntSet}{\realSet^{\dimUpper^{\text{HuB-int}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\hubertIntSet}{\realSet^{\timeUpper^{\text{HuB}}_{\numLower} \times \dimUpper^{\text{HuB-int}}}}
 \newcommand{\hubertDiscGt}{\bm{\outputUpper}^{\text{HuB-disc}}_{\numLower}}
 \newcommand{\hubertDiscGtVec}{\bm{\outputLower}^{\text{HuB-disc}}_{\numLower, \timeLower}}
-\newcommand{\hubertDiscGtSet}{\{0, 1\}^{\classUpper \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\hubertDiscGtSet}{\{0, 1\}^{\timeUpper^{\text{HuB}}_{\numLower} \times \classUpper}}
 \newcommand{\hubertDiscPredA}{\hat{\bm{\outputUpper}}^{\text{HuB-disc-A}}_{\numLower}}
 \newcommand{\hubertDiscPredB}{\hat{\bm{\outputUpper}}^{\text{HuB-disc-B}}_{\numLower}}
-\newcommand{\hubertDiscPredSet}{\realSet^{\classUpper \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\hubertDiscPredSet}{\realSet^{\timeUpper^{\text{HuB}}_{\numLower} \times \classUpper}}
 \newcommand{\melGt}{\bm{\outputUpper}^{\text{mel}}_{\numLower}}
 \newcommand{\melPredA}{\hat{\bm{\outputUpper}}^{\text{mel-A}}_{\numLower}}
 \newcommand{\melPredB}{\hat{\bm{\outputUpper}}^{\text{mel-B}}_{\numLower}}
-\newcommand{\melSet}{\realSet^{\dimUpper^{\text{mel}} \times \timeUpper^{\text{mel}}_{\numLower}}}
+\newcommand{\melSet}{\realSet^{\timeUpper^{\text{mel}}_{\numLower} \times \dimUpper^{\text{mel}}}}
 \newcommand{\video}{\bm{\inputUpper}^{\text{video}}_{\numLower}}
-\newcommand{\videoSet}{\realSet^{\dimUpper^{\text{video}} \times \timeUpper^{\text{video}}_{\numLower} \times \widthUpper^{\text{video}} \times \heightUpper^{\text{video}}}}
+\newcommand{\videoSet}{\realSet^{\timeUpper^{\text{video}}_{\numLower} \times \widthUpper^{\text{video}} \times \heightUpper^{\text{video}}}}
 \newcommand{\featureA}{\bm{\featureUpper}^{\text{A}}_{\numLower}}
-\newcommand{\featureASet}{\realSet^{\dimUpper^{\text{A}} \times \timeUpper^{\text{video}}_{\numLower}}}
+\newcommand{\featureASet}{\realSet^{\timeUpper^{\text{video}}_{\numLower} \times \dimUpper^{\text{A}}}}
 \newcommand{\featureB}{\bm{\featureUpper}^{\text{B}}_{\numLower}}
-\newcommand{\featureBSet}{\realSet^{\dimUpper^{\text{B}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\featureBSet}{\realSet^{\timeUpper^{\text{HuB}}_{\numLower} \times \dimUpper^{\text{B}}}}
 \newcommand{\featureVocMel}{\bm{\featureUpper}^{\text{mel-voc}}_{\numLower}}
-\newcommand{\featureVocMelSet}{\realSet^{\dimUpper^{\text{mel-voc}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\featureVocMelSet}{\realSet^{\timeUpper^{\text{HuB}}_{\numLower} \times \dimUpper^{\text{mel-voc}}}}
 \newcommand{\featureVocHuBERT}{\bm{\featureUpper}^{\text{HuB-voc}}_{\numLower}}
-\newcommand{\featureVocHuBERTSet}{\realSet^{\dimUpper^{\text{HuB-voc}} \times \timeUpper^{\text{HuB}}_{\numLower}}}
+\newcommand{\featureVocHuBERTSet}{\realSet^{\timeUpper^{\text{HuB}}_{\numLower} \times \dimUpper^{\text{HuB-voc}}}}
 % loss
 \newcommand{\lossWeightMel}{\lambda_{\text{mel}}}
 \newcommand{\lossWeightHubInt}{\lambda_{\text{HuB-int}}}

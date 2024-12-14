@@ -971,10 +971,10 @@ INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT extractbb -B cropbox -O ./figure/sec2/melspectrogram.png
-INPUT ./section3.tex
-INPUT section3.tex
-INPUT ./section3.tex
-INPUT section3.tex
+INPUT ./section3_1.tex
+INPUT section3_1.tex
+INPUT ./section3_1.tex
+INPUT section3_1.tex
 INPUT ./figure/sec3/conv1.drawio.png
 INPUT ./figure/sec3/conv1.drawio.png
 INPUT ./figure/sec3/conv1.drawio.png
@@ -1026,6 +1026,10 @@ INPUT ./figure/sec3/transformer.drawio.png
 INPUT ./figure/sec3/transformer.drawio.png
 INPUT ./figure/sec3/transformer.drawio.png
 INPUT extractbb -B cropbox -O ./figure/sec3/transformer.drawio.png
+INPUT ./section3_2.tex
+INPUT section3_2.tex
+INPUT ./section3_2.tex
+INPUT section3_2.tex
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT ./figure/sec3/lr_scheduler.png
 INPUT ./figure/sec3/lr_scheduler.png

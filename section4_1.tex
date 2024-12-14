@@ -55,9 +55,9 @@
 \end{equation}
 と表される．$\weightAAVHuBERT$は，AVHuBERTの事前学習済み重みで初期化した．次に，$\featureA$の各時刻$t$におけるベクトルに対し，話者ベクトル$\spkEmb$を次元方向に結合してから，全結合層によって次元を再度圧縮し，元の次元に戻す．これは，
 \begin{equation}
-    \featureA = \myNetworkSpkMerge\lr{\concat{\featureA, \lrRepeat{\spkEmb}{T}}; \weightAFcSpk}
+    \featureA = \myNetworkSpkMerge\lr{\concat{\featureA, \spkEmb \bm{1}^{\top}}; \weightAFcSpk}
 \end{equation}
-と表される．次に，話者ベクトルが統合された特徴量に対する後処理として，$\myNetworkPost$を適用する．これは，
+と表される．ここで，$\bm{1} \in \{1\}^{\timeUpper^{\text{video}}_{\numLower}}$は全成分が1のベクトルである．次に，話者ベクトルが統合された特徴量に対する後処理として，$\myNetworkPost$を適用する．これは，
 \begin{equation}
     \featureA = \myNetworkPost\lr{\featureA; \weightAPost}
 \end{equation}
@@ -124,7 +124,7 @@
 \end{equation}
 と表される．$\weightBHuBERTTrans$は，HuBERTの事前学習済み重みで初期化する場合と，ランダム初期化する場合の2つを検討した．以下，ネットワークAと処理は同様であるため，数式のみ記載する．
 \begin{gather}
-    \featureB = \myNetworkSpkMerge\lr{\concat{\featureB, \lrRepeat{\spkEmb}{T}}; \weightBFcSpk} \\
+    \featureB = \myNetworkSpkMerge\lr{\concat{\featureB, \spkEmb \bm{1}^{\top}}; \weightBFcSpk} \\
     \featureB = \myNetworkPost\lr{\featureB; \weightBPost} \\
     \melPredB = \myNetworkFcMel\lr{\featureB; \weightBFcMel} \\
     \hubertDiscPredB = \myNetworkFcHubDisc\lr{\featureB; \weightBFcHuBDisc}
