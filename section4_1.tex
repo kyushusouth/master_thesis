@@ -4,27 +4,12 @@
 \begin{equation}
     \datasetTrain = \lrc{\lr{\video, \spWaveformGt, \spkEmb, \melGt, \hubertIntGt, \hubertDiscGt}}_{\numLower = 1}^{\numUpper}
 \end{equation}
-とする．各$\numLower$に対し，$\video \in \videoSet$は口唇動画， $\spWaveformGt \in \spWaveformSet$は原音声の音声波形，$\spkEmb \in \spkEmbSet$は話者ベクトル，$\melGt \in \melSet$はメルスペクトログラム，$\hubertIntGt \in \hubertIntSet$はHuBERT中間特徴量，$\hubertDiscGt \in \hubertDiscGtSet$はHuBERT離散特徴量とする．$T$に添字をつけて各サンプル$n$ごとの各特徴量の系列長，$D$に添字をつけて各特徴量の次元，$W, H$で動画の幅と高さ，$C$でクラス数を表した．以下，新たに定義される変数も同様の表記でデータの形状を表現したため，冗長にならないようその都度述べることは避ける．ここで，話者ベクトル$\spkEmb$は，話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトル（d-vector）であり，
-\begin{equation}
-    \spkEmb = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \spkEmbExtractor\lr{\bm{\outputLower}^{\text{sp-wf}}_{\indexLower}; \weightSpk}
-\end{equation}
-で与えられる．ここで，$\weightSpk$は事前学習済み重みを表す．$\mathcal{\indexUpper}$は学習データセット$\datasetTrain$において、話者$s_{n}$と話者が同一であるデータのインデックス集合から、ランダムに$\numUpper_{\text{spk-emb}}$個のインデックスを抽出した部分集合とする。すなわち、
-\begin{equation}
-    \mathcal{\indexUpper} \subset \{\indexLower \mid \indexLower \in \{1, \ldots, N\}, ~ s_{\indexLower} = \spkId\}, \quad |\mathcal{\indexUpper}| = \numUpper_{\text{spk-emb}}
-\end{equation}
-である。次に，HuBERT中間特徴量とHuBERT離散特徴量は，HuBERTにおける畳み込みエンコーダまで（Transformer層以前）を$\hubertConv$，HuBERTにおけるTransformer層（$\hubertConv$以後）を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，
+とする．各$\numLower$に対し，$\video \in \videoSet$は口唇動画， $\spWaveformGt \in \spWaveformSet$は原音声の音声波形，$\spkEmb \in \spkEmbSet$は話者ベクトル，$\melGt \in \melSet$はメルスペクトログラム，$\hubertIntGt \in \hubertIntSet$はHuBERT中間特徴量，$\hubertDiscGt \in \hubertDiscGtSet$はHuBERT離散特徴量とする．$T$に添字をつけて各サンプル$n$ごとの各特徴量の系列長，$D$に添字をつけて各特徴量の次元，$W, H$で動画の幅と高さ，$C$でクラス数を表した．以下，新たに定義される変数も同様の表記でデータの形状を表現したため，冗長にならないようその都度述べることは避ける．ここで，話者ベクトル$\spkEmb$は，話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトル（d-vector）である．また，HuBERT中間特徴量とHuBERT離散特徴量は，HuBERTにおける畳み込みエンコーダまでを$\hubertConv$，HuBERTにおけるTransformer層を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，
 \begin{gather}
     \hubertIntGt = \hubertConv\lr{\spWaveformGt; \weightHuBERTConv} \\
     \hubertDiscGt = \onehot\lr{\kmeans\lr{\hubertTransformer\lr{\hubertIntGt; \weightHuBERTTrans}}}
 \end{gather}
-で与えられる．ここで，$\weightHuBERTConv, \weightHuBERTTrans$はHuBERTの事前学習済み重みを表す．HuBERTを利用した特徴量計算の流れを図\ref{sec4:fig:hubert}に示す。
-
-\begin{figure}[b]
-    \centering
-    \includegraphics[height=12mm]{./figure/sec4/model_2/hubert.drawio.png}
-    \caption{HuBERTを利用した特徴量計算の流れ}
-    \label{sec4:fig:hubert}
-\end{figure}
+で与えられる．ここで，$\weightHuBERTConv, \weightHuBERTTrans$はHuBERTの事前学習済み重みを表す．
 
 提案手法を図\ref{sec4:fig:overview}に示す．提案手法は，ネットワークA，ネットワークB，ボコーダの3つからなる．まず，ネットワークAを$\myNetworkA$とすると，$\myNetworkA$の行う処理は，
 \begin{equation}
@@ -143,7 +128,7 @@ $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべて�
 \begin{equation}
     \spWaveformPred = \vocoderMain\lr{\concat{\featureVocMel, \featureVocHuBERT}; \weightVocMain}
 \end{equation}
-と表される．$\vocoderMain$は，図\ref{sec4:fig:vocoder_main}に示すように，一次元畳み込み層とUpsamplingBlockから構成され，これはHiFi-GANのGeneratorと同様である．各UpsamplingBlockでは，初めに一次元転置畳み込み層を通すことで時間方向のアップサンプリングを行い，その後複数の一次元畳み込み層から特徴抽出を行った結果を平均して出力する．
+と表される．$\vocoderMain$は，図\ref{sec4:fig:vocoder_main}に示すように，一次元畳み込み層とUpsamplingBlockから構成され，これはHiFi-GAN\cite{kong2020hifi}のGeneratorと同様である．各UpsamplingBlockでは，初めに一次元転置畳み込み層を通すことで時間方向のアップサンプリングを行い，その後複数の一次元畳み込み層から特徴抽出を行った結果を平均して出力する．
 
 \begin{figure}[tb]
     \centering
@@ -180,11 +165,15 @@ $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべて�
                & + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredA}
     \end{aligned}
 \end{equation}
-で与えられる．すなわち，HuBERT中間特徴量についてのMAE Loss，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．次に，ネットワークBの学習に用いる損失関数$\lossB$は，
+で与えられる．すなわち，HuBERT中間特徴量についてのMAE Loss，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．
+
+次に，ネットワークBの学習に用いる損失関数$\lossB$は，
 \begin{equation}
     \begin{aligned}
         \lossB & \lr{\melGt, \melPredB, \hubertDiscGt, \hubertDiscPredB}                                                  \\
         =      & \lossWeightMel \lossMAE{\melGt}{\melPredB} + \lossWeightHubDisc \lossCE{\hubertDiscGt}{\hubertDiscPredB}
     \end{aligned}
 \end{equation}
-で与えられる．すなわち，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．最後に，ボコーダの学習に用いる損失関数について，これはHiFi-GANと同様であるから，ここでは割愛する．
+で与えられる．すなわち，メルスペクトログラムについてのMAE Loss，HuBERT離散特徴量についてのCross Entropy Lossの重み付け和である．
+
+最後に，ボコーダの学習に用いる損失関数について，これはHiFi-GANと同様に，音声波形をメルスペクトログラムに変換して計算されるMAE Loss（元論文ではL1 Lossの期待値として定義される）と，Multi-scale Discriminator（MSD）およびMulti-period Discriminator（MPD）を用いて計算されるGAN Loss，Feature Matching Lossの重み付け和とした．

@@ -1039,10 +1039,6 @@ INPUT ./section4_1.tex
 INPUT section4_1.tex
 INPUT ./section4_1.tex
 INPUT section4_1.tex
-INPUT ./figure/sec4/model_2/hubert.drawio.png
-INPUT ./figure/sec4/model_2/hubert.drawio.png
-INPUT ./figure/sec4/model_2/hubert.drawio.png
-INPUT extractbb -B cropbox -O ./figure/sec4/model_2/hubert.drawio.png
 INPUT ./figure/sec4/model_2/overview.drawio.png
 INPUT ./figure/sec4/model_2/overview.drawio.png
 INPUT ./figure/sec4/model_2/overview.drawio.png

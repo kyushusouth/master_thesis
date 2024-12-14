@@ -4,46 +4,46 @@ The top-level auxiliary file: submission.aux
 The style file: junsrt.bst
 Database file #1: library.bib
 Warning--can't use both volume and number fields in maas2013rectifier
-You've used 46 entries,
+You've used 48 entries,
             2270 wiz_defined-function locations,
-            762 strings with 12644 characters,
-and the built_in function-call counts, 15273 in all, are:
-= -- 1164
-> -- 574
-< -- 32
-+ -- 222
-- -- 176
-* -- 703
-:= -- 1927
-add.period$ -- 146
-call.type$ -- 46
-change.case$ -- 46
+            772 strings with 13102 characters,
+and the built_in function-call counts, 16041 in all, are:
+= -- 1228
+> -- 591
+< -- 34
++ -- 229
+- -- 181
+* -- 739
+:= -- 2016
+add.period$ -- 153
+call.type$ -- 48
+change.case$ -- 48
 chr.to.int$ -- 0
-cite$ -- 47
-duplicate$ -- 949
-empty$ -- 1423
-format.name$ -- 352
-if$ -- 3747
+cite$ -- 49
+duplicate$ -- 1005
+empty$ -- 1503
+format.name$ -- 362
+if$ -- 3942
 int.to.chr$ -- 0
-int.to.str$ -- 46
-missing$ -- 44
-newline$ -- 232
-num.names$ -- 46
-pop$ -- 300
+int.to.str$ -- 48
+missing$ -- 47
+newline$ -- 243
+num.names$ -- 48
+pop$ -- 315
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 793
+skip$ -- 830
 stack$ -- 0
-substring$ -- 734
-swap$ -- 287
-text.length$ -- 32
+substring$ -- 782
+swap$ -- 305
+text.length$ -- 34
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 105
-width$ -- 48
-write$ -- 492
-is.kanji.str$ -- 558
+while$ -- 110
+width$ -- 50
+write$ -- 516
+is.kanji.str$ -- 583
 (There was 1 warning)

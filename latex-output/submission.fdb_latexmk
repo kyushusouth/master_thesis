@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex latex-output/submission"] 1734179705 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1734179733
+["bibtex latex-output/submission"] 1734191810 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1734191825
   "junsrt.bst" 0 -1 0 ""
-  "latex-output/submission.aux" 1734179726 37053 1d9ac84222e82eaeef444f35cfca10c4 "latex"
-  "library.bib" 1734166307 23892 cf3ecfd2c4b7ae114f9309df1cd3bf8f ""
+  "latex-output/submission.aux" 1734191818 36852 c9e7daf1a751d3222d31e37dbf958af3 "latex"
+  "library.bib" 1734190063 24431 47c48e2ea9b4b766676d2c3a4fb679dd ""
   (generated)
   "latex-output/submission.bbl"
   "latex-output/submission.blg"
-["dvipdf"] 1734179727 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1734179733
-  "latex-output/submission.dvi" 1734179726 392736 3c063b5320b7099c214b01b80578b498 "latex"
+["dvipdf"] 1734191819 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1734191825
+  "latex-output/submission.dvi" 1734191818 395932 22f0ec7cbd79a10a0e9b213a5934410f "latex"
   (generated)
   "latex-output/submission.pdf"
-["latex"] 1734179720 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1734179733
+["latex"] 1734191811 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1734191825
   "/Users/minami/class/research/master_thesis/submission.tex" 1734170573 3457 07b4707396f6cd033496c7cafc207b95 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1463434352 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
@@ -190,7 +190,6 @@
   "figure/sec4/learning_curves/9/mel_loss.png" 1733832338 69913 cd166f8b84755bd4f1a8727b66c5a051 ""
   "figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png" 1733832338 76323 72f4b24acda8b6cb3c1868aa9fec3e5a ""
   "figure/sec4/learning_curves/9/total_loss.png" 1733832338 66159 b7bf3683883019ddb2cf5bd3618db031 ""
-  "figure/sec4/model_2/hubert.drawio.png" 1733490809 90017 76bd4fe97b44de61f9284f20cfaf533d ""
   "figure/sec4/model_2/networkA.drawio.png" 1733490809 270747 f95931f3f75a8fb2aca2e2e6c3a3fe23 ""
   "figure/sec4/model_2/networkB.drawio.png" 1733490809 214045 d2d1a2c2d67fbb6afbab83850531bd89 ""
   "figure/sec4/model_2/overview.drawio.png" 1733492142 221203 8967abc6063cc8ed1b50310e54aca03c ""
@@ -201,16 +200,16 @@
   "figure/sec4/model_2/vocoder_main.drawio.png" 1733586946 179546 ca2175062d6322cecab6aa1668757fcd ""
   "figure/sec4/model_2/vocoder_main_block.drawio.png" 1733569765 146059 ed3a73e8d08230cd6f3dc2135ce15a68 ""
   "figure/sec4/sbj/age.png" 1733648833 11308 dc6caecd17e8d35575dc06804a28a683 ""
-  "latex-output/submission.aux" 1734179726 37053 1d9ac84222e82eaeef444f35cfca10c4 "latex"
-  "latex-output/submission.bbl" 1734179705 11352 5faf0d323fbdca3fd131adb79c6f2e4e "bibtex latex-output/submission"
-  "latex-output/submission.out" 1734179726 3730 c7346064fdd788b1fe6fd83bbc9b29fa "latex"
-  "latex-output/submission.toc" 1734179726 4574 ab987340fbb458e6f4ee27878c307a49 "latex"
+  "latex-output/submission.aux" 1734191818 36852 c9e7daf1a751d3222d31e37dbf958af3 "latex"
+  "latex-output/submission.bbl" 1734191811 12001 bf84b5447b0a09c548b9c0c980172a15 "bibtex latex-output/submission"
+  "latex-output/submission.out" 1734191818 3730 316d2ae1494fbfd2711f75e04ed5d30b "latex"
+  "latex-output/submission.toc" 1734191818 4574 308fb995a787a532013ce95e667cd61d "latex"
   "section1.tex" 1734170357 5849 398e6602b279d8655de93527cfb7f6af ""
   "section2.tex" 1734154863 9198 d6e678ea3653d0e536d4babe815a444a ""
   "section3_1.tex" 1734176257 30538 b1171fc86ff3671ef8a8f5ba4cdcf462 ""
   "section3_2.tex" 1734178742 34591 757fc6d49a9422f2bd3303c24f66b842 ""
-  "section4_1.tex" 1734179720 16036 60e4c3f73f6eb52c14a4c3b5ce380510 ""
-  "section4_2.tex" 1734170506 31203 7a0b604ad40ab8f0421fd391f5d82675 ""
+  "section4_1.tex" 1734185188 15197 35764f73a69d02dc41ae5bf37301bdb0 ""
+  "section4_2.tex" 1734191802 32081 1ce60ec2e59588853fad8ab2158320f6 ""
   "section4_3.tex" 1734170549 43435 5d05b4a7340ce4ddf09a8d797c1544fd ""
   "section4_4.tex" 1734170560 9005 4a27a52602ed900c5058330f9b09d3c0 ""
   "submission.tex" 1734170573 3457 07b4707396f6cd033496c7cafc207b95 ""

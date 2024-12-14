@@ -153,6 +153,13 @@ Li~Wan, Quan Wang, Alan Papir, and Ignacio~Lopez Moreno.
 \newblock In {\em 2018 IEEE International Conference on Acoustics, Speech and
   Signal Processing (ICASSP)}, pp. 4879--4883. IEEE, 2018.
 
+\bibitem{kong2020hifi}
+Jungil Kong, Jaehyeon Kim, and Jaekyoung Bae.
+\newblock Hifi-gan: Generative adversarial networks for efficient and high
+  fidelity speech synthesis.
+\newblock {\em Advances in neural information processing systems}, Vol.~33, pp.
+  17022--17033, 2020.
+
 \bibitem{taguchi}
 田口史郎.
 \newblock "深層学習を用いたデータ駆動型調音・音声間変換に関する研究".
@@ -212,14 +219,22 @@ Ye~Jia, Yu~Zhang, Ron Weiss, Quan Wang, Jonathan Shen, Fei Ren, Patrick Nguyen,
 \newblock {\em Advances in neural information processing systems}, Vol.~31, ,
   2018.
 
+\bibitem{paul1992design}
+Douglas~B Paul and Janet Baker.
+\newblock The design for the wall street journal-based csr corpus.
+\newblock In {\em Speech and Natural Language: Proceedings of a Workshop Held
+  at Harriman, New York, February 23-26, 1992}, 1992.
+
 \bibitem{shi2022robust}
 Bowen Shi, Wei-Ning Hsu, and Abdelrahman Mohamed.
 \newblock Robust self-supervised audio-visual speech recognition.
 \newblock {\em arXiv preprint arXiv:2201.01763}, 2022.
 
-\bibitem{rinna-japanese-hubert-base}
-Yukiya Hono, Kentaro Mitsui, and Kei Sawada.
-\newblock rinna/japanese-hubert-base.
+\bibitem{yin2023reazonspeech}
+Yue Yin, Daijiro Mori, and Seiji Fujimoto.
+\newblock Reazonspeech: A free and massive corpus for japanese asr.
+\newblock In {\em Annual meetings of the Association for Natural Language
+  Processing}, 2023.
 
 \bibitem{sawada2024release}
 Kei Sawada, Tianyu Zhao, Makoto Shing, Kentaro Mitsui, Akio Kaga, Yukiya Hono,
