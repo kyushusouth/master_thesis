@@ -4,20 +4,20 @@
 \begin{equation}
     \bm{\outputLower} = \fcLayerValue{\bm{\inputLower}}{\bm{\weightAndBias}} = \bm{\inputLower}^{\top} \bm{\weightUpper} + \bm{\biasLower}
 \end{equation}
-で与えられる．ここで，$\bm{\weightUpper} \in \realSet^{\dimUpper_{\text{in}} \times \dimUpper_{\text{out}}}$は重み，$\bm{\biasLower} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスであり，$\bm{\weightAndBias}$は重みとバイアスをまとめて表す変数とする．また，入力が行列$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{in}}}$である時，出力$\bm{Y} \in \realSet^{\timeUpper \times \dimUpper_{\text{out}}}$は，
+で与えられる．ここで，$\dimUpper_{\text{in}}, \dimUpper_{\text{out}}$は入出力の次元，$\bm{\weightUpper} \in \realSet^{\dimUpper_{\text{in}} \times \dimUpper_{\text{out}}}$は重み，$\bm{\biasLower} \in \realSet^{\dimUpper_{\text{out}}}$はバイアスであり，$\bm{\weightAndBias}$は重みとバイアスをまとめて表す変数とする．また，入力が行列$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{in}}}$である時，出力$\bm{Y} \in \realSet^{\timeUpper \times \dimUpper_{\text{out}}}$は，
 \begin{equation}
     \bm{\outputUpper} = \fcLayerValue{\bm{\inputUpper}}{\bm{\weightAndBias}} = \bm{\inputUpper} \bm{\weightUpper} + \bm{\biasLower} \bm{1}^{\top}
 \end{equation}
-で与えられる．ここで，$\bm{1} \in \{1\}^{\timeUpper}$は全成分が1のベクトルである．全結合層はDNN内部での特徴量の次元の変換や，最終層において所望の出力に次元を合わせるのに用いられる．
+で与えられる．ここで，$\timeUpper$は系列長，$\bm{1} \in \{1\}^{\timeUpper}$は全成分が1のベクトルである．全結合層はDNN内部での特徴量の次元の変換や，最終層において所望の出力に次元を合わせるのに用いられる．
 
 \subsubsection{畳み込み層}
-畳み込み層は，入力に対して畳み込み演算を行う層である．一次元畳み込み層について，入力を$\bm{\inputUpper} \in \realSet^{\dimUpper_{\text{in}} \times \timeUpper_{\text{in}}}$，出力を$\bm{\outputUpper} \in \realSet^{\dimUpper_{\text{out}} \times \timeUpper_{\text{out}}}$とし，それぞれ$\dimLower$次元目，$\timeLower$番目の成分を$\inputLower_{\dimLower_{\text{in}}, \timeLower}, \outputLower_{\dimLower_{\text{out}}, \timeLower}$で表す．このとき，$\outputLower_{\dimLower_{\text{out}}, \timeLower}$は，
+畳み込み層は，入力に対して畳み込み演算を行う層である．一次元畳み込み層について，入力を$\bm{\inputUpper} \in \realSet^{\dimUpper_{\text{in}} \times \timeUpper_{\text{in}}}$，出力を$\bm{\outputUpper} \in \realSet^{\dimUpper_{\text{out}} \times \timeUpper_{\text{out}}}$とし，それぞれ$\dimLower$次元目，$\timeLower$番目の成分を$\inputLower_{\dimLower_{\text{in}}, \timeLower}, \outputLower_{\dimLower_{\text{out}}, \timeLower}$で表す．$\dimUpper_{\text{in}}, \dimUpper_{\text{out}}$は入出力の次元，$\timeUpper_{\text{in}}, \timeUpper_{\text{out}}$は入出力の系列長である．このとき，$\outputLower_{\dimLower_{\text{out}}, \timeLower}$は，
 \begin{align}
     \outputLower_{\dimLower_{\text{out}}, \timeLower} = b_{\dimLower_{\text{out}}} + \sum_{\dimLower_{\text{in}} = 1}^{\dimUpper_{\text{in}}} \sum_{\kernelSizeLower = 1}^{\kernelSizeUpper} \inputLower_{\dimLower_{\text{in}}, \timeLower - \lrFloor{\frac{\kernelSizeUpper}{2}} + \kernelSizeLower} \weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}
 \end{align}
-で与えられる．ここで，$\kernelSizeUpper \in \naturalSet$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower} \in \realSet$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}} \in \realSet$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，一次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．一次元畳み込みはテキストや音声など，データの形状が$\lr{\dimUpper \times \timeUpper}$となっている時に用いられる．ここで，$\dimUpper$は次元，$\timeUpper$は系列長である．
+で与えられる．ここで，$\kernelSizeUpper$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}}$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，一次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．一次元畳み込みはテキストや音声など，データの形状が$\lr{\dimUpper \times \timeUpper}$となっている時に用いられる．
 
-これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$は幅に相当する．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
+これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$を表す．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
 
 畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．例えば，カーネルサイズを3，ストライドとダイレーションを1とした場合には，入力の両端に1ずつゼロパディングすれば良い．図~\ref{sec3:fig:conv_variations}に，ある次元における一次元畳み込み層の処理を示す．
 
@@ -111,7 +111,7 @@
         0 & \text{if $\inputLower <= 0$}
     \end{cases}
 \end{equation}
-となる．ここで，$\relu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\relu\lr{0}}{x} = 0$とした．$\relu$は入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．一階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に微分係数は1となることから，シグモイド関数や$\tanh$よりも勾配消失が起こりづらい．$\relu$は現在，標準的な活性化関数として広く用いられている．しかし，$\relu$への入力が0未満の値を取るとき，$\relu$入力についての出力の勾配は0になるから，$\relu$以前の層の重みが更新されず，学習が遅くなる可能性がある．
+となる．ここで，$\relu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\relu\lr{0}}{x} = 0$とした．$\relu$は入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．一階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に1となることから，シグモイド関数や$\tanh$よりも勾配消失が起こりづらい．$\relu$は現在，標準的な活性化関数として広く用いられている．しかし，$\relu$への入力が0未満の値を取るとき，$\relu$入力についての出力の勾配は0になるから，$\relu$以前の層の重みが更新されず，学習が遅くなる可能性がある．
 
 3つ目は，$\leakyRelu$\cite{maas2013rectifier}である．$\leakyRelu$は
 \begin{equation}
@@ -145,13 +145,14 @@
 \begin{equation}
     \dv{\gelu\lr{\inputLower}}{x} = \Phi\lr{\inputLower} + \frac{\inputLower}{\sqrt{2\pi}}\exp\lr{-\frac{\inputLower^{2}}{2}}
 \end{equation}
-となる．$\gelu$は，$\relu$が入力に対して0あるいは1を確定的にかける活性化関数と捉えた上で，これを入力に依存した確率的な挙動に変更したものである．実際，$\binaryMaskLower \sim \text{Bernoulli}\lr{\Phi\lr{\inputLower}}$とすると，
-\begin{align}
-    \gelu\lr{\inputLower} & = \inputLower \Phi\lr{\inputLower}                                                             \\
-                          & = 1 \inputLower \cdot \Phi\lr{\inputLower} + 0 \inputLower \cdot \lr{1 - \Phi\lr{\inputLower}} \\
-                          & = \expectation{mx}
-\end{align}
-となり，$\gelu$の出力は確率的なバイナリマスク$\binaryMaskLower$を入力$\inputLower$にかけた，$mx$の期待値に等しいことがわかる．
+となる．$\gelu$は，$\relu$が入力に対して0あるいは1を確定的にかける活性化関数と捉えた上で，これを入力に依存した確率的な挙動に変更したものである．
+% 実際，$\binaryMaskLower \sim \text{Bernoulli}\lr{\Phi\lr{\inputLower}}$とすると，
+% \begin{align}
+%     \gelu\lr{\inputLower} & = \inputLower \Phi\lr{\inputLower}                                                             \\
+%                           & = 1 \inputLower \cdot \Phi\lr{\inputLower} + 0 \inputLower \cdot \lr{1 - \Phi\lr{\inputLower}} \\
+%                           & = \expectation{mx}
+% \end{align}
+% となり，$\gelu$の出力は確率的なバイナリマスク$\binaryMaskLower$を入力$\inputLower$にかけた，$mx$の期待値に等しいことがわかる．
 
 \begin{figure}[tb]
     \centering
@@ -183,7 +184,7 @@
     \bm{o}_{\timeLower} = \sigmoid\lr{\fcLayerValue{\concat{\bm{\inputLower}_{\timeLower}, \bm{h}_{\timeLower-1}}}{\bm{\weightAndBias}_{o}}} \\
     \bm{h}_{\timeLower} = \bm{o}_{\timeLower} \elemMul \tanh\lr{\bm{c}_{\timeLower}}
 \end{gather}
-ここで，$\bm{\inputLower}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$\timeLower$の入力，$\bm{f}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$におけるセルの状態，$\bm{o}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．また，$\concat{\cdot, \ldots, \cdot}$は入力された特徴量の次元方向の結合，$\elemMul$は要素積を表す．忘却ゲート出力$\bm{f}_{\timeLower}$が前時刻のセル状態$\bm{c}_{\timeLower}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{\timeLower}$が新たな入力$\tilde{\bm{c}}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{c}_{\timeLower}$が決まる．その後，出力ゲート出力$\bm{o}_{\timeLower}$が$\bm{c}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{h}_{\timeLower}$が決まる．
+ここで，$\dimUpper_{\text{in}}, \dimUpper_{\text{out}}$は特徴量の次元，$\bm{\inputLower}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$は時刻$\timeLower$の入力，$\bm{f}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は忘却ゲートの出力，$\bm{i}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$は入力ゲートの出力，$\bm{c}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$におけるセルの状態，$\bm{o}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が出力ゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．また，$\concat{\cdot, \ldots, \cdot}$は入力された特徴量の次元方向の結合，$\elemMul$は要素積を表す．忘却ゲート出力$\bm{f}_{\timeLower}$が前時刻のセル状態$\bm{c}_{\timeLower}$に含まれる情報の選択，入力ゲート出力$\bm{i}_{\timeLower}$が新たな入力$\tilde{\bm{c}}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{c}_{\timeLower}$が決まる．その後，出力ゲート出力$\bm{o}_{\timeLower}$が$\bm{c}_{\timeLower}$に含まれる情報の選択に用いられ，$\bm{h}_{\timeLower}$が決まる．
 
 また，LSTMが3つのゲートを必要とするのに対し，ゲートを2つに減らすことでネットワークの軽量化を図ったのがゲート付き回帰型ユニット（Gated Recurrent Unit; GRU）\cite{cho2014learning}である．GRUはリセットゲートと更新ゲートの2つを用いて隠れ状態を更新する．GRUのネットワーク内部で行われる計算を以下に示す．
 \begin{gather}
@@ -195,19 +196,19 @@
 ここで，$\bm{x}_{\timeLower} \in \realSet^{\dimUpper_{\text{in}}}$が時刻$\timeLower$における入力，$\bm{z}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$が更新ゲートの出力，$\bm{r}_{\timeLower} \in \lrsq{0, 1}^{\dimUpper_{\text{out}}}$がリセットゲートの出力，$\bm{h}_{\timeLower} \in \lrsq{-1, 1}^{\dimUpper_{\text{out}}}$が時刻$\timeLower$における隠れ状態を表す．更新ゲート出力$\bm{z}_{\timeLower}$が$\bm{h}_{\timeLower - 1}$と$\tilde{\bm{h}}_{\timeLower}$に含まれる情報の選択，リセットゲート出力$\bm{r}_{\timeLower}$が$\bm{h}_{\timeLower - 1}$に含まれる情報の選択に用いられる．
 
 \subsubsection{正規化層}
-DNNの学習過程では学習の進行に伴って重みが変化するため，その度に各層への入力の分布が変わってしまう．これは内部共変量シフトと呼ばれ，ネットワークの学習を不安定にする原因となる．これに対し，バッチ正規化（Batch Normalization）\cite{ioffe2015batch}が有効である．バッチ正規化は，ミニバッチ内における入力特徴量の期待値と分散を次元ごとに計算し，これらを用いて入力特徴量を次元ごとに標準化するものである．ここで，バッチサイズを$\numUpper$，バッチ正規化への入力特徴量を$\bm{\inputLower}_{\numLower} \in \realSet^{\dimUpper} ~ \lr{\numLower = 1, \ldots, \numUpper}$，出力特徴量を$\bm{y}_{\numLower} \in \realSet^{\dimUpper} ~ \lr{\numLower = 1, \ldots, \numUpper}$とする．このとき，各$\numLower$に対し入力特徴量$\bm{\inputLower}_{\numLower}$の$\dimLower$次元目の成分を$\inputLower_{\numLower, \dimLower}$，出力特徴量$\bm{\outputLower}_{\numLower}$の$\dimLower$次元目の成分を$\outputLower_{\numLower, \dimLower}$とすると，$\outputLower_{\numLower, \dimLower}$は
+DNNの学習過程では学習の進行に伴って重みが変化するため，その度に各層への入力の分布が変わってしまう．これは内部共変量シフトと呼ばれ，ネットワークの学習を不安定にする原因となる．これに対し，バッチ正規化（Batch Normalization）\cite{ioffe2015batch}が有効である．バッチ正規化は，ミニバッチ内における入力特徴量の期待値と分散を次元ごとに計算し，これらを用いて入力特徴量を次元ごとに標準化するものである．ここで，バッチサイズを$\numUpper$，バッチ正規化への$D$次元の入力特徴量を$\bm{\inputLower}_{\numLower} \in \realSet^{\dimUpper} ~ \lr{\numLower = 1, \ldots, \numUpper}$，出力特徴量を$\bm{y}_{\numLower} \in \realSet^{\dimUpper} ~ \lr{\numLower = 1, \ldots, \numUpper}$とする．このとき，各$\numLower$に対し入力特徴量$\bm{\inputLower}_{\numLower}$の$\dimLower$次元目の成分を$\inputLower_{\numLower, \dimLower}$，出力特徴量$\bm{\outputLower}_{\numLower}$の$\dimLower$次元目の成分を$\outputLower_{\numLower, \dimLower}$とすると，$\outputLower_{\numLower, \dimLower}$は
 \begin{align}
     \mean^{B}_{\dimLower}                      & = \frac{1}{\numUpper} \sum_{\numLower = 1}^{\numUpper} \inputLower_{\numLower, \dimLower}                                  \\
     \lr{\std^{B}_{\dimLower}}^{2}              & = \frac{1}{\numUpper} \sum_{\numLower = 1}^{\numUpper} \lr{\inputLower_{\numLower, \dimLower} - \mean^{B}_{\dimLower}}^{2} \\
     \tilde{\inputLower}_{\numLower, \dimLower} & = \frac{\inputLower_{\numLower, \dimLower} - \mean^{B}_{\dimLower}}{\sqrt{\lr{\std^{B}_{\dimLower}}^{2} + \epsilon}}       \\
     \outputLower_{\numLower, \dimLower}        & = \normScale_{\dimLower} \tilde{\inputLower}_{\numLower, \dimLower} +  \normShift_{\dimLower}
 \end{align}
-で与えられる．ここで，$\normScale_{\dimLower}, \normShift_{\dimLower} \in \realSet$は学習可能なスカラーであり，$\epsilon \in \realSet$はゼロ割を避けるためのスカラーである．バッチ正規化では$\normScale_{\dimLower}, \normShift_{\dimLower}$によって表現力を向上させており，実際
+で与えられる．ここで，$\normScale_{\dimLower}, \normShift_{\dimLower}$は学習可能なスカラーであり，$\epsilon$はゼロ割を避けるためのスカラーである．バッチ正規化では$\normScale_{\dimLower}, \normShift_{\dimLower}$によって表現力を向上させており，実際
 \begin{align}
     \normScale_{\dimLower} & = \sqrt{\lr{\std^{B}_{\dimLower}}^{2} + \epsilon} \\
     \beta_{\dimLower}      & = \mean^{B}_{\dimLower}
 \end{align}
-とすれば，標準化前の入力を再び得ることが可能である．学習時は，サンプルの標準化に用いる統計量とは別に，期待値の移動平均と不偏分散の移動平均を計算しておく．推論時は学習終了時に得られたこれら移動平均の値を用いることで，確率的な挙動を持たないよう工夫されている．
+とすれば，標準化前の入力を再び得ることが可能である．学習時は，サンプルの標準化に用いる統計量とは別に，期待値の移動平均と不偏分散の移動平均を計算しておく．推論時は学習終了時に得られたこれら移動平均の値を用いるため，確定的な挙動に変化する．
 
 バッチ正規化はDNNの学習の安定化に貢献する一方，ミニバッチ全体における統計量を利用するため，バッチサイズが小さい場合はデータの分布を安定させることが難しくなる．また，テキストや音声といった系列長を持つデータを扱う場合，ミニバッチを構成するためにはゼロパディングによって系列長を揃える必要がある．この時，RNNの各ステップの出力に対しバッチ正規化を適用すると，ゼロパディングによって人為的に系列量を揃えているから，統計量が実際のデータの分布からかけ離れたものになる可能性がある．これら課題に対し，ミニバッチ内の各サンプルごとに期待値と分散を求めて標準化する，レイヤー正規化（Layer Normalization）\cite{ba2016layer}がある．バッチ正規化のときと同様の表記を用いると，$\outputLower_{\numLower, \dimLower}$は
 \begin{align}
@@ -225,7 +226,7 @@ DNNの学習過程では学習の進行に伴って重みが変化するため�
 のように単位ベクトル$\bm{v} / \lrTwoNorm{\bm{v}}$（ベクトルの向き）とスカラー$g$（ベクトルの長さ）に再パラメータ化するものである．学習時は重みの更新を$\bm{v}$と$g$で別々に行う．重み正規化は，バッチ正規化やレイヤー正規化と同様に学習の安定化に役立つが，計算に入力特徴量の系列長が依存しない．そのため，例えば音声波形など系列長が非常に長くなりがちなデータを扱う場合，計算コストを下げながら同様の効果を狙える手段だと考えられる．
 
 \subsubsection{Transformer}
-Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention）を用いて，入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである．特に，再帰的な計算を必要とするRNNと比較して，Transformerは並列計算のみ行うため，GPUによる計算の高速化が可能である．以下，入力特徴量を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$として，Transformerにおいて行われる計算を説明する．また，Transformer層の構造を図~\ref{sec3:fig:transformer_layer}に示す．
+Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention）を用いて，入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである．特に，再帰的な計算を必要とするRNNと比較して，Transformerは並列計算のみ行うため，GPUによる計算の高速化が可能である．以下，入力特徴量を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$として，Transformerにおいて行われる計算を説明する．$T$は系列長，$\dimUpper_{\text{model}}$は特徴量の次元を表す．また，Transformer層の構造を図~\ref{sec3:fig:transformer_layer}に示す．
 
 \begin{figure}[bt]
     \centering
@@ -244,7 +245,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \begin{equation}
     \text{SA}\lr{\bm{Q}, \bm{K}, \bm{V}} = \text{softmax}\lr{\frac{\bm{Q}\bm{K}^\top}{\sqrt{\dimUpper_{k}}}} \bm{V}
 \end{equation}
-で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\lr{\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}}$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}}, ~ \lr{t = 1, \ldots, T}$に対する注意度になっている．
+で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\lr{\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}}$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}} ~ \lr{t = 1, \ldots, T}$に対する注意度になっている．
 
 ここまでがSelf-Attentionの計算であったが，TransformerではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．これは，ヘッド数を$\numHeadUpper$とし，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$によって計算された$\text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}$を用いて，
 \begin{equation}
@@ -256,7 +257,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 で与えられる．その後，全結合層を通し，再度残差結合とレイヤー正規化を適用することでTransformer層最終出力を得る．すなわち，
 \begin{equation}
-    \bm{\outputUpper} = \text{LayerNorm}\lr{\fcLayerValue{\relu\lr{\fcLayerValue{\bm{\outputUpper}}{\bm{\weightAndBias}_{1}}}}{\bm{\weightAndBias}_{2}}}
+    \bm{\outputUpper} = \text{LayerNorm}\lr{\fcLayerValue{\relu\lr{\fcLayerValue{\bm{\outputUpper}}{\bm{\weightAndBias}_{1}}}}{\bm{\weightAndBias}_{2}} + \bm{\outputUpper}}
 \end{equation}
 となる．Transformer全体は，Transformer層を多層積み重ねて構成される．
 

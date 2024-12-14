@@ -46,9 +46,8 @@
 \newcommand{\binaryMaskLower}{m}
 \newcommand{\binaryMaskUpper}{M}
 \newcommand{\optimEmaConst}{\beta}
-\newcommand{\counter}{\tau}
-\newcommand{\iter}{\counter^{\text{iter}}}
-\newcommand{\epoch}{\counter^{\text{epoch}}}
+\newcommand{\iter}{\tau}
+\newcommand{\epoch}{\nu}
 \newcommand{\learningRate}{\eta}
 \newcommand{\lossFuncUpper}{L}
 \newcommand{\normScale}{\gamma}
@@ -153,7 +152,7 @@
 \newcommand{\melPredB}{\hat{\bm{\outputUpper}}^{\text{mel-B}}_{\numLower}}
 \newcommand{\melSet}{\realSet^{\timeUpper^{\text{mel}}_{\numLower} \times \dimUpper^{\text{mel}}}}
 \newcommand{\video}{\bm{\inputUpper}^{\text{video}}_{\numLower}}
-\newcommand{\videoSet}{\realSet^{\timeUpper^{\text{video}}_{\numLower} \times \widthUpper^{\text{video}} \times \heightUpper^{\text{video}}}}
+\newcommand{\videoSet}{\realSet^{\timeUpper^{\text{video}}_{\numLower} \times \widthUpper \times \heightUpper}}
 \newcommand{\featureA}{\bm{\featureUpper}^{\text{A}}_{\numLower}}
 \newcommand{\featureASet}{\realSet^{\timeUpper^{\text{video}}_{\numLower} \times \dimUpper^{\text{A}}}}
 \newcommand{\featureB}{\bm{\featureUpper}^{\text{B}}_{\numLower}}

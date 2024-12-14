@@ -4,7 +4,7 @@
 \begin{equation}
     \datasetTrain = \lrc{\lr{\video, \spWaveformGt, \spkEmb, \melGt, \hubertIntGt, \hubertDiscGt}}_{\numLower = 1}^{\numUpper}
 \end{equation}
-とする．各$\numLower$に対し，$\video \in \videoSet$は口唇動画， $\spWaveformGt \in \spWaveformSet$は原音声の音声波形，$\spkEmb \in \spkEmbSet$は話者ベクトル，$\melGt \in \melSet$はメルスペクトログラム，$\hubertIntGt \in \hubertIntSet$はHuBERT中間特徴量，$\hubertDiscGt \in \hubertDiscGtSet$はHuBERT離散特徴量とする．ここで，話者ベクトル$\spkEmb$は，話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトル（d-vector）であり，
+とする．各$\numLower$に対し，$\video \in \videoSet$は口唇動画， $\spWaveformGt \in \spWaveformSet$は原音声の音声波形，$\spkEmb \in \spkEmbSet$は話者ベクトル，$\melGt \in \melSet$はメルスペクトログラム，$\hubertIntGt \in \hubertIntSet$はHuBERT中間特徴量，$\hubertDiscGt \in \hubertDiscGtSet$はHuBERT離散特徴量とする．$T$に添字をつけて各サンプル$n$ごとの各特徴量の系列長，$D$に添字をつけて各特徴量の次元，$W, H$で動画の幅と高さ，$C$でクラス数を表した．以下，新たに定義される変数も同様の表記でデータの形状を表現したため，冗長にならないようその都度述べることは避ける．ここで，話者ベクトル$\spkEmb$は，話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトル（d-vector）であり，
 \begin{equation}
     \spkEmb = \frac{1}{|\mathcal{\indexUpper}|} \sum_{\indexLower \in \mathcal{\indexUpper}} \spkEmbExtractor\lr{\bm{\outputLower}^{\text{sp-wf}}_{\indexLower}; \weightSpk}
 \end{equation}
@@ -69,7 +69,7 @@
 \end{gather}
 と表される．$\weightAFcSpk, \weightAPost, \weightAFcHubInt, \weightAFcMel, \weightAFcHuBDisc$は，すべてランダムに初期化した．
 
-ネットワークAの役割は，続くネットワークBの入力であるHuBERT中間特徴量を予測することである．これに対し，メルスペクトログラムとHuBERT離散特徴量の推定を同時に行った理由は，先行研究\cite{kim2023lip_multitask,choi2023intelligible}においてマルチタスク学習の有効性が確認されており、HuBERT中間特徴量の推定においても有効ではないかと考えたからである。
+ネットワークAの役割は，続くネットワークBの入力であるHuBERT中間特徴量を予測することである．これに対し，メルスペクトログラムとHuBERT離散特徴量の予測を同時に行った理由は，先行研究\cite{kim2023lip_multitask,choi2023intelligible}においてマルチタスク学習の有効性が確認されており、HuBERT中間特徴量の予測においても有効ではないかと考えたからである。
 
 \begin{figure}[tb]
     \centering
@@ -131,7 +131,7 @@
 \end{gather}
 $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべてランダムに初期化した．
 
-ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．HuBERT Transformer層の転移学習を検討した狙いは、HuBERTの自己教師あり学習の方法に基づく。HuBERTはMasked Predictionという自己教師あり学習を行っており、これは、畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し，Transformer層$\hubertTransformer$を通すことによって、マスクされたフレームにおける教師ラベルを推定する学習方法である．\ref{sec3:sec:ssl}節より、Masked Predictionでは欠損された入力から特徴抽出を行う必要があるから，最適化されたHuBERTは音声の文脈的な構造を学習していると考えられる．また、Masked Predictionは音声データのみによる学習が可能であり、近年では大規模なデータによって学習されたモデルも一般に公開されている。よって、本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより，動画を入力とするネットワークAの推定残差を，大量の音声データから学習された音声自体の文脈を考慮する力によって軽減することで、最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する推定精度改善を狙った．
+ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．HuBERT Transformer層の転移学習を検討した狙いは、HuBERTの自己教師あり学習の方法に基づく。HuBERTはMasked Predictionという自己教師あり学習を行っており、これは、畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し，Transformer層$\hubertTransformer$を通すことによって、マスクされたフレームにおける教師ラベルを予測する学習方法である．\ref{sec3:sec:ssl}節より、Masked Predictionでは欠損された入力から特徴抽出を行う必要があるから，最適化されたHuBERTは音声の文脈的な構造を学習していると考えられる．また、Masked Predictionは音声データのみによる学習が可能であり、近年では大規模なデータによって学習されたモデルも一般に公開されている。よって、本研究ではHuBERT Transformer層を動画音声合成にFine Tuningすることにより，動画を入力とするネットワークAの推定残差を，大量の音声データから学習された音声自体の文脈を考慮する力によって軽減することで、最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する予測精度改善を狙った．
 
 \subsubsection{ボコーダ}
 ボコーダを図\ref{sec4:fig:vocoder}に示す。本実験で用いるボコーダは、今回ベースラインとする先行研究\cite{choi2023intelligible}で提案されたMulti-input Vocoderを参考にしたものである。まず，ネットワークBで得られた予測メルスペクトログラム$\melPredB$とHuBERT離散特徴量に対するロジット$\hubertDiscPredB$を前処理層に通し，扱いやすい形状に変換する．これは，
