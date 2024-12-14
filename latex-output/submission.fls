@@ -959,6 +959,14 @@ INPUT ./figure/sec2/spectrogram_8.png
 INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_8.png
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
+INPUT ./figure/sec2/melfb/onedim_20.png
+INPUT ./figure/sec2/melfb/onedim_20.png
+INPUT ./figure/sec2/melfb/onedim_20.png
+INPUT extractbb -B cropbox -O ./figure/sec2/melfb/onedim_20.png
+INPUT ./figure/sec2/melfb/onedim_80.png
+INPUT ./figure/sec2/melfb/onedim_80.png
+INPUT ./figure/sec2/melfb/onedim_80.png
+INPUT extractbb -B cropbox -O ./figure/sec2/melfb/onedim_80.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png
 INPUT ./figure/sec2/melspectrogram.png

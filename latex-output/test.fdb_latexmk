@@ -1,10 +1,10 @@
 # Fdb version 3
-["dvipdf"] 1734018753 "latex-output/test.dvi" "latex-output/test.pdf" "latex-output/test" 1734018753
-  "latex-output/test.dvi" 1734018753 1724 477daafdb075888a0e5f39999aa2579a "latex"
+["dvipdf"] 1734145095 "latex-output/test.dvi" "latex-output/test.pdf" "latex-output/test" 1734145095
+  "latex-output/test.dvi" 1734145095 2008 0d49c08656e02b39bd2de117af18bb57 "latex"
   (generated)
   "latex-output/test.pdf"
-["latex"] 1734018753 "/Users/minami/class/research/master_thesis/test.tex" "latex-output/test.dvi" "test" 1734018753
-  "/Users/minami/class/research/master_thesis/test.tex" 1734018752 2294 4656d66dd796f1332cbf6a8cadf043f6 ""
+["latex"] 1734145094 "/Users/minami/class/research/master_thesis/test.tex" "latex-output/test.dvi" "test" 1734145095
+  "/Users/minami/class/research/master_thesis/test.tex" 1734145094 2554 5f319614318e8565bd4206ce4ef6f4be ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth6.tfm" 1463434352 1196 977af188465e721f1f65facb66282510 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth8.tfm" 1463434352 1196 f76ab7ae43ed1dfe29b9e6ec2933fdb4 ""
@@ -94,8 +94,9 @@
   "/usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf" 1646502317 40171 cdab547de63d26590bebb3baff566530 ""
   "/usr/local/texlive/2022/texmf-var/web2c/eptex/platex.fmt" 1650600716 2830424 f9cd5b7823a0535560635b2555e565db ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "latex-output/test.aux" 1734018753 32 3985256e7290058c681f74d7a3565a19 "latex"
-  "test.tex" 1734018752 2294 4656d66dd796f1332cbf6a8cadf043f6 ""
+  "latex-output/test.aux" 1734145095 32 3985256e7290058c681f74d7a3565a19 "latex"
+  "test.tex" 1734145094 2554 5f319614318e8565bd4206ce4ef6f4be ""
+  "vars.tex" 1734104022 8025 7a8ee8ed33c82fb4c38ec0a757c68000 ""
   (generated)
   "latex-output/test.aux"
   "latex-output/test.dvi"

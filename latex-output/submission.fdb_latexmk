@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex latex-output/submission"] 1734099100 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1734100115
+["bibtex latex-output/submission"] 1734152980 "latex-output/submission.aux" "latex-output/submission.bbl" "latex-output/submission" 1734154612
   "junsrt.bst" 0 -1 0 ""
-  "latex-output/submission.aux" 1734100109 36260 4eb0bdcdbe98d873010f3815a6752ec9 "latex"
+  "latex-output/submission.aux" 1734154606 37053 4e4190eef28e39e123987651b8ab6d61 "latex"
   "library.bib" 1734087474 23892 cf3ecfd2c4b7ae114f9309df1cd3bf8f ""
   (generated)
   "latex-output/submission.bbl"
   "latex-output/submission.blg"
-["dvipdf"] 1734100109 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1734100115
-  "latex-output/submission.dvi" 1734100109 394368 877282ebf53220f6b881f2a8bdcb3686 "latex"
+["dvipdf"] 1734154606 "latex-output/submission.dvi" "latex-output/submission.pdf" "latex-output/submission" 1734154612
+  "latex-output/submission.dvi" 1734154606 396280 0fcd5487a8338670196dcd9337f5a55f "latex"
   (generated)
   "latex-output/submission.pdf"
-["latex"] 1734100103 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1734100115
+["latex"] 1734154600 "/Users/minami/class/research/master_thesis/submission.tex" "latex-output/submission.dvi" "submission" 1734154612
   "/Users/minami/class/research/master_thesis/submission.tex" 1733754328 2867 2c9071841265317966bf1d9dee90ddf2 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1463434352 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
@@ -148,11 +148,13 @@
   "/usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf" 1646502317 40171 cdab547de63d26590bebb3baff566530 ""
   "/usr/local/texlive/2022/texmf-var/web2c/eptex/platex.fmt" 1650600716 2830424 f9cd5b7823a0535560635b2555e565db ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "figure/sec2/melspectrogram.png" 1731303480 130021 7b9dbada7ee6e96a335c57c7b9e7866d ""
-  "figure/sec2/spectrogram_1.png" 1731303480 145780 3fb3e0454ac2cdfaf2115c4dea0e9344 ""
-  "figure/sec2/spectrogram_2.png" 1731303480 238277 0da30ab8625c359038b6fef847bfe5a8 ""
-  "figure/sec2/spectrogram_4.png" 1731303480 180179 572e12b9f39f119757237cf59e1617a7 ""
-  "figure/sec2/spectrogram_8.png" 1731303480 109414 f0dea24dec3c33cb87f84bc16fe18f84 ""
+  "figure/sec2/melfb/onedim_20.png" 1734153709 100654 afdba71ad296b50a638c27c26636d68f ""
+  "figure/sec2/melfb/onedim_80.png" 1734153709 150855 0818a1d54059c4208af203e9dd3faa4e ""
+  "figure/sec2/melspectrogram.png" 1734153668 130146 ee062ac428a7d70eec313a777bcb78bf ""
+  "figure/sec2/spectrogram_1.png" 1734153666 135302 a36d9a7d474e66e9ebff75f0fbd51066 ""
+  "figure/sec2/spectrogram_2.png" 1734153667 228769 1b45a5687951318cb16eaaeb5dd598bf ""
+  "figure/sec2/spectrogram_4.png" 1734153667 164772 0e7f8ad70976bb8d78aae179cefd9ec1 ""
+  "figure/sec2/spectrogram_8.png" 1734153667 103576 da3e1a95bb7abb0f560eb3e3e0661ed5 ""
   "figure/sec3/activations.png" 1731303480 43152 1621f791742c78575f043b69194ff047 ""
   "figure/sec3/activations_prime.png" 1731303480 56379 14e1c7544b6222c087e4634dbbd11048 ""
   "figure/sec3/conv1.drawio.png" 1731303480 16584 3d5a548c430d659e3c20e62e1c60944e ""
@@ -199,19 +201,19 @@
   "figure/sec4/model_2/vocoder_main.drawio.png" 1733586946 179546 ca2175062d6322cecab6aa1668757fcd ""
   "figure/sec4/model_2/vocoder_main_block.drawio.png" 1733569765 146059 ed3a73e8d08230cd6f3dc2135ce15a68 ""
   "figure/sec4/sbj/age.png" 1733648833 11308 dc6caecd17e8d35575dc06804a28a683 ""
-  "latex-output/submission.aux" 1734100109 36260 4eb0bdcdbe98d873010f3815a6752ec9 "latex"
-  "latex-output/submission.bbl" 1734099100 11352 5faf0d323fbdca3fd131adb79c6f2e4e "bibtex latex-output/submission"
-  "latex-output/submission.out" 1734100109 3730 316d2ae1494fbfd2711f75e04ed5d30b "latex"
-  "latex-output/submission.toc" 1734100109 4574 da28cb960875712f40ecc982d7824976 "latex"
+  "latex-output/submission.aux" 1734154606 37053 4e4190eef28e39e123987651b8ab6d61 "latex"
+  "latex-output/submission.bbl" 1734152980 11352 5faf0d323fbdca3fd131adb79c6f2e4e "bibtex latex-output/submission"
+  "latex-output/submission.out" 1734154606 3730 c7346064fdd788b1fe6fd83bbc9b29fa "latex"
+  "latex-output/submission.toc" 1734154606 4574 41735a66eac8f5079949913c556af886 "latex"
   "section1.tex" 1734100102 23451 103a0db302be4276c94ff0ae45dc6510 ""
-  "section2.tex" 1734079864 8185 45ed8c6cb2a08305b087c425d1fa1686 ""
+  "section2.tex" 1734154599 9198 d6e678ea3653d0e536d4babe815a444a ""
   "section3.tex" 1734076186 67668 a0394b1ba99ace5b87cf09b3fed198c2 ""
   "section4_1.tex" 1734076477 15560 e25454eb517234f92c6f8e3b59761066 ""
   "section4_2.tex" 1734076477 31195 bc2e0fa10b6176453f080395f8feb05c ""
   "section4_3.tex" 1734077307 43435 81a32a29708c17320d7a18daac1b926c ""
   "section4_4.tex" 1734077405 9005 ecb131fede0a87cb78c365fe98a1028f ""
   "submission.tex" 1733754328 2867 2c9071841265317966bf1d9dee90ddf2 ""
-  "vars.tex" 1734078381 7936 5b8b6845ea35b2cfa6c5bb543618976a ""
+  "vars.tex" 1734104022 8025 7a8ee8ed33c82fb4c38ec0a757c68000 ""
   (generated)
   "latex-output/submission.aux"
   "latex-output/submission.dvi"
