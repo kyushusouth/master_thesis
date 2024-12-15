@@ -298,4 +298,10 @@ Zhengyang Chen, Sanyuan Chen, Yu~Wu, Yao Qian, Chengyi Wang, Shujie Liu, Yanmin
 \newblock In {\em ICASSP 2022-2022 IEEE International Conference on Acoustics,
   Speech and Signal Processing (ICASSP)}, pp. 6147--6151. IEEE, 2022.
 
+\bibitem{wang2021survey}
+Xin Wang, Yudong Chen, and Wenwu Zhu.
+\newblock A survey on curriculum learning.
+\newblock {\em IEEE transactions on pattern analysis and machine intelligence},
+  Vol.~44, No.~9, pp. 4555--4576, 2021.
+
 \end{thebibliography}
