@@ -233,21 +233,21 @@ DNNの学習は勾配降下法によって行われるが，ここで勾配が�
 \end{equation}
 で与えられる．$\numUpper_{\text{accum}}$回分の勾配を累積した分，重みを更新する際には$1 / \numUpper_{\text{accum}}$倍して平均をとることで，実質的に$\numUpper_{\text{accum}}$倍のバッチサイズにおける学習が可能になる．また，重み更新後は累積した勾配を0にリセットして，次の$\numUpper_{\text{accum}}$回の累積に備える．
 
-\subsubsection{自己教師あり学習}
-\label{sec3:sec:ssl}
-近年，音声や動画を用いる分野では，自己教師あり学習を事前に行ったモデルを特定の問題にFineTuningする転移学習の有効性が確認されている．自己教師あり学習とは、教師ラベルのないデータから特徴を学習する手法であり、データ自体を利用して擬似的な教師ラベルを生成し、教師あり学習を行う点が特徴である。このアプローチは教師なし学習と類似しているが、教師ラベルを生成して利用する点で教師あり学習に近いといえる。ここでは特に，本研究で用いる自己教師あり学習モデルであるHuBERT\cite{hsu2021hubert}，AVHuBERT\cite{shi2022learning}で行われている，Masked Predictionという自己教師あり学習方法について述べる．
+% \subsubsection{自己教師あり学習}
+% \label{sec3:sec:ssl}
+% 近年，音声や動画を用いる分野では，自己教師あり学習を事前に行ったモデルを特定の問題にFineTuningする転移学習の有効性が確認されている．自己教師あり学習とは、教師ラベルのないデータから特徴を学習する手法であり、データ自体を利用して擬似的な教師ラベルを生成し、教師あり学習を行う点が特徴である。このアプローチは教師なし学習と類似しているが、教師ラベルを生成して利用する点で教師あり学習に近いといえる。ここでは特に，本研究で用いる自己教師あり学習モデルであるHuBERT\cite{hsu2021hubert}，AVHuBERT\cite{shi2022learning}で行われている，Masked Predictionという自己教師あり学習方法について述べる．
 
-Masked Predictionでは，マスクによって一部欠損された入力から，マスクされたフレームにおける教師ラベルを予測することで学習を行う．モデルへの入力を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper}$とし，このうちマスクされるインデックスの部分集合を$\mathcal{M} \subset \lrc{1, \ldots \timeUpper}$とする．$T$は系列長，$D$は特徴量の次元である．この時，マスクされた入力$\bm{\inputUpper}^{\text{masked}}$の各時刻$\timeLower$におけるベクトル$\bm{\inputLower}^{\text{masked}}_{\timeLower}$は，
-\begin{equation}
-    \bm{\inputLower}^{\text{masked}}_{\timeLower} =
-    \begin{cases}
-        \bm{\inputLower}_{\timeLower} & \text{if $\timeLower \notin \mathcal{M}$} \\
-        \bm{m}                        & \text{if $\timeLower \in \mathcal{M}$}
-    \end{cases}
-\end{equation}
-となる．$\bm{m} \in \realSet^{\dimUpper}$はマスク専用のベクトルである．ここで，HuBERTでは音声データ，AVHuBERTでは動画データと音声データを扱うが，いずれもクラスタリングによって連続特徴量を離散化し，教師ラベルを作成する．クラスタ数$\classUpper$のクラスタリングによって得られた教師ラベルを$\bm{\outputUpper} \in \lrc{0, 1}^{\timeUpper \times \classUpper}$とする．各時刻$\timeLower$における教師ラベル$\bm{y}_{\timeLower}$は，正解クラスが1，それ以外が0となったOne-hotベクトルである．この時，モデルからのロジット$\hat{\bm{\outputUpper}} \in \realSet^{\timeUpper \times \classUpper}$に対する損失は，
-\begin{equation}
-    \lossFuncUpper_{\text{CE-masked}}\lr{\bm{\outputUpper}, \hat{\bm{\outputUpper}}} =
-    - \frac{1}{\card{\mathcal{M}}} \sum_{\timeLower \in \mathcal{M}} \sum_{c = 1}^{\classUpper} y_{t, c} \log \lr{\frac{\exp\lr{\hat{\outputLower}_{\timeLower, \classLower}}}{\sum_{\indexLower = 1}^{C} \exp\lr{\hat{\outputLower}_{\timeLower, \indexLower}}}}
-\end{equation}
-で与えられる．すなわち，マスクされた位置に限定したCross Entropy Lossである．この損失関数の値を最小化するためには，欠損された入力から特徴抽出を行う必要があるから，最適化されたDNNは音声や動画における文脈的な構造を学習していると考えられる．また，Masked Predictionはテキストアノテーションを必要としない学習方法であるから，教師あり学習と比較してより多くのリソースを用いた学習が可能になるという利点がある．
+% Masked Predictionでは，マスクによって一部欠損された入力から，マスクされたフレームにおける教師ラベルを予測することで学習を行う．モデルへの入力を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper}$とし，このうちマスクされるインデックスの部分集合を$\mathcal{M} \subset \lrc{1, \ldots \timeUpper}$とする．$T$は系列長，$D$は特徴量の次元である．この時，マスクされた入力$\bm{\inputUpper}^{\text{masked}}$の各時刻$\timeLower$におけるベクトル$\bm{\inputLower}^{\text{masked}}_{\timeLower}$は，
+% \begin{equation}
+%     \bm{\inputLower}^{\text{masked}}_{\timeLower} =
+%     \begin{cases}
+%         \bm{\inputLower}_{\timeLower} & \text{if $\timeLower \notin \mathcal{M}$} \\
+%         \bm{m}                        & \text{if $\timeLower \in \mathcal{M}$}
+%     \end{cases}
+% \end{equation}
+% となる．$\bm{m} \in \realSet^{\dimUpper}$はマスク専用のベクトルである．ここで，HuBERTでは音声データ，AVHuBERTでは動画データと音声データを扱うが，いずれもクラスタリングによって連続特徴量を離散化し，教師ラベルを作成する．クラスタ数$\classUpper$のクラスタリングによって得られた教師ラベルを$\bm{\outputUpper} \in \lrc{0, 1}^{\timeUpper \times \classUpper}$とする．各時刻$\timeLower$における教師ラベル$\bm{y}_{\timeLower}$は，正解クラスが1，それ以外が0となったOne-hotベクトルである．この時，モデルからのロジット$\hat{\bm{\outputUpper}} \in \realSet^{\timeUpper \times \classUpper}$に対する損失は，
+% \begin{equation}
+%     \lossFuncUpper_{\text{CE-masked}}\lr{\bm{\outputUpper}, \hat{\bm{\outputUpper}}} =
+%     - \frac{1}{\card{\mathcal{M}}} \sum_{\timeLower \in \mathcal{M}} \sum_{c = 1}^{\classUpper} y_{t, c} \log \lr{\frac{\exp\lr{\hat{\outputLower}_{\timeLower, \classLower}}}{\sum_{\indexLower = 1}^{C} \exp\lr{\hat{\outputLower}_{\timeLower, \indexLower}}}}
+% \end{equation}
+% で与えられる．すなわち，マスクされた位置に限定したCross Entropy Lossである．この損失関数の値を最小化するためには，欠損された入力から特徴抽出を行う必要があるから，最適化されたDNNは音声や動画における文脈的な構造を学習していると考えられる．また，Masked Predictionはテキストアノテーションを必要としない学習方法であるから，教師あり学習と比較してより多くのリソースを用いた学習が可能になるという利点がある．

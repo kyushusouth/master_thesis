@@ -219,16 +219,22 @@ Ye~Jia, Yu~Zhang, Ron Weiss, Quan Wang, Jonathan Shen, Fei Ren, Patrick Nguyen,
 \newblock {\em Advances in neural information processing systems}, Vol.~31, ,
   2018.
 
-\bibitem{paul1992design}
-Douglas~B Paul and Janet Baker.
-\newblock The design for the wall street journal-based csr corpus.
-\newblock In {\em Speech and Natural Language: Proceedings of a Workshop Held
-  at Harriman, New York, February 23-26, 1992}, 1992.
-
 \bibitem{shi2022robust}
 Bowen Shi, Wei-Ning Hsu, and Abdelrahman Mohamed.
 \newblock Robust self-supervised audio-visual speech recognition.
 \newblock {\em arXiv preprint arXiv:2201.01763}, 2022.
+
+\bibitem{snyder2015musan}
+David Snyder, Guoguo Chen, and Daniel Povey.
+\newblock Musan: A music, speech, and noise corpus.
+\newblock {\em arXiv preprint arXiv:1510.08484}, 2015.
+
+\bibitem{afouras2018deep}
+Triantafyllos Afouras, Joon~Son Chung, Andrew Senior, Oriol Vinyals, and Andrew
+  Zisserman.
+\newblock Deep audio-visual speech recognition.
+\newblock {\em IEEE transactions on pattern analysis and machine intelligence},
+  Vol.~44, No.~12, pp. 8717--8727, 2018.
 
 \bibitem{yin2023reazonspeech}
 Yue Yin, Daijiro Mori, and Seiji Fujimoto.

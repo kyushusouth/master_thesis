@@ -50,6 +50,21 @@
 
 
 \begin{document}
+$\mathbb{R}$で考える．関数$f$の振動量は
+\begin{equation}
+    o(f, x) = \lim_{\delta \to \infty} \lr{\sup_{y \in I_{x}\lr{\delta}} f(y) - \inf_{y \in I_{x}\lr{\delta}} f(y)}
+\end{equation}
+で定義される．ここで，$I_{x}\lr{\delta} = \lr{x - \delta, x + \delta}$である．関数$f$が$x$で連続であることと，$o(f, x) = 0$が同値であることを示せる？
+
+\begin{equation}
+    \sup_{y \in I_{x}\lr{\delta}} f(y) - \inf_{y \in I_{x}\lr{\delta}} f(y) \le \epsilon
+\end{equation}
+が任意の$\epsilon > 0$で成り立つ時に，なぜ
+\begin{equation}
+    \lim_{\delta \to 0} \lr{\sup_{y \in I_{x}\lr{\delta}} f(y) - \inf_{y \in I_{x}\lr{\delta}} f(y)} = 0
+\end{equation}
+になるのですか？
+
 関数$f: \mathbb{R} \to \mathbb{R}$が$x \in \mathbb{R}$で連続であることは，
 \begin{equation}
     \lim_{\delta \to 0} \sup_{\lrAbs{x - y} < \delta} \lrAbs{f(y) - f(x)} = 0
