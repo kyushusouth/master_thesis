@@ -1,5 +1,5 @@
 \subsection{学習方法}
-本節において，$\bm{\weightAndBias}$はDNNの全ての重みとバイアスをまとめて表す変数とする．また，文章中では簡潔さを優先し，特別な理由がない限りは重みと呼ぶ．
+本節において，$\bm{\weightAndBias}$はDNNの全ての重みとバイアスをまとめて表す行ベクトルとする．また，簡潔さを優先して，特別な理由がない限りは重みと呼ぶ．
 
 \subsubsection{損失関数}
 損失関数は，DNNによって予測された結果と正解値との間の誤差を求める関数のことであり，扱う問題によって様々である．例えば，回帰問題において用いられる関数の1つに，MAE（Mean Absolute Error）Lossがある．$D$次元の予測対象を$\bm{\outputLower} \in \realSet^{\dimUpper}$，DNNによる予測結果を$\hat{\bm{\outputLower}} \in \realSet^{\dimUpper}$とすると，MAE Lossは
@@ -32,35 +32,35 @@
 \begin{equation}
     \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}} = \frac{1}{\card{\mathcal{\indexUpper}}} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \hat{\bm{\outputLower}}_{\indexLower}} = \frac{1}{\card{\mathcal{\indexUpper}}} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}
 \end{equation}
-で定義する．ここで，$\mathcal{\indexUpper} \subset \lrc{1, \ldots, N}$は各サンプルに対するインデックスの部分集合，$\card{\cdot}$は集合の濃度を表す．$\mathcal{\lossFuncUpper}$は学習データ$\lrc{\lr{\bm{\inputLower}_{\indexLower}, \bm{\outputLower}_{\indexLower}}}_{\indexLower \in \indexUpper} \subset \mathcal{D}_{\text{train}}$に対する損失を，DNNの重み$\bm{\weightAndBias}$の関数として扱うために導入した．上の表記を用いると，DNNの最適化問題は
+で定義する．ここで，$\mathcal{\indexUpper} \subset \lrc{1, \ldots, N}$は各サンプルに対するインデックスの部分集合，$\card{\cdot}$は集合の濃度を表す．$\mathcal{\lossFuncUpper}$は学習データ$\lrc{\lr{\bm{\inputLower}_{\indexLower}, \bm{\outputLower}_{\indexLower}}}_{\indexLower \in \mathcal{\indexUpper}} \subset \mathcal{D}_{\text{train}}$に対する損失を，DNNの重み$\bm{\weightAndBias}$の関数として扱うために導入した．上の表記を用いると，DNNの最適化問題は
 \begin{equation}
     \min_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \lrc{1, \ldots, N}}
 \end{equation}
 と表される．この最適化問題に対し，勾配降下法による重み$\bm{\weightAndBias}$の更新は，
 \begin{equation}
     \label{sec3:eq:normal_gradient_descent}
-    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
 \end{equation}
 で与えられる．ここで，$\iter$は学習におけるイテレーション，$\learningRate$は学習率を表す．
 
 勾配降下法には，3種類の方法がある\cite{zhang2019gradient}．1つ目は，バッチ勾配降下法である．これは，
 \begin{equation}
-    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \lrc{1, \ldots, N}}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \lrc{1, \ldots, N}}
 \end{equation}
 で与えられる．すなわち，各イテレーションで学習データ全てを用いる方法である．各サンプルのノイズの影響が低減されることで安定した学習が期待できるが，計算コストが高い．2つ目は，確率的勾配降下法である．これは，ランダムに選択された$n_{\iter} \in \lrc{1, \ldots, N}$に対し，
 \begin{equation}
-    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \lrc{n_{\iter}}}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \lrc{n_{\iter}}}
 \end{equation}
 で与えられる．すなわち，各イテレーションで単一サンプルのみを用いる方法である．計算コストが下がるが，各サンプルのノイズの影響が大きくなることで学習が不安定になる可能性がある．3つ目は，ミニバッチ勾配降下法である．これは，$1 < \card{\mathcal{I}_{\iter}} < N$を満たすランダムに選択された$\mathcal{I}_{\iter} \subsetneq \lrc{1, \ldots, N}$に対し，
 \begin{equation}
-    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
 \end{equation}
 で与えられる．バッチ勾配降下法と確率的勾配降下法の間をとった方法であり，DNNの学習においては一般にミニバッチ勾配降下法が用いられる．ここで，ミニバッチに含まれるサンプルの数をバッチサイズと呼ぶ．
 
 また，確率的勾配降下法やミニバッチ勾配降下法では，サンプルを学習データセットからランダムに非復元抽出する．ここで，毎回のサンプリングされた学習データに対する処理は1イテレーションとカウントし，学習データセットを一度全て使い切ることは1エポックとカウントする．実際には，データセットの総サンプル数$N$に対してバッチサイズを決定することで1エポックあたりの総イテレーション数は決まり，最大エポック数を設定して学習を回すこととなる．
 
 \subsubsection{正則化}
-DNNは大量のパラメータにより高い表現力を持つが，その分学習データに過剰に適合し，未知データに対する汎化性能が低いモデルとなる，過学習を引き起こす可能性がある．正則化は，このようなDNNの過学習を防ぐための手段である．以下，具体的な方法を3つ述べる．
+DNNは大量のパラメータにより高い表現力を持つが，その分学習データに過剰に適合し，未知データに対する汎化性能が低いモデルとなる，過学習を引き起こす可能性がある．正則化は，このようなDNNの過学習を防ぐための手段である．以下，具体的な方法を4つ述べる．
 
 1つ目は，L2正則化である．これは，\ref{sec3:sec:gradient_descent}節で定義した$\mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}}$を，
 \begin{equation}
@@ -72,7 +72,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 2つ目は，Weight Decayである．これは，重みの更新式を
 \begin{equation}
     \label{sec3:eq:weight_decay}
-    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}} - \regConst' \bm{\weightAndBias}
+    \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \learningRate \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}} - \regConst' \bm{\weightAndBias}_{\iter - 1}
 \end{equation}
 とすることで与えられる．ここで，$\regConst'$は正則化の程度を調整するパラメータである．これより，Weight Decayは重み$\bm{\weightAndBias}$の絶対値が過大になることを防ぐ手法だと言える．
 
@@ -88,13 +88,13 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
                                                    & = \frac{\bm{x}}{1 - p} \elemMul \lr{1 - p ~ \cdots ~ 1 - p}^\top \\
                                                    & = \bm{x} = \bm{\outputLower}_{\text{infer}}
 \end{align}
-となる．Dropoutは学習時に一部のニューロンを落とすことで，実質的に異なるネットワークを学習させていると考えることができる．よって，学習時の出力の期待値に推論時の出力を一致させることは，異なるネットワークから得られた出力の期待値をとり，アンサンブルモデルとして推論時の出力を得ていると解釈できる．
+となる．仮に学習時の挙動のまま推論を行えば，同じ入力を与えても出力は変化するため，複数パターンの出力の期待値を最終出力とすることで，アンサンブルモデルのように汎化性能の向上が期待される．しかし，これは計算コストの増大につながる．Dropoutではこの課題に対して，学習時の出力を$1 / (1 - p)$倍することで、一度の計算でアンサンブルモデルの効果を得られるよう設計されている。これにより、汎化性能を向上させつつ、計算コストが増加しないようになっている。
 
 4つ目は，Early Stoppingである．Early Stoppingは，検証データに対する損失の増加を監視し，設定したエポック数だけ増加し続けた場合に学習を停止する手法である．これにより，学習データに対する過度なフィッティングを防止する．
 
 \subsubsection{最適化手法}
 \label{sec3:sec:optimizer}
-\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter}$は勾配の一次モーメント，$\bm{m}_{\iter}$が勾配の一次モーメントの指数移動平均，$\bm{v}_{\iter}$が勾配の二次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．$\optimEmaConst_{1}, \optimEmaConst_{2}$は，指数移動平均の程度を調整するパラメータである．また，9行目のベクトルとベクトルの割り算は，各成分ごとに行われる．Adamでは，$\hat{\bm{m}}_{\iter}$を勾配の代わりに用いることで，ミニバッチごとのノイズに対する頑健な学習を可能にする．また，$\hat{\bm{v}}_{\iter}$の平方根で$\hat{\bm{m}}_{\iter}$を割ることによって，勾配の大きさに対するスケーリングを行っている．勾配が大きすぎる場合や小さすぎる場合を避けることで，勾配爆発や勾配消失を回避する効果があると考えられる．
+\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter}$は勾配の一次モーメント，$\bm{m}_{\iter}$が勾配の一次モーメントの指数移動平均，$\bm{v}_{\iter}$が勾配の二次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．$\optimEmaConst_{1}, \optimEmaConst_{2}$は，指数移動平均の程度を調整するパラメータである．また，9行目のベクトルの平方根および，ベクトルとベクトルの割り算は，各成分ごとに行われる．Adamでは，$\hat{\bm{m}}_{\iter}$を勾配の代わりに用いることで，ミニバッチごとのノイズに対する頑健な学習を可能にする．また，$\hat{\bm{v}}_{\iter}$の平方根で$\hat{\bm{m}}_{\iter}$を割ることによって，勾配の大きさに対するスケーリングを行っている．
 \begin{algorithm}
     \caption{Adam}
     \label{sec3:algo:adam}
@@ -102,7 +102,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
         \State \textbf{Input:} $\learningRate$, $\optimEmaConst_{1}$, $\optimEmaConst_{2}$, $\regConst$, $\bm{\weightAndBias}_{0}$, $L\lr{\bm{\weightAndBias}}$
         \State $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
         \For{$\iter = 1$ to \texttt{...}}
-        \State $\bm{g}_{\iter} = \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}} + \regConst \bm{\weightAndBias}_{\iter-1}$
+        \State $\bm{g}_{\iter} = \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}} + \regConst \bm{\weightAndBias}_{\iter-1}$
         \State $\bm{m}_{\iter} = \optimEmaConst_{1} \bm{m}_{\iter-1} + \lr{1 - \optimEmaConst_{1}} \bm{g}_{\iter}$
         \State $\bm{v}_{\iter} = \optimEmaConst_{2} \bm{v}_{\iter-1} + \lr{1 - \optimEmaConst_{2}} \bm{g}_{\iter} \elemMul \bm{g}_{\iter}$
         \State $\tilde{\bm{m}}_{\iter} = \bm{m}_{\iter} / \lr{1 - \optimEmaConst_{1}^{\iter}}$
@@ -120,7 +120,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
         \State \textbf{Input:} $\learningRate$, $\optimEmaConst_{1}$, $\optimEmaConst_{2}$, $\regConst$, $\bm{\weightAndBias}_{0}$, $L\lr{\bm{\weightAndBias}}$
         \State $\bm{m}_{0} = 0$, $\bm{v}_{0} = 0$
         \For{$\iter = 1$ to \texttt{...}}
-        \State $\bm{g}_{\iter} = \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}$
+        \State $\bm{g}_{\iter} = \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}$
         \State $\bm{m}_{\iter} = \optimEmaConst_{1} \bm{m}_{\iter - 1} + \lr{1 - \optimEmaConst_{1}} \bm{g}_{\iter}$
         \State $\bm{v}_{\iter} = \optimEmaConst_{2} \bm{v}_{\iter - 1} + \lr{1 - \optimEmaConst_{2}} \bm{g}_{\iter} \elemMul \bm{g}_{\iter}$
         \State $\tilde{\bm{m}}_{\iter} = \bm{m}_{\iter} / \lr{1 - \optimEmaConst_{1}^{\iter}}$
@@ -172,11 +172,11 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
     \label{sec3:eq:output_before_act}
     a_{p}^{n} = b_{p}^{n} + \sum_{q = 1}^{\dimUpper_{n - 1}} \weightLower_{q, p}^{n} o_{q}^{n - 1}
 \end{equation}
-で与えられる．ここで，$\dimUpper_{n - 1}$は$n - 1$層目の全結合層の次元（総ニューロン数），$o_{q}^{n - 1}$は$n - 1$層目の$q$番目のニューロンにおける出力$a_{q}^{n - 1}$に活性化関数$\phi$を適用した結果を表す．すなわち，
+で与えられる．ここで，$\dimUpper_{n - 1}$は$n - 1$層目のニューロン数，$o_{q}^{n - 1}$は$n - 1$層目の$q$番目のニューロンにおける出力$a_{q}^{n - 1}$に活性化関数$\phi$を適用した結果を表す．すなわち，
 \begin{equation}
     o_{q}^{n - 1} = \phi\lr{a_{q}^{n - 1}}
 \end{equation}
-である．例外として，各$i \in \mathcal{I}$に対し，$\bm{o}^{0} = \bm{x}_{i}$とする．また，$\dimUpper_{0} = \dimUpper_{\text{in}}, \dimUpper_{N_{\text{layer}}} = \dimUpper_{\text{out}}$とする．ここで，式~\eqref{sec3:eq:output_before_act}に対し，$w_{0, p}^{n} = b_{p}^{n}$，$o_{0}^{n - 1} = 1$とおけば，
+である．例外として，各$i \in \mathcal{I}_{\iter}$に対し，$\bm{o}^{0} = \bm{x}_{i}$とする．また，$\dimUpper_{0} = \dimUpper_{\text{in}}, \dimUpper_{N_{\text{layer}}} = \dimUpper_{\text{out}}$とする．ここで，式~\eqref{sec3:eq:output_before_act}に対し，$w_{0, p}^{n} = b_{p}^{n}$，$o_{0}^{n - 1} = 1$とおけば，
 \begin{equation}
     \label{sec3:eq:output_before_act_2}
     a_{p}^{n} = b_{p}^{n} + \sum_{q = 1}^{\dimUpper_{n - 1}} w_{q, p}^{n} o_{q}^{n - 1}
@@ -184,9 +184,9 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{equation}
 と整理できる．この時，
 \begin{align}
-    \pdv{\mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}}}{w_{p, q}^{n}} & = \pdv{w_{p, q}^{n}} \lr{\frac{1}{\card{\mathcal{\indexUpper}}} \sum_{\indexLower \in \mathcal{\indexUpper}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}} \\
-                                                                                                & = \frac{1}{\card{\mathcal{\indexUpper}}} \sum_{\indexLower \in \mathcal{\indexUpper}} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}}{w_{p, q}^{n}}     \\
-                                                                                                & = \frac{1}{\card{\mathcal{\indexUpper}}} \sum_{\indexLower \in \mathcal{\indexUpper}} \pdv{\lossFuncUpper_{\indexLower}}{w_{p, q}^{n}}
+    \pdv{\mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{\indexUpper}_{\iter}}}{w_{p, q}^{n}} & = \pdv{w_{p, q}^{n}} \lr{\frac{1}{\card{\mathcal{\indexUpper}_{\iter}}} \sum_{\indexLower \in \mathcal{\indexUpper}_{\iter}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}} \\
+                                                                                                        & = \frac{1}{\card{\mathcal{\indexUpper}_{\iter}}} \sum_{\indexLower \in \mathcal{\indexUpper}_{\iter}} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}}{w_{p, q}^{n}}     \\
+                                                                                                        & = \frac{1}{\card{\mathcal{\indexUpper}_{\iter}}} \sum_{\indexLower \in \mathcal{\indexUpper}_{\iter}} \pdv{\lossFuncUpper_{\indexLower}}{w_{p, q}^{n}}
 \end{align}
 となる．ここで，$\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}} = \lossFuncUpper_{\indexLower}$とおいた．この時，各$n \in \lrc{1, \ldots, N_{\text{layer}}}$に対し，
 $\pdv*{\lossFuncUpper_{\indexLower}}{w_{p, q}^{n}}$は式\eqref{sec3:eq:output_before_act_2}を用いて，
@@ -197,11 +197,11 @@ $\pdv*{\lossFuncUpper_{\indexLower}}{w_{p, q}^{n}}$は式\eqref{sec3:eq:output_b
 \end{align}
 となる．ここで，$\pdv*{\lossFuncUpper_{\indexLower}}{a_{q}^{n}} = \delta_{q}^{n}$とおいた．このとき，最終層（$n = \numUpper_{\text{layer}}$）の重みの場合，
 \begin{align}
-    \pdv{L_{\indexLower}}{w_{p, q}^{\numUpper_{\text{layer}}}} & = \delta_{q}^{\numUpper_{\text{layer}}} o_{p}^{\numUpper_{\text{layer}} - 1}                                                                                                                                                                                                           \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{L_{i}}{a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                                                                                                   \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                                                                           \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                                                                                          \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \lr{\nabla_{\phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}} \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}^\top \pdv{\phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}{a_{q}^{\numUpper_{\text{layer}}}} \\
+    \pdv{L_{\indexLower}}{w_{p, q}^{\numUpper_{\text{layer}}}} & = \delta_{q}^{\numUpper_{\text{layer}}} o_{p}^{\numUpper_{\text{layer}} - 1}                                                                                                                                                      \\
+                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{L_{i}}{a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                                              \\
+                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                      \\
+                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                                     \\
+                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \nabla \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}} \pdv{\phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}{a_{q}^{\numUpper_{\text{layer}}}}   \\
                                                                & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{\phi\lr{a_{q}^{\numUpper_{\text{layer}}}}} \phi'\lr{a_{q}^{\numUpper_{\text{layer}}}}
 \end{align}
 となる．これは，入力から出力を計算する順伝搬で得られた値のみに依存するから，直ちに計算可能であることがわかる．一方，最終層以外（$1 \le n < \numUpper_{\text{layer}}$）の重みの場合，
@@ -219,35 +219,16 @@ $\pdv*{\lossFuncUpper_{\indexLower}}{w_{p, q}^{n}}$は式\eqref{sec3:eq:output_b
 \subsubsection{学習の安定化}
 DNNの学習は勾配降下法によって行われるが，ここで勾配が大きくなりすぎると重みの更新幅が過剰に大きくなり，学習が不安定になる可能性がある．これに対して，Gradient Clippingが有効である．これは，
 \begin{equation}
-    \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}} \gets \frac{c}{\max \lrc{\lrTwoNorm{\nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}}}, c}} \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}}
+    \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}} \gets \frac{c}{\max \lrc{\lrTwoNorm{\nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}}}, c}} \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}}
 \end{equation}
 で与えられる．ここで，$c$は勾配のL2ノルムに対する閾値である．$\mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}; \mathcal{I}}$は\ref{sec3:sec:gradient_descent}節で定義した関数を再度用いた．
 
 また，近年は数億単位のパラメータを持つ大規模なDNNも提案されており，こういった規模間のDNNを構築して学習する場合，それ相応のメモリが必要になる．マシンのスペックに対し，バッチサイズを十分小さくすれば基本的に学習は可能であるが，これは各データのノイズの影響が強くなるため，学習を不安定にする要因となる．これに対し，Gradient Accumulationが有効である．Gradient Accumulationは，小さなバッチサイズで計算した勾配を複数イテレーションに渡って累積し，設定したイテレーション数ごとに重みの更新を行う手法である．累積される勾配を$\bm{g}_{\text{accum}}$とすると，この更新は
 \begin{equation}
-    \bm{g}_{\text{accum}} \gets \bm{g}_{\text{accum}} + \nabla_{\bm{\weightAndBias}} \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
+    \bm{g}_{\text{accum}} \gets \bm{g}_{\text{accum}} + \nabla \mathcal{\lossFuncUpper}\lr{\bm{\weightAndBias}_{\iter - 1}; \mathcal{I}_{\iter}}
 \end{equation}
 で与えられる．ここで，設定した累積回数を$\numUpper_{\text{accum}}$とすると，重み$\bm{\weightAndBias}$の更新は
 \begin{equation}
     \bm{\weightAndBias}_{\iter} = \bm{\weightAndBias}_{\iter - 1} - \frac{\learningRate}{\numUpper_{\text{accum}}} \bm{g}_{\text{accum}}
 \end{equation}
 で与えられる．$\numUpper_{\text{accum}}$回分の勾配を累積した分，重みを更新する際には$1 / \numUpper_{\text{accum}}$倍して平均をとることで，実質的に$\numUpper_{\text{accum}}$倍のバッチサイズにおける学習が可能になる．また，重み更新後は累積した勾配を0にリセットして，次の$\numUpper_{\text{accum}}$回の累積に備える．
-
-% \subsubsection{自己教師あり学習}
-% \label{sec3:sec:ssl}
-% 近年，音声や動画を用いる分野では，自己教師あり学習を事前に行ったモデルを特定の問題にFineTuningする転移学習の有効性が確認されている．自己教師あり学習とは、教師ラベルのないデータから特徴を学習する手法であり、データ自体を利用して擬似的な教師ラベルを生成し、教師あり学習を行う点が特徴である。このアプローチは教師なし学習と類似しているが、教師ラベルを生成して利用する点で教師あり学習に近いといえる。ここでは特に，本研究で用いる自己教師あり学習モデルであるHuBERT\cite{hsu2021hubert}，AVHuBERT\cite{shi2022learning}で行われている，Masked Predictionという自己教師あり学習方法について述べる．
-
-% Masked Predictionでは，マスクによって一部欠損された入力から，マスクされたフレームにおける教師ラベルを予測することで学習を行う．モデルへの入力を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper}$とし，このうちマスクされるインデックスの部分集合を$\mathcal{M} \subset \lrc{1, \ldots \timeUpper}$とする．$T$は系列長，$D$は特徴量の次元である．この時，マスクされた入力$\bm{\inputUpper}^{\text{masked}}$の各時刻$\timeLower$におけるベクトル$\bm{\inputLower}^{\text{masked}}_{\timeLower}$は，
-% \begin{equation}
-%     \bm{\inputLower}^{\text{masked}}_{\timeLower} =
-%     \begin{cases}
-%         \bm{\inputLower}_{\timeLower} & \text{if $\timeLower \notin \mathcal{M}$} \\
-%         \bm{m}                        & \text{if $\timeLower \in \mathcal{M}$}
-%     \end{cases}
-% \end{equation}
-% となる．$\bm{m} \in \realSet^{\dimUpper}$はマスク専用のベクトルである．ここで，HuBERTでは音声データ，AVHuBERTでは動画データと音声データを扱うが，いずれもクラスタリングによって連続特徴量を離散化し，教師ラベルを作成する．クラスタ数$\classUpper$のクラスタリングによって得られた教師ラベルを$\bm{\outputUpper} \in \lrc{0, 1}^{\timeUpper \times \classUpper}$とする．各時刻$\timeLower$における教師ラベル$\bm{y}_{\timeLower}$は，正解クラスが1，それ以外が0となったOne-hotベクトルである．この時，モデルからのロジット$\hat{\bm{\outputUpper}} \in \realSet^{\timeUpper \times \classUpper}$に対する損失は，
-% \begin{equation}
-%     \lossFuncUpper_{\text{CE-masked}}\lr{\bm{\outputUpper}, \hat{\bm{\outputUpper}}} =
-%     - \frac{1}{\card{\mathcal{M}}} \sum_{\timeLower \in \mathcal{M}} \sum_{c = 1}^{\classUpper} y_{t, c} \log \lr{\frac{\exp\lr{\hat{\outputLower}_{\timeLower, \classLower}}}{\sum_{\indexLower = 1}^{C} \exp\lr{\hat{\outputLower}_{\timeLower, \indexLower}}}}
-% \end{equation}
-% で与えられる．すなわち，マスクされた位置に限定したCross Entropy Lossである．この損失関数の値を最小化するためには，欠損された入力から特徴抽出を行う必要があるから，最適化されたDNNは音声や動画における文脈的な構造を学習していると考えられる．また，Masked Predictionはテキストアノテーションを必要としない学習方法であるから，教師あり学習と比較してより多くのリソースを用いた学習が可能になるという利点がある．

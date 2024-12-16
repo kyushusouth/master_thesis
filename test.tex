@@ -50,38 +50,22 @@
 
 
 \begin{document}
-$\mathbb{R}$で考える．関数$f$の振動量は
-\begin{equation}
-    o(f, x) = \lim_{\delta \to \infty} \lr{\sup_{y \in I_{x}\lr{\delta}} f(y) - \inf_{y \in I_{x}\lr{\delta}} f(y)}
-\end{equation}
-で定義される．ここで，$I_{x}\lr{\delta} = \lr{x - \delta, x + \delta}$である．関数$f$が$x$で連続であることと，$o(f, x) = 0$が同値であることを示せる？
+$f$を$[a, b]$上の有界関数とする．この時，$f$が$[a, b]$上ほとんど至るところ連続ならば，$f$が$[a, b]$上リーマン可積分であることを示したい．
 
+$D$が零集合とする．$\epsilon > 0$が任意に与えられたとい，$D$を長さの和が$\epsilon$以下の開区間の列$I_{1}, I_{2}, \ldots$によって覆う．$D$の外の点$x$においては$f$は連続だから，$x$を含む開区間$J_{x}$が，$y \in J_{x}$なら$|f(y) - f(x)| < \epsilon / 2$となるように取れる．この時$J_{x}$上の$f$の上限と下限の差は$\epsilon$以下である．明らかに
 \begin{equation}
-    \sup_{y \in I_{x}\lr{\delta}} f(y) - \inf_{y \in I_{x}\lr{\delta}} f(y) \le \epsilon
+    [a, b] \subset \left(\bigcup_{j = 1}^{\infty} I_{j}\right) \bigcup \left(\bigcup_{x \in [a, b] \setminus D} J_{x}\right)
 \end{equation}
-が任意の$\epsilon > 0$で成り立つ時に，なぜ
+である．ハイネ・ボレルの定理より，$I_{1}, I_{2}, \ldots$のうちから有限個と，$\{J_{x}\}$のうちから有限個を適当に選んで$[a, b]$を覆うことができる．必要なら$I_{j}$の番号を取り替えて，また$\{J_{x}\}$から選んだ区間に番号をつけてこれらを$I_{1}, \ldots, I_{N}, J_{1}, \ldots, J_{L}$とする．これらの区間の端点の全てを使って$[a, b]$の分割$\triangle: a_{0} = a < a_{1} < \cdots < a_{n} = b$を作る．この時，$(a_{j}, a_{j + 1})$は$I_{1}, \ldots, I_{N}, J_{1}, \ldots, J_{L}$のいずれかに含まれる．ここで，$\sum_{j = 0}^{n - 1}(M_{j} - m_{j})(a_{j + 1} - a_{j})$を，$(a_{j}, a_{j + 1})$が$I_{k}$のどれからに含まれるものと$J_{l}$のどれかに含まれるものとに分けて，
 \begin{equation}
-    \lim_{\delta \to 0} \lr{\sup_{y \in I_{x}\lr{\delta}} f(y) - \inf_{y \in I_{x}\lr{\delta}} f(y)} = 0
+    \overline{S}(\triangle, f) - \underline{S}(\triangle, f) = \sum_{(a_{j}, a_{j + 1}) \subset あるI_{k}} (M_{j} - m_{j})(a_{j + 1} - a_{j}) + \sum_{(a_{j}, a_{j + 1}) \subset あるJ_{l}} (M_{j} - m_{j})(a_{j + 1} - a_{j})
 \end{equation}
-になるのですか？
+と書く．どちらにも含まれるものは，前もって第一の和の方に入れておくなどしてどちらに入れても良い．ここで，
+\begin{gather}
+    M_{j} = \sup_{x \in [a_{j}, a_{j + 1}] f(x)} \\
+    m_{j} = \inf_{x \in [a_{j}, a_{j + 1}] f(x)}
+\end{gather}
+である．$M = \sup_{a \le x \le b} |f(x)|$と定義すれば$M_{j} - m_{j} \le 2M$で，$I_{1}, \ldots, I_{N}$の長さの和は$\epsilon$以下だから，
 
-関数$f: \mathbb{R} \to \mathbb{R}$が$x \in \mathbb{R}$で連続であることは，
-\begin{equation}
-    \lim_{\delta \to 0} \sup_{\lrAbs{x - y} < \delta} \lrAbs{f(y) - f(x)} = 0
-\end{equation}
-となるための必要十分条件であることを示したい．
-
-まず，十分性を示す．任意の$\epsilon > 0$をとる．$f$が$x$で連続だから，
-\begin{equation}
-    \exists \delta_{0} > 0, \lrAbs{x - y} < \delta_{0} \Rightarrow \lrAbs{f(x) - f(y)} < \epsilon
-\end{equation}
-となる．ここで，$\gamma = \delta_{0}$とする．この時，$\delta < \gamma$を満たす任意の$\delta > 0$に対し，
-\begin{equation}
-    \lrAbs{x - y} < \delta \Rightarrow \lrAbs{f(x) - f(y)} < \epsilon
-\end{equation}
-となる．よって，
-\begin{equation}
-    \sup_{\lrAbs{x - y} < \delta} \lrAbs{f(x) - f(y)} \le \epsilon
-\end{equation}
-となる．$\epsilon$未満であることを示すことができればいいのだが，ここで行き詰まっている．何か間違えているか？
+この時，$J_{1}, \ldots, J_{L}$の長さの和が$b - a$以下となることを示せるか？
 \end{document}
