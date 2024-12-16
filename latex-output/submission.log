@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  16 DEC 2024 19:13
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  17 DEC 2024 01:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -488,32 +488,32 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 \figcaptionskip=\skip96
 \tabcaptionskip=\skip97
 (./vars.tex)
-Package translations Info: No language package found. I am going to use `english' as default language. on input line 51.
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 54.
 (latex-output/submission.aux)
 \openout1 = `submission.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
 *geometry* driver: auto-detecting
 *geometry* detected driver: dvips
 *geometry* verbose mode - [ preamble ] result:
@@ -551,12 +551,12 @@ LaTeX Font Info:    ... okay on input line 51.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 51.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 54.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 51.
+Package hyperref Info: Link coloring OFF on input line 54.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/usr/local/texlive/2022/texmf-dist/tex/latex/refcount/refcount.sty
@@ -566,9 +566,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count328
 )
-LaTeX Info: Redefining \ref on input line 51.
-LaTeX Info: Redefining \pageref on input line 51.
-LaTeX Info: Redefining \nameref on input line 51.
+LaTeX Info: Redefining \ref on input line 54.
+LaTeX Info: Redefining \pageref on input line 54.
+LaTeX Info: Redefining \nameref on input line 54.
 (latex-output/submission.out) (latex-output/submission.out)
 \@outlinefile=\write3
 \openout3 = `submission.out'.
@@ -577,9 +577,9 @@ LaTeX Info: Redefining \nameref on input line 51.
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 83.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 86.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 83.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 86.
 [1] (latex-output/submission.toc
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 1.
@@ -634,20 +634,19 @@ File: ./figure/sec3/conv3.drawio.png Graphic file (type bmp)
 <./figure/sec3/conv3.drawio.png>
 File: ./figure/sec3/conv4.drawio.png Graphic file (type bmp)
 <./figure/sec3/conv4.drawio.png>
-[8]
 File: ./figure/sec3/tconv1.drawio.png Graphic file (type bmp)
 <./figure/sec3/tconv1.drawio.png>
 File: ./figure/sec3/tconv2.drawio.png Graphic file (type bmp)
 <./figure/sec3/tconv2.drawio.png>
-[9] [10]
+[8] [9] [10]
 File: ./figure/sec3/activations.png Graphic file (type bmp)
 <./figure/sec3/activations.png>
 File: ./figure/sec3/activations_prime.png Graphic file (type bmp)
 <./figure/sec3/activations_prime.png>
-[11] [12] [13]
+[11] [12] [13] [14]
 File: ./figure/sec3/transformer.drawio.png Graphic file (type bmp)
 <./figure/sec3/transformer.drawio.png>
-[14] [15]) (./section3_2.tex [16] [17] [18]
+[15]) (./section3_2.tex [16] [17] [18]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 99.
 [19] [20]
 File: ./figure/sec3/lr_scheduler.png Graphic file (type bmp)
@@ -855,12 +854,12 @@ Package rerunfilecheck Info: File `submission.out' has not changed.
 (rerunfilecheck)             Checksum: 3A481E58F8FE592EE3E9DBA99F351BAE;3646.
  ) 
 Here is how much of TeX's memory you used:
- 18621 strings out of 478692
- 356291 string characters out of 5855915
- 645394 words of memory out of 5000000
- 36764 multiletter control sequences out of 15000+600000
+ 18627 strings out of 478692
+ 356404 string characters out of 5855915
+ 646681 words of memory out of 5000000
+ 36770 multiletter control sequences out of 15000+600000
  494189 words of font info for 125 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,15n,79p,2347b,881s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,15n,79p,2347b,1146s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (70 pages, 399104 bytes).
+Output written on latex-output/submission.dvi (70 pages, 403572 bytes).

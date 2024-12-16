@@ -19,7 +19,7 @@
 
 これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$を表す．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
 
-畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．例えば，カーネルサイズを3，ストライドとダイレーションを1とした場合には，入力の両端に1ずつゼロパディングすれば良い．図~\ref{sec3:fig:conv_variations}に，ある次元における一次元畳み込み層の処理を示す．
+畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．図\ref{sec3:fig:conv_variations}に，ある入出力次元間における一次元畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．図\ref{sec3:fig:conv1}は，カーネルサイズを3，ストライドとダイレーションを1とした場合であり，入力の両端に1ずつゼロパディングすることで，入出力の系列長が変わらないことを表している．図\ref{sec3:fig:conv2}は，カーネルサイズを5，ストライドとダイレーションを1とした場合であり，カーネルサイズが大きくなることで，出力1フレームを計算する際に考慮される入力の範囲が図\ref{sec3:fig:conv1}よりも広がることを表した．図\ref{sec3:fig:conv3}はカーネルサイズが3，ストライドが2，ダイレーションが1の場合であり，ストライドを2にしたことによって出力の系列長が入力よりも短くなることを表している．ここではパディングを1とすることで，入力に対して出力の系列長を$1/2$にできることを表した．図\ref{sec3:fig:conv4}はカーネルサイズが3，ストライドが1，ダイレーションが2の場合であり，ダイレーションを2とすることで，カーネルに対して入力が1フレーム飛ばしで計算されることを示した．
 
 \begin{figure}[tb]
     \centering
@@ -50,12 +50,12 @@
         \caption{$\lr{\kernelSizeUpper, \strideUpper, \dilationUpper} = \lr{3, 1, 2}$}
         \label{sec3:fig:conv4}
     \end{subfigure}
-    \caption{ある次元における一次元畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライド，$\dilationUpper$はダイレーションを表し，図中の0はパディング部を表す．}
+    \caption{ある入出力次元間における一次元畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライド，$\dilationUpper$はダイレーションを表し，図中の0はパディング部を表す．}
     \label{sec3:fig:conv_variations}
 \end{figure}
 
 \subsubsection{転置畳み込み層}
-転置畳み込み層は，畳み込み層の逆演算に対応する層であり，主に入力のアップサンプリングに使用される．図~\ref{sec3:fig:tconv_variations}に，ある入出力次元間における一次元転置畳み込み層の処理を示す．一次元転置畳み込み層では，$\timeLower$番目の入力とカーネルの積を計算し，その結果を$\timeLower$番目から$\timeLower + \kernelSizeUpper$番目までの出力とする．ここで$\kernelSizeUpper$はカーネルサイズである．また，複数の入力から計算された出力がオーバーラップする場合，これらは加算される．図~\ref{sec3:fig:tconv1}は，カーネルサイズを4，ストライドを1とした場合の様子である．アップサンプリングを行いたい場合は，ストライドを2以上とすれば良い．図~\ref{sec3:fig:tconv2}にカーネルサイズを4，ストライドを2とした場合を示す．この時，入力系列長が4であるのに対して，出力系列長が10まで拡大されていることがわかる．ここで，出力系列長を入力系列長の整数倍に保つためには，出力の両端の削除数を適切に設定する必要がある．上述の例では両端の削除数を1とすることで，出力系列長を入力系列長の2倍である8に調整できる．
+転置畳み込み層は，畳み込み層の逆演算に対応する層であり，主に入力のアップサンプリングに使用される．図\ref{sec3:fig:tconv_variations}に，ある入出力次元間における一次元転置畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．一次元転置畳み込み層では，$\timeLower$番目の入力とカーネルの積を計算し，その結果を$\timeLower$番目から$\timeLower + \kernelSizeUpper$番目までの出力とする．ここで$\kernelSizeUpper$はカーネルサイズである．また，複数の入力から計算された出力がオーバーラップする場合，これらは加算される．図\ref{sec3:fig:tconv1}は，カーネルサイズを4，ストライドを1とした場合の様子である．アップサンプリングを行いたい場合は，ストライドを2以上とすれば良い．図\ref{sec3:fig:tconv2}にカーネルサイズを4，ストライドを2とした場合を示す．この時，入力系列長が4であるのに対して，出力系列長が10まで拡大されていることがわかる．ここで，出力系列長を入力系列長の整数倍に保つためには，出力の両端の削除数を適切に設定する必要がある．上述の例では両端の削除数を1とすることで，出力系列長を入力系列長の2倍である8に調整できる．
 
 \begin{figure}[tb]
     \centering
@@ -71,12 +71,12 @@
         \caption{$\lr{\kernelSizeUpper, \strideUpper} = \lr{4, 2}$}
         \label{sec3:fig:tconv2}
     \end{subfigure}
-    \caption{ある次元における一次元転置畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライドを表す．}
+    \caption{ある入出力次元間における一次元転置畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライドを表す．}
     \label{sec3:fig:tconv_variations}
 \end{figure}
 
 \subsubsection{活性化関数}
-活性化関数は，ニューラルネットワークの出力に非線形性を与えるための関数である．これにより，DNNは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる．以下，活性化関数への入力を$\inputLower \in \realSet$として，代表的なものを6つ述べる．また，本節で取り上げる活性化関数とその一階導関数のグラフを図~\ref{sec3:fig:activations_and_their_prime}に示す．
+活性化関数は，ニューラルネットワークの出力に非線形性を与えるための関数である．これにより，DNNは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる．以下，活性化関数への入力を$\inputLower \in \realSet$として，代表的なものを6つ述べる．また，本節で取り上げる活性化関数とその一階導関数のグラフを図\ref{sec3:fig:activations_and_their_prime}に示す．
 
 1つ目は，シグモイド関数である．シグモイド関数は
 \begin{equation}
@@ -86,7 +86,7 @@
 \begin{equation}
     \dv{\sigmoid\lr{\inputLower}}{x} = \frac{\exp\lr{-\inputLower}}{\lr{1 + \exp\lr{-\inputLower}}^{2}}
 \end{equation}
-となる．図~\ref{sec3:fig:activations_prime}より，シグモイド関数の一階導関数の最大値は$\inputLower=0$における0.25であり，$\lrAbs{\inputLower - 0}$が大きくなるのに伴ってその値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の一階導関数の値が乗算された結果となる．前述したように，シグモイド関数は一階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
+となる．図\ref{sec3:fig:activations_prime}より，シグモイド関数の一階導関数の最大値は$\inputLower=0$における0.25であり，$\lrAbs{\inputLower}$が大きくなるのに伴って，一階導関数の値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の一階導関数の値が乗算された結果となる．前述したように，シグモイド関数は一階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
 
 2つ目は，$\tanh$関数である．$\tanh$は
 \begin{equation}
@@ -97,7 +97,7 @@
     \dv{\tanh\lr{\inputLower}}{x} & = \frac{4}{\lr{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}^{2}} \\
                                   & = \frac{1}{\cosh\lr{\inputLower}^{2}}
 \end{align}
-となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower - 0}$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower - 0}$が大きくなればシグモイド関数と同様に一階導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
+となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower}$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower}$が大きくなればシグモイド関数と同様に一階導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
 
 3つ目は，$\relu$である．$\relu$は
 \begin{equation}
@@ -158,13 +158,13 @@
     \centering
     \begin{subfigure}[b]{1.0\textwidth}
         \centering
-        \includegraphics[height=6cm]{./figure/sec3/activations.png}
+        \includegraphics[width=160  mm]{./figure/sec3/activations.png}
         \caption{活性化関数}
         \label{sec3:fig:activations}
     \end{subfigure}
     \begin{subfigure}[b]{1.0\textwidth}
         \centering
-        \includegraphics[height=6cm]{./figure/sec3/activations_prime.png}
+        \includegraphics[width=160  mm]{./figure/sec3/activations_prime.png}
         \caption{活性化関数の一階導関数}
         \label{sec3:fig:activations_prime}
     \end{subfigure}
@@ -226,12 +226,12 @@ DNNの学習過程では学習の進行に伴って重みが変化するため�
 のように単位ベクトル$\bm{v} / \lrTwoNorm{\bm{v}}$（ベクトルの向き）とスカラー$g$（ベクトルの長さ）に再パラメータ化するものである．学習時は重みの更新を$\bm{v}$と$g$で別々に行う．重み正規化は，バッチ正規化やレイヤー正規化と同様に学習の安定化に役立つが，計算に入力特徴量の系列長が依存しない．そのため，例えば音声波形など系列長が非常に長くなりがちなデータを扱う場合，計算コストを下げながら同様の効果を狙える手段だと考えられる．
 
 \subsubsection{Transformer}
-Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention）を用いて，入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである．特に，再帰的な計算を必要とするRNNと比較して，Transformerは並列計算のみ行うため，GPUによる計算の高速化が可能である．以下，入力特徴量を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$として，Transformerにおいて行われる計算を説明する．$T$は系列長，$\dimUpper_{\text{model}}$は特徴量の次元を表す．また，Transformer層の構造を図~\ref{sec3:fig:transformer_layer}に示す．
+Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention）を用いて，入力系列全体に渡る依存関係を捉えることができるニューラルネットワークである．特に，再帰的な計算を必要とするRNNと比較して，Transformerは並列計算のみ行うため，GPUによる計算の高速化が可能である．以下，入力特徴量を$\bm{\inputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$として，Transformerにおいて行われる計算を説明する．$T$は系列長，$\dimUpper_{\text{model}}$は特徴量の次元を表す．また，Transformer層の構造を図\ref{sec3:fig:transformer_layer}に示す．赤の平行四辺形が入出力，青の長方形が処理を表す．
 
 \begin{figure}[bt]
     \centering
-    \includegraphics[height=140mm]{./figure/sec3/transformer.drawio.png}
-    \caption{Transformer層の構造}
+    \includegraphics[width=150mm]{./figure/sec3/transformer.drawio.png}
+    \caption{Transformer層の構造（赤い平行四辺形：入出力，青い長方形：処理）}
     \label{sec3:fig:transformer_layer}
 \end{figure}
 

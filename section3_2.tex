@@ -132,7 +132,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{algorithm}
 
 \subsubsection{学習率のスケジューリング}
-学習率のスケジューリングは，学習率$\learningRate$の値自体を学習の進行に伴って変更するものである．これは，より安定した学習を促したり，より早く学習を収束させたりするのに役立つ手段である．以下，3つのスケジューラを例として述べる．また，各スケジューラを用いた場合における学習率の遷移を図~\ref{sec3:fig:lr_scheduler}に示す．
+学習率のスケジューリングは，学習率$\learningRate$の値自体を学習の進行に伴って変更するものである．これは，より安定した学習を促したり，より早く学習を収束させたりするのに役立つ手段である．以下，3つのスケジューラを例として述べる．また，各スケジューラを用いた場合における学習率の遷移を図\ref{sec3:fig:lr_scheduler}に示す．
 
 1つ目は，StepLRSchedulerである．これは，初期学習率を$\learningRate_{0}$として，エポック$\epoch$における学習率$\learningRate_{\epoch}$を
 \begin{equation}
@@ -158,7 +158,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 
 \begin{figure}[bt]
     \centering
-    \includegraphics[height=70mm]{./figure/sec3/lr_scheduler.png}
+    \includegraphics[width=160mm]{./figure/sec3/lr_scheduler.png}
     \caption{スケジューラによる学習率の変化}
     \label{sec3:fig:lr_scheduler}
 \end{figure}
