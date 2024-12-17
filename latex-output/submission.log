@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  17 DEC 2024 11:45
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  17 DEC 2024 15:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -779,29 +779,25 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 266.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 272.
+(Font)              No change on input line 273.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 278.
+(Font)              No change on input line 280.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 284.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 290.
+(Font)              No change on input line 286.
 [55]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 298.
-LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 304.
+(Font)              No change on input line 292.
 ) [56] (latex-output/submission.aux)
 Package rerunfilecheck Info: File `submission.out' has not changed.
-(rerunfilecheck)             Checksum: 6B9050C52206930933A0BD4F5D8A7ACB;3646.
+(rerunfilecheck)             Checksum: 710549CD84539A68D4CF18842329B98F;3711.
  ) 
 Here is how much of TeX's memory you used:
- 18449 strings out of 478692
- 346589 string characters out of 5855915
- 643361 words of memory out of 5000000
- 36612 multiletter control sequences out of 15000+600000
+ 18447 strings out of 478692
+ 346533 string characters out of 5855915
+ 643306 words of memory out of 5000000
+ 36610 multiletter control sequences out of 15000+600000
  494189 words of font info for 125 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  74i,15n,79p,2347b,1146s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (60 pages, 382164 bytes).
+Output written on latex-output/submission.dvi (60 pages, 380396 bytes).

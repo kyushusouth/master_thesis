@@ -265,6 +265,14 @@ Ambika Kirkland, Shivam Mehta, Harm Lameris, Gustav~Eje Henter, Eva
   tts evaluation.
 \newblock In {\em 12th Speech Synthesis Workshop (SSW) 2023}, 2023.
 
+\bibitem{chen2022large}
+Zhengyang Chen, Sanyuan Chen, Yu~Wu, Yao Qian, Chengyi Wang, Shujie Liu, Yanmin
+  Qian, and Michael Zeng.
+\newblock Large-scale self-supervised speech representation learning for
+  automatic speaker verification.
+\newblock In {\em ICASSP 2022-2022 IEEE International Conference on Acoustics,
+  Speech and Signal Processing (ICASSP)}, pp. 6147--6151. IEEE, 2022.
+
 \bibitem{chen2018gradnorm}
 Zhao Chen, Vijay Badrinarayanan, Chen-Yu Lee, and Andrew Rabinovich.
 \newblock Gradnorm: Gradient normalization for adaptive loss balancing in deep
@@ -277,26 +285,6 @@ Shikun Liu, Edward Johns, and Andrew~J Davison.
 \newblock End-to-end multi-task learning with attention.
 \newblock In {\em Proceedings of the IEEE/CVF conference on computer vision and
   pattern recognition}, pp. 1871--1880, 2019.
-
-\bibitem{crawshaw2020multi}
-Michael Crawshaw.
-\newblock Multi-task learning with deep neural networks: A survey.
-\newblock {\em arXiv preprint arXiv:2009.09796}, 2020.
-
-\bibitem{yu2020gradient}
-Tianhe Yu, Saurabh Kumar, Abhishek Gupta, Sergey Levine, Karol Hausman, and
-  Chelsea Finn.
-\newblock Gradient surgery for multi-task learning.
-\newblock {\em Advances in Neural Information Processing Systems}, Vol.~33, pp.
-  5824--5836, 2020.
-
-\bibitem{chen2022large}
-Zhengyang Chen, Sanyuan Chen, Yu~Wu, Yao Qian, Chengyi Wang, Shujie Liu, Yanmin
-  Qian, and Michael Zeng.
-\newblock Large-scale self-supervised speech representation learning for
-  automatic speaker verification.
-\newblock In {\em ICASSP 2022-2022 IEEE International Conference on Acoustics,
-  Speech and Signal Processing (ICASSP)}, pp. 6147--6151. IEEE, 2022.
 
 \bibitem{wang2021survey}
 Xin Wang, Yudong Chen, and Wenwu Zhu.
