@@ -94,7 +94,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 
 \subsubsection{最適化手法}
 \label{sec3:sec:optimizer}
-\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter}$は勾配の一次モーメント，$\bm{m}_{\iter}$が勾配の一次モーメントの指数移動平均，$\bm{v}_{\iter}$が勾配の二次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．$\optimEmaConst_{1}, \optimEmaConst_{2}$は，指数移動平均の程度を調整するパラメータである．また，9行目のベクトルの平方根および，ベクトルとベクトルの割り算は，各成分ごとに行われる．Adamでは，$\hat{\bm{m}}_{\iter}$を勾配の代わりに用いることで，ミニバッチごとのノイズに対する頑健な学習を可能にする．また，$\hat{\bm{v}}_{\iter}$の平方根で$\hat{\bm{m}}_{\iter}$を割ることによって，勾配の大きさに対するスケーリングを行っている．
+\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter}$は勾配の1次モーメント，$\bm{m}_{\iter}$が勾配の1次モーメントの指数移動平均，$\bm{v}_{\iter}$が勾配の2次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．$\optimEmaConst_{1}, \optimEmaConst_{2}$は，指数移動平均の程度を調整するパラメータである．また，9行目のベクトルの平方根および，ベクトルとベクトルの割り算は，各成分ごとに行われる．Adamでは，$\hat{\bm{m}}_{\iter}$を勾配の代わりに用いることで，ミニバッチごとのノイズに対する頑健な学習を可能にする．また，$\hat{\bm{v}}_{\iter}$の平方根で$\hat{\bm{m}}_{\iter}$を割ることによって，勾配の大きさに対するスケーリングを行っている．
 \begin{algorithm}
     \caption{Adam}
     \label{sec3:algo:adam}
@@ -176,7 +176,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \begin{equation}
     o_{q}^{n - 1} = \phi\lr{a_{q}^{n - 1}}
 \end{equation}
-である．例外として，各$i \in \mathcal{I}_{\iter}$に対し，$\bm{o}^{0} = \bm{x}_{i}$とする．また，$\dimUpper_{0} = \dimUpper_{\text{in}}, \dimUpper_{N_{\text{layer}}} = \dimUpper_{\text{out}}$とする．ここで，式~\eqref{sec3:eq:output_before_act}に対し，$w_{0, p}^{n} = b_{p}^{n}$，$o_{0}^{n - 1} = 1$とおけば，
+である．例外として，各$i \in \mathcal{I}_{\iter}$に対し，$\bm{o}^{0} = \bm{x}_{i}$とする．また，$\dimUpper_{0} = \dimUpper_{\text{in}}, \dimUpper_{N_{\text{layer}}} = \dimUpper_{\text{out}}$とする．ここで，式~\eqref{sec3:eq:output_before_act}に対し，$w_{0, p}^{n} = b_{p}^{n}，o_{0}^{n - 1} = 1$とおけば，
 \begin{equation}
     \label{sec3:eq:output_before_act_2}
     a_{p}^{n} = b_{p}^{n} + \sum_{q = 1}^{\dimUpper_{n - 1}} w_{q, p}^{n} o_{q}^{n - 1}

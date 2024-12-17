@@ -11,15 +11,15 @@
 で与えられる．ここで，$\timeUpper$は系列長，$\bm{1} \in \{1\}^{\timeUpper}$は全成分が1のベクトルである．全結合層はDNN内部での特徴量の次元の変換や，最終層において所望の出力に次元を合わせるのに用いられる．
 
 \subsubsection{畳み込み層}
-畳み込み層は，入力に対して畳み込み演算を行う層である．一次元畳み込み層について，入力を$\bm{\inputUpper} \in \realSet^{\dimUpper_{\text{in}} \times \timeUpper_{\text{in}}}$，出力を$\bm{\outputUpper} \in \realSet^{\dimUpper_{\text{out}} \times \timeUpper_{\text{out}}}$とし，それぞれ$\dimLower$次元目，$\timeLower$番目の成分を$\inputLower_{\dimLower_{\text{in}}, \timeLower}, \outputLower_{\dimLower_{\text{out}}, \timeLower}$で表す．$\dimUpper_{\text{in}}, \dimUpper_{\text{out}}$は入出力の次元，$\timeUpper_{\text{in}}, \timeUpper_{\text{out}}$は入出力の系列長である．このとき，$\outputLower_{\dimLower_{\text{out}}, \timeLower}$は，
+畳み込み層は，入力に対して畳み込み演算を行う層である．1次元畳み込み層について，入力を$\bm{\inputUpper} \in \realSet^{\dimUpper_{\text{in}} \times \timeUpper_{\text{in}}}$，出力を$\bm{\outputUpper} \in \realSet^{\dimUpper_{\text{out}} \times \timeUpper_{\text{out}}}$とし，それぞれ$\dimLower$次元目，$\timeLower$番目の成分を$\inputLower_{\dimLower_{\text{in}}, \timeLower}, \outputLower_{\dimLower_{\text{out}}, \timeLower}$で表す．$\dimUpper_{\text{in}}, \dimUpper_{\text{out}}$は入出力の次元，$\timeUpper_{\text{in}}, \timeUpper_{\text{out}}$は入出力の系列長である．このとき，$\outputLower_{\dimLower_{\text{out}}, \timeLower}$は，
 \begin{align}
     \outputLower_{\dimLower_{\text{out}}, \timeLower} = b_{\dimLower_{\text{out}}} + \sum_{\dimLower_{\text{in}} = 1}^{\dimUpper_{\text{in}}} \sum_{\kernelSizeLower = 1}^{\kernelSizeUpper} \inputLower_{\dimLower_{\text{in}}, \timeLower - \lrFloor{\frac{\kernelSizeUpper}{2}} + \kernelSizeLower - 1} \weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}
 \end{align}
-で与えられる．ここで，$\kernelSizeUpper$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}}$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，一次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる（$\kernelSizeUpper$は奇数を想定した）．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．一次元畳み込みはテキストや音声など，データの形状が$\lr{\dimUpper \times \timeUpper}$となっている時に用いられる．
+で与えられる．ここで，$\kernelSizeUpper$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}}$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，1次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる（$\kernelSizeUpper$は奇数を想定した）．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．1次元畳み込みはテキストや音声など，データの形状が$\lr{\dimUpper \times \timeUpper}$となっている時に用いられる．
 
 これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$を表す．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
 
-畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．図\ref{sec3:fig:conv_variations}に，ある入出力次元間における一次元畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．図\ref{sec3:fig:conv1}は，カーネルサイズを3，ストライドとダイレーションを1とした場合であり，入力の両端に1ずつゼロパディングすることで，入出力の系列長が変わらないことを表している．図\ref{sec3:fig:conv2}は，カーネルサイズを5，ストライドとダイレーションを1とした場合であり，カーネルサイズが大きくなることで，出力1フレームを計算する際に考慮される入力の範囲が図\ref{sec3:fig:conv1}よりも広がることを表した．図\ref{sec3:fig:conv3}はカーネルサイズが3，ストライドが2，ダイレーションが1の場合であり，ストライドを2にしたことによって出力の系列長が入力よりも短くなることを表している．ここではパディングを1とすることで，入力に対して出力の系列長を$1/2$にできることを表した．図\ref{sec3:fig:conv4}はカーネルサイズが3，ストライドが1，ダイレーションが2の場合であり，ダイレーションを2とすることで，カーネルに対して入力が1フレーム飛ばしで計算されることを示した．
+畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．図\ref{sec3:fig:conv_variations}に，ある入出力次元間における1次元畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．図\ref{sec3:fig:conv1}は，カーネルサイズを3，ストライドとダイレーションを1とした場合であり，入力の両端に1ずつゼロパディングすることで，入出力の系列長が変わらないことを表している．図\ref{sec3:fig:conv2}は，カーネルサイズを5，ストライドとダイレーションを1とした場合であり，カーネルサイズが大きくなることで，出力1フレームを計算する際に考慮される入力の範囲が図\ref{sec3:fig:conv1}よりも広がることを表した．図\ref{sec3:fig:conv3}はカーネルサイズが3，ストライドが2，ダイレーションが1の場合であり，ストライドを2にしたことによって出力の系列長が入力よりも短くなることを表している．ここではパディングを1とすることで，入力に対して出力の系列長を$1/2$にできることを表した．図\ref{sec3:fig:conv4}はカーネルサイズが3，ストライドが1，ダイレーションが2の場合であり，ダイレーションを2とすることで，カーネルに対して入力が1フレーム飛ばしで計算されることを示した．
 
 \begin{figure}[tb]
     \centering
@@ -50,12 +50,12 @@
         \caption{$\lr{\kernelSizeUpper, \strideUpper, \dilationUpper} = \lr{3, 1, 2}$}
         \label{sec3:fig:conv4}
     \end{subfigure}
-    \caption{ある入出力次元間における一次元畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライド，$\dilationUpper$はダイレーションを表し，図中の0はパディング部を表す．}
+    \caption{ある入出力次元間における1次元畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライド，$\dilationUpper$はダイレーションを表し，図中の0はパディング部を表す．}
     \label{sec3:fig:conv_variations}
 \end{figure}
 
 \subsubsection{転置畳み込み層}
-転置畳み込み層は，畳み込み層の逆演算に対応する層であり，主に入力のアップサンプリングに使用される．図\ref{sec3:fig:tconv_variations}に，ある入出力次元間における一次元転置畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．一次元転置畳み込み層では，$\timeLower$番目の入力とカーネルの積を計算し，その結果を$\timeLower$番目から$\timeLower + \kernelSizeUpper$番目までの出力とする．ここで$\kernelSizeUpper$はカーネルサイズである．また，複数の入力から計算された出力がオーバーラップする場合，これらは加算される．図\ref{sec3:fig:tconv1}は，カーネルサイズを4，ストライドを1とした場合の様子である．アップサンプリングを行いたい場合は，ストライドを2以上とすれば良い．図\ref{sec3:fig:tconv2}にカーネルサイズを4，ストライドを2とした場合を示す．この時，入力系列長が4であるのに対して，出力系列長が10まで拡大されていることがわかる．ここで，出力系列長を入力系列長の整数倍に保つためには，出力の両端の削除数を適切に設定する必要がある．上述の例では両端の削除数を1とすることで，出力系列長を入力系列長の2倍である8に調整できる．
+転置畳み込み層は，畳み込み層の逆演算に対応する層であり，主に入力のアップサンプリングに使用される．図\ref{sec3:fig:tconv_variations}に，ある入出力次元間における1次元転置畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．1次元転置畳み込み層では，$\timeLower$番目の入力とカーネルの積を計算し，その結果を$\timeLower$番目から$\timeLower + \kernelSizeUpper$番目までの出力とする．ここで$\kernelSizeUpper$はカーネルサイズである．また，複数の入力から計算された出力がオーバーラップする場合，これらは加算される．図\ref{sec3:fig:tconv1}は，カーネルサイズを4，ストライドを1とした場合の様子である．アップサンプリングを行いたい場合は，ストライドを2以上とすれば良い．図\ref{sec3:fig:tconv2}にカーネルサイズを4，ストライドを2とした場合を示す．この時，入力系列長が4であるのに対して，出力系列長が10まで拡大されていることがわかる．ここで，出力系列長を入力系列長の整数倍に保つためには，出力の両端の削除数を適切に設定する必要がある．上述の例では両端の削除数を1とすることで，出力系列長を入力系列長の2倍である8に調整できる．
 
 \begin{figure}[tb]
     \centering
@@ -71,39 +71,39 @@
         \caption{$\lr{\kernelSizeUpper, \strideUpper} = \lr{4, 2}$}
         \label{sec3:fig:tconv2}
     \end{subfigure}
-    \caption{ある入出力次元間における一次元転置畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライドを表す．}
+    \caption{ある入出力次元間における1次元転置畳み込み層の処理．$\kernelSizeUpper$はカーネルサイズ，$\strideUpper$はストライドを表す．}
     \label{sec3:fig:tconv_variations}
 \end{figure}
 
 \subsubsection{活性化関数}
-活性化関数は，ニューラルネットワークの出力に非線形性を与えるための関数である．これにより，DNNは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる．以下，活性化関数への入力を$\inputLower \in \realSet$として，代表的なものを6つ述べる．また，本節で取り上げる活性化関数とその一階導関数のグラフを図\ref{sec3:fig:activations_and_their_prime}に示す．
+活性化関数は，ニューラルネットワークの出力に非線形性を与えるための関数である．これにより，DNNは単純な線形変換だけでは表現できない複雑な入出力の関係を学習可能になる．以下，活性化関数への入力を$\inputLower \in \realSet$として，代表的なものを6つ述べる．また，本節で取り上げる活性化関数とその1階導関数のグラフを図\ref{sec3:fig:activations_and_their_prime}に示す．
 
 1つ目は，シグモイド関数である．シグモイド関数は
 \begin{equation}
     \sigmoid\lr{\inputLower} = \frac{1}{1 + \exp\lr{-\inputLower}}
 \end{equation}
-で与えられ，その一階導関数は
+で与えられ，その1階導関数は
 \begin{equation}
     \dv{\sigmoid\lr{\inputLower}}{x} = \frac{\exp\lr{-\inputLower}}{\lr{1 + \exp\lr{-\inputLower}}^{2}}
 \end{equation}
-となる．図\ref{sec3:fig:activations_prime}より，シグモイド関数の一階導関数の最大値は$\inputLower=0$における0.25であり，$\lrAbs{\inputLower}$が大きくなるのに伴って，一階導関数の値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の一階導関数の値が乗算された結果となる．前述したように，シグモイド関数は一階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
+となる．図\ref{sec3:fig:activations_prime}より，シグモイド関数の1階導関数の最大値は$\inputLower=0$における0.25であり，$\lrAbs{\inputLower}$が大きくなるのに伴って，1階導関数の値は小さくなることがわかる．DNNの各重みは，損失関数の勾配を利用することで更新されるから，シグモイド関数以前の層の重みにおける勾配は，シグモイド関数の1階導関数の値が乗算された結果となる．前述したように，シグモイド関数は1階導関数の値が小さくなりがちであるから，それ以前の層における勾配も小さくなり，重みの更新が進みづらくなる可能性がある．この問題を，勾配消失と呼ぶ．
 
 2つ目は，$\tanh$関数である．$\tanh$は
 \begin{equation}
     \tanh\lr{\inputLower} = \frac{\exp\lr{\inputLower} - \exp\lr{-\inputLower}}{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}
 \end{equation}
-で与えられ，その一階導関数は
+で与えられ，その1階導関数は
 \begin{align}
     \dv{\tanh\lr{\inputLower}}{x} & = \frac{4}{\lr{\exp\lr{\inputLower} + \exp\lr{-\inputLower}}^{2}} \\
                                   & = \frac{1}{\cosh\lr{\inputLower}^{2}}
 \end{align}
-となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower}$が小さいところではシグモイド関数より一階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower}$が大きくなればシグモイド関数と同様に一階導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
+となる．$\tanh$の値域は$\lrClosedInterval{-1}{1}$となっており，図\ref{sec3:fig:activations_prime}より$\lrAbs{\inputLower}$が小さいところではシグモイド関数より1階導関数の値が大きくなっていることがわかる．しかし，$\lrAbs{\inputLower}$が大きくなればシグモイド関数と同様に1階導関数の値が小さく，勾配消失のリスクを抱えていることがわかる．
 
 3つ目は，$\relu$である．$\relu$は
 \begin{equation}
     \relu\lr{\inputLower} = \max \lr{0, \inputLower}
 \end{equation}
-で与えられ，その一階導関数は
+で与えられ，その1階導関数は
 \begin{equation}
     \dv{\relu\lr{\inputLower}}{x} =
     \begin{cases}
@@ -111,7 +111,7 @@
         0 & \text{if $\inputLower <= 0$}
     \end{cases}
 \end{equation}
-となる．ここで，$\relu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\relu\lr{0}}{x} = 0$とした．$\relu$は入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．一階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に1となることから，シグモイド関数や$\tanh$よりも勾配消失が起こりづらい．$\relu$は現在，標準的な活性化関数として広く用いられている．しかし，$\relu$への入力が0未満の値を取るとき，$\relu$入力についての出力の勾配は0になるから，$\relu$以前の層の重みが更新されず，学習が遅くなる可能性がある．
+となる．ここで，$\relu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\relu\lr{0}}{x} = 0$とした．$\relu$は入力が0以上であれば恒等写像として振る舞うが，0未満であれば0に写す．1階導関数は0あるいは1のみを取り，特に入力が正の値であれば常に1となることから，シグモイド関数や$\tanh$よりも勾配消失が起こりづらい．$\relu$は現在，標準的な活性化関数として広く用いられている．しかし，$\relu$への入力が0未満の値を取るとき，$\relu$入力についての出力の勾配は0になるから，$\relu$以前の層の重みが更新されず，学習が遅くなる可能性がある．
 
 3つ目は，$\leakyRelu$\cite{maas2013rectifier}である．$\leakyRelu$は
 \begin{equation}
@@ -121,7 +121,7 @@
         a\inputLower & \text{if $\inputLower <= 0$}
     \end{cases}
 \end{equation}
-で与えられ，その一階導関数は
+で与えられ，その1階導関数は
 \begin{equation}
     \dv{\leakyRelu\lr{\inputLower}}{x} =
     \begin{cases}
@@ -129,7 +129,7 @@
         a & \text{if $\inputLower <= 0$}
     \end{cases}
 \end{equation}
-となる．ここで，$\leakyRelu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\leakyRelu\lr{0}}{x} = a$とした．ReLUと比較すると，0未満の入力に対しても0でない値を出力し，一階導関数も0にならない点が異なっている．これにより，重みの更新が進まなくなるReLUの課題を解消した．
+となる．ここで，$\leakyRelu$は本来$x = 0$で微分不可能であるが，便宜上$\dv*{\leakyRelu\lr{0}}{x} = a$とした．ReLUと比較すると，0未満の入力に対しても0でない値を出力し，1階導関数も0にならない点が異なっている．これにより，重みの更新が進まなくなるReLUの課題を解消した．
 
 5つ目は，$\prelu$\cite{he2015delving}である．これは，$\leakyRelu$と似た活性化関数であるが，$\leakyRelu$のパラメータ$a$を学習可能にすることで，その他の層と合わせて最適化が可能となったことが特徴である．
 
@@ -141,7 +141,7 @@
 \begin{equation}
     \Phi\lr{\inputLower} = P\lr{X \le \inputLower}, ~ X \sim \mathcal{N} \lr{0, 1}
 \end{equation}
-である．$\gelu$の一階導関数は，
+である．$\gelu$の1階導関数は，
 \begin{equation}
     \dv{\gelu\lr{\inputLower}}{x} = \Phi\lr{\inputLower} + \frac{\inputLower}{\sqrt{2\pi}}\exp\lr{-\frac{\inputLower^{2}}{2}}
 \end{equation}
@@ -165,7 +165,7 @@
     \begin{subfigure}[b]{1.0\textwidth}
         \centering
         \includegraphics[width=160  mm]{./figure/sec3/activations_prime.png}
-        \caption{活性化関数の一階導関数}
+        \caption{活性化関数の1階導関数}
         \label{sec3:fig:activations_prime}
     \end{subfigure}
     \caption{活性化関数の例}

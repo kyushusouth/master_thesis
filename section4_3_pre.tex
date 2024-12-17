@@ -10,9 +10,17 @@
 \end{enumerate}
 ベースラインは，提案手法におけるネットワークAで，メルスペクトログラムとHuBERT離散特徴量のみを予測する場合であり，損失関数は$\lossB$を用いた．ネットワークAは提案手法自体ではないが，その構成要素となっているため客観評価指標を確認した．ネットワークB（Randomized）は，HuBERT Transformer層をランダム初期化した場合，ネットワークB（Pretrained）は，事前学習済み重みで初期化した場合である．これらを比較することで，HuBERT Transformer層の転移学習の有効性を調べた．
 
-まず，損失関数の重み係数$\lossWeightHubDisc$による客観評価指標の変化を表\ref{sec4:tab:obj_weights}に示す．各手法の客観評価指標ごとに最良値を下線で示し，各手法ごとに最適だと判断した$\lossWeightHubDisc$の行を太字で示している．ベースラインでは，$\lossWeightHubDisc$が0.001のときにWERが最も低く，0.01のときに話者類似度が最も高くなった．現状WERの高さが特に課題であるため，今回は0.001が最適だと判断した．ネットワークAでは，提案手法の構成要素であるため最適な手法の選択は行わなかった．ベースラインとの違いはHuBERT中間特徴量についてのMAE Lossが損失に含まれることであるが，客観評価指標の値はベースラインと概ね同様であった．ネットワークB（Randomized）では，$\lossWeightHubDisc$が0.1の時にWERが最も低く，0.0001の時に話者類似度が最も高くなった．ここではWERの低さを優先し，0.1が最適だと判断した．ネットワークB（Pretrained）では，$\lossWeightHubDisc$が0.1の時にWERが最も低くなった一方で，0.01以下の場合と比較したときの話者類似度の低下が顕著であり，ネットワークB（Randomized）とは異なる傾向を示した．今回はWERが低いことを優先して，0.1が最適だと判断した．
+まず，損失関数の重み係数$\lossWeightHubDisc$を変化させた時の，客観評価指標の値を表\ref{sec4:tab:obj_weights}に示す．各手法の客観評価指標ごとに最良値を下線で示し，各手法ごとに最適だと判断した$\lossWeightHubDisc$の行を太字で示している．
 
-以上の結果をもとに，最適な$\lossWeightHubDisc$における手法ごとの比較を行った結果を表\ref{sec4:tab:obj_method_comp}に示す．分析合成は，原音声から計算したメルスペクトログラムとHuBERT離散特徴量をボコーダへの入力とした合成音声であり，本実験において合成音声により達成され得る上限を表す．ベースライン，ネットワークB（Randomized），ネットワークB（Pretrained）は，それぞれ最適な$\lossWeightHubDisc$だと判断したものを載せている．また，ベースライン，ネットワークB（Randomized），ネットワークB（Pretrained）の中で，最良値を下線で示した．これより，ネットワークB（Randomized）はベースラインよりもWERが9.3\%低く，話者類似度が0.004高いことが分かる．一方，ネットワークB（Pretrained）はベースラインよりもWERが10.4\%低いが，話者類似度も0.058低いことが分かる．以上より，客観評価指標においては，$\lossWeightHubDisc = 0.1$としたネットワークB（Randomized）が最も優れていたと考えられる．
+ベースラインでは，$\lossWeightHubDisc$が0.001のときにWERが最も低く，0.01のときに話者類似度が最も高くなった．現状WERの高さが特に課題であるため，今回は0.001が最適だと判断した．図\ref{sec4:fig:learning_curve_baseline_val_losses}に学習曲線を示す．横軸がエポック数，縦軸が損失の値を表す．損失の値は各エポックにおける平均値である．実線は検証データに対する損失，点線は学習データに対する損失を表しており，線の色は$\lossWeightHubDisc$の違いを表す．また，丸いマーカーはテストデータの合成に用いたエポックにおける損失の値を表す．$\lossWeightHubDisc$を大きくすることでHuBERT離散特徴量についてのCross Entropy Lossの下がりがより早く，より低い値に達するように変化しており，係数の大きさが学習に影響を与えていることがわかる．また，最適とした0.001の場合，学習データと検証データの両方において，メルスペクトログラムについてのMAE LossとHuBERT離散特徴量についてのCross Entropy Lossがバランスよく下がっていることがわかる。客観評価指標が同程度であった0.0001と0.01では，学習曲線にも顕著な差は見られなかった．ここで，0.1と1.0では，0.01以下の場合と比較して話者類似度が顕著に低下したが，この時学習データに対するメルスペクトログラムについてのMAE Lossが十分に下がり切らないまま，Early Stoppingによって学習が中断されていたことが分かる．これより，話者性を適切に反映するためには，学習データに対するメルスペクトログラムについてのMAE Lossを低下させることが重要だと考えられる．
+
+ネットワークAでは，提案手法の構成要素であるため最適な手法の選択は行わなかった．ベースラインとの違いはHuBERT中間特徴量についてのMAE Lossが損失に含まれることであるが，客観評価指標の値はベースラインと概ね同様であった．図\ref{sec4:fig:learning_curve_baseline_val_losses}に学習曲線を示す．これについてもベースラインと同様であり，客観評価指標の結果と合わせて妥当だと考える．
+
+ネットワークB（Randomized）では，$\lossWeightHubDisc$が0.1の時にWERが最も低く，0.0001の時に話者類似度が最も高くなった．ここではWERの低さを優先し，0.1が最適だと判断した．図\ref{sec4:fig:learning_curve_method_2_val_losses}に学習曲線を示す．最適とした0.1の場合，学習データと検証データの両方において，メルスペクトログラムについてのMAE LossとHuBERT離散特徴量についてのCross Entropy Lossがバランスよく下がっていることがわかる。1.0では，0.1以下の場合と比較して話者類似度の低下が顕著であったが，この時学習データに対するメルスペクトログラムについてのMAE Lossが十分に下がり切らないまま，Early Stoppingによって学習が中断されていたことが分かる．これはベースラインと同様の傾向であった．
+
+ネットワークB（Pretrained）では，$\lossWeightHubDisc$が0.1の時にWERが最も低くなった一方で，0.01以下の場合と比較したときの話者類似度の低下が顕著であり，ネットワークB（Randomized）とは異なる傾向を示した．今回はWERが低いことを優先して，0.1が最適だと判断した．図\ref{sec4:fig:learning_curve_method_4_val_losses}に学習曲線を示す．ネットワークB（Randomized）と概ね同様であるが，$\lossWeightHubDisc = 0.1$の場合に学習データに対するメルスペクトログラムについてのMAE Lossが十分に下がりきっていない傾向が見られる。これまでの結果より，これは話者類似度の低下につながると考えられるため，ネットワークB（Pretrained）が$\lossWeightHubDisc = 0.1$の場合に話者類似度を高い値で保てなかったのは，学習の結果として妥当だと考える．
+
+最後に，最適な$\lossWeightHubDisc$における手法ごとの比較を行った結果を表\ref{sec4:tab:obj_method_comp}に示す．分析合成は，原音声から計算した特徴量を入力としてボコーダで逆変換した合成音声であり，本実験において合成音声により達成され得る上限を表す．ベースライン，ネットワークB（Randomized），ネットワークB（Pretrained）は，それぞれ最適な$\lossWeightHubDisc$だと判断したものを載せている．また，ベースライン，ネットワークB（Randomized），ネットワークB（Pretrained）の中で，最良値を下線で示した．これより，ネットワークB（Randomized）はベースラインよりもWERが9.3\%低く，話者類似度が0.004高いことが分かる．一方，ネットワークB（Pretrained）はベースラインよりもWERが10.4\%低いが，話者類似度も0.058低いことが分かる．以上より，客観評価指標においては，$\lossWeightHubDisc = 0.1$としたネットワークB（Randomized）が最も優れていたと考えられる．
 
 \begin{table}[bt]
     \centering
@@ -55,6 +63,108 @@
     \end{center}
 \end{table}
 
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/0/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_baseline_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/0/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_baseline_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/0/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_baseline_val_total_loss}
+    \end{subfigure}
+    \caption{ベースラインにおける学習曲線}
+    \label{sec4:fig:learning_curve_baseline_val_losses}
+\end{figure}
+
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=45mm]{./figure/sec4/learning_curves/1/ssl_conv_feature_loss.png}
+        \caption{HuBERT中間特徴量についてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_1_val_ssl_conv_feature_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=45mm]{./figure/sec4/learning_curves/1/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_1_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=45mm]{./figure/sec4/learning_curves/1/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_1_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=45mm]{./figure/sec4/learning_curves/1/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_1_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークAにおける学習曲線}
+    \label{sec4:fig:learning_curve_method_1_val_losses}
+\end{figure}
+
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/2/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_2_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/2/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_2_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/2/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_2_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークB（Randomized）における学習曲線}
+    \label{sec4:fig:learning_curve_method_2_val_losses}
+\end{figure}
+
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/4/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_4_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/4/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_4_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/4/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_4_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークB（Pretrained）における学習曲線}
+    \label{sec4:fig:learning_curve_method_4_val_losses}
+\end{figure}
+
 \begin{table}[bt]
     \centering
     \caption{最適な$\lossWeightHubDisc$における手法ごとの比較}
@@ -79,11 +189,13 @@
     \end{center}
 \end{table}
 
+\clearpage
+
 \subsubsection{客観評価2: 提案手法のさらなる検討}
 \label{sec4:sec:obj_2}
 \ref{sec4:sec:obj_1}節において良好な結果を示したのはネットワークB（Randomized）であったが，これはHuBERTの転移学習による改善を狙った本実験の仮説に反する結果であった．これに対し，本節では良好な結果を示したネットワークB（Randomized）に焦点を当てたさらなる検討の結果を述べる．
 
-まず，入力特徴量について検討した．\ref{sec4:sec:obj_1}節では事前学習済み重みを用いることの有効性を調べる目的があったため，入力特徴量はHuBERTの事前学習時に揃えて，HuBERT中間特徴量とした．しかし，ネットワークB（Randomized）は事前学習済み重みを利用しないため，HuBERT中間特徴量を入力とすることが意味をなしているか不明である．これに対し，ネットワークAからマルチタスク学習によって同時に予測される，メルスペクトログラムとHuBERT離散特徴量に対するロジットを組み合わせて入力する場合を比較した．メルスペクトログラムは，時間方向に隣接した2フレームを次元方向に結合することで160次元\SI{50}{\Hz}の特徴量に変換し，HuBERT離散特徴量に対するロジットは101次元\SI{50}{\Hz}の特徴量としてそのまま用いた．これらを次元方向に結合することで261次元\SI{50}{\Hz}の特徴量を構成し，全結合層を通してHuBERT中間特徴量と同じ768次元に変換することで，HuBERT Transformer層への入力とした．結果を表\ref{sec4:tab:obj_weights_networkb_input_comparison}に示す．新たに検討した手法はネットワークB（Randomized・Mel-HuB）とし，$\lossWeightHubDisc = 0.001$の場合が最適だと判断した．下線は掲載した手法全てにおける最良値を示す。これより，最適なネットワークB（Randomized・Mel-HuB）はネットワークB（Randomized）よりも話者類似度は0.005高いが，WERも10.1\%高いことが分かる．従って，HuBERT中間特徴量は，メルスペクトログラムとHuBERT離散特徴量のロジットから構成した特徴量と比較して，ネットワークBの予測精度改善につながるより良い入力特徴量であったと考えられる．
+まず，入力特徴量について検討した．\ref{sec4:sec:obj_1}節では事前学習済み重みを用いることの有効性を調べる目的があったため，入力特徴量はHuBERTの事前学習時に揃えて，HuBERT中間特徴量とした．しかし，ネットワークB（Randomized）は事前学習済み重みを利用しないため，HuBERT中間特徴量を入力とすることが意味をなしているか不明である．これに対し，ネットワークAからマルチタスク学習によって同時に予測される，メルスペクトログラムとHuBERT離散特徴量に対するロジットを組み合わせて入力する場合を比較した．メルスペクトログラムは，時間方向に隣接した2フレームを次元方向に結合することで160次元\SI{50}{\Hz}の特徴量に変換し，HuBERT離散特徴量に対するロジットは101次元\SI{50}{\Hz}の特徴量としてそのまま用いた．これらを次元方向に結合することで261次元\SI{50}{\Hz}の特徴量を構成し，全結合層を通してHuBERT中間特徴量と同じ768次元に変換することで，HuBERT Transformer層への入力とした．結果を表\ref{sec4:tab:obj_weights_networkb_input_comparison}に示す．新たに検討した手法はネットワークB（Randomized・Mel-HuB）とし，$\lossWeightHubDisc = 0.001$の場合が最適だと判断した．下線は掲載した手法全てにおける最良値を示す。これより，最適なネットワークB（Randomized・Mel-HuB）はネットワークB（Randomized）よりも話者類似度は0.005高いが，WERも10.1\%高いことが分かる．図\ref{sec4:fig:learning_curve_method_6_val_losses}にネットワークB（Randomized・Mel-HuB）の学習曲線を示す．傾向自体はネットワークB（Randomized）と概ね変わらないことがわかる。また，ネットワークB（Randomized）では$\lossWeightHubDisc$の値を大きくすることによって，0.0001から0.1までWERが低下傾向にあった．これに対し，ネットワークB（Randomized・Mel-HuB）ではWERの低下傾向は見られず，結果としてネットワークB（Randomized）に劣る結果となった．以上より，HuBERT中間特徴量は，メルスペクトログラムとHuBERT離散特徴量のロジットから構成した特徴量と比較して，ネットワークBの予測精度改善につながるより良い入力特徴量であったと考えられる．
 
 \begin{table}[b]
     \centering
@@ -110,7 +222,31 @@
     \end{center}
 \end{table}
 
-次に，HuBERT中間特徴量をネットワークBに与えている，ネットワークAの学習方法を検討した．ここでは，これまでネットワークAで採用していたHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習に対し，HuBERT中間特徴量のみを予測するシングルタスク学習の場合を比較した．結果を表\ref{sec4:tab:obj_weights_networka_multitask}に示す．新たに検討した手法はネットワークB（Randomized・A-SingleTask）とし，$\lossWeightHubDisc = 0.1$の場合が最適だと判断した．これより，最適なネットワークB（Randomized・A-SingleTask）はネットワークB（Randomized）よりもWERが2.8\%低く，話者類似度は0.007高いことがわかる．従って，ネットワークAではHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習を行うよりも，HuBERT中間特徴量のみを予測するシングルタスク学習を行う方が，ネットワークBに対してより良い入力特徴量を与えられるのだと考えられる．
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/6/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_6_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/6/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_6_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/6/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_6_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークB（Randomized・Mel-HuB）における学習曲線}
+    \label{sec4:fig:learning_curve_method_6_val_losses}
+\end{figure}
+
+次に，HuBERT中間特徴量をネットワークBに与えている，ネットワークAの学習方法を検討した．ここでは，これまでネットワークAで採用していたHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習に対し，HuBERT中間特徴量のみを予測するシングルタスク学習の場合を比較した．結果を表\ref{sec4:tab:obj_weights_networka_multitask}に示す．新たに検討した手法はネットワークB（Randomized・A-SingleTask）とし，$\lossWeightHubDisc = 0.1$の場合が最適だと判断した．これより，最適なネットワークB（Randomized・A-SingleTask）はネットワークB（Randomized）よりもWERが2.8\%低く，話者類似度は0.007高いことがわかる．図\ref{sec4:fig:learning_curve_method_9_val_losses}にネットワークB（Randomized・A-SingleTask）の学習曲線を示す．これはネットワークB（Randomized）と概ね同様の傾向であった．以上より，ネットワークAではHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量を予測するマルチタスク学習行うよりも，HuBERT中間特徴量のみを予測する方が，ネットワークBに対してより良い入力特徴量を与えられるのだと考えられる．
 
 \begin{table}[bt]
     \centering
@@ -137,7 +273,31 @@
     \end{center}
 \end{table}
 
-最後に，これまでネットワークAとネットワークBを2段階で学習させたのに対し，ネットワークAからネットワークBまでを一度に学習させる方法を検討した．これにより，HuBERT中間特徴量に表現力を制限させないことで，さらなる精度改善を狙った．ここでは，ネットワークBの出力に対する損失関数$\lossB$のみを用いて学習させ，ネットワークAの出力は単にネットワークBへの入力とした．ネットワークAおよびネットワークB（Randomized）を未学習の状態で初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_randomized}に示す．新たに検討した手法はネットワークE2E（Randomized）とし，$\lossWeightHubDisc = 0.1$が最適だと判断した．これより，最適なネットワークE2E（Randomized）はネットワークB（Randomized・A-SingleTask）よりもWERが20.0\%高く，話者類似度は0.080低いことがわかる．提案手法全体を未学習の状態から一度に学習させることは今回の条件下では困難であったため，ネットワークAとネットワークBに分けた二段階学習を行う場合に劣る結果となった．これに対し，ここまでの検討で最も良好な結果を示した，ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化して，ネットワーク全体を再学習させた場合の結果を表\ref{sec4:tab:obj_weights_e2e_pretrained}に示す．新たに検討した手法はネットワークE2E（Pretrained）とし，ここでは$\lossWeightHubDisc$の値は0.1のままで固定して，スケジューラであるCosine Annealing with Warmupの最大学習率$\learningRate_{\text{max}}$を変更することでチューニングした．最適値は$\learningRate_{\text{max}} = 5.0 \times 10^{-5}$とした．これより，最適なネットワークE2E（Pretrained）はネットワークB（Randomized・A-SingleTask）よりもWERが1.3\%高く，話者類似度も0.006高いことがわかる．以上より，今回の条件下では，二段階学習によって得られた最適なモデルを初期値として学習の安定化を図っても，ネットワーク全体を再学習することは効果的でなかったと考えられる．
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/9/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_9_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/9/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_9_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/9/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_9_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークB（Randomized・A-SingleTask）における学習曲線}
+    \label{sec4:fig:learning_curve_method_9_val_losses}
+\end{figure}
+
+最後に，これまでネットワークAとネットワークBを2段階で学習させたのに対し，ネットワークAからネットワークBまでを一度に学習させる方法を検討した．これにより，HuBERT中間特徴量に表現力を制限させないことで，さらなる精度改善を狙った．ここでは，ネットワークBの出力に対する損失関数$\lossB$のみを用いて学習させ，ネットワークAの出力は単にネットワークBへの入力とした．ネットワークAおよびネットワークB（Randomized）を未学習の状態で初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_randomized}に示す．新たに検討した手法はネットワークE2E（Randomized）とし，$\lossWeightHubDisc = 0.1$が最適だと判断した．これより，最適なネットワークE2E（Randomized）はネットワークB（Randomized・A-SingleTask）よりもWERが20.0\%高く，話者類似度は0.080低いことがわかる．図\ref{sec4:fig:learning_curve_method_7_val_losses}に学習曲線を示す．2段階で学習させたネットワークB（Randomized・A-SingleTask）と比較して損失の下がりが悪く，客観評価指標が顕著に悪化したことは妥当だと考える．以上より，2段階学習は学習の安定化につながっていたと言える．次に，ここまでの検討で最も良好な結果を示した，ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_pretrained}に示す．新たに検討した手法はネットワークE2E（Pretrained）とし，ここでは$\lossWeightHubDisc$の値は0.1のままで固定して，スケジューラであるCosine Annealing with Warmupの最大学習率$\learningRate_{\text{max}}$を変更することでチューニングした．最適値は$\learningRate_{\text{max}} = 5.0 \times 10^{-5}$とした．これより，最適なネットワークE2E（Pretrained）はネットワークB（Randomized・A-SingleTask）よりもWERが1.3\%高く，話者類似度も0.006高いことがわかる．図\ref{sec4:fig:learning_curve_method_10_11_12_val_losses}に学習曲線を示す．線の色は$\learningRate_{\text{max}}$の違いを表す．損失が学習開始時からほとんど低下していないため，ネットワーク全体を再学習することは効果的でなかったと考えられる．
 
 \begin{table}[bt]
     \centering
@@ -164,6 +324,30 @@
     \end{center}
 \end{table}
 
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/7/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_7_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/7/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_7_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/7/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_7_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークE2E（Randomized）における学習曲線}
+    \label{sec4:fig:learning_curve_method_7_val_losses}
+\end{figure}
+
 \begin{table}[bt]
     \centering
     \caption{ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化し，一度に学習させた場合の比較}
@@ -186,6 +370,32 @@
         }
     \end{center}
 \end{table}
+
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/10_11_12/mel_loss.png}
+        \caption{メルスペクトログラムについてのMAE Loss}
+        \label{sec4:fig:learning_curve_method_10_11_12_val_mel_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/10_11_12/ssl_feature_cluster_loss.png}
+        \caption{HuBERT離散特徴量についてのCross Entropy Loss}
+        \label{sec4:fig:learning_curve_method_10_11_12_val_ssl_feature_cluster_loss}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[height=55mm]{./figure/sec4/learning_curves/10_11_12/total_loss.png}
+        \caption{損失の合計値}
+        \label{sec4:fig:learning_curve_method_10_11_12_val_total_loss}
+    \end{subfigure}
+    \caption{ネットワークE2E（Pretrained）における学習曲線}
+    \label{sec4:fig:learning_curve_method_10_11_12_val_losses}
+\end{figure}
+
+\clearpage
 
 \subsubsection{主観評価}
 主観評価実験では，\ref{sec4:sec:obj_1}節および\ref{sec4:sec:obj_2}節の検討結果を踏まえ，以下の5種類の音声を評価対象とした．

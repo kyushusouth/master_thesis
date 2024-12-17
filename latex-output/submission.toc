@@ -39,11 +39,11 @@
 \contentsline {subsubsection}{\numberline {4.2.7}主観評価}{37}{subsubsection.4.2.7}%
 \contentsline {subsection}{\numberline {4.3}結果}{40}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}客観評価1: ベースラインと提案手法の比較}{40}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}客観評価2: 提案手法のさらなる検討}{48}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}主観評価}{55}{subsubsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.4}考察}{56}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1}ネットワークB（Randomized）について}{56}{subsubsection.4.4.1}%
-\contentsline {subsubsection}{\numberline {4.4.2}ネットワークB（Pretrained）について}{58}{subsubsection.4.4.2}%
-\contentsline {section}{\numberline {5}結論}{60}{section.5}%
-\contentsline {section}{謝辞}{61}{section*.34}%
-\contentsline {section}{参考文献}{62}{section*.34}%
+\contentsline {subsubsection}{\numberline {4.3.2}客観評価2: 提案手法のさらなる検討}{41}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}主観評価}{45}{subsubsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.4}考察}{47}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}ネットワークB（Randomized）について}{47}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}ネットワークB（Pretrained）について}{48}{subsubsection.4.4.2}%
+\contentsline {section}{\numberline {5}結論}{50}{section.5}%
+\contentsline {section}{謝辞}{51}{section*.26}%
+\contentsline {section}{参考文献}{52}{section*.26}%

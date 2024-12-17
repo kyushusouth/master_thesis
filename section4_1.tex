@@ -8,7 +8,7 @@
 
 ここで，話者ベクトル$\spkEmb$は，話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトル（d-vector）である．話者識別モデルは，LSTMと全結合層から構成され，softmax関数を用いたGeneralized End-to-End Lossを用いて学習される．これは，各話者ごとに複数の発話から得られた話者ベクトルの平均を重心とし，各話者ベクトルについて同一話者の重心とのコサイン類似度を最大化し，異なる話者の重心とのコサイン類似度を最小化するように設計された損失関数である．よって，学習されたモデルによって得られる話者ベクトルは，話者間での識別性を有したベクトルとなる．本実験ではこれをモデルへの入力とすることで，動画から音声を予測する際に話者性を正しく反映させることを狙った．
 
-また，HuBERT中間特徴量とHuBERT離散特徴量は，自己教師あり学習モデルであるHuBERTを利用して得られる特徴量である．HuBERTは，一次元畳み込み層を中心とした畳み込みエンコーダとTransformerから構成され，Masked Predictionによって学習される．これは，音声波形を畳み込みエンコーダに通すことで特徴量に変換し、その一部区間をマスクしてからTransformerに入力して，マスクされた区間の教師ラベルを予測させる学習方法である．損失関数には，マスクされた区間に限定したCross Entropy Lossが用いられる．ここで，教師ラベルは学習の過程で更新されるため，学習は二段階に分かれる．1段階目は，MFCCをk-means法によってクラスタリングした結果を教師ラベルとする．2段階目は，1段階目の学習済みモデルのTransformerにおける中間特徴量をk-means法によってクラスタリングした結果を教師ラベルとする．比較的単純なMFCCベースのラベルから，DNNによって得られるより複雑なラベルへと予測対象を更新して学習難易度を高めることで，モデルの表現力を向上させる仕組みとなっている．HuBERTは，マスクされた入力から教師ラベルを予測する学習を行うため，特に音声の文脈的構造を学習可能だと考えられる．ここで，HuBERTにおける畳み込みエンコーダまでを$\hubertConv$，HuBERTにおけるTransformer層を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，HuBERT中間特徴量$\hubertIntGt$およびHuBERT離散特徴量$\hubertDiscGt$は，
+また，HuBERT中間特徴量とHuBERT離散特徴量は，自己教師あり学習モデルであるHuBERTを利用して得られる特徴量である．HuBERTは，1次元畳み込み層を中心とした畳み込みエンコーダとTransformerから構成され，Masked Predictionによって学習される．これは，音声波形を畳み込みエンコーダに通すことで特徴量に変換し、その一部区間をマスクしてからTransformerに入力して，マスクされた区間の教師ラベルを予測させる学習方法である．損失関数には，マスクされた区間に限定したCross Entropy Lossが用いられる．ここで，教師ラベルは学習の過程で更新されるため，学習は2段階に分かれる．1段階目は，MFCCをk-means法によってクラスタリングした結果を教師ラベルとする．2段階目は，1段階目の学習済みモデルのTransformerにおける中間特徴量をk-means法によってクラスタリングした結果を教師ラベルとする．比較的単純なMFCCベースのラベルから，DNNによって得られるより複雑なラベルへと予測対象を更新して学習難易度を高めることで，モデルの表現力を向上させる仕組みとなっている．HuBERTは，マスクされた入力から教師ラベルを予測する学習を行うため，特に音声の文脈的構造を学習可能だと考えられる．ここで，HuBERTにおける畳み込みエンコーダまでを$\hubertConv$，HuBERTにおけるTransformer層を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，HuBERT中間特徴量$\hubertIntGt$およびHuBERT離散特徴量$\hubertDiscGt$は，
 \begin{gather}
     \hubertIntGt = \hubertConv\lr{\spWaveformGt; \weightHuBERTConv} \\
     \hubertDiscGt = \onehot\lr{\kmeans\lr{\hubertTransformer\lr{\hubertIntGt; \weightHuBERTTrans}}}
@@ -42,7 +42,7 @@
 \begin{equation}
     \featureA = \AVHuBERT\lr{\video; \weightAAVHuBERT}
 \end{equation}
-と表される．$\weightAAVHuBERT$は，AVHuBERTの事前学習済み重みで初期化した．AVHuBERTは，動画入力に対する3次元畳み込み層と2次元畳み込み層を中心としたResNet，メルスペクトログラム入力に対する全結合層，これらの出力を次元方向に結合した特徴量を入力とするTransformerから構成され，HuBERTと同様にMasked Predictionによって学習される．AVHuBERTでは，動画およびメルスペクトログラムに対してマスクが適用され，マスクされた区間の教師ラベルを予測させる．損失関数には，マスクされた区間に限定したCross Entropy Lossが用いられる．また，ResNetから出力される動画特徴量と，全結合層から出力される音声特徴量を次元方向に結合する前には，Modality Dropoutが行われる．これは，各フレームにおいて両方のモダリティを入力とするか，どちらか一方のモダリティのみを入力とする（他方を0に置き換える）かを確率的に選択するものである．これにより，どちらかの一方のモダリティのみに依存しないようにモデルを学習させることが可能となるため，特定のタスクにFineTuningする際には，Masked Predictionを行う場合のように動画と音声の両方を入力とせず，どちらか一方のモダリティのみを入力としても破綻しないよう設計されている．また，AVHuBERTでも，HuBERTと同様に教師ラベルの更新を段階的に行う．1段階目はMFCCをk-means法によってクラスタリングした結果を教師ラベルとし，2から5段階目は前回の学習済みモデルのTransformerにおける中間特徴量をk-means法によってクラスタリングした結果を教師ラベルとする．比較的単純なMFCCベースのラベルから，DNNによって得られるより複雑なラベルへと予測対象を更新して学習難易度を高めることで，モデルの表現力を向上させる仕組みとなっている．AVHuBERTは，HuBERTと同様に動画および音声の文脈的構造を学習可能だと考えられるが，さらに二つのモダリティが組み合わさることで，これらの対応関係なども合わせたより複雑な関係性が学習可能だと考えられる．動画音声合成では，先行研究においてAVHuBERTを転移学習することの有効性がすでに示されているため，本実験においても採用した．
+と表される．$\weightAAVHuBERT$は，AVHuBERTの事前学習済み重みで初期化した．AVHuBERTは，動画入力に対する3次元畳み込み層と2次元畳み込み層を中心としたResNet，メルスペクトログラム入力に対する全結合層，これらの出力を次元方向に結合した特徴量を入力とするTransformerから構成され，HuBERTと同様にMasked Predictionによって学習される．AVHuBERTでは，動画およびメルスペクトログラムに対してマスクが適用され，マスクされた区間の教師ラベルを予測させる．損失関数には，マスクされた区間に限定したCross Entropy Lossが用いられる．また，ResNetから出力される動画特徴量と，全結合層から出力される音声特徴量を次元方向に結合する前には，Modality Dropoutが行われる．これは，各フレームにおいて両方のモダリティを入力とするか，どちらか一方のモダリティのみを入力とする（他方を0に置き換える）かを確率的に選択するものである．これにより，どちらかの一方のモダリティのみに依存しないようにモデルを学習させることが可能となるため，特定のタスクにFineTuningする際には，Masked Predictionを行う場合のように動画と音声の両方を入力とせず，どちらか一方のモダリティのみを入力としても破綻しないよう設計されている．また，AVHuBERTでも，HuBERTと同様に教師ラベルの更新を段階的に行う．1段階目はMFCCをk-means法によってクラスタリングした結果を教師ラベルとし，2から5段階目は前回の学習済みモデルのTransformerにおける中間特徴量をk-means法によってクラスタリングした結果を教師ラベルとする．比較的単純なMFCCベースのラベルから，DNNによって得られるより複雑なラベルへと予測対象を更新して学習難易度を高めることで，モデルの表現力を向上させる仕組みとなっている．AVHuBERTは，HuBERTと同様に動画および音声の文脈的構造を学習可能だと考えられるが，さらに2つのモダリティが組み合わさることで，これらの対応関係なども合わせたより複雑な関係性が学習可能だと考えられる．動画音声合成では，先行研究においてAVHuBERTを転移学習することの有効性がすでに示されているため，本実験においても採用した．
 
 次に，$\featureA$の各時刻$t$におけるベクトルに対し，話者ベクトル$\spkEmb$を次元方向に結合してから，全結合層によって次元を再度圧縮し，元の次元に戻す．これは，
 \begin{equation}
@@ -52,7 +52,7 @@
 \begin{equation}
     \featureA = \myNetworkPost\lr{\featureA; \weightAPost}
 \end{equation}
-と表される．ここで、後処理層$\myNetworkPost$の構造を図\ref{sec4:fig:post_three_step}に示す。赤の平行四辺形が入出力，青の長方形が処理を表す．内部特徴量は全て$\bm{H}_{\numLower}$で表した．$\myNetworkPost$は，一次元畳み込み層を主としたConvBlockおよび，これに残差結合を組み合わせたResBlockから構成される．$\myNetworkPost$は，話者ベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対する話者性を考慮した変換を行うために導入した。なぜなら，$\AVHuBERT$はMasked Predictionによって事前学習されたモデルだから、動画の文脈的な構造を考慮するのに適していると考えられる一方で、音声合成に必要となる話者性は発話に依存しない、動画の文脈的な構造とは別の性質を持った情報だと考えたからである．
+と表される．ここで、後処理層$\myNetworkPost$の構造を図\ref{sec4:fig:post_three_step}に示す。赤の平行四辺形が入出力，青の長方形が処理を表す．内部特徴量は全て$\bm{H}_{\numLower}$で表した．$\myNetworkPost$は，1次元畳み込み層を主としたConvBlockおよび，これに残差結合を組み合わせたResBlockから構成される．$\myNetworkPost$は，話者ベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対する話者性を考慮した変換を行うために導入した。なぜなら，$\AVHuBERT$はMasked Predictionによって事前学習されたモデルだから、動画の文脈的な構造を考慮するのに適していると考えられる一方で、音声合成に必要となる話者性は発話に依存しない、動画の文脈的な構造とは別の性質を持った情報だと考えたからである．
 
 最後に，$\featureA$を全結合層を通して変換することで，予測対象であるHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量に対するロジットを得る．これは，
 \begin{gather}
@@ -96,14 +96,14 @@
     \begin{subfigure}[b]{0.32\textwidth}
         \centering
         \includegraphics[height=70mm]{./figure/sec4/model_2/post_resblock.drawio.png}
-        \caption{$\text{ResBlock}$}
+        \caption{ResBlock}
         \label{sec4:fig:post_resblock}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\textwidth}
         \centering
         \includegraphics[height=70mm]{./figure/sec4/model_2/post_convblock.drawio.png}
-        \caption{$\text{ConvBlock}$}
+        \caption{ConvBlock}
         \label{sec4:fig:post_convblock}
     \end{subfigure}
     \caption{後処理層$\myNetworkPost$の構造（赤い平行四辺形：入出力，青い長方形：処理）}
@@ -136,7 +136,7 @@ $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべて�
 \begin{equation}
     \spWaveformPred = \vocoderMain\lr{\concat{\featureVocMel, \featureVocHuBERT}; \weightVocMain}
 \end{equation}
-と表される．$\vocoderMain$は，図\ref{sec4:fig:vocoder_main}に示すように，一次元畳み込み層とUpsamplingBlockから構成され，これはHiFi-GAN\cite{kong2020hifi}のGeneratorと同様である．各UpsamplingBlockでは，初めに一次元転置畳み込み層を通すことで時間方向のアップサンプリングを行い，その後複数の一次元畳み込み層から特徴抽出を行った結果を平均して出力する．図\ref{sec4:fig:vocoder_main_block}において，内部特徴量は$\bm{H}_{\numLower}$で表した．また，$\numUpper_{\text{Conv1D}}$は，UpsamplingBlockに並列に設けられている一次元畳み込み層の数を表す．
+と表される．$\vocoderMain$は，図\ref{sec4:fig:vocoder_main}に示すように，1次元畳み込み層とUpsamplingBlockから構成され，これはHiFi-GAN\cite{kong2020hifi}のGeneratorと同様である．各UpsamplingBlockでは，初めに1次元転置畳み込み層を通すことで時間方向のアップサンプリングを行い，その後複数の1次元畳み込み層から特徴抽出を行った結果を平均して出力する．図\ref{sec4:fig:vocoder_main_block}において，内部特徴量は$\bm{H}_{\numLower}$で表した．また，$\numUpper_{\text{Conv1D}}$は，UpsamplingBlockに並列に設けられている1次元畳み込み層の数を表す．
 
 \begin{figure}[tb]
     \centering
@@ -157,7 +157,7 @@ $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべて�
     \begin{subfigure}[b]{0.32\textwidth}
         \centering
         \includegraphics[width=45mm]{./figure/sec4/model_2/vocoder_main_block.drawio.png}
-        \caption{$\text{UpsamplingBlock}$}
+        \caption{UpsamplingBlock}
         \label{sec4:fig:vocoder_main_block}
     \end{subfigure}
     \caption{ボコーダの構造（赤い平行四辺形：入出力，青い長方形：処理）}
