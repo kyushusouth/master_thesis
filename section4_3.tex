@@ -83,7 +83,7 @@
 \label{sec4:sec:obj_2}
 \ref{sec4:sec:obj_1}節において良好な結果を示したのはネットワークB（Randomized）であったが，これはHuBERTの転移学習による改善を狙った本実験の仮説に反する結果であった．これに対し，本節では良好な結果を示したネットワークB（Randomized）に焦点を当てたさらなる検討の結果を述べる．
 
-まず，入力特徴量について検討した．\ref{sec4:sec:obj_1}節では事前学習済み重みを用いることの有効性を調べる目的があったため，入力特徴量はHuBERTの事前学習時に揃えて，HuBERT中間特徴量とした．しかし，ネットワークB（Randomized）は事前学習済み重みを利用しないため，HuBERT中間特徴量を入力とすることが意味をなしているか不明である．これに対し，ネットワークAからマルチタスク学習によって同時に予測される，メルスペクトログラムとHuBERT離散特徴量に対するロジットを組み合わせて入力する場合を比較した．メルスペクトログラムは，時間方向に隣接した2フレームを次元方向に結合することで160次元\SI{50}{\Hz}の特徴量に変換し，HuBERT離散特徴量に対するロジットは101次元\SI{50}{\Hz}の特徴量としてそのまま用いた．これらを次元方向に結合することで261次元\SI{50}{\Hz}の特徴量を構成し，全結合層を通してHuBERT中間特徴量と同じ768次元に変換することで，HuBERT Transformer層への入力とした．結果を表\ref{sec4:tab:obj_weights_networkb_input_comparison}に示す．新たに検討した手法はネットワークB（Randomized・Mel-HuB）とし，$\lossWeightHubDisc = 0.001$の場合が最適だと判断した．下線は掲載した手法全てにおける最良値を示す。これより，最適なネットワークB（Randomized・Mel-HuB）はネットワークB（Randomized）よりも話者類似度は0.005高いが，WERも10.1\%高いことが分かる．従って，HuBERT中間特徴量は，メルスペクトログラムとHuBERT離散特徴量のロジットから構成した特徴量と比較して，ネットワークBの予測精度改善につながるより良い入力特徴量であったと考えられる．
+まず，入力特徴量について検討した．\ref{sec4:sec:obj_1}節では事前学習済み重みを用いることの有効性を調べる目的があったため，入力特徴量はHuBERTの事前学習時に揃えて，HuBERT中間特徴量とした．しかし，ネットワークB（Randomized）は事前学習済み重みを利用しないため，HuBERT中間特徴量を入力とすることが意味をなしているか不明である．これに対し，ネットワークAからマルチタスク学習によって同時に予測される，メルスペクトログラムとHuBERT離散特徴量に対するロジットを組み合わせて入力する場合を比較した．メルスペクトログラムは，時間方向に隣接した2フレームを次元方向に結合することで160次元\SI{50}{\Hz}の特徴量に変換し，HuBERT離散特徴量に対するロジットは101次元\SI{50}{\Hz}の特徴量としてそのまま用いた．これらを次元方向に結合することで261次元\SI{50}{\Hz}の特徴量を構成し，全結合層を通してHuBERT中間特徴量と同じ768次元に変換することで，HuBERT Transformer層への入力とした．結果を表\ref{sec4:tab:obj_weights_networkb_input_comparison}に示す．新たに検討した手法はネットワークB（Randomized・Mel-HuB）とし，$\lossWeightHubDisc = 0.001$の場合が最適だと判断した．下線は掲載した手法全てにおける最良値を示す．これより，最適なネットワークB（Randomized・Mel-HuB）はネットワークB（Randomized）よりも話者類似度は0.005高いが，WERも10.1\%高いことが分かる．従って，HuBERT中間特徴量は，メルスペクトログラムとHuBERT離散特徴量のロジットから構成した特徴量と比較して，ネットワークBの予測精度改善につながるより良い入力特徴量であったと考えられる．
 
 \begin{table}[b]
     \centering
@@ -137,11 +137,11 @@
     \end{center}
 \end{table}
 
-最後に，これまでネットワークAとネットワークBを2段階で学習させたのに対し，ネットワークAからネットワークBまでを一度に学習させる方法を検討した．これにより，HuBERT中間特徴量に表現力を制限させないことで，さらなる精度改善を狙った．ここでは，ネットワークBの出力に対する損失関数$\lossB$のみを用いて学習させ，ネットワークAの出力は単にネットワークBへの入力とした．ネットワークAおよびネットワークB（Randomized）を未学習の状態で初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_randomized}に示す．新たに検討した手法はネットワークE2E（Randomized）とし，$\lossWeightHubDisc = 0.1$が最適だと判断した．これより，最適なネットワークE2E（Randomized）はネットワークB（Randomized・A-SingleTask）よりもWERが20.0\%高く，話者類似度は0.080低いことがわかる．提案手法全体を未学習の状態から一度に学習させることは今回の条件下では困難であったため，ネットワークAとネットワークBに分けた二段階学習を行う場合に劣る結果となった．これに対し，ここまでの検討で最も良好な結果を示した，ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化して，ネットワーク全体を再学習させた場合の結果を表\ref{sec4:tab:obj_weights_e2e_pretrained}に示す．新たに検討した手法はネットワークE2E（Pretrained）とし，ここでは$\lossWeightHubDisc$の値は0.1のままで固定して，スケジューラであるCosine Annealing with Warmupの最大学習率$\learningRate_{\text{max}}$を変更することでチューニングした．最適値は$\learningRate_{\text{max}} = 5.0 \times 10^{-5}$とした．これより，最適なネットワークE2E（Pretrained）はネットワークB（Randomized・A-SingleTask）よりもWERが1.3\%高く，話者類似度も0.006高いことがわかる．以上より，今回の条件下では，二段階学習によって得られた最適なモデルを初期値として学習の安定化を図っても，ネットワーク全体を再学習することは効果的でなかったと考えられる．
+最後に，これまでネットワークAとネットワークBを2段階で学習させたのに対し，ネットワークAからネットワークBまでを1度に学習させる方法を検討した．これにより，HuBERT中間特徴量に表現力を制限させないことで，さらなる精度改善を狙った．ここでは，ネットワークBの出力に対する損失関数$\lossB$のみを用いて学習させ，ネットワークAの出力は単にネットワークBへの入力とした．ネットワークAおよびネットワークB（Randomized）を未学習の状態で初期化した場合の結果を表\ref{sec4:tab:obj_weights_e2e_randomized}に示す．新たに検討した手法はネットワークE2E（Randomized）とし，$\lossWeightHubDisc = 0.1$が最適だと判断した．これより，最適なネットワークE2E（Randomized）はネットワークB（Randomized・A-SingleTask）よりもWERが20.0\%高く，話者類似度は0.080低いことがわかる．提案手法全体を未学習の状態から1度に学習させることは今回の条件下では困難であったため，ネットワークAとネットワークBに分けた2段階学習を行う場合に劣る結果となった．これに対し，ここまでの検討で最も良好な結果を示した，ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化して，ネットワーク全体を再学習させた場合の結果を表\ref{sec4:tab:obj_weights_e2e_pretrained}に示す．新たに検討した手法はネットワークE2E（Pretrained）とし，ここでは$\lossWeightHubDisc$の値は0.1のままで固定して，スケジューラであるCosine Annealing with Warmupの最大学習率$\learningRate_{\text{max}}$を変更することでチューニングした．最適値は$\learningRate_{\text{max}} = 5.0 \times 10^{-5}$とした．これより，最適なネットワークE2E（Pretrained）はネットワークB（Randomized・A-SingleTask）よりもWERが1.3\%高く，話者類似度も0.006高いことがわかる．以上より，今回の条件下では，2段階学習によって得られた最適なモデルを初期値として学習の安定化を図っても，ネットワーク全体を再学習することは効果的でなかったと考えられる．
 
 \begin{table}[bt]
     \centering
-    \caption{ネットワークAからネットワークBまでを未学習の状態で初期化し，一度に学習させた場合の比較}
+    \caption{ネットワークAからネットワークBまでを未学習の状態で初期化し，1度に学習させた場合の比較}
     \label{sec4:tab:obj_weights_e2e_randomized}
     \begin{center}
         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
@@ -166,7 +166,7 @@
 
 \begin{table}[bt]
     \centering
-    \caption{ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化し，一度に学習させた場合の比較}
+    \caption{ネットワークB（Randomized・A-SingleTask）かつ$\lossWeightHubDisc = 0.1$の場合における学習済み重みでネットワークAとネットワークBを初期化し，1度に学習させた場合の比較}
     \label{sec4:tab:obj_weights_e2e_pretrained}
     \begin{center}
         \renewcommand{\arraystretch}{1.0} % 行の高さ調整
@@ -218,7 +218,7 @@
 
 まず，表\ref{sec4:tab:sbj_int_p}より，提案したネットワークB（Randomized）およびネットワークB（Randomized・A-SingleTask）は，ベースラインよりも明瞭性の評価値が有意に高いことがわかる．一方，ネットワークB（Randomized）とネットワークB（Randomized・A-SingleTask）の間に有意差がないことから，ネットワークAの学習方法の違いは明瞭性に顕著な違いをもたらさなかったと考えられる．次に，表\ref{sec4:tab:sbj_sim_p}より，提案したネットワークB（Randomized）およびネットワークB（Randomized・A-SingleTask）は，ベースラインよりも類似性の評価値が有意に高いことがわかる．また，ここではネットワークB（Randomized・A-SingleTask）がネットワークB（Randomized）よりも類似性の評価値が有意に高いこともわかる．従って，明瞭性と類似性の評価結果を合わせると，ネットワークB（Randomized・A-SingleTask）が最も優れた動画音声合成モデルであったと考えられる．
 
-また，良好な結果を示したネットワークB（Randomized・A-SingleTask）であっても、分析合成や原音声との間には依然として大きな差があることがわかる。これより，本研究の目的であったベースラインからの改善は達成されたものの，原音声に匹敵する合成音声には至っていないと言える．従って，今後さらなるネットワークの改善が必要だと考える．
+また，良好な結果を示したネットワークB（Randomized・A-SingleTask）であっても，分析合成や原音声との間には依然として大きな差があることがわかる．これより，本研究の目的であったベースラインからの改善は達成されたものの，原音声に匹敵する合成音声には至っていないと言える．従って，今後さらなるネットワークの改善が必要だと考える．
 
 \begin{table}[bt]
     \centering

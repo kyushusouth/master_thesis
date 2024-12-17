@@ -8,7 +8,7 @@
 
 ここで，話者ベクトル$\spkEmb$は，話者識別モデル\cite{wan2018generalized}を利用して得られた音声の話者性を反映するベクトル（d-vector）である．話者識別モデルは，LSTMと全結合層から構成され，softmax関数を用いたGeneralized End-to-End Lossを用いて学習される．これは，各話者ごとに複数の発話から得られた話者ベクトルの平均を重心とし，各話者ベクトルについて同一話者の重心とのコサイン類似度を最大化し，異なる話者の重心とのコサイン類似度を最小化するように設計された損失関数である．よって，学習されたモデルによって得られる話者ベクトルは，話者間での識別性を有したベクトルとなる．本実験ではこれをモデルへの入力とすることで，動画から音声を予測する際に話者性を正しく反映させることを狙った．
 
-また，HuBERT中間特徴量とHuBERT離散特徴量は，自己教師あり学習モデルであるHuBERTを利用して得られる特徴量である．HuBERTは，1次元畳み込み層を中心とした畳み込みエンコーダとTransformerから構成され，Masked Predictionによって学習される．これは，音声波形を畳み込みエンコーダに通すことで特徴量に変換し、その一部区間をマスクしてからTransformerに入力して，マスクされた区間の教師ラベルを予測させる学習方法である．損失関数には，マスクされた区間に限定したCross Entropy Lossが用いられる．ここで，教師ラベルは学習の過程で更新されるため，学習は2段階に分かれる．1段階目は，MFCCをk-means法によってクラスタリングした結果を教師ラベルとする．2段階目は，1段階目の学習済みモデルのTransformerにおける中間特徴量をk-means法によってクラスタリングした結果を教師ラベルとする．比較的単純なMFCCベースのラベルから，DNNによって得られるより複雑なラベルへと予測対象を更新して学習難易度を高めることで，モデルの表現力を向上させる仕組みとなっている．HuBERTは，マスクされた入力から教師ラベルを予測する学習を行うため，特に音声の文脈的構造を学習可能だと考えられる．ここで，HuBERTにおける畳み込みエンコーダまでを$\hubertConv$，HuBERTにおけるTransformer層を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，HuBERT中間特徴量$\hubertIntGt$およびHuBERT離散特徴量$\hubertDiscGt$は，
+また，HuBERT中間特徴量とHuBERT離散特徴量は，自己教師あり学習モデルであるHuBERTを利用して得られる特徴量である．HuBERTは，1次元畳み込み層を中心とした畳み込みエンコーダとTransformerから構成され，Masked Predictionによって学習される．これは，音声波形を畳み込みエンコーダに通すことで特徴量に変換し，その一部区間をマスクしてからTransformerに入力して，マスクされた区間の教師ラベルを予測させる学習方法である．損失関数には，マスクされた区間に限定したCross Entropy Lossが用いられる．ここで，教師ラベルは学習の過程で更新されるため，学習は2段階に分かれる．1段階目は，MFCCをk-means法によってクラスタリングした結果を教師ラベルとする．2段階目は，1段階目の学習済みモデルのTransformerにおける中間特徴量をk-means法によってクラスタリングした結果を教師ラベルとする．比較的単純なMFCCベースのラベルから，DNNによって得られるより複雑なラベルへと予測対象を更新して学習難易度を高めることで，モデルの表現力を向上させる仕組みとなっている．HuBERTは，マスクされた入力から教師ラベルを予測する学習を行うため，特に音声の文脈的構造を学習可能だと考えられる．ここで，HuBERTにおける畳み込みエンコーダまでを$\hubertConv$，HuBERTにおけるTransformer層を$\hubertTransformer$，k-means法を$\kmeans$，インデックス系列をOne-hotベクトルに変換する関数を$\onehot$とすると，HuBERT中間特徴量$\hubertIntGt$およびHuBERT離散特徴量$\hubertDiscGt$は，
 \begin{gather}
     \hubertIntGt = \hubertConv\lr{\spWaveformGt; \weightHuBERTConv} \\
     \hubertDiscGt = \onehot\lr{\kmeans\lr{\hubertTransformer\lr{\hubertIntGt; \weightHuBERTTrans}}}
@@ -38,7 +38,7 @@
 \end{figure}
 
 \subsubsection{ネットワークA}
-ネットワークAを図\ref{sec4:fig:networkA}に示す。赤の平行四辺形が入出力，青の長方形が処理を表す．ネットワークAでは，まず，口唇動画$\video$をAVHuBERTに通すことで，特徴量$\featureA \in \featureASet$に変換する．これは，
+ネットワークAを図\ref{sec4:fig:networkA}に示す．赤の平行四辺形が入出力，青の長方形が処理を表す．ネットワークAでは，まず，口唇動画$\video$をAVHuBERTに通すことで，特徴量$\featureA \in \featureASet$に変換する．これは，
 \begin{equation}
     \featureA = \AVHuBERT\lr{\video; \weightAAVHuBERT}
 \end{equation}
@@ -52,7 +52,7 @@
 \begin{equation}
     \featureA = \myNetworkPost\lr{\featureA; \weightAPost}
 \end{equation}
-と表される．ここで、後処理層$\myNetworkPost$の構造を図\ref{sec4:fig:post_three_step}に示す。赤の平行四辺形が入出力，青の長方形が処理を表す．内部特徴量は全て$\bm{H}_{\numLower}$で表した．$\myNetworkPost$は，1次元畳み込み層を主としたConvBlockおよび，これに残差結合を組み合わせたResBlockから構成される．$\myNetworkPost$は，話者ベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対する話者性を考慮した変換を行うために導入した。なぜなら，$\AVHuBERT$はMasked Predictionによって事前学習されたモデルだから、動画の文脈的な構造を考慮するのに適していると考えられる一方で、音声合成に必要となる話者性は発話に依存しない、動画の文脈的な構造とは別の性質を持った情報だと考えたからである．
+と表される．ここで，後処理層$\myNetworkPost$の構造を図\ref{sec4:fig:post_three_step}に示す．赤の平行四辺形が入出力，青の長方形が処理を表す．内部特徴量は全て$\bm{H}_{\numLower}$で表した．$\myNetworkPost$は，1次元畳み込み層を主としたConvBlockおよび，これに残差結合を組み合わせたResBlockから構成される．$\myNetworkPost$は，話者ベクトル$\spkEmb$が次元方向に結合された特徴量$\featureA$に対する話者性を考慮した変換を行うために導入した．なぜなら，$\AVHuBERT$はMasked Predictionによって事前学習されたモデルだから，動画の文脈的な構造を考慮するのに適していると考えられる一方で，音声合成に必要となる話者性は発話に依存しない，動画の文脈的な構造とは別の性質を持った情報だと考えたからである．
 
 最後に，$\featureA$を全結合層を通して変換することで，予測対象であるHuBERT中間特徴量，メルスペクトログラム，HuBERT離散特徴量に対するロジットを得る．これは，
 \begin{gather}
@@ -62,7 +62,7 @@
 \end{gather}
 と表される．$\weightAFcSpk, \weightAPost, \weightAFcHubInt, \weightAFcMel, \weightAFcHuBDisc$は，すべてランダムに初期化した．
 
-ネットワークAの役割は，続くネットワークBの入力であるHuBERT中間特徴量を予測することである．これに対し，メルスペクトログラムとHuBERT離散特徴量の予測を同時に行った理由は，先行研究においてマルチタスク学習の有効性が確認されており、HuBERT中間特徴量の予測においても有効ではないかと考えたからである。
+ネットワークAの役割は，続くネットワークBの入力であるHuBERT中間特徴量を予測することである．これに対し，メルスペクトログラムとHuBERT離散特徴量の予測を同時に行った理由は，先行研究においてマルチタスク学習の有効性が確認されており，HuBERT中間特徴量の予測においても有効ではないかと考えたからである．
 
 \begin{figure}[tb]
     \centering
@@ -111,7 +111,7 @@
 \end{figure}
 
 \subsubsection{ネットワークB}
-ネットワークBを図\ref{sec4:fig:networkB}に示す。赤の平行四辺形が入出力，青の長方形が処理を表す．ネットワークBでは，まず，ネットワークAで得られた予測HuBERT中間特徴量$\hubertIntPred$を$\hubertTransformer$に通すことで，特徴量$\featureB \in \featureBSet$に変換する．これは，
+ネットワークBを図\ref{sec4:fig:networkB}に示す．赤の平行四辺形が入出力，青の長方形が処理を表す．ネットワークBでは，まず，ネットワークAで得られた予測HuBERT中間特徴量$\hubertIntPred$を$\hubertTransformer$に通すことで，特徴量$\featureB \in \featureBSet$に変換する．これは，
 \begin{equation}
     \featureB = \hubertTransformer\lr{\hubertIntPred; \weightBHuBERTTrans}
 \end{equation}
@@ -124,15 +124,15 @@
 \end{gather}
 $\weightBFcSpk, \weightBPost, \weightBFcMel, \weightBFcHuBDisc$は，すべてランダムに初期化した．
 
-ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．このネットワークの設計には、HuBERT Transformer層$\hubertTransformer$が持つ自己教師あり学習の特性を活用する意図がある。HuBERTのMasked Predictionでは、畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し、Transformer層$\hubertTransformer$を通じてマスクされたフレームの教師ラベルを予測する。この学習方法により、Transformer層は不完全な入力から文脈情報を補完する能力を獲得していると考えられる。さらに、HuBERTは音声データのみで学習可能であり、動画音声データの制約を受けず、より大規模なデータセットによる事前学習が可能である．以上の特性に基づき、ネットワークBによって，ネットワークAの不完全な予測結果を文脈的に補完し、動画と音声の対応関係が一意でない課題に対処することで，最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する予測精度改善を狙った．
+ネットワークBの役割は，メルスペクトログラムとHuBERT離散特徴量の予測である．このネットワークの設計には，HuBERT Transformer層$\hubertTransformer$が持つ自己教師あり学習の特性を活用する意図がある．HuBERTのMasked Predictionでは，畳み込みエンコーダ$\hubertConv$からの出力にマスクを適用し，Transformer層$\hubertTransformer$を通じてマスクされたフレームの教師ラベルを予測する．この学習方法により，Transformer層は不完全な入力から文脈情報を補完する能力を獲得していると考えられる．さらに，HuBERTは音声データのみで学習可能であり，動画音声データの制約を受けず，より大規模なデータセットによる事前学習が可能である．以上の特性に基づき，ネットワークBによって，ネットワークAの不完全な予測結果を文脈的に補完し，動画と音声の対応関係が一意でない課題に対処することで，最終予測値であるメルスペクトログラムとHuBERT離散特徴量に対する予測精度改善を狙った．
 
 \subsubsection{ボコーダ}
-ボコーダを図\ref{sec4:fig:vocoder}に示す。赤の平行四辺形が入出力，青の長方形が処理を表す．本実験で用いるボコーダは、今回ベースラインとする先行研究\cite{choi2023intelligible}で提案されたMulti-input Vocoderを参考にしたものである。まず，ネットワークBで得られた予測メルスペクトログラム$\melPredB$とHuBERT離散特徴量に対するロジット$\hubertDiscPredB$を前処理層に通し，扱いやすい形状に変換する．これは，
+ボコーダを図\ref{sec4:fig:vocoder}に示す．赤の平行四辺形が入出力，青の長方形が処理を表す．本実験で用いるボコーダは，今回ベースラインとする先行研究\cite{choi2023intelligible}で提案されたMulti-input Vocoderを参考にしたものである．まず，ネットワークBで得られた予測メルスペクトログラム$\melPredB$とHuBERT離散特徴量に対するロジット$\hubertDiscPredB$を前処理層に通し，扱いやすい形状に変換する．これは，
 \begin{gather}
     \featureVocMel = \vocoderPreMel\lr{\melPredB; \weightVocPreMel} \\
     \featureVocHuBERT = \vocoderPreHub\lr{\hubertDiscPredB; \weightVocPreHuB}
 \end{gather}
-と表される．$\featureVocMel \in \featureVocMelSet$は，$\melPredB$の時間方向に隣接したベクトルを次元方向に結合することで$\hubertDiscPredB$と系列長を揃え、その後全結合層を適用した特徴量である．一方，$\featureVocHuBERT \in \featureVocHuBERTSet$は，$\hubertDiscPredB$に対して$\argmax$関数を適用した後，各時刻$t$において選択されたインデックスをベクトルに変換した特徴量である．次に，$\featureVocMel, \featureVocHuBERT$を入力として，音声波形を生成する．これは，
+と表される．$\featureVocMel \in \featureVocMelSet$は，$\melPredB$の時間方向に隣接したベクトルを次元方向に結合することで$\hubertDiscPredB$と系列長を揃え，その後全結合層を適用した特徴量である．一方，$\featureVocHuBERT \in \featureVocHuBERTSet$は，$\hubertDiscPredB$に対して$\argmax$関数を適用した後，各時刻$t$において選択されたインデックスをベクトルに変換した特徴量である．次に，$\featureVocMel, \featureVocHuBERT$を入力として，音声波形を生成する．これは，
 \begin{equation}
     \spWaveformPred = \vocoderMain\lr{\concat{\featureVocMel, \featureVocHuBERT}; \weightVocMain}
 \end{equation}

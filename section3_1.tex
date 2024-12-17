@@ -17,7 +17,7 @@
 \end{align}
 で与えられる．ここで，$\kernelSizeUpper$はカーネルサイズ，$\weightLower_{\dimLower_{\text{in}}, \dimLower_{\text{out}}, \kernelSizeLower}$は入力の$\dimLower_{\text{in}}$次元目から出力の$\dimLower_{\text{out}}$次元目に割り当てられたカーネルの$\kernelSizeLower$番目の成分，$b_{\dimLower_{\text{out}}}$は出力の$\dimLower_{\text{out}}$次元目に割り当てられたバイアスである．上式より，1次元畳み込み層の$\timeLower$番目の出力は，$\timeLower$番目を中心としたカーネルサイズの範囲分の入力から計算されることがわかる（$\kernelSizeUpper$は奇数を想定した）．これより，畳み込み層は入力の局所的な特徴を抽出するのに適した層だと考えられる．1次元畳み込みはテキストや音声など，データの形状が$\lr{\dimUpper \times \timeUpper}$となっている時に用いられる．
 
-これに加えて，カーネルを二次元配列とすれば二次元畳み込み層，三次元配列とすれば三次元畳み込み層となる．二次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$を表す．三次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
+これに加えて，カーネルを2次元配列とすれば2次元畳み込み層，3次元配列とすれば3次元畳み込み層となる．2次元畳み込み層は画像など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper}$となっている場合に用いられる．ここで，$\heightUpper$は高さ，$\widthUpper$を表す．3次元畳み込み層は動画など，データの形状が$\lr{\dimUpper \times \heightUpper \times \widthUpper \times \timeUpper}$となっている場合に用いられる．
 
 畳み込み層における主要なパラメータは3つある．1つ目はカーネルサイズであり，これによって考慮できる入力特徴量の範囲が定まる．2つ目はストライドであり，これによってカーネルのシフト幅を設定できる．3つ目はダイレーションであり，これは畳み込み演算において計算対象となる入力特徴量の間隔を表す．ダイレーションを大きくすることで，カーネルサイズが同じでも考慮できる入力特徴量の範囲を広げることが可能である．また，出力系列長$\timeUpper_{\text{out}}$を入力系列長$\timeUpper_{\text{in}}$の整数倍に保つには，上記のパラメータに対して適切なパディング長を指定する必要がある．図\ref{sec3:fig:conv_variations}に，ある入出力次元間における1次元畳み込み層の処理を示す．赤が入出力，青がカーネルを表している．図\ref{sec3:fig:conv1}は，カーネルサイズを3，ストライドとダイレーションを1とした場合であり，入力の両端に1ずつゼロパディングすることで，入出力の系列長が変わらないことを表している．図\ref{sec3:fig:conv2}は，カーネルサイズを5，ストライドとダイレーションを1とした場合であり，カーネルサイズが大きくなることで，出力1フレームを計算する際に考慮される入力の範囲が図\ref{sec3:fig:conv1}よりも広がることを表した．図\ref{sec3:fig:conv3}はカーネルサイズが3，ストライドが2，ダイレーションが1の場合であり，ストライドを2にしたことによって出力の系列長が入力よりも短くなることを表している．ここではパディングを1とすることで，入力に対して出力の系列長を$1/2$にできることを表した．図\ref{sec3:fig:conv4}はカーネルサイズが3，ストライドが1，ダイレーションが2の場合であり，ダイレーションを2とすることで，カーネルに対して入力が1フレーム飛ばしで計算されることを示した．
 
@@ -261,7 +261,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 となる．Transformer全体は，Transformer層を多層積み重ねて構成される．
 
-最後に，TransformerではRNNと違い，並列計算によって系列全体を一度に処理することが可能であるが，それと引き換えに入力の順序情報を考慮することができなくなる．これに対し，TransformerではPositional Encodingによって入力に位置情報を与える．Positional Encodingは$\sin$と$\cos$に基づいて，
+最後に，TransformerではRNNと違い，並列計算によって系列全体を1度に処理することが可能であるが，それと引き換えに入力の順序情報を考慮することができなくなる．これに対し，TransformerではPositional Encodingによって入力に位置情報を与える．Positional Encodingは$\sin$と$\cos$に基づいて，
 \begin{equation}
     \text{PositionalEncoding}\lr{\timeLower, \dimLower} =
     \begin{cases}
