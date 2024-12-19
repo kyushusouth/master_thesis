@@ -235,7 +235,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
     \label{sec3:fig:transformer_layer}
 \end{figure}
 
-まず，TransformerにおけるSelf-Attentionの計算の流れを述べる．ここでは，はじめにクエリ$\bm{Q} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，キー$\bm{K} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，バリュー$\bm{V} \in \realSet^{\timeUpper \times \dimUpper_{v}}$の計算を行う．これは，
+まず，Transformer層におけるSelf-Attentionの計算の流れを述べる．ここでは，はじめにクエリ$\bm{Q} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，キー$\bm{K} \in \realSet^{\timeUpper \times \dimUpper_{k}}$，バリュー$\bm{V} \in \realSet^{\timeUpper \times \dimUpper_{v}}$の計算を行う．これは，
 \begin{align}
     \bm{Q} & = \fcLayerValue{\bm{\inputUpper}}{\bm{\weightAndBias}_{Q}} \\
     \bm{K} & = \fcLayerValue{\bm{\inputUpper}}{\bm{\weightAndBias}_{K}} \\
@@ -247,7 +247,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \end{equation}
 で与えられる．softmax関数は行方向に適用されるため，$\text{softmax}\lr{\bm{Q}\bm{K}^\top / \sqrt{\dimUpper_{k}}}$の各行ベクトルが，各クエリ$\bm{q}_{t} \in \realSet^{\dimUpper_{k}}$からキー$\bm{k}_{t} \in \realSet^{\dimUpper_{k}} ~ \lr{t = 1, \ldots, T}$に対する注意度になっている．
 
-ここまでがSelf-Attentionの計算であったが，TransformerではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．これは，ヘッド数を$\numHeadUpper$とし，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$によって計算された$\text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}$を用いて，
+ここまでがSelf-Attentionの計算であったが，Transformer層ではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．これは，ヘッド数を$\numHeadUpper$とし，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$によって計算された$\text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}$を用いて，
 \begin{equation}
     \text{MHA}\lr{\bm{Q}, \bm{K}, \bm{V}} = \fcLayerValue{\concat{\text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}}}{\bm{\weightAndBias}_{\text{MHA}}}
 \end{equation}
@@ -259,7 +259,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 \begin{equation}
     \bm{\outputUpper} = \text{LayerNorm}\lr{\fcLayerValue{\relu\lr{\fcLayerValue{\bm{\outputUpper}}{\bm{\weightAndBias}_{1}}}}{\bm{\weightAndBias}_{2}} + \bm{\outputUpper}}
 \end{equation}
-となる．Transformer全体は，Transformer層を多層積み重ねて構成される．
+となる．Transformerは，Transformer層を多層積み重ねて構成される．
 
 最後に，TransformerではRNNと違い，並列計算によって系列全体を1度に処理することが可能であるが，それと引き換えに入力の順序情報を考慮することができなくなる．これに対し，TransformerではPositional Encodingによって入力に位置情報を与える．Positional Encodingは$\sin$と$\cos$に基づいて，
 \begin{equation}

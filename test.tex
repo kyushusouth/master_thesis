@@ -50,22 +50,18 @@
 
 
 \begin{document}
-$f$を$[a, b]$上の有界関数とする．この時，$f$が$[a, b]$上ほとんど至るところ連続ならば，$f$が$[a, b]$上リーマン可積分であることを示したい．
+Bonferroni法がFWERを$\alpha$以下にできることを示したい。
 
-$D$が零集合とする．$\epsilon > 0$が任意に与えられたとい，$D$を長さの和が$\epsilon$以下の開区間の列$I_{1}, I_{2}, \ldots$によって覆う．$D$の外の点$x$においては$f$は連続だから，$x$を含む開区間$J_{x}$が，$y \in J_{x}$なら$|f(y) - f(x)| < \epsilon / 2$となるように取れる．この時$J_{x}$上の$f$の上限と下限の差は$\epsilon$以下である．明らかに
+多重比較におけるファミリーを$\mathcal{F} = \{H_{0, i}\}_{i = 1}^{N}$とする。ここで、$H_{0, i}$は帰無仮説である。ここで、
 \begin{equation}
-    [a, b] \subset \left(\bigcup_{j = 1}^{\infty} I_{j}\right) \bigcup \left(\bigcup_{x \in [a, b] \setminus D} J_{x}\right)
+    \mathcal{I} = \{i \mid i \in \{1, \ldots, N\}, H_{0, i}は真である\}
 \end{equation}
-である．ハイネ・ボレルの定理より，$I_{1}, I_{2}, \ldots$のうちから有限個と，$\{J_{x}\}$のうちから有限個を適当に選んで$[a, b]$を覆うことができる．必要なら$I_{j}$の番号を取り替えて，また$\{J_{x}\}$から選んだ区間に番号をつけてこれらを$I_{1}, \ldots, I_{N}, J_{1}, \ldots, J_{L}$とする．これらの区間の端点の全てを使って$[a, b]$の分割$\triangle: a_{0} = a < a_{1} < \cdots < a_{n} = b$を作る．この時，$(a_{j}, a_{j + 1})$は$I_{1}, \ldots, I_{N}, J_{1}, \ldots, J_{L}$のいずれかに含まれる．ここで，$\sum_{j = 0}^{n - 1}(M_{j} - m_{j})(a_{j + 1} - a_{j})$を，$(a_{j}, a_{j + 1})$が$I_{k}$のどれからに含まれるものと$J_{l}$のどれかに含まれるものとに分けて，
+とし、$n_{0} = |\mathcal{I}|$とする。また、$V_{i}$を$H_{i}$が棄却される事象、すなわち$p_{i} \le \alpha / n$が成り立つ事象とする。すなわち、
 \begin{equation}
-    \overline{S}(\triangle, f) - \underline{S}(\triangle, f) = \sum_{(a_{j}, a_{j + 1}) \subset あるI_{k}} (M_{j} - m_{j})(a_{j + 1} - a_{j}) + \sum_{(a_{j}, a_{j + 1}) \subset あるJ_{l}} (M_{j} - m_{j})(a_{j + 1} - a_{j})
+    V_{i} \subset \Omega, ~ \mathbb{P}(V_{i}) = \sum_{\omega \in V_{i}} \mathbb{\{\omega\}}
 \end{equation}
-と書く．どちらにも含まれるものは，前もって第一の和の方に入れておくなどしてどちらに入れても良い．ここで，
-\begin{gather}
-    M_{j} = \sup_{x \in [a_{j}, a_{j + 1}] f(x)} \\
-    m_{j} = \inf_{x \in [a_{j}, a_{j + 1}] f(x)}
-\end{gather}
-である．$M = \sup_{a \le x \le b} |f(x)|$と定義すれば$M_{j} - m_{j} \le 2M$で，$I_{1}, \ldots, I_{N}$の長さの和は$\epsilon$以下だから，
-
-この時，$J_{1}, \ldots, J_{L}$の長さの和が$b - a$以下となることを示せるか？
+\begin{equation}
+    FWER = \mathbb{P}\left(\bigcup_{i \in \mathcal{I}} V_{i}\right) \le \sum_{i \in \mathcal{I}} \mathbb{P}(V_{i})
+\end{equation}
+これについて、$V_{i}$というのは標本空間の部分集合とかのやつですかね？
 \end{document}

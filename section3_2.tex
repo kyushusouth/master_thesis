@@ -195,14 +195,13 @@ $\pdv*{\lossFuncUpper_{\indexLower}}{w_{p, q}^{n}}$は式\eqref{sec3:eq:output_b
                                                      & = \delta_{q}^{n} \pdv{w_{p, q}^{n}} \lr{\sum_{r = 0}^{D_{n - 1}} w_{r, q}^{n} o_{r}^{n - 1}} \\
                                                      & = \delta_{q}^{n} o_{p}^{n - 1}
 \end{align}
-となる．ここで，$\pdv*{\lossFuncUpper_{\indexLower}}{a_{q}^{n}} = \delta_{q}^{n}$とおいた．このとき，最終層（$n = \numUpper_{\text{layer}}$）の重みの場合，
+となる．ここで，$\pdv*{\lossFuncUpper_{\indexLower}}{a_{q}^{n}} = \delta_{q}^{n}$とおいた．このとき，最終層（$n = \numUpper_{\text{layer}}$）の重みの場合，$f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}} = \bm{o}^{\numUpper_{\text{layer}}}$だから，
 \begin{align}
-    \pdv{L_{\indexLower}}{w_{p, q}^{\numUpper_{\text{layer}}}} & = \delta_{q}^{\numUpper_{\text{layer}}} o_{p}^{\numUpper_{\text{layer}} - 1}                                                                                                                                                      \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{L_{i}}{a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                                              \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, f\lr{\bm{\inputLower}_{\indexLower}; \bm{\weightAndBias}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                      \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                                     \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \nabla \lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}} \pdv{\phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}{a_{q}^{\numUpper_{\text{layer}}}}   \\
-                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{\lossFuncUpper\lr{\bm{\outputLower}_{\indexLower}, \phi\lr{\bm{a}^{\numUpper_{\text{layer}}}}}}{\phi\lr{a_{q}^{\numUpper_{\text{layer}}}}} \phi'\lr{a_{q}^{\numUpper_{\text{layer}}}}
+    \pdv{L_{\indexLower}}{w_{p, q}^{\numUpper_{\text{layer}}}} & = \delta_{q}^{\numUpper_{\text{layer}}} o_{p}^{\numUpper_{\text{layer}} - 1}                                                                                                                              \\
+                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{L_{i}}{a_{q}^{\numUpper_{\text{layer}}}}                                                                                                                      \\
+                                                               & = o_{p}^{\numUpper_{\text{layer}} - 1} \sum_{r = 1}^{D_{\numUpper_{\text{layer}}}} \pdv{L_{i}}{o_{r}^{\numUpper_{\text{layer}}}} \pdv{o_{r}^{\numUpper_{\text{layer}}}}{a_{q}^{\numUpper_{\text{layer}}}} \\
+                                                               & =  o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{L_{i}}{o_{q}^{\numUpper_{\text{layer}}}} \pdv{o_{q}^{\numUpper_{\text{layer}}}}{a_{q}^{\numUpper_{\text{layer}}}}                                            \\
+                                                               & =  o_{p}^{\numUpper_{\text{layer}} - 1} \pdv{L_{i}}{o_{q}^{\numUpper_{\text{layer}}}} \phi'\lr{a_{q}^{\numUpper_{\text{layer}}}}
 \end{align}
 となる．これは，入力から出力を計算する順伝搬で得られた値のみに依存するから，直ちに計算可能であることがわかる．一方，最終層以外（$1 \le n < \numUpper_{\text{layer}}$）の重みの場合，
 \begin{align}
