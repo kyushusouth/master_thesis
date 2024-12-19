@@ -56,12 +56,8 @@ Bonferroni法がFWERを$\alpha$以下にできることを示したい。
 \begin{equation}
     \mathcal{I} = \{i \mid i \in \{1, \ldots, N\}, H_{0, i}は真である\}
 \end{equation}
-とし、$n_{0} = |\mathcal{I}|$とする。また、$V_{i}$を$H_{i}$が棄却される事象、すなわち$p_{i} \le \alpha / n$が成り立つ事象とする。すなわち、
-\begin{equation}
-    V_{i} \subset \Omega, ~ \mathbb{P}(V_{i}) = \sum_{\omega \in V_{i}} \mathbb{\{\omega\}}
-\end{equation}
+とし、$n_{0} = |\mathcal{I}|$とする。また、$V_{i}$を$H_{i}$が棄却される事象、すなわち$p_{i} \le \alpha / n$が成り立つ事象とする。
 \begin{equation}
     FWER = \mathbb{P}\left(\bigcup_{i \in \mathcal{I}} V_{i}\right) \le \sum_{i \in \mathcal{I}} \mathbb{P}(V_{i})
 \end{equation}
-これについて、$V_{i}$というのは標本空間の部分集合とかのやつですかね？
 \end{document}
