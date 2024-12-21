@@ -194,6 +194,13 @@ Adrian Bulat and Georgios Tzimiropoulos.
 \newblock In {\em Proceedings of the IEEE international conference on computer
   vision}, pp. 1021--1030, 2017.
 
+\bibitem{morcos2018insights}
+Ari Morcos, Maithra Raghu, and Samy Bengio.
+\newblock Insights on representational similarity in neural networks with
+  canonical correlation.
+\newblock {\em Advances in neural information processing systems}, Vol.~31, ,
+  2018.
+
 \bibitem{pasad2023comparative}
 Ankita Pasad, Bowen Shi, and Karen Livescu.
 \newblock Comparative layer-wise analysis of self-supervised speech models.
@@ -265,13 +272,10 @@ Ambika Kirkland, Shivam Mehta, Harm Lameris, Gustav~Eje Henter, Eva
   tts evaluation.
 \newblock In {\em 12th Speech Synthesis Workshop (SSW) 2023}, 2023.
 
-\bibitem{chen2022large}
-Zhengyang Chen, Sanyuan Chen, Yu~Wu, Yao Qian, Chengyi Wang, Shujie Liu, Yanmin
-  Qian, and Michael Zeng.
-\newblock Large-scale self-supervised speech representation learning for
-  automatic speaker verification.
-\newblock In {\em ICASSP 2022-2022 IEEE International Conference on Acoustics,
-  Speech and Signal Processing (ICASSP)}, pp. 6147--6151. IEEE, 2022.
+\bibitem{crawshaw2020multi}
+Michael Crawshaw.
+\newblock Multi-task learning with deep neural networks: A survey.
+\newblock {\em arXiv preprint arXiv:2009.09796}, 2020.
 
 \bibitem{chen2018gradnorm}
 Zhao Chen, Vijay Badrinarayanan, Chen-Yu Lee, and Andrew Rabinovich.

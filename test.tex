@@ -46,18 +46,47 @@
 \setlength{\topsep}{5pt}
 \setlength{\partopsep}{5pt}
 
+\DeclareMathOperator*{\argmin}{arg\,min}
+
 \input{vars.tex}
 
 
 \begin{document}
-Bonferroni法がFWERを$\alpha$以下にできることを示したい。
+\begin{theorem}
+    Bonferroni法は、FWERを$\alpha$以下にできる。
+\end{theorem}
+\begin{proof}
+    多重比較におけるファミリーを$\mathcal{F} = \{H_{0, i}\}_{i = 1}^{N}$とする。ここで、$H_{0, i}$は帰無仮説である。ここで、
+    \begin{equation}
+        \mathcal{I} = \{i \mid i \in \{1, \ldots, N\}, H_{0, i}は真である\}
+    \end{equation}
+    とし、$n_{0} = |\mathcal{I}|$とする。また、$V_{i}$を$H_{i}$が棄却される事象、すなわち$p_{i} \le \alpha / n$が成り立つ事象とする。
+    \begin{equation}
+        \text{FWER} = P\left(\bigcup_{i \in \mathcal{I}} V_{i}\right) \le \sum_{i \in \mathcal{I}} P(V_{i}) \le \sum_{i \in \mathcal{I}} \frac{\alpha}{n} = n_{0} \frac{\alpha}{n} \le \alpha
+    \end{equation}
+    ここで、$P(V_{i}) = \alpha / n$であるが、あえて以下と書いてもいいことを使った。
+\end{proof}
 
-多重比較におけるファミリーを$\mathcal{F} = \{H_{0, i}\}_{i = 1}^{N}$とする。ここで、$H_{0, i}$は帰無仮説である。ここで、
-\begin{equation}
-    \mathcal{I} = \{i \mid i \in \{1, \ldots, N\}, H_{0, i}は真である\}
-\end{equation}
-とし、$n_{0} = |\mathcal{I}|$とする。また、$V_{i}$を$H_{i}$が棄却される事象、すなわち$p_{i} \le \alpha / n$が成り立つ事象とする。
-\begin{equation}
-    FWER = \mathbb{P}\left(\bigcup_{i \in \mathcal{I}} V_{i}\right) \le \sum_{i \in \mathcal{I}} \mathbb{P}(V_{i})
-\end{equation}
+\begin{theorem}
+    Holm-Bonferroni法は、FWERを$\alpha$以下にできる。
+\end{theorem}
+\begin{proof}
+    多重比較におけるファミリーを$\mathcal{F} = \{H_{0, i}\}_{i = 1}^{N}$とする。ここで、$H_{0, i}$は帰無仮説である。ここで、
+    \begin{equation}
+        \mathcal{I} = \{i \mid i \in \{1, \ldots, N\}, H_{0, i}は真である\}
+    \end{equation}
+    とし、$n_{0} = |\mathcal{I}|$とする。仮説検定の結果得られた$p$値を$\{p_{i}\}_{i = 1}^{N}$として、$p$値を小さい順に並び替えた数列を$\{p_{(i)}\}_{i = 1}^{N}$、これに対応するように並び替えたファミリーを$\{H_{0, (i)}\}_{i = 1}^{N}$とする。また、$i_{0} = \argmin_{i \in \mathcal{I}} p_{i}$とすると、
+    \begin{equation}
+        \label{eq1}
+        i_{0} \le n - n_{0} + 1 \Leftrightarrow  \frac{1}{n - i_{0} + 1} \le \frac{1}{n_{0}}
+    \end{equation}
+    となる。ここで、$A_{i}$を、「$p_{i} = \min_{j \in \mathcal{I}} p_{j}$かつ真の帰無仮説$H_{0, i}$が誤って棄却される」が成り立つ事象とする。この時、Holm-Bonferroni法の計算方法と式\eqref{eq1}より
+    \begin{equation}
+        P(A_{i}) = \frac{\alpha}{n - i + 1} \le \frac{\alpha}{n_{0}}
+    \end{equation}
+    となる。ここで、$\bigcup_{i \in \mathcal{I}} A_{i}$に対して$\left(\bigcup_{i \in \mathcal{I}} A_{i}\right)^{c} = \bigcap_{i \in \mathcal{I}} A_{i}^{c}$を考える。これは、任意の$i \in \mathcal{I}$に対して$A_{i}^{c}$が成り立つ事象を意味し、$A_{i}^{c}$は$A_{i}$の条件の否定を満たす事象であるから、「$p_{i} \neq \min_{j \in \mathcal{I}} p_{j}$または真の帰無仮説$H_{0, i}$が誤って棄却されない」となる。定義より、ある$i_{0} \in \mathcal{I}$が存在して、$p_{i_{0}} = \min_{j \in \mathcal{I}} p_{j}$が成り立つ。よって、$H_{0, i_{0}}$は棄却されない。Holm-Bonferroni法の計算方法より、この時任意の$i \in \mathcal{I} \setminus \{i_{0}\}$に対して$H_{0, i}$も棄却されない。従って、$\bigcap_{i \in \mathcal{I}} A_{i}^{c}$は帰無仮説が真である場合、その全てが棄却されない事象を表している。以上より、$\bigcup_{i \in \mathcal{I}} A_{i}$は少なくとも一つの真の帰無仮説が棄却される事象を意味するから、
+    \begin{equation}
+        \text{FWER} = P\left(\bigcup_{i \in \mathcal{I}} A_{i}\right) \le \sum_{i \in \mathcal{I}} P(A_{i}) \le \sum_{i \in \mathcal{I}} \frac{\alpha}{n_{0}} = \alpha
+    \end{equation}
+\end{proof}
 \end{document}

@@ -966,8 +966,6 @@ INPUT ./figure/sec2/spectrogram_8.png
 INPUT ./figure/sec2/spectrogram_8.png
 INPUT ./figure/sec2/spectrogram_8.png
 INPUT extractbb -B cropbox -O ./figure/sec2/spectrogram_8.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 INPUT ./figure/sec2/melfb/onedim_20.png
 INPUT ./figure/sec2/melfb/onedim_20.png
 INPUT ./figure/sec2/melfb/onedim_20.png
@@ -984,6 +982,8 @@ INPUT ./section3_1.tex
 INPUT section3_1.tex
 INPUT ./section3_1.tex
 INPUT section3_1.tex
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin6.tfm
 INPUT ./figure/sec3/conv1.drawio.png
 INPUT ./figure/sec3/conv1.drawio.png
 INPUT ./figure/sec3/conv1.drawio.png

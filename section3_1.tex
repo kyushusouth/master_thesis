@@ -249,7 +249,7 @@ Transformer\cite{vaswani2017attention}は，自己注意機構（Self-Attention�
 
 ここまでがSelf-Attentionの計算であったが，Transformer層ではSelf-Attentionを複数のヘッドで並列に計算し，各ヘッドの出力を結合して最終出力を得るMulti-Head Attentionが採用されている．これは，ヘッド数を$\numHeadUpper$とし，各ヘッド$\numHeadLower$におけるクエリ$\bm{Q}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，キー$\bm{K}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{k}}{\numHeadUpper}}$，バリュー$\bm{V}^{\numHeadLower} \in \realSet^{\timeUpper \times \frac{\dimUpper_{v}}{\numHeadUpper}}$によって計算された$\text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}$を用いて，
 \begin{equation}
-    \text{MHA}\lr{\bm{Q}, \bm{K}, \bm{V}} = \fcLayerValue{\concat{\text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}, \ldots, \text{SA}\lr{\bm{Q}^{\numHeadLower}, \bm{K}^{\numHeadLower}, \bm{V}^{\numHeadLower}}}}{\bm{\weightAndBias}_{\text{MHA}}}
+    \text{MHA}\lr{\bm{Q}, \bm{K}, \bm{V}} = \fcLayerValue{\concat{\text{SA}\lr{\bm{Q}^{1}, \bm{K}^{1}, \bm{V}^{1}}, \ldots, \text{SA}\lr{\bm{Q}^{\numHeadUpper}, \bm{K}^{\numHeadUpper}, \bm{V}^{\numHeadUpper}}}}{\bm{\weightAndBias}_{\text{MHA}}}
 \end{equation}
 で与えられる．Multi-Head Attention後は，残差結合とレイヤー正規化を適用する．すなわち，この出力$\bm{\outputUpper} \in \realSet^{\timeUpper \times \dimUpper_{\text{model}}}$は，
 \begin{equation}

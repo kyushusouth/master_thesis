@@ -54,8 +54,8 @@
 \newlabel{sub@sec2:fig:melfb_20}{{a}{6}{フィルタ数を20とした場合\relax }{figure.caption.3}{}}
 \newlabel{sec2:fig:melfb_80}{{2.2b}{6}{フィルタ数を80とした場合\relax }{figure.caption.3}{}}
 \newlabel{sub@sec2:fig:melfb_80}{{b}{6}{フィルタ数を80とした場合\relax }{figure.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces サンプリング周波数を\SI {16}{\kHz }とした場合におけるメルフィルタバンク\relax }}{6}{figure.caption.3}\protected@file@percent }
-\newlabel{sec2:fig:melfb}{{2.2}{6}{サンプリング周波数を\SI {16}{\kHz }とした場合におけるメルフィルタバンク\relax }{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces フィルタを配置する帯域を\SI {0}{\kHz }から\SI {8}{\kHz }とした場合におけるメルフィルタバンク\relax }}{6}{figure.caption.3}\protected@file@percent }
+\newlabel{sec2:fig:melfb}{{2.2}{6}{フィルタを配置する帯域を\SI {0}{\kHz }から\SI {8}{\kHz }とした場合におけるメルフィルタバンク\relax }{figure.caption.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces 「小さな鰻屋に，熱気のようなものがみなぎる」と発話した音声に対する対数メルスペクトログラム\relax }}{6}{figure.caption.4}\protected@file@percent }
 \newlabel{sec2:fig:melspectrogram}{{2.3}{6}{「小さな鰻屋に，熱気のようなものがみなぎる」と発話した音声に対する対数メルスペクトログラム\relax }{figure.caption.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}深層学習}{7}{section.3}\protected@file@percent }
@@ -105,7 +105,7 @@
 \citation{zhang2019gradient}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}勾配降下法}{17}{subsubsection.3.2.2}\protected@file@percent }
 \newlabel{sec3:sec:gradient_descent}{{3.2.2}{17}{勾配降下法}{subsubsection.3.2.2}{}}
-\newlabel{sec3:eq:normal_gradient_descent}{{3.52}{18}{勾配降下法}{equation.3.52}{}}
+\newlabel{sec3:eq:normal_gradient_descent}{{3.52}{17}{勾配降下法}{equation.3.52}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}正則化}{18}{subsubsection.3.2.3}\protected@file@percent }
 \newlabel{sec3:eq:l2_reg}{{3.56}{18}{正則化}{equation.3.56}{}}
 \citation{srivastava2014dropout}
@@ -113,14 +113,14 @@
 \citation{loshchilov2017decoupled}
 \newlabel{sec3:eq:weight_decay}{{3.57}{19}{正則化}{equation.3.57}{}}
 \newlabel{sec3:eq:regularization_dropout_training_output}{{3.58}{19}{正則化}{equation.3.58}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}最適化手法}{20}{subsubsection.3.2.4}\protected@file@percent }
-\newlabel{sec3:sec:optimizer}{{3.2.4}{20}{最適化手法}{subsubsection.3.2.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}最適化手法}{19}{subsubsection.3.2.4}\protected@file@percent }
+\newlabel{sec3:sec:optimizer}{{3.2.4}{19}{最適化手法}{subsubsection.3.2.4}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Adam\relax }}{20}{algorithm.1}\protected@file@percent }
 \newlabel{sec3:algo:adam}{{1}{20}{Adam\relax }{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}学習率のスケジューリング}{20}{subsubsection.3.2.5}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces AdamW\relax }}{20}{algorithm.2}\protected@file@percent }
+\newlabel{sec3:algo:adamw}{{2}{20}{AdamW\relax }{algorithm.2}{}}
 \citation{higham2019deep}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces AdamW\relax }}{21}{algorithm.2}\protected@file@percent }
-\newlabel{sec3:algo:adamw}{{2}{21}{AdamW\relax }{algorithm.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}学習率のスケジューリング}{21}{subsubsection.3.2.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6}誤差逆伝播法}{21}{subsubsection.3.2.6}\protected@file@percent }
 \newlabel{sec3:sec:backpropagation}{{3.2.6}{21}{誤差逆伝播法}{subsubsection.3.2.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces スケジューラによる学習率の変化\relax }}{22}{figure.caption.9}\protected@file@percent }
@@ -174,6 +174,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}実験方法}{32}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}利用したデータセット}{32}{subsubsection.4.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}データの前処理}{32}{subsubsection.4.2.2}\protected@file@percent }
+\citation{morcos2018insights}
 \citation{pasad2023comparative}
 \citation{nagrani2020voxceleb}
 \citation{panayotov2015librispeech}
@@ -220,20 +221,20 @@
 \newlabel{sec4:fig:age}{{4.5}{45}{主観評価実験における被験者の年齢層\relax }{figure.caption.22}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces 主観評価実験の結果より計算した標本平均と95\%信頼区間\relax }}{46}{table.caption.23}\protected@file@percent }
 \newlabel{sec4:tab:sbj_mean_ci}{{4.9}{46}{主観評価実験の結果より計算した標本平均と95\%信頼区間\relax }{table.caption.23}{}}
+\citation{crawshaw2020multi}
 \@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces 主観評価実験の結果より計算した平均値の差の検定におけるp値（明瞭性）\relax }}{47}{table.caption.24}\protected@file@percent }
 \newlabel{sec4:tab:sbj_int_p}{{4.10}{47}{主観評価実験の結果より計算した平均値の差の検定におけるp値（明瞭性）\relax }{table.caption.24}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces 主観評価実験の結果より計算した平均値の差の検定におけるp値（類似性）\relax }}{47}{table.caption.25}\protected@file@percent }
 \newlabel{sec4:tab:sbj_sim_p}{{4.11}{47}{主観評価実験の結果より計算した平均値の差の検定におけるp値（類似性）\relax }{table.caption.25}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}考察}{47}{subsection.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}ネットワークB（Randomized）について}{47}{subsubsection.4.4.1}\protected@file@percent }
-\citation{chen2022large}
 \citation{chen2018gradnorm}
 \citation{liu2019end}
+\citation{wang2021survey}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}ネットワークB（Pretrained）について}{48}{subsubsection.4.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}今後の課題}{48}{subsection.4.5}\protected@file@percent }
-\citation{wang2021survey}
-\@writefile{toc}{\contentsline {section}{\numberline {5}結論}{50}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{謝辞}{51}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}結論}{49}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{謝辞}{50}{section*.26}\protected@file@percent }
 \bibstyle{junsrt}
 \bibdata{library}
 \bibcite{shen2018natural}{1}
@@ -247,7 +248,7 @@
 \bibcite{hsu2021hubert}{9}
 \bibcite{shi2022learning}{10}
 \bibcite{afouras2018lrs3}{11}
-\@writefile{toc}{\contentsline {section}{参考文献}{52}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{参考文献}{51}{section*.26}\protected@file@percent }
 \bibcite{chung2018voxceleb2}{12}
 \bibcite{maas2013rectifier}{13}
 \bibcite{he2015delving}{14}
@@ -270,19 +271,20 @@
 \bibcite{okamoto2023hi}{31}
 \bibcite{takamichi2019jvs}{32}
 \bibcite{bulat2017far}{33}
-\bibcite{pasad2023comparative}{34}
-\bibcite{nagrani2020voxceleb}{35}
-\bibcite{panayotov2015librispeech}{36}
-\bibcite{jia2018transfer}{37}
-\bibcite{shi2022robust}{38}
-\bibcite{snyder2015musan}{39}
-\bibcite{afouras2018deep}{40}
-\bibcite{yin2023reazonspeech}{41}
-\bibcite{sawada2024release}{42}
-\bibcite{radford2023robust}{43}
-\bibcite{kirkland2023stuck}{44}
-\bibcite{chen2022large}{45}
-\bibcite{chen2018gradnorm}{46}
-\bibcite{liu2019end}{47}
-\bibcite{wang2021survey}{48}
-\gdef \@abspage@last{60}
+\bibcite{morcos2018insights}{34}
+\bibcite{pasad2023comparative}{35}
+\bibcite{nagrani2020voxceleb}{36}
+\bibcite{panayotov2015librispeech}{37}
+\bibcite{jia2018transfer}{38}
+\bibcite{shi2022robust}{39}
+\bibcite{snyder2015musan}{40}
+\bibcite{afouras2018deep}{41}
+\bibcite{yin2023reazonspeech}{42}
+\bibcite{sawada2024release}{43}
+\bibcite{radford2023robust}{44}
+\bibcite{kirkland2023stuck}{45}
+\bibcite{crawshaw2020multi}{46}
+\bibcite{chen2018gradnorm}{47}
+\bibcite{liu2019end}{48}
+\bibcite{wang2021survey}{49}
+\gdef \@abspage@last{59}

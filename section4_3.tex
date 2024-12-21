@@ -206,7 +206,7 @@
     \label{sec4:fig:age}
 \end{figure}
 
-明瞭性と類似性の評価値について，手法ごとの標本平均と95\%信頼区間を表\ref{sec4:tab:sbj_mean_ci}に示す．また，各手法の組み合わせについて，平均値の差の検定（Welchのt検定）を行った結果を表\ref{sec4:tab:sbj_int_p}, \ref{sec4:tab:sbj_sim_p}に示す．表における$\lr{i, j}$成分は，$i$行目の手法に対する評価値の母平均を$\mu_{i}$，$j$列目の手法に対する評価値の母平均を$\mu_{j}$とするとき，帰無仮説を$\mu_{i} = \mu_{j}$，対立仮説を$\mu_{i} > \mu_{j}$と片側検定で計算されたp値に対し，Benjamini/Hochberg法による多重比較のための補正を行った結果である．ここで，表の文字列は以下の意味である．
+明瞭性と類似性の評価値について，手法ごとの標本平均と95\%信頼区間を表\ref{sec4:tab:sbj_mean_ci}に示す．また，各手法の組み合わせについて，平均値の差の検定（Welchのt検定）を行った結果を表\ref{sec4:tab:sbj_int_p}, \ref{sec4:tab:sbj_sim_p}に示す．表における$\lr{i, j}$成分は，$i$行目の手法に対する評価値の母平均を$\mu_{i}$，$j$列目の手法に対する評価値の母平均を$\mu_{j}$とするとき，帰無仮説を$\mu_{i} = \mu_{j}$，対立仮説を$\mu_{i} > \mu_{j}$とする片側検定で計算されたp値に対し，Holm–Bonferroni法による多重比較のための補正を行った結果である．ここで，表の文字列は以下の意味である．
 \begin{enumerate}
     \item GT: 原音声（Ground Truth）
     \item AbS: 分析合成（Analysis by Synthesis）
@@ -214,11 +214,11 @@
     \item B（Rand）: ネットワークB（Randomized）
     \item Baseline: ベースライン
 \end{enumerate}
-また，本実験における有意水準は5\%とした．
+本実験における有意水準は5\%とし，有意差があった場合を$\ast$で示した．
 
 まず，表\ref{sec4:tab:sbj_int_p}より，提案したネットワークB（Randomized）およびネットワークB（Randomized・A-SingleTask）は，ベースラインよりも明瞭性の評価値が有意に高いことがわかる．一方，ネットワークB（Randomized）とネットワークB（Randomized・A-SingleTask）の間に有意差がないことから，ネットワークAの学習方法の違いは明瞭性に顕著な違いをもたらさなかったと考えられる．次に，表\ref{sec4:tab:sbj_sim_p}より，提案したネットワークB（Randomized）およびネットワークB（Randomized・A-SingleTask）は，ベースラインよりも類似性の評価値が有意に高いことがわかる．また，ここではネットワークB（Randomized・A-SingleTask）がネットワークB（Randomized）よりも類似性の評価値が有意に高いこともわかる．従って，明瞭性と類似性の評価結果を合わせると，ネットワークB（Randomized・A-SingleTask）が最も優れた動画音声合成モデルであったと考えられる．
 
-また，良好な結果を示したネットワークB（Randomized・A-SingleTask）であっても，分析合成や原音声との間には依然として大きな差があることがわかる．これより，本研究の目的であったベースラインからの改善は達成されたものの，原音声に匹敵する合成音声には至っていないと言える．従って，今後さらなるネットワークの改善が必要だと考える．
+また，良好な結果を示したネットワークB（Randomized・A-SingleTask）であっても，分析合成や原音声との間には依然として大きな差があることがわかった．これより，本研究の目的であったベースラインからの改善は達成されたものの，原音声に匹敵する合成音声には至っていないと言える．従って，今後さらなるネットワークの改善が必要だと考える．
 
 \begin{table}[bt]
     \centering
@@ -254,12 +254,12 @@
         \scalebox{0.95}{
             \begin{tabular}{|c|rrrr|}
                 \hline
-                \multicolumn{1}{|c|}{} & \multicolumn{1}{c}{AbS} & \multicolumn{1}{c}{B（Rand, A-S）} & \multicolumn{1}{c}{B（Rand）} & \multicolumn{1}{c|}{Baseline} \\
+                \multicolumn{1}{|c|}{} & \multicolumn{1}{c}{AbS}        & \multicolumn{1}{c}{B（Rand, A-S）} & \multicolumn{1}{c}{B（Rand）}      & \multicolumn{1}{c|}{Baseline}   \\
                 \hline
-                GT                     & $6.67 \times 10^{-6}$   & $6.17 \times 10^{-262}$          & $2.84 \times 10^{-289}$     & $0$                           \\
-                AbS                    & \multicolumn{1}{c}{-}   & $3.22 \times 10^{-243}$          & $2.40 \times 10^{-270}$     & $0$                           \\
-                B（Rand, A-S）           & \multicolumn{1}{c}{-}   & \multicolumn{1}{c}{-}            & $1.23 \times 10^{-1}$       & $7.07 \times 10^{-17}$        \\
-                B（Rand）                & \multicolumn{1}{c}{-}   & \multicolumn{1}{c}{-}            & \multicolumn{1}{c}{-}       & $1.12 \times 10^{-13}$        \\
+                GT                     & ${1.22 \times 10^{-5}}^{\ast}$ & ${1.85 \times 10^{-261}}^{\ast}$ & ${6.81 \times 10^{-289}}^{\ast}$ & ${0}^{\ast}$                    \\
+                AbS                    & \multicolumn{1}{c}{-}          & ${9.67 \times 10^{-243}}^{\ast}$ & ${6.72 \times 10^{-270}}^{\ast}$ & ${0}^{\ast}$                    \\
+                B（Rand, A-S）           & \multicolumn{1}{c}{-}          & \multicolumn{1}{c}{-}            & $1.23 \times 10^{-1}$            & ${1.98 \times 10^{-16}}^{\ast}$ \\
+                B（Rand）                & \multicolumn{1}{c}{-}          & \multicolumn{1}{c}{-}            & \multicolumn{1}{c}{-}            & ${2.68 \times 10^{-13}}^{\ast}$ \\
                 \hline
             \end{tabular}
         }
@@ -276,12 +276,12 @@
         \scalebox{0.95}{
             \begin{tabular}{|c|rrrr|}
                 \hline
-                \multicolumn{1}{|c|}{} & \multicolumn{1}{c}{AbS} & \multicolumn{1}{c}{B（Rand, A-S）} & \multicolumn{1}{c}{B（Rand）} & \multicolumn{1}{c|}{Baseline} \\
+                \multicolumn{1}{|c|}{} & \multicolumn{1}{c}{AbS}         & \multicolumn{1}{c}{B（Rand, A-S）} & \multicolumn{1}{c}{B（Rand）}      & \multicolumn{1}{c|}{Baseline}    \\
                 \hline
-                GT                     & $1.24 \times 10^{-18}$  & $5.86 \times 10^{-160}$          & $9.90 \times 10^{-174}$     & $1.28 \times 10^{-205}$       \\
-                AbS                    & \multicolumn{1}{c}{-}   & $3.11 \times 10^{-83}$           & $1.73 \times 10^{-97}$      & $3.58 \times 10^{-120}$       \\
-                B（Rand, A-S）           & \multicolumn{1}{c}{-}   & \multicolumn{1}{c}{-}            & $1.13 \times 10^{-2}$       & $5.46 \times 10^{-6}$         \\
-                B（Rand）                & \multicolumn{1}{c}{-}   & \multicolumn{1}{c}{-}            & \multicolumn{1}{c}{-}       & $2.13 \times 10^{-2}$         \\
+                GT                     & ${3.48 \times 10^{-18}}^{\ast}$ & ${1.41 \times 10^{-159}}^{\ast}$ & ${1.78 \times 10^{-173}}^{\ast}$ & ${1.28 \times 10^{-205}}^{\ast}$ \\
+                AbS                    & \multicolumn{1}{c}{-}           & ${9.32 \times 10^{-83}}^{\ast}$  & ${5.20 \times 10^{-97}}^{\ast}$  & ${1.00 \times 10^{-119}}^{\ast}$ \\
+                B（Rand, A-S）           & \multicolumn{1}{c}{-}           & \multicolumn{1}{c}{-}            & ${2.04 \times 10^{-2}}^{\ast}$   & ${1.31 \times 10^{-5}}^{\ast}$   \\
+                B（Rand）                & \multicolumn{1}{c}{-}           & \multicolumn{1}{c}{-}            & \multicolumn{1}{c}{-}            & ${2.13 \times 10^{-2}}^{\ast}$   \\
                 \hline
             \end{tabular}
         }
