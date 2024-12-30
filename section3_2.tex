@@ -76,7 +76,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 \end{equation}
 とすることで与えられる．ここで，$\regConst'$は正則化の程度を調整するパラメータである．これより，Weight Decayは重み$\bm{\weightAndBias}$の絶対値が過大になることを防ぐ手法だと言える．
 
-3つ目は，Dropout\cite{srivastava2014dropout}である．Dropoutは，学習時に特徴量の一部を0に落とす手法である．一方，推論時は恒等写像となり，学習時と挙動が変わる．Dropoutへの入力を$\bm{\inputLower} \in \realSet^{\dimUpper}$，特徴量を0に落とす確率を$p$とすると，学習時のDropout出力$\bm{\outputLower}_{\text{train}} \in \realSet^{\dimUpper}$および推論時のDropout出力$\bm{\outputLower}_{\text{infer}} \in \realSet^{\dimUpper}$は，
+3つ目は，Dropout\cite{srivastava2014dropout}である．Dropoutは，学習時に特徴量の一部を強制的に0とする手法である．一方，推論時は恒等写像となり，学習時と挙動が変わる．Dropoutへの入力を$\bm{\inputLower} \in \realSet^{\dimUpper}$，特徴量を0に落とす確率を$p$とすると，学習時のDropout出力$\bm{\outputLower}_{\text{train}} \in \realSet^{\dimUpper}$および推論時のDropout出力$\bm{\outputLower}_{\text{infer}} \in \realSet^{\dimUpper}$は，
 \begin{align}
     \bm{\outputLower}_{\text{train}} & = \frac{\bm{x} \elemMul \bm{m}}{1 - p} \label{sec3:eq:regularization_dropout_training_output} \\
     \bm{\outputLower}_{\text{infer}} & = \bm{x}
@@ -94,7 +94,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 
 \subsubsection{最適化手法}
 \label{sec3:sec:optimizer}
-\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter}$は勾配の1次モーメント，$\bm{m}_{\iter}$が勾配の1次モーメントの指数移動平均，$\bm{v}_{\iter}$が勾配の2次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．$\optimEmaConst_{1}, \optimEmaConst_{2}$は，指数移動平均の程度を調整するパラメータである．また，9行目のベクトルの平方根および，ベクトルとベクトルの割り算は，各成分ごとに行われる．Adamでは，$\hat{\bm{m}}_{\iter}$を勾配の代わりに用いることで，ミニバッチごとのノイズに対する頑健な学習を可能にする．また，$\hat{\bm{v}}_{\iter}$の平方根で$\hat{\bm{m}}_{\iter}$を割ることによって，勾配の大きさに対するスケーリングを行っている．
+\ref{sec3:sec:gradient_descent}節において，DNNの重みが勾配降下法によって最適化されることを述べた．ここで，通常の勾配降下法に代わり，近年よく用いられる最適化手法としてAdam\cite{kingma2014adam}がある．Adamの計算過程をアルゴリズム\ref{sec3:algo:adam}に示す．ここで，$\bm{g}_{\iter}$は勾配の1次モーメント，$\bm{m}_{\iter}$が勾配の1次モーメントの指数移動平均，$\bm{v}_{\iter}$が勾配の2次モーメントの指数移動平均である．$\hat{\bm{m}}_{\iter}$および$\hat{\bm{v}}_{\iter}$はそれぞれ，$\bm{m}_{\iter}$および$\bm{v}_{\iter}$の初期値が0であることに起因するバイアスを防ぐための計算を行った結果である．$\optimEmaConst_{1}, \optimEmaConst_{2}$は，指数移動平均の程度を調整するパラメータである．また，9行目のベクトルの平方根および，ベクトルとベクトルの割り算は，各成分ごとに行われる．Adamでは，$\hat{\bm{m}}_{\iter}$を勾配の代わりに用いることで，ミニバッチごとのノイズに対する頑健な学習を可能にする．また，$\hat{\bm{v}}_{\iter}$の平方根で$\hat{\bm{m}}_{\iter}$を割ることによって，勾配の大きさに対するスケーリングを行っている．ここで，Adamでは正則化としてL2正則化を採用したが，Weight Decayを採用した最適化手法としてAdamW\cite{loshchilov2017decoupled}がある．AdamWの計算過程をアルゴリズム\ref{sec3:algo:adamw}に示す．正則化がL2正則化からWeight Decayに変わった点以外は同じである．
 \begin{algorithm}
     \caption{Adam}
     \label{sec3:algo:adam}
@@ -112,7 +112,6 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
         \State \textbf{Return} $\bm{\weightAndBias}_{\iter}$
     \end{algorithmic}
 \end{algorithm}
-ここで，Adamでは正則化としてL2正則化を採用したが，Weight Decayを採用した最適化手法としてAdamW\cite{loshchilov2017decoupled}がある．AdamWの計算過程をアルゴリズム\ref{sec3:algo:adamw}に示す．正則化がL2正則化からWeight Decayに変わった点以外は同じである．
 \begin{algorithm}
     \caption{AdamW}
     \label{sec3:algo:adamw}
@@ -165,7 +164,7 @@ DNNは大量のパラメータにより高い表現力を持つが，その分�
 
 \subsubsection{誤差逆伝播法}
 \label{sec3:sec:backpropagation}
-誤差逆伝播法は，DNNの各重みについての損失関数の勾配を，出力から入力へと遡る方向に計算するアルゴリズムである．ここでは例として，全結合層と活性化関数のみからなる$\numUpper_{\text{layer}}$層のDNNを構築し，ミニバッチ勾配降下法によって最適化する場面を考える\cite{higham2019deep}．また，\ref{sec3:sec:gradient_descent}節で定義した表記を再度用いる．
+誤差逆伝播法は，DNNの各重みについての損失関数の勾配を，出力から入力へと遡る方向に計算するアルゴリズムである．ここでは例として，全結合層と活性化関数のみからなる$\numUpper_{\text{layer}}$層のDNNを構築し，ミニバッチ勾配降下法によって最適化する場合を考える\cite{higham2019deep}．また，\ref{sec3:sec:gradient_descent}節で定義した表記を再度用いる．
 
 まず，$\weightLower_{p, q}^{n}$を$n - 1$層目の$p$番目のニューロンから$n$層目の$q$番目のニューロンに割り当てられた重み，$b_{p}^{n}$を$n$層目の$p$番目のニューロンに割り当てられたバイアスとすると，$n$層目の$p$番目のニューロンにおける出力$a_{p}^{n}$は，
 \begin{equation}

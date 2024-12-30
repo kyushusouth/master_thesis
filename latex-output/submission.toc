@@ -46,5 +46,5 @@
 \contentsline {subsubsection}{\numberline {4.4.2}ネットワークB（Pretrained）について}{48}{subsubsection.4.4.2}%
 \contentsline {subsection}{\numberline {4.5}今後の課題}{48}{subsection.4.5}%
 \contentsline {section}{\numberline {5}結論}{49}{section.5}%
-\contentsline {section}{謝辞}{50}{section*.26}%
-\contentsline {section}{参考文献}{51}{section*.26}%
+\contentsline {section}{謝辞}{51}{section*.26}%
+\contentsline {section}{参考文献}{52}{section*.26}%

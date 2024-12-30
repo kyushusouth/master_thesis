@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  21 DEC 2024 23:45
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  30 DEC 2024 13:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -488,32 +488,32 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 \figcaptionskip=\skip96
 \tabcaptionskip=\skip97
 (./vars.tex)
-Package translations Info: No language package found. I am going to use `english' as default language. on input line 54.
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 57.
 (latex-output/submission.aux)
 \openout1 = `submission.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
 *geometry* driver: auto-detecting
 *geometry* detected driver: dvips
 *geometry* verbose mode - [ preamble ] result:
@@ -551,12 +551,12 @@ LaTeX Font Info:    ... okay on input line 54.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 54.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 57.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 54.
+Package hyperref Info: Link coloring OFF on input line 57.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/usr/local/texlive/2022/texmf-dist/tex/latex/refcount/refcount.sty
@@ -566,9 +566,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count328
 )
-LaTeX Info: Redefining \ref on input line 54.
-LaTeX Info: Redefining \pageref on input line 54.
-LaTeX Info: Redefining \nameref on input line 54.
+LaTeX Info: Redefining \ref on input line 57.
+LaTeX Info: Redefining \pageref on input line 57.
+LaTeX Info: Redefining \nameref on input line 57.
 (latex-output/submission.out) (latex-output/submission.out)
 \@outlinefile=\write3
 \openout3 = `submission.out'.
@@ -577,9 +577,9 @@ LaTeX Info: Redefining \nameref on input line 54.
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 86.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 86.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 89.
 [1] (latex-output/submission.toc
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 1.
@@ -652,7 +652,7 @@ Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on inp
 File: ./figure/sec3/lr_scheduler.png Graphic file (type bmp)
 <./figure/sec3/lr_scheduler.png>
 [21]
-Overfull \hbox (4.32182pt too wide) in paragraph at lines 190--193
+Overfull \hbox (4.32182pt too wide) in paragraph at lines 189--192
 \JY1/mc/m/n/12 となる ． ここで ， $\OML/cmm/m/it/12 L [] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 L[]$ \JY1/mc/m/n/12 とおいた ． この時 ， 各 $\OML/cmm/m/it/12 n \OMS/cmsy/m/n/12 2 []$ \JY1/mc/m/n/12 に対し ， $[]$
  []
 
@@ -688,7 +688,7 @@ File: ./figure/sec4/sbj/age.png Graphic file (type bmp)
 <./figure/sec4/sbj/age.png>
 [45]) (./section4_4.tex [46] [47]) [48] [49
 
-] [50
+] [50] [51
 
 ] (latex-output/submission.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -713,7 +713,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 64.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 69.
-[51
+[52
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -746,7 +746,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 148.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 153.
-[52]
+[53]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 160.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -763,7 +763,7 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 213.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 218.
-[53]
+[54]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 226.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
@@ -786,20 +786,20 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 284.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 290.
-[54]
+[55]
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 296.
-) [55] (latex-output/submission.aux)
+) [56] (latex-output/submission.aux)
 Package rerunfilecheck Info: File `submission.out' has not changed.
 (rerunfilecheck)             Checksum: 710549CD84539A68D4CF18842329B98F;3711.
  ) 
 Here is how much of TeX's memory you used:
- 18448 strings out of 478692
- 346557 string characters out of 5855915
- 642383 words of memory out of 5000000
- 36611 multiletter control sequences out of 15000+600000
+ 18449 strings out of 478692
+ 346585 string characters out of 5855915
+ 642501 words of memory out of 5000000
+ 36612 multiletter control sequences out of 15000+600000
  494189 words of font info for 125 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 74i,14n,79p,2349b,1146s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,14n,79p,2311b,1147s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (59 pages, 378012 bytes).
+Output written on latex-output/submission.dvi (60 pages, 388804 bytes).
