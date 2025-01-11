@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  7 JAN 2025 17:38
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.euc) (TeX Live 2022) (preloaded format=platex 2022.4.22)  8 JAN 2025 10:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -592,13 +592,13 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [2
-
-])
+))
 \tf@toc=\write4
 \openout4 = `submission.toc'.
 
-[3] (./section1.tex
+[2
+
+] (./section1.tex
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
@@ -791,15 +791,15 @@ LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 296.
 ) [56] (latex-output/submission.aux)
 Package rerunfilecheck Info: File `submission.out' has not changed.
-(rerunfilecheck)             Checksum: 710549CD84539A68D4CF18842329B98F;3711.
+(rerunfilecheck)             Checksum: 96294B727048C4D7633CCC8DAB6904C1;1114.
  ) 
 Here is how much of TeX's memory you used:
- 18449 strings out of 478692
- 346585 string characters out of 5855915
- 642501 words of memory out of 5000000
- 36612 multiletter control sequences out of 15000+600000
+ 18418 strings out of 478692
+ 345934 string characters out of 5855915
+ 641336 words of memory out of 5000000
+ 36581 multiletter control sequences out of 15000+600000
  494189 words of font info for 125 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  74i,14n,79p,2311b,1147s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on latex-output/submission.dvi (60 pages, 389064 bytes).
+Output written on latex-output/submission.dvi (59 pages, 368104 bytes).
